@@ -1,12 +1,13 @@
-import HttpClient from './http/http-client';
+import HttpClient from './data-access/http/http-client';
+import {Catalog} from './api';
 
 class WakJSC {
   constructor() {
-  }
+    var httpClient = new HttpClient({
+      apiPrefix: '/rest'
+    });
 
-  getCatalog() {
-    let client = new HttpClient();
-    client.getCatalog();
+    this.catalog = new Catalog({httpClient});
   }
 
   version() {

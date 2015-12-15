@@ -11,6 +11,7 @@ module.exports = {
     library: 'WakJSC',
     libraryTarget: 'umd'
   },
+  devtool: 'source-map',
   resolve: {
     alias: {
       'aurelia-http-client': path.join(__dirname, './lib/aurelia-http-client')
