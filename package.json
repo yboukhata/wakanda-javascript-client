@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Wakanda Javascript Core",
   "scripts": {
-    "webpack-watch": "webpack --progress --colors --watch",
+    "webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
+    "webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Wakanda SAS",
