@@ -4,7 +4,7 @@ Minimalist, framework agnostic, JS client to interact with REST API that exposes
 standard and easy to use JS API.
 
 ## Install
-Git clone this repository.
+Git clone this repository then install dependencies. This may not work on Node < 4.0.
 
 ```bash
 npm install
