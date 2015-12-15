@@ -1,12 +1,26 @@
+import CatalogTransform from '../data-access/transform/catalog-transform';
+
 class Catalog {
   constructor({httpClient}) {
     this.httpClient = httpClient;
   }
 
-  get() {
-    return this.httpClient.get({uri: '/$catalog'})
+  /**
+   * @param dataClasses array optional List of dataClasses to retrieve
+   */
+  get(dataClasses) {
+
+    var strDataclasses = '/'
+    if (Array.isArray(dataClasses)) {
+      strDataclasses += dataClasses.join();
+    }
+    else {
+      strDataclasses += '$all';
+    }
+
+    return this.httpClient.get({uri: '/$catalog' + strDataclasses})
       .then(res => {
-        return JSON.parse(res.response);
+        return new CatalogTransform({rawString: res.response});
       })
       .catch(error => {
         console.error('Catalog.get error', error);
