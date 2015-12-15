@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   entry: [
@@ -9,6 +10,11 @@ module.exports = {
     path: __dirname + "/build/",
     library: 'WakJSC',
     libraryTarget: 'umd'
+  },
+  resolve: {
+    alias: {
+      'aurelia-http-client': path.join(__dirname, './lib/aurelia-http-client')
+    }
   },
   module: {
     loaders: [{

@@ -1,8 +1,15 @@
+import HttpClient from './http/http-client';
+
 class WakJSC {
   constructor() {
   }
 
-  version () {
+  getCatalog() {
+    let client = new HttpClient();
+    client.getCatalog();
+  }
+
+  version() {
     return '0.0.1';
   }
 }
