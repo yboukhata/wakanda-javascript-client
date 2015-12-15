@@ -38,13 +38,13 @@ tag (it's an UMD module).
 ## Example
 
 ### Node.js
-```js
+```javascript
 var WakJSC = require('./main.build.js');
 console.log(WakJSC.version()); //0.0.1
 ```
 
 ### Browser
-```js
+```html
 <script src="./build.main.js"></script>
 <script>
   console.log(WakJSC.version()); //0.0.1
