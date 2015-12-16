@@ -53,13 +53,13 @@ npm run single-test
 
 ### Node.js
 ```javascript
-var WakJSC = require('./main.build.js');
+var WakJSC = require('./wakjsc.js');
 console.log(WakJSC.version()); //0.0.1
 ```
 
 ### Browser
 ```html
-<script src="./build.main.js"></script>
+<script src="./wakjsc.js"></script>
 <script>
   console.log(WakJSC.version()); //0.0.1
 </script>
