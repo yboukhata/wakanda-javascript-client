@@ -24,6 +24,7 @@ class Catalog {
       })
       .catch(error => {
         console.error('Catalog.get error', error);
+        throw err;
       });
   }
 }

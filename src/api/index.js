@@ -1,3 +1,4 @@
-import Catalog from './Catalog';
+import Catalog from './catalog';
+import Directory from './directory';
 
-export {Catalog};
+export {Catalog, Directory};

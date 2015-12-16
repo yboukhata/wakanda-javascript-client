@@ -12,6 +12,13 @@ class HttpClient {
       .asGet()
       .send();
   }
+
+  post({uri, data}) {
+    return this.client.createRequest(this.prefix + uri)
+      .asPost()
+      .withContent(data)
+      .send();
+  }
 }
 
 export default HttpClient;
