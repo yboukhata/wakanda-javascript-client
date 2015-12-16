@@ -8,12 +8,11 @@ class Directory {
       uri:'/$directory/login',
       data: [username, password]
     })
-      .then(res => {
+      .then(_ => {
         return true;
       })
-      .catch(err => {
-        console.error('Directory.login error', err);
-        throw err;
+      .catch(_ => {
+        throw new Error('Unauthorized');
       });
   }
 }

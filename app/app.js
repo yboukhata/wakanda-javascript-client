@@ -11,5 +11,5 @@ WakJSC.directory.login('bar', 'bar')
     console.log('login success', e);
   })
   .catch(function (err) {
-    console.error('login fail', err);
+    console.error('login fail', err.message);
   })
