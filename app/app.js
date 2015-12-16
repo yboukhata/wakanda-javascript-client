@@ -6,10 +6,19 @@
 //     console.error(err);
 //   });
 
-WakJSC.directory.login('bar', 'bar')
+console.log(WakJSC);
+
+// WakJSC.directory.login('bar', 'bar')
+//   .then(function (e) {
+//     console.log('login success', e);
+//   })
+//   .catch(function (err) {
+//     console.error('login fail', err.message);
+//   })
+
+var Employee = WakJSC.dataclassFactory.getDataclass('Employee');
+
+Employee.find(2909294)
   .then(function (e) {
-    console.log('login success', e);
-  })
-  .catch(function (err) {
-    console.error('login fail', err.message);
+    console.log(e);
   })

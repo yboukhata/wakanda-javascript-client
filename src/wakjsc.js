@@ -1,5 +1,5 @@
 import HttpClient from './data-access/http/http-client';
-import {Catalog, Directory} from './api';
+import {Catalog, Directory, DataClassFactory} from './api';
 
 class WakJSC {
   constructor() {
@@ -9,6 +9,7 @@ class WakJSC {
 
     this.catalog = new Catalog({httpClient});
     this.directory = new Directory({httpClient});
+    this.dataclassFactory = new DataClassFactory({httpClient});
   }
 
   version() {
