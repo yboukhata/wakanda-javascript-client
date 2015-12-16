@@ -6,12 +6,12 @@ module.exports = {
     "./src/index.js"
   ],
   output: {
-    filename: "[name].build.js",
+    filename: "wakjsc.js",
     path: __dirname + "/build/",
     library: 'WakJSC',
     libraryTarget: 'umd'
   },
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   resolve: {
     alias: {
       'aurelia-http-client': path.join(__dirname, './lib/aurelia-http-client')

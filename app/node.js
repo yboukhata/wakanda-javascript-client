@@ -1,3 +1,3 @@
-var WakJSC = require('../build/main.build.js');
+var WakJSC = require('../build/wakjsc.js');
 
 console.log(WakJSC.version());
