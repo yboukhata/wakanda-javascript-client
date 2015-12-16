@@ -35,6 +35,20 @@ The bundle is build on `./build/` directory.
 You can `require` it on a node application, or directly insert is on a `<script>`
 tag (it's an UMD module).
 
+## Unit tests
+Unit testing is made with mocha and chai. It directly runs tests against built bundle.
+Tests are written in ES5 to avoid useless compilation.
+
+```bash
+npm run test
+```
+
+To run test without rebuilding bundle with webpack, launch
+
+```bash
+npm run single-test
+```
+
 ## Example
 
 ### Node.js

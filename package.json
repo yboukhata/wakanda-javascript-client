@@ -5,7 +5,8 @@
   "scripts": {
     "webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
     "webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
-    "test": "npm run webpack-build && node ./node_modules/mocha/bin/mocha test/"
+    "single-test": "node ./node_modules/mocha/bin/mocha test/",
+    "test": "npm run webpack-build && npm run single-test"
   },
   "author": "Wakanda SAS",
   "license": "MIT",
