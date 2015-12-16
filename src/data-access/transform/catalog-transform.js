@@ -3,13 +3,13 @@ import DataClass from '../model/dataclass';
 class CatalogTransform {
   constructor({rawString}) {
     let rawObj = JSON.parse(rawString);
-    let dataClasses = [];
+    let catalog = {};
 
     for (let d of rawObj.dataClasses) {
-      dataClasses.push(new DataClass({rawObj: d}));
+      catalog[d.name] = new DataClass({rawObj: d});
     }
 
-    return dataClasses;
+    return catalog;
   }
 }
 

@@ -1,4 +1,5 @@
 import CatalogTransform from '../data-access/transform/catalog-transform';
+import DataClassDecorator from '../data-access/decorator/dataclass-decorator';
 
 class Catalog {
   constructor({httpClient}) {
@@ -10,7 +11,7 @@ class Catalog {
    */
   get(dataClasses) {
 
-    var strDataclasses = '/'
+    var strDataclasses = '/';
     if (Array.isArray(dataClasses)) {
       strDataclasses += dataClasses.join();
     }
@@ -20,7 +21,16 @@ class Catalog {
 
     return this.httpClient.get({uri: '/$catalog' + strDataclasses})
       .then(res => {
-        return new CatalogTransform({rawString: res.response});
+        let catalog = new CatalogTransform({rawString: res.response});
+        let dcDecorator = new DataClassDecorator({
+          httpClient: this.httpClient
+        });
+
+        for (let dcName in catalog) {
+          dcDecorator.addJSCMethods(catalog[dcName]);
+        }
+
+        return catalog;
       })
       .catch(error => {
         console.error('Catalog.get error', error);
