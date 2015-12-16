@@ -1,12 +1,15 @@
+import DataClass from '../model/dataclass';
+
 class CatalogTransform {
   constructor({rawString}) {
     let rawObj = JSON.parse(rawString);
+    let dataClasses = [];
 
     for (let d of rawObj.dataClasses) {
-      delete d.dataURI;
+      dataClasses.push(new DataClass({rawObj: d}));
     }
 
-    return rawObj;
+    return dataClasses;
   }
 }
 
