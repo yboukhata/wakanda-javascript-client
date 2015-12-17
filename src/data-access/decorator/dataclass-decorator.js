@@ -1,4 +1,5 @@
 import EntityTransform from '../transform/entity-transform';
+import Util from '../util';
 
 class DataClassDecorator {
   constructor({httpClient}) {
@@ -8,10 +9,10 @@ class DataClassDecorator {
   addJSCMethods(dataClass) {
     dataClass.find = (id, options) => {
 
-      //TODO - Add options handling
-      
+      let optString = Util.handleOptions(options);
+
       return this.httpClient.get({
-        uri: '/' + dataClass.name + '(' + id +')'
+        uri: '/' + dataClass.name + '(' + id +')' + optString
       })
         .then(res => {
           return new EntityTransform({rawString: res.response});
