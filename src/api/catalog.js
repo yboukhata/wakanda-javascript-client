@@ -2,8 +2,9 @@ import CatalogTransform from '../data-access/transform/catalog-transform';
 import DataClassDecorator from '../data-access/decorator/dataclass-decorator';
 
 class Catalog {
-  constructor({httpClient}) {
+  constructor({httpClient, wakJSC}) {
     this.httpClient = httpClient;
+    this.wakJSC = wakJSC;
   }
 
   /**
@@ -23,11 +24,16 @@ class Catalog {
       .then(res => {
         let catalog = new CatalogTransform({rawString: res.response});
         let dcDecorator = new DataClassDecorator({
-          httpClient: this.httpClient
+          httpClient: this.httpClient,
+          wakJSC: this.wakJSC
         });
 
         for (let dcName in catalog) {
           dcDecorator.addJSCMethods(catalog[dcName]);
+
+          //Adding dataClasses to map on WakJSc instance to make them accessible
+          //accross whole module
+          this.wakJSC._dataclassMap.set(dcName, catalog[dcName]);
         }
 
         return catalog;

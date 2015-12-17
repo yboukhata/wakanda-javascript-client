@@ -2,8 +2,9 @@ import EntityTransform from '../transform/entity-transform';
 import Util from '../util';
 
 class DataClassDecorator {
-  constructor({httpClient}) {
+  constructor({httpClient, wakJSC}) {
     this.httpClient = httpClient;
+    this.wakJSC = wakJSC;
   }
 
   addJSCMethods(dataClass) {
@@ -15,7 +16,11 @@ class DataClassDecorator {
         uri: '/' + dataClass.name + '(' + id +')' + optString
       })
         .then(res => {
-          return new EntityTransform({rawString: res.response});
+          return new EntityTransform({
+            rawString: res.response,
+            dataClass,
+            wakJSC: this.wakJSC
+          });
         })
         .catch(err => {
           console.error('dataclass.find ', err);

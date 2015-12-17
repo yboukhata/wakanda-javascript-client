@@ -7,8 +7,13 @@ class WakJSC {
       apiPrefix: '/rest'
     });
 
-    this.catalog = new Catalog({httpClient});
+    this.catalog = new Catalog({
+      httpClient,
+      wakJSC: this
+    });
     this.directory = new Directory({httpClient});
+
+    this._dataclassMap = new Map();
   }
 
   version() {

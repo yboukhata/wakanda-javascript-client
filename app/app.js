@@ -2,7 +2,7 @@ WakJSC.catalog.get()
   .then(function (ds) {
     console.log(ds);
 
-    ds.Employee.find(2909294)
+    ds.Employee.find(2909294, {select: 'employer'})
       .then(function (e) {
         console.log(e);
       });

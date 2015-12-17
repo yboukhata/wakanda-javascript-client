@@ -1,8 +1,12 @@
-class EntityTransform {
-  constructor({rawString}) {
-    var obj = JSON.parse(rawString);
+import Entity from '../model/Entity';
 
-    return obj;
+class EntityTransform {
+  constructor({rawString, dataClass, wakJSC}) {
+    return new Entity({
+      rawObj: JSON.parse(rawString),
+      dataClass,
+      wakJSC
+    });
   }
 }
 
