@@ -1,4 +1,4 @@
-import Entity from '../model/Entity';
+import Entity from '../model/entity';
 
 class EntityTransform {
   constructor({rawString, dataClass, wakJSC}) {
