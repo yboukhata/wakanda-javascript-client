@@ -1,11 +1,21 @@
-import HttpClient from './data-access/http/http-client';
+import BrowserHttpClient from './data-access/http/browser-http-client';
 import {Catalog, Directory} from './api';
 
 class WakJSC {
   constructor() {
-    var httpClient = new HttpClient({
-      apiPrefix: '/rest'
-    });
+    //Context detection. Are we on node or a browser ?
+    let isBrowser = new Function("try { return this === window; } catch(e) { return false; }");
+    console.log('you seem to be on ' + (isBrowser() ? 'a browser' : 'node'));
+
+    var httpClient;
+    if (isBrowser()) {
+      httpClient = new BrowserHttpClient({
+        apiPrefix: '/rest'
+      });
+    }
+    else {
+      throw new Error('Node is not handle yet');
+    }
 
     this.catalog = new Catalog({
       httpClient,

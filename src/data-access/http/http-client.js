@@ -1,23 +1,15 @@
-import {HttpClient as AureliaHttpClient} from 'aurelia-http-client';
-
 class HttpClient {
 
   constructor({apiPrefix}) {
-    this.client = new AureliaHttpClient();
     this.prefix = apiPrefix;
   }
 
   get({uri}) {
-    return this.client.createRequest(this.prefix + uri)
-      .asGet()
-      .send();
+    throw new Error('HttpClient.get: Must be implemented');
   }
 
   post({uri, data}) {
-    return this.client.createRequest(this.prefix + uri)
-      .asPost()
-      .withContent(data)
-      .send();
+    throw new Error('HttpClient.post: Must be implemented');
   }
 }
 
