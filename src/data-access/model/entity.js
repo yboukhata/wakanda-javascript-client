@@ -1,7 +1,5 @@
-import Attribute from './attribute';
 import AttributeCollection from './attribute-collection';
 import AttributeRelated from './attribute-related';
-import DeferredEntity from './deferred-entity';
 
 class Entity {
   constructor({rawObj, dataClass, wakJSC}) {
@@ -39,4 +37,17 @@ class Entity {
   }
 }
 
-export default Entity;
+//Have to define DeferredEntity on same file to avoid a circular dependency that
+//causes a Webpack error at runtime
+class DeferredEntity extends Entity {
+  constructor({rawObj, dataClass, wakJSC, parentEntity}) {
+    super({rawObj, dataClass, wakJSC});
+    this._parentEntity = parentEntity;
+  }
+
+  _processObject({rawObj}) {
+    this.ID = rawObj['__KEY'];
+  }
+}
+
+export {Entity, DeferredEntity};
