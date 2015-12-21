@@ -1,5 +1,6 @@
 import AttributeCollection from './attribute-collection';
 import AttributeRelated from './attribute-related';
+import {Collection, DeferredCollection} from './collection';
 
 class Entity {
   constructor({rawObj, dataClass, wakJSC}) {
@@ -26,7 +27,25 @@ class Entity {
           this[attr.name] = new Entity({
             rawObj: obj,
             dataClass: wakJSC._dataclassMap.get(attr.type),
-            wakJSC: wakJSC
+            wakJSC
+          });
+        }
+      }
+      else if (attr instanceof AttributeCollection) {
+        let obj = rawObj[attr.name];
+
+        if (obj['__deferred']) {
+          this[attr.name] = new DeferredCollection({
+            rawObj: obj['__deferred'],
+            dataClass: wakJSC._dataclassMap.get(attr.type),
+            parentEntity: this
+          });
+        }
+        else {
+          this[attr.name] = new Collection({
+            rawObj: obj,
+            dataClass: wakJSC._dataclassMap.get(attr.entityType),
+            wakJSC
           });
         }
       }
