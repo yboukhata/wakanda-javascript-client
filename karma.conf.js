@@ -17,7 +17,7 @@ module.exports = function(config) {
     files: [
       'test/customevent-polyfill.js',
       'build/wakjsc.js',
-      'test/**/*.spec.js'
+      'test/spec/**/*.spec.js'
     ],
 
 
