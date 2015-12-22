@@ -1,9 +1,11 @@
 var webpack = require('webpack');
 var path = require('path');
+var fs = require('fs');
 
-module.exports = {
+var baseConfig = {
+  name: 'base',
   entry: [
-    "./src/index.js"
+    "./src/entry.browser.js"
   ],
   output: {
     filename: "wakjsc.js",
@@ -39,3 +41,41 @@ module.exports = {
     tls: 'empty'
   }
 };
+
+var nodeModules = {};
+fs.readdirSync('node_modules')
+  .filter(function(x) {
+      return ['.bin'].indexOf(x) === -1;
+  })
+  .forEach(function(mod) {
+      nodeModules[mod] = 'commonjs ' + mod;
+  });
+
+var nodeConfig = {
+  name: 'node',
+  entry: [
+    "./src/entry.node.js"
+  ],
+  target: 'node',
+  output: {
+    filename: 'wakjsc.node.js',
+    path: __dirname + "/build/",
+    library: 'WakJSC',
+    libraryTarget: 'umd'
+  },
+  devtool: baseConfig.devtool,
+  resolve: baseConfig.resolve,
+  externals: nodeModules,
+  module: baseConfig.module,
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  }
+};
+
+
+module.exports = [
+  // baseConfig
+  nodeConfig
+];

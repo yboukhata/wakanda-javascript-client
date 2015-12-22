@@ -1,3 +1,7 @@
-var WakJSC = require('../build/wakjsc.js');
+var WakJSC = require('../build/wakjsc.node.js');
 
-console.log(WakJSC.version());
+var w = new WakJSC('http://localhost:8081');
+
+var a = w.catalog.get();
+
+console.log(typeof a);

@@ -12,7 +12,7 @@ class NodeHttpClient extends HttpClient {
     //TODO - response adapter to transform response from node or browser clients
     //to a standardize one (headers, status code, content etc)
     let options = {
-      url: uri,
+      url: this.prefix + uri,
       method: 'GET',
       qs: params
     };
@@ -22,7 +22,7 @@ class NodeHttpClient extends HttpClient {
 
   post({uri, data}) {
     let options = {
-      url: uri,
+      url: this.prefix + uri,
       method: 'POST',
       form: data
     };
@@ -34,7 +34,7 @@ class NodeHttpClient extends HttpClient {
     return new Promise((resolve, reject) => {
       this.request(requestOptions, (error, response, body) => {
         if (error || response.statusCode >= 400) {
-          reject(error);
+          reject(error || response.statusMessage);
         }
         else {
           resolve(new HttpResponse({

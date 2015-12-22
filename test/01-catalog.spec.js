@@ -1,4 +1,5 @@
-var WakJSC = require('../build/wakjsc.js');
+var wakjsc = require('../build/wakjsc.node.js');
+var WakJSC = new wakjsc('http://localhost:8081');
 var chai = require('chai');
 var expect = chai.expect;
 
@@ -11,7 +12,7 @@ describe('Catalog API', function() {
 
     it('should return a promise', function () {
       var getCall = WakJSC.catalog.get();
-      expect(getCall).to.be.an('object');
+      expect(getCall).to.be.defined;
       expect(getCall.then).to.be.a('function');
       expect(getCall.catch).to.be.a('function');
     });

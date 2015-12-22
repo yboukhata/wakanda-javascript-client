@@ -3,7 +3,7 @@ import NodeHttpClient from './data-access/http/node-http-client';
 import {Catalog, Directory} from './api';
 
 class WakJSC {
-  constructor() {
+  constructor(host) {
     //Context detection. Are we on node or a browser ?
     let isBrowser = new Function("try { return this === window; } catch(e) { return false; }");
     console.log('you seem to be on ' + (isBrowser() ? 'a browser' : 'node'));
@@ -16,7 +16,7 @@ class WakJSC {
     }
     else {
       httpClient = new NodeHttpClient({
-        apiPrefix: '/rest'
+        apiPrefix: host + '/rest'
       });
     }
 
