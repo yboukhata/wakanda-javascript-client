@@ -17,7 +17,7 @@ class DataClassDecorator {
       })
         .then(res => {
           return new EntityTransform({
-            rawString: res.response,
+            rawString: res.body,
             dataClass,
             wakJSC: this.wakJSC
           });

@@ -1,4 +1,5 @@
 import BrowserHttpClient from './data-access/http/browser-http-client';
+import NodeHttpClient from './data-access/http/node-http-client';
 import {Catalog, Directory} from './api';
 
 class WakJSC {
@@ -14,7 +15,9 @@ class WakJSC {
       });
     }
     else {
-      throw new Error('Node is not handle yet');
+      httpClient = new NodeHttpClient({
+        apiPrefix: '/rest'
+      });
     }
 
     this.catalog = new Catalog({

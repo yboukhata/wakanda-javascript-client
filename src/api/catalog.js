@@ -22,7 +22,7 @@ class Catalog {
 
     return this.httpClient.get({uri: '/$catalog' + strDataclasses})
       .then(res => {
-        let catalog = new CatalogTransform({rawString: res.response});
+        let catalog = new CatalogTransform({rawString: res.body});
         let dcDecorator = new DataClassDecorator({
           httpClient: this.httpClient,
           wakJSC: this.wakJSC
@@ -31,7 +31,7 @@ class Catalog {
         for (let dcName in catalog) {
           dcDecorator.addJSCMethods(catalog[dcName]);
 
-          //Adding dataClasses to map on WakJSc instance to make them accessible
+          //Adding dataClasses to map on WakJSC instance to make them accessible
           //accross whole module
           this.wakJSC._dataclassMap.set(dcName, catalog[dcName]);
         }

@@ -27,6 +27,15 @@ module.exports = {
       query: {
         presets: ['es2015']
       }
+    },
+    {
+      test: /\.json$/,
+      loader: 'json-loader'
     }]
+  },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   }
 };
