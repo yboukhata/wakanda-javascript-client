@@ -76,6 +76,6 @@ var nodeConfig = {
 
 
 module.exports = [
-  // baseConfig
+  baseConfig,
   nodeConfig
 ];

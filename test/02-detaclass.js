@@ -1,8 +1,0 @@
-var wakjsc = require('../build/wakjsc.node.js');
-var WakJSC = new wakjsc('http://localhost:8081');
-var chai = require('chai');
-var expect = chai.expect;
-
-describe('Dataclass API', function() {
-
-});

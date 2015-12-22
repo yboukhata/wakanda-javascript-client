@@ -5,7 +5,8 @@
   "scripts": {
     "webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
     "webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
-    "single-test": "node ./node_modules/mocha/bin/mocha test/",
+    "single-test": "node ./node_modules/mocha/bin/mocha test/**/*.spec.js",
+    "karma": "node ./node_modules/karma/bin/karma start",
     "test": "npm run webpack-build && npm run single-test"
   },
   "author": "Wakanda SAS",
@@ -13,14 +14,21 @@
   "devDependencies": {
     "babel-core": "^6.3.17",
     "babel-loader": "^6.2.0",
+    "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.3.13",
     "chai": "^3.4.1",
     "gulp": "^3.9.0",
     "gulp-connect": "^2.2.0",
     "http-proxy-middleware": "^0.9.0",
     "json-loader": "^0.5.4",
+    "karma": "^0.13.15",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.2.1",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-verbose-reporter": "0.0.3",
     "mocha": "^2.3.4",
     "path": "^0.12.7",
+    "phantomjs": "^1.9.19",
     "webpack": "^1.12.9"
   },
   "dependencies": {
