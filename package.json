@@ -5,9 +5,11 @@
   "scripts": {
     "webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
     "webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
-    "single-test": "node ./node_modules/mocha/bin/mocha test/**/*.spec.js",
-    "karma": "node ./node_modules/karma/bin/karma start",
-    "test": "npm run webpack-build && npm run single-test"
+    "test:karma:single": "node ./node_modules/karma/bin/karma start",
+    "test:karma:full": "npm run webpack-build && npm run test:karma:single",
+    "test:node:single": "http_proxy=\"\" node ./node_modules/mocha/bin/mocha test/**/*.spec.js",
+    "test:node:full": "npm run webpack-build && npm run test:node:single",
+    "test": "npm run webpack-build && npm run test:node:single && npm run test:karma:single"
   },
   "author": "Wakanda SAS",
   "license": "MIT",
