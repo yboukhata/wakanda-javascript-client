@@ -10,6 +10,10 @@ class DataClassDecorator {
   addJSCMethods(dataClass) {
     dataClass.find = (id, options) => {
 
+      if (typeof id !== 'string' && typeof id !== 'number') {
+        throw new Error('DataClass.find: Invalid id type');
+      }
+
       let optString = Util.handleOptions(options);
 
       return this.httpClient.get({
