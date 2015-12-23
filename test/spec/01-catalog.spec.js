@@ -30,7 +30,7 @@ describe('Catalog API', function() {
       });
     });
 
-    it('should retrieve all dataclasses without given parameter', function () {
+    it('should retrieve all dataclasses without a given parameter', function () {
       return WakJSC.catalog.get().then(function (ds) {
         expect(ds.Company).to.be.an('object');
         expect(ds.Employee).to.be.an('object');
@@ -46,19 +46,16 @@ describe('Catalog API', function() {
       });
     });
 
-    it('should fail trying to retrieve a unknown dataclass', function () {
+    it('should fail trying to retrieve an unknown dataclass', function () {
       return WakJSC.catalog.get(['Foo']).catch(function (e) {
         expect(e).to.be.defined;
       });
     });
 
     it('should fail if given parameter is not an array', function () {
-      try {
+      expect(function () {
         WakJSC.catalog.get('Foo')
-      }
-      catch (e) {
-        expect(e).to.be.defined;
-      }
+      }).to.throw(Error);
     });
   });
 });
