@@ -1,6 +1,9 @@
 // Karma configuration
 // Generated on Tue Dec 22 2015 13:52:35 GMT+0100 (CET)
 
+var testEnv = process.env.TEST_ENV || 'unit';
+var serverInfo = require('./test/server.' + testEnv + '.json');
+
 module.exports = function(config) {
   config.set({
 
@@ -42,7 +45,7 @@ module.exports = function(config) {
     port: 9876,
 
     proxies: {
-      '/rest': 'http://localhost:8081/rest'
+      '/rest': serverInfo.host + ':' + serverInfo.port + '/rest'
     },
 
 
