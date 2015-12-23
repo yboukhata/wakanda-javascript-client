@@ -3,8 +3,7 @@ var app = express();
 var router = express.Router();
 
 require('./catalog/route-catalog')(router);
-
-
+require('./dataclass/route-dataclass')(router);
 
 app.use('/rest', router);
 

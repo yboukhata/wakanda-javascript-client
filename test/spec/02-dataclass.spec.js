@@ -26,8 +26,23 @@ describe('Dataclass API', function() {
       expect(ds.Employee.find).to.be.a('function');
     });
 
-    it('should retrieve an entity', function () {
+    it('should return a promise', function () {
+      var find = ds.Employee.find(10);
+      expect(find).to.be.defined;
+      expect(find.then).to.be.a('function');
+      expect(find.catch).to.be.a('function');
+    });
 
+    it('should retrieve an entity', function () {
+      return ds.Employee.find(10).then(function (employee) {
+        expect(employee).to.be.an('object');
+        expect(employee.ID).to.be.equal(10);
+        expect(employee.firstName).to.be.a('string');
+        expect(employee.lastName).to.be.a('string');
+        expect(employee.salary).to.be.a('number');
+        expect(employee.employerName).to.be.a('string');
+        expect(employee.employer).to.be.an('object');
+      });
     });
   });
 });
