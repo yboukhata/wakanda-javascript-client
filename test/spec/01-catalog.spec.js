@@ -19,7 +19,8 @@ describe('Catalog API', function() {
 
     it('should return a promise', function () {
       var getCall = WakJSC.catalog.get();
-      expect(getCall).to.be.defined;
+
+      expect(getCall).to.be.a('promise');
       expect(getCall.then).to.be.a('function');
       expect(getCall.catch).to.be.a('function');
     });

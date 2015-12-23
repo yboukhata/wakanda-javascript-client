@@ -28,7 +28,7 @@ describe('Dataclass API', function() {
 
     it('should return a promise', function () {
       var find = ds.Employee.find(10);
-      expect(find).to.be.defined;
+      expect(find).to.be.a('promise');
       expect(find.then).to.be.a('function');
       expect(find.catch).to.be.a('function');
     });
