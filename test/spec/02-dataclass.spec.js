@@ -44,5 +44,40 @@ describe('Dataclass API', function() {
         expect(employee.employer).to.be.an('object');
       });
     });
+
+    it('should throw an error if id is not an integer or a string', function () {
+      expect(function () {
+        ds.Employee.find([12, 23])
+      }).to.throw(Error);
+    });
+
+    it('should fail if the entity is not found', function () {
+      return ds.Employee.find(404).catch(function (e) {
+        expect(e).to.be.defined;
+      });
+    });
+
+    it('should not expand related attributes by default', function () {
+      return ds.Employee.find(10).then(function (employee) {
+        expect(employee.employer.ID).to.be.defined;
+        expect(employee.employer.name).to.be.undefined;
+      });
+    });
+
+    it('should expand related attributes provided on select parameter', function () {
+      return ds.Employee.find(10, {select: 'employer'}).then(function (employee) {
+        expect(employee.employer.ID).to.be.defined;
+        expect(employee.employer.name).to.be.a('string');
+      });
+    });
+
+    it('should expand related attributes on several levels', function () {
+      return ds.Employee.find(10, {select: 'employer,employer.staff'}).then(function (employee) {
+        expect(employee.employer.ID).to.be.defined;
+        expect(employee.employer.name).to.be.a('string');
+        expect(employee.employer.staff).to.be.an('object');
+        expect(employee.employer.staff.entities[0].firstName).to.be.a('string');
+      });
+    });
   });
 });

@@ -25,10 +25,6 @@ class DataClassDecorator {
             dataClass,
             wakJSC: this.wakJSC
           });
-        })
-        .catch(err => {
-          console.error('dataclass.find ', err);
-          throw err;
         });
     };
   }
