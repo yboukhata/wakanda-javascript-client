@@ -54,14 +54,31 @@ npm run test:node:full
 
 #Run test for node
 npm run test:node:single
-
-#Build (once) and run test for node and karma
-npm run test
 ```
 
-Karma automatically proxies request on `/rest` to `http://localhost:8081`. For node
-test, `WakJSC` module is instancied with `http://localhost:8081` parameter on each
+There is an Express server on `test/server` directory. It will mocks a real Wakanda Server
+for unit tests.
+You can launch it by typing `npm run test-server:start` and stop it with `npm run test-server:stop`.
+
+**Unit test needs this server to be running to execute**.
+
+You can use the two following scripts to run both Karma and node unit test with
+test server launching and stopping alone. Just be sure that port `3030` is free.
+
+```bash
+#Run test server, build bundles and launch karma and node unit tests
+npm run test
+
+#Same as previous one but without building bundles
+npm run test-single
+```
+
+Karma automatically proxies request on `/rest` to test server. For node
+test, `WakJSC` module is instancied with test server address on each
 test file.
+
+If port `3030` doesn't suit your needs, you can change it on `test/server/server.js`
+**and** on `test/server.unit.json`.
 
 As PhantomJS doesn't support `CustomEvent` constructor, there is a polyfill on `test`
 directory.
