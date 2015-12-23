@@ -6,7 +6,6 @@ class WakJSC {
   constructor(host) {
     //Context detection. Are we on node or a browser ?
     let isBrowser = new Function("try { return this === window; } catch(e) { return false; }");
-    console.log('you seem to be on ' + (isBrowser() ? 'a browser' : 'node'));
 
     var httpClient;
     if (isBrowser()) {

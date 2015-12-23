@@ -24,11 +24,41 @@ describe('Catalog API', function() {
       expect(getCall.catch).to.be.a('function');
     });
 
-    it('should provide an object to promise callback', function (done) {
-      WakJSC.catalog.get().then(function (ds) {
+    it('should provide an object to promise callback', function () {
+      return WakJSC.catalog.get().then(function (ds) {
         expect(ds).to.be.an('object');
-        done();
       });
+    });
+
+    it('should retrieve all dataclasses without given parameter', function () {
+      return WakJSC.catalog.get().then(function (ds) {
+        expect(ds.Company).to.be.an('object');
+        expect(ds.Employee).to.be.an('object');
+        expect(ds.Product).to.be.an('object');
+      });
+    });
+
+    it('should retrieve only given dataclasses', function () {
+      return WakJSC.catalog.get(['Employee', 'Company']).then(function (ds) {
+        expect(ds.Company).to.be.an('object');
+        expect(ds.Employee).to.be.an('object');
+        expect(ds.Product).to.be.undefined;
+      });
+    });
+
+    it('should fail trying to retrieve a unknown dataclass', function () {
+      return WakJSC.catalog.get(['Foo']).catch(function (e) {
+        expect(e).to.be.defined;
+      });
+    });
+
+    it('should fail if given parameter is not an array', function () {
+      try {
+        WakJSC.catalog.get('Foo')
+      }
+      catch (e) {
+        expect(e).to.be.defined;
+      }
     });
   });
 });

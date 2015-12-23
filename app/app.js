@@ -1,4 +1,4 @@
-WakJSC.catalog.get()
+WakJSC.catalog.get(['Foo'])
   .then(function (ds) {
     console.log(ds);
 

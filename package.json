@@ -9,7 +9,8 @@
     "test:karma:full": "npm run webpack-build && npm run test:karma:single",
     "test:node:single": "http_proxy=\"\" node ./node_modules/mocha/bin/mocha test/spec/**/*.spec.js",
     "test:node:full": "npm run webpack-build && npm run test:node:single",
-    "test": "npm run test-server:start && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop",
+    "test-single": "./test.sh single",
+    "test": "./test.sh",
     "test-server:start": "node test/server/server.js & echo $! > testserver.pid",
     "test-server:stop": "kill `cat testserver.pid` && rm testserver.pid"
   },

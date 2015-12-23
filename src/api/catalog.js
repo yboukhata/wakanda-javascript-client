@@ -16,8 +16,11 @@ class Catalog {
     if (Array.isArray(dataClasses)) {
       strDataclasses += dataClasses.join();
     }
-    else {
+    else if (typeof dataClasses === 'undefined') {
       strDataclasses += '$all';
+    }
+    else {
+      throw new Error('Catalog.get: first parameter should be an array');
     }
 
     return this.httpClient.get({uri: '/$catalog' + strDataclasses})
@@ -37,10 +40,6 @@ class Catalog {
         }
 
         return catalog;
-      })
-      .catch(error => {
-        console.error('Catalog.get error', error);
-        throw error;
       });
   }
 }
