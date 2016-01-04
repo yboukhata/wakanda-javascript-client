@@ -2,18 +2,12 @@ WakJSC.catalog.get()
   .then(function (ds) {
     console.log(ds);
 
-    ds.Employee.query({
-      pageSize: 5,
-      filter: 'salary < :1',
-      params: [10000],
-      orderBy: 'lastName desc, firstName'
-    })
-      .then(function (e) {
-        console.log(e);
-        e.entities.forEach(function (a) {
-          console.log(a.lastName, a.firstName);
-        });
-      });
+    var e = ds.Employee.create({
+      firstName: "foo",
+      lastName: "bar",
+      salaryProcessed: 23
+    });
+    console.log(e, JSON.stringify(e));
 
   })
   .catch(function (err) {

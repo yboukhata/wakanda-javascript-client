@@ -1,6 +1,7 @@
 import EntityTransform from '../transform/entity-transform';
 import CollectionTransform from '../transform/collection-transform';
 import Util from '../util';
+import {Entity} from '../model/entity';
 
 class DataClassDecorator {
   constructor({httpClient, wakJSC}) {
@@ -42,6 +43,16 @@ class DataClassDecorator {
             wakJSC: this.wakJSC
           });
         });
+    };
+
+    dataClass.create = (rawObj) => {
+      let entity = new Entity({
+        rawObj: rawObj || {},
+        dataClass: dataClass,
+        wakJSC: this.wakJSC
+      });
+
+      return entity;
     };
   }
 }

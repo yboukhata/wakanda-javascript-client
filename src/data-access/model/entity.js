@@ -16,41 +16,51 @@ class Entity {
 
         let obj = rawObj[attr.name];
 
-        if (obj['__deferred']) {
-          this[attr.name] = new DeferredEntity({
-            rawObj: obj['__deferred'],
-            dataClass: wakJSC._dataclassMap.get(attr.type),
-            parentEntity: this
-          });
+        if (obj) {
+          if (obj['__deferred']) {
+            this[attr.name] = new DeferredEntity({
+              rawObj: obj['__deferred'],
+              dataClass: wakJSC._dataclassMap.get(attr.type),
+              parentEntity: this
+            });
+          }
+          else {
+            this[attr.name] = new Entity({
+              rawObj: obj,
+              dataClass: wakJSC._dataclassMap.get(attr.type),
+              wakJSC
+            });
+          }
         }
         else {
-          this[attr.name] = new Entity({
-            rawObj: obj,
-            dataClass: wakJSC._dataclassMap.get(attr.type),
-            wakJSC
-          });
+          this[attr.name] = null;
         }
       }
       else if (attr instanceof AttributeCollection) {
         let obj = rawObj[attr.name];
 
-        if (obj['__deferred']) {
-          this[attr.name] = new DeferredCollection({
-            rawObj: obj['__deferred'],
-            dataClass: wakJSC._dataclassMap.get(attr.type),
-            parentEntity: this
-          });
+        if (obj) {
+          if (obj['__deferred']) {
+            this[attr.name] = new DeferredCollection({
+              rawObj: obj['__deferred'],
+              dataClass: wakJSC._dataclassMap.get(attr.type),
+              parentEntity: this
+            });
+          }
+          else {
+            this[attr.name] = new Collection({
+              rawObj: obj,
+              dataClass: wakJSC._dataclassMap.get(attr.entityType),
+              wakJSC
+            });
+          }
         }
         else {
-          this[attr.name] = new Collection({
-            rawObj: obj,
-            dataClass: wakJSC._dataclassMap.get(attr.entityType),
-            wakJSC
-          });
+          this[attr.name] = null;
         }
       }
       else {
-        this[attr.name] = rawObj[attr.name];
+        this[attr.name] = rawObj[attr.name] || null;
       }
     }
   }
