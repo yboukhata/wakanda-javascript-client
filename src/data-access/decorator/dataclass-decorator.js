@@ -1,4 +1,5 @@
 import EntityTransform from '../transform/entity-transform';
+import CollectionTransform from '../transform/collection-transform';
 import Util from '../util';
 
 class DataClassDecorator {
@@ -21,6 +22,21 @@ class DataClassDecorator {
       })
         .then(res => {
           return new EntityTransform({
+            rawString: res.body,
+            dataClass,
+            wakJSC: this.wakJSC
+          });
+        });
+    };
+
+    dataClass.query = (options) => {
+      let optString = Util.handleOptions(options);
+
+      return this.httpClient.get({
+        uri: '/' + dataClass.name + optString
+      })
+        .then(res => {
+          return new CollectionTransform({
             rawString: res.body,
             dataClass,
             wakJSC: this.wakJSC
