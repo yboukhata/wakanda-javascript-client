@@ -4,16 +4,6 @@ class DataClass {
     this.collectionName = collectionName;
     this.attributes = attributes;
   }
-
-  find(id) {
-    console.log('DataClass.find called');
-    return null;
-  }
-
-  query(options) {
-    console.log('DataClass.query called');
-    return null;
-  }
 }
 
 class Attribute {

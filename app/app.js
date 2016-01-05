@@ -16,5 +16,8 @@
 
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
-  debugger;
+  ds.Company.find();
+  ds.Employee.find();
+  ds.Product.find();
+  // debugger;
 });

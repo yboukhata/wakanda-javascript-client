@@ -2,6 +2,7 @@ import AbstractBusiness from './abstract-business';
 import CatalogService from '../data-access/service/catalog-service';
 import Catalog from '../presentation/catalog';
 import {DataClass, Attribute, AttributeRelated, AttributeCollection} from '../presentation/dataclass';
+import DataClassBusiness from './dataclass-business';
 
 class CatalogBusiness extends AbstractBusiness {
   constructor(obj) {
@@ -48,11 +49,20 @@ class CatalogBusiness extends AbstractBusiness {
           }
         }
 
-        dcArray.push(new DataClass({
+        let dataClass = new DataClass({
           name: dcDBO.name,
           collectionName: dcDBO.name,
           attributes
-        }));
+        });
+
+        //Binding framework methods to dataclass
+        let dataClassBusiness = new DataClassBusiness({
+          wakJSC: this.wakJSC,
+          dataClass
+        });
+        dataClassBusiness._decorateDataClass(dataClass);
+
+        dcArray.push(dataClass);
       }
 
       return new Catalog({
