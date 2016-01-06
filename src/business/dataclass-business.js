@@ -28,6 +28,28 @@ class DataClassBusiness extends AbstractBusiness {
     });
   }
 
+  _createEntity({key, deferred}) {
+    if (deferred === true) {
+      return new DeferredEntity({key});
+    }
+    else {
+      return new Entity({key});
+    }
+
+    //TODO - Adding framework methods
+  }
+
+  _createCollection(options) {
+    if (options && options.deferred === true) {
+      return new DeferredCollection();
+    }
+    else {
+      return new Collection();
+    }
+
+    //TODO - Adding framework methods
+  }
+
   _presentationEntityFromDbo({dbo}) {
     var entity;
 
@@ -35,12 +57,13 @@ class DataClassBusiness extends AbstractBusiness {
       entity = null;
     }
     if (dbo['__deferred']) {
-      entity = new DeferredEntity({
-        key: dbo['__deferred']['__KEY']
+      entity = this._createEntity({
+        key: dbo['__deferred']['__KEY'],
+        deferred: true
       });
     }
     else {
-      entity = new Entity({
+      entity = this._createEntity({
         key: dbo['__KEY']
       });
       entity['_stamp'] = dbo['__STAMP'];
@@ -84,13 +107,15 @@ class DataClassBusiness extends AbstractBusiness {
       collection = null;
     }
     else if (dbo['__deferred']) {
-      collection = new DeferredCollection();
+      collection = this._createCollection({
+        deferred: true
+      });
     }
     else {
-      collection = new Collection();
+      collection = this._createCollection();
       collection['_count'] = dbo['__COUNT'];
       collection['_first'] = dbo['__FIRST'];
-      collection['_sent'] = dbo['__SENT'];
+      collection['_sent']  = dbo['__SENT'];
 
       for (let dboEntity of dbo['__ENTITIES']) {
         collection.entities.push(this._presentationEntityFromDbo({
