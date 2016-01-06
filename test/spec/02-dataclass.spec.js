@@ -16,7 +16,7 @@ describe('Dataclass API', function() {
 
     var ds;
     before(function (done) {
-      WakJSC.catalog.get().then(function (ds_) {
+      WakJSC.getCatalog().then(function (ds_) {
         ds = ds_;
         done();
       });

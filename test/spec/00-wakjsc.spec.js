@@ -13,8 +13,8 @@ if (!isBrowser()) {
 describe('WakJSC module', function() {
 
   describe('public APIs', function() {
-    it('should have a catalog object', function() {
-      expect(WakJSC.catalog).to.be.an('object');
+    it('should have a getCatalog method', function() {
+      expect(WakJSC.getCatalog).to.be.a('function');
     });
 
     it('should have a directory object', function () {

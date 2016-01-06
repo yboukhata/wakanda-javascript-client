@@ -12,13 +12,10 @@ if (!isBrowser()) {
 
 describe('Catalog API', function() {
 
-  describe('get method', function() {
-    it('should be defined', function() {
-      expect(WakJSC.catalog.get).to.be.a('function');
-    });
+  describe('getCatalog method', function() {
 
     it('should return a promise', function () {
-      var getCall = WakJSC.catalog.get();
+      var getCall = WakJSC.getCatalog();
 
       expect(getCall).to.be.a('promise');
       expect(getCall.then).to.be.a('function');
@@ -26,13 +23,13 @@ describe('Catalog API', function() {
     });
 
     it('should provide an object to promise callback', function () {
-      return WakJSC.catalog.get().then(function (ds) {
+      return WakJSC.getCatalog().then(function (ds) {
         expect(ds).to.be.an('object');
       });
     });
 
     it('should retrieve all dataclasses without a given parameter', function () {
-      return WakJSC.catalog.get().then(function (ds) {
+      return WakJSC.getCatalog().then(function (ds) {
         expect(ds.Company).to.be.an('object');
         expect(ds.Employee).to.be.an('object');
         expect(ds.Product).to.be.an('object');
@@ -40,7 +37,7 @@ describe('Catalog API', function() {
     });
 
     it('should retrieve only given dataclasses', function () {
-      return WakJSC.catalog.get(['Employee', 'Company']).then(function (ds) {
+      return WakJSC.getCatalog(['Employee', 'Company']).then(function (ds) {
         expect(ds.Company).to.be.an('object');
         expect(ds.Employee).to.be.an('object');
         expect(ds.Product).to.be.undefined;
@@ -48,14 +45,14 @@ describe('Catalog API', function() {
     });
 
     it('should fail trying to retrieve an unknown dataclass', function () {
-      return WakJSC.catalog.get(['Foo']).catch(function (e) {
+      return WakJSC.getCatalog(['Foo']).catch(function (e) {
         expect(e).to.be.defined;
       });
     });
 
     it('should fail if given parameter is not an array', function () {
       expect(function () {
-        WakJSC.catalog.get('Foo')
+        WakJSC.getCatalog('Foo')
       }).to.throw(Error);
     });
   });
