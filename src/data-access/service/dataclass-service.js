@@ -17,10 +17,20 @@ class DataClassService extends AbstractService {
     let optString = Util.handleOptions(options);
 
     return this.httpClient.get({
-      uri: '/' + this.dataClass.name + '(' + id ')' + optString
+      uri: '/' + this.dataClass.name + '(' + id + ')' + optString
     })
       .then(res => {
-        //TODO
+        let obj = JSON.parse(res.body);
+        delete obj['__entityModel'];
+
+        for (let prop in obj) {
+          let p = obj[prop];
+          if (p && p['__deferred']) {
+            delete p['__deferred']['uri'];
+          }
+        }
+
+        return obj;
       });
   }
 }
