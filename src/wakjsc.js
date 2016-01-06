@@ -1,7 +1,7 @@
 import BrowserHttpClient from './data-access/http/browser-http-client';
 import NodeHttpClient from './data-access/http/node-http-client';
-// import {Catalog, Directory} from './api';
 import CatalogBusiness from './business/catalog-business';
+import DirectoryBusiness from './business/directory-business';
 
 class WakJSC {
   constructor(host) {
@@ -22,13 +22,15 @@ class WakJSC {
 
     this._httpClient = httpClient;
 
-    // this.catalog = new Catalog({
-    //   httpClient,
-    //   wakJSC: this
-    // });
-    // this.directory = new Directory({httpClient});
-    //
-    // this._dataclassMap = new Map();
+    let directoryBusiness = new DirectoryBusiness({
+      wakJSC: this
+    });
+
+    this.directory = {
+      login: (username, password) => {
+        return directoryBusiness.login(username, password);
+      }
+    };
   }
 
   getCatalog(dataClasses) {

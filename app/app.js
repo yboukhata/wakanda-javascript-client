@@ -29,6 +29,13 @@ WakJSC.getCatalog().then(function (ds) {
   //   console.log(e);
   // });
 
-  var e = ds.Employee.create({firstName: 'toto', lastName: 'bar', salary: 60000});
-  console.log(e);
+  // var e = ds.Employee.create({firstName: 'toto', lastName: 'bar', salary: 60000});
+  // console.log(e);
+
+  WakJSC.directory.login('bar', 'bara')
+    .then(function() {
+      console.log('login success');
+    }).catch(function () {
+      console.log('login failed');
+    })
 });
