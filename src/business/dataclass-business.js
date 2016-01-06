@@ -20,12 +20,12 @@ class DataClassBusiness extends AbstractBusiness {
     _dataClassBusinessMap.set(dataClass.name, this);
   }
 
-  _decorateDataClass(dataClass) {
+  _decorateDataClass() {
     //Do not forget to bind(this) to have "this" pointing on business object
     //instead of given dataclass object
-    dataClass.find    = this.find.bind(this);
-    dataClass.query   = this.query.bind(this);
-    dataClass.create  = this.create.bind(this);
+    this.dataClass.find    = this.find.bind(this);
+    this.dataClass.query   = this.query.bind(this);
+    this.dataClass.create  = this.create.bind(this);
   }
 
   find(id, options) {

@@ -55,12 +55,12 @@ class CatalogBusiness extends AbstractBusiness {
           attributes
         });
 
-        //Binding framework methods to dataclass
+        //Binding framework methods to the dataclass
         let dataClassBusiness = new DataClassBusiness({
           wakJSC: this.wakJSC,
           dataClass
         });
-        dataClassBusiness._decorateDataClass(dataClass);
+        dataClassBusiness._decorateDataClass();
 
         dcArray.push(dataClass);
       }
