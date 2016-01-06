@@ -20,11 +20,15 @@ WakJSC.getCatalog().then(function (ds) {
   // ds.Employee.find(2909253, {select: 'employer.staff'}).then(function (e) {
   //   console.log(e);
   // });
-  ds.Employee.query({
-    filter: 'firstName = :1',
-    params: ['HARRY'],
-    select: 'employer'
-  }).then(function (e) {
-    console.log(e);
-  });
+
+  // ds.Employee.query({
+  //   filter: 'firstName = :1',
+  //   params: ['HARRY'],
+  //   select: 'employer'
+  // }).then(function (e) {
+  //   console.log(e);
+  // });
+
+  var e = ds.Employee.create({firstName: 'toto', lastName: 'bar', salary: 60000});
+  console.log(e);
 });

@@ -20,6 +20,14 @@ class DataClassBusiness extends AbstractBusiness {
     _dataClassBusinessMap.set(dataClass.name, this);
   }
 
+  _decorateDataClass(dataClass) {
+    //Do not forget to bind(this) to have "this" pointing on business object
+    //instead of given dataclass object
+    dataClass.find    = this.find.bind(this);
+    dataClass.query   = this.query.bind(this);
+    dataClass.create  = this.create.bind(this);
+  }
+
   find(id, options) {
     return this.service.find(id, options).then(entity => {
       return this._presentationEntityFromDbo({
@@ -33,6 +41,12 @@ class DataClassBusiness extends AbstractBusiness {
       return this._presentationCollectionFromDbo({
         dbo: collection
       });
+    });
+  }
+
+  create(pojo) {
+    return this._presentationEntityFromDbo({
+      dbo: pojo
     });
   }
 
@@ -133,13 +147,6 @@ class DataClassBusiness extends AbstractBusiness {
     }
 
     return collection;
-  }
-
-  _decorateDataClass(dataClass) {
-    //Do not forget to bind(this) to have "this" pointing on business object
-    //instead of given dataclass object
-    dataClass.find = this.find.bind(this);
-    dataClass.query = this.query.bind(this);
   }
 }
 
