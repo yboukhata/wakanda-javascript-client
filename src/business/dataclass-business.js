@@ -28,6 +28,14 @@ class DataClassBusiness extends AbstractBusiness {
     });
   }
 
+  query(options) {
+    return this.service.query(options).then(collection => {
+      return this._presentationCollectionFromDbo({
+        dbo: collection
+      });
+    });
+  }
+
   _createEntity({key, deferred}) {
     if (deferred === true) {
       return new DeferredEntity({key});
@@ -131,6 +139,7 @@ class DataClassBusiness extends AbstractBusiness {
     //Do not forget to bind(this) to have "this" pointing on business object
     //instead of given dataclass object
     dataClass.find = this.find.bind(this);
+    dataClass.query = this.query.bind(this);
   }
 }
 

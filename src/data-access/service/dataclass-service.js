@@ -20,18 +20,39 @@ class DataClassService extends AbstractService {
       uri: '/' + this.dataClass.name + '(' + id + ')' + optString
     })
       .then(res => {
-        let obj = JSON.parse(res.body);
-        delete obj['__entityModel'];
+        let entity = JSON.parse(res.body);
+        delete entity['__entityModel'];
 
-        for (let prop in obj) {
-          let p = obj[prop];
-          if (p && p['__deferred']) {
-            delete p['__deferred']['uri'];
-          }
-        }
+        this._removeRestInfoFromEntity(entity);
 
-        return obj;
+        return entity;
       });
+  }
+
+  query(options) {
+    let optString = Util.handleOptions(options);
+
+    return this.httpClient.get({
+      uri: '/' + this.dataClass.name + optString
+    }).then(res => {
+      let collection = JSON.parse(res.body);
+      delete collection['__entityModel'];
+
+      for (let entity of collection['__ENTITIES']) {
+        this._removeRestInfoFromEntity(entity);
+      }
+
+      return collection;
+    });
+  }
+
+  _removeRestInfoFromEntity(entity) {
+    for (let prop in entity) {
+      let p = entity[prop];
+      if (p && p['__deferred']) {
+        delete p['__deferred']['uri'];
+      }
+    }
   }
 }
 
