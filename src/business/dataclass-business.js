@@ -1,6 +1,7 @@
 import AbstractBusiness from './abstract-business';
 import DataClassService from '../data-access/service/dataclass-service';
 import {Entity, DeferredEntity} from '../presentation/entity';
+import {Collection, DeferredCollection} from '../presentation/collection';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
@@ -77,7 +78,28 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   _presentationCollectionFromDbo({dbo}) {
-    return null;
+    var collection;
+
+    if (!dbo) {
+      collection = null;
+    }
+    else if (dbo['__deferred']) {
+      collection = new DeferredCollection();
+    }
+    else {
+      collection = new Collection();
+      collection['_count'] = dbo['__COUNT'];
+      collection['_first'] = dbo['__FIRST'];
+      collection['_sent'] = dbo['__SENT'];
+
+      for (let dboEntity of dbo['__ENTITIES']) {
+        collection.entities.push(this._presentationEntityFromDbo({
+          dbo: dboEntity
+        }));
+      }
+    }
+
+    return collection;
   }
 
   _decorateDataClass(dataClass) {
