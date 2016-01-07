@@ -77,6 +77,15 @@ class Util {
   static isInteger(n) {
     return typeof n === 'number' && !isNaN(n) && (n % 1) === 0;
   }
+
+  static removeRestInfoFromEntity(entity) {
+    for (let prop in entity) {
+      let p = entity[prop];
+      if (p && p['__deferred']) {
+        delete p['__deferred']['uri'];
+      }
+    }
+  }
 }
 
 export default Util;

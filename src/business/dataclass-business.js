@@ -1,4 +1,5 @@
 import AbstractBusiness from './abstract-business';
+import EntityBusiness from './entity-business';
 import DataClassService from '../data-access/service/dataclass-service';
 import {Entity, DeferredEntity} from '../presentation/entity';
 import {Collection, DeferredCollection} from '../presentation/collection';
@@ -51,14 +52,24 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   _createEntity({key, deferred}) {
+    var entity;
+
     if (deferred === true) {
-      return new DeferredEntity({key});
+      entity = new DeferredEntity({key});
     }
     else {
-      return new Entity({key});
+      entity = new Entity({key});
     }
 
-    //TODO - Adding framework methods
+    let business = new EntityBusiness({
+      wakJSC: this.wakJSC,
+      dataClass: this.dataClass,
+      entity,
+      dataClassBusiness: this
+    });
+    business._decorateEntity();
+
+    return entity;
   }
 
   _createCollection(options) {

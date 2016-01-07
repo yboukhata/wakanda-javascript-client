@@ -23,7 +23,7 @@ class DataClassService extends AbstractService {
         let entity = JSON.parse(res.body);
         delete entity['__entityModel'];
 
-        this._removeRestInfoFromEntity(entity);
+        Util.removeRestInfoFromEntity(entity);
 
         return entity;
       });
@@ -39,20 +39,11 @@ class DataClassService extends AbstractService {
       delete collection['__entityModel'];
 
       for (let entity of collection['__ENTITIES']) {
-        this._removeRestInfoFromEntity(entity);
+        Util.removeRestInfoFromEntity(entity);
       }
 
       return collection;
     });
-  }
-
-  _removeRestInfoFromEntity(entity) {
-    for (let prop in entity) {
-      let p = entity[prop];
-      if (p && p['__deferred']) {
-        delete p['__deferred']['uri'];
-      }
-    }
   }
 }
 

@@ -17,9 +17,17 @@
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
 
-  // ds.Employee.find(2909253, {select: 'employer.staff'}).then(function (e) {
-  //   console.log(e);
-  // });
+  ds.Employee.query({pageSize: 1, filter: 'salary > 80000', select: 'employer.staff'}).then(function (er) {
+    var e = er.entities[0];
+    console.log(e);
+debugger;
+    e.firstName = "Foo";
+    e.lastName = "Bar";
+
+    e.save().then(function(ee) {
+      console.log(ee);
+    });
+  });
 
   // ds.Employee.query({
   //   filter: 'firstName = :1',
@@ -29,13 +37,5 @@ WakJSC.getCatalog().then(function (ds) {
   //   console.log(e);
   // });
 
-  // var e = ds.Employee.create({firstName: 'toto', lastName: 'bar', salary: 60000});
-  // console.log(e);
 
-  WakJSC.directory.login('bar', 'bara')
-    .then(function() {
-      console.log('login success');
-    }).catch(function () {
-      console.log('login failed');
-    })
 });
