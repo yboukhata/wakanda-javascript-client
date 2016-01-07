@@ -49,6 +49,26 @@ class CatalogBusiness extends AbstractBusiness {
           }
         }
 
+        let methods = {
+          entity: [],
+          collection: [],
+          dataClass: []
+        };
+
+        for (let method of dcDBO.methods) {
+          switch(method.applyTo) {
+            case 'entity':
+              methods.entity.push(method.name);
+              break;
+            case 'entityCollection':
+              methods.collection.push(method.name);
+              break;
+            case 'dataClass':
+              methods.dataClass.push(method.name);
+              break;
+          }
+        }
+
         let dataClass = new DataClass({
           name: dcDBO.name,
           collectionName: dcDBO.name,
@@ -58,7 +78,8 @@ class CatalogBusiness extends AbstractBusiness {
         //Binding framework methods to the dataclass
         let dataClassBusiness = new DataClassBusiness({
           wakJSC: this.wakJSC,
-          dataClass
+          dataClass,
+          methods
         });
         dataClassBusiness._decorateDataClass();
 

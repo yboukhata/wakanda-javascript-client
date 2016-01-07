@@ -45,6 +45,16 @@ class DataClassService extends AbstractService {
       return collection;
     });
   }
+
+  callMethod(methodName, parameters) {
+    return this.httpClient.post({
+      uri: '/' + this.dataClass.name + '/' + methodName,
+      data: parameters
+    }).then(res => {
+      let obj = JSON.parse(res.body);
+      return obj.result || null;
+    });
+  }
 }
 
 export default DataClassService;

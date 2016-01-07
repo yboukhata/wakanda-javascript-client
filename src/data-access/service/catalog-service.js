@@ -1,5 +1,4 @@
 import AbstractService from './abstract-service';
-import DataClassDBO from '../../business/dbo/dataclass-dbo';
 
 class CatalogService extends AbstractService {
   get(dataClasses) {
@@ -31,11 +30,20 @@ class CatalogService extends AbstractService {
             });
           }
 
-          catalog.push(new DataClassDBO({
+          let methods = [];
+          for (let m of d.methods) {
+            methods.push({
+              name: m.name,
+              applyTo: m.applyTo
+            });
+          }
+
+          catalog.push({
             name: d.name,
             collectionName: d.collectionName,
-            attributes
-          }));
+            attributes,
+            methods
+          });
         }
 
         return catalog;

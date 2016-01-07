@@ -9,10 +9,11 @@ import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 let _dataClassBusinessMap = new Map();
 
 class DataClassBusiness extends AbstractBusiness {
-  constructor({wakJSC, dataClass}) {
+  constructor({wakJSC, dataClass, methods}) {
     super({wakJSC});
 
     this.dataClass = dataClass;
+    this.methods = methods;
     this.service = new DataClassService({
       wakJSC: this.wakJSC,
       dataClass
@@ -27,6 +28,23 @@ class DataClassBusiness extends AbstractBusiness {
     this.dataClass.find    = this.find.bind(this);
     this.dataClass.query   = this.query.bind(this);
     this.dataClass.create  = this.create.bind(this);
+
+    this._addUserDefinedMethods();
+  }
+
+  _addUserDefinedMethods() {
+    let _this = this;
+    for (let method of this.methods.dataClass) {
+      //Voluntary don't use fat arrow notation to use arguments object without a bug
+      this.dataClass[method] = (function() {
+        let params = Array.from(arguments);
+        return _this.callMethod(method, params);
+      }).bind(this);
+    }
+  }
+
+  callMethod(methodName, parameters) {
+    return this.service.callMethod(methodName, parameters);
   }
 
   find(id, options) {
