@@ -46,9 +46,23 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   create(pojo) {
-    return this._presentationEntityFromDbo({
+    var entityToAttach = {};
+    for (let prop in pojo) {
+      if (pojo[prop] instanceof Entity) {
+        entityToAttach[prop] = pojo[prop];
+        delete pojo[prop];
+      }
+    }
+
+    let entity = this._presentationEntityFromDbo({
       dbo: pojo
     });
+
+    for (let prop in entityToAttach) {
+      entity[prop] = entityToAttach[prop];
+    }
+
+    return entity;
   }
 
   _createEntity({key, deferred}) {

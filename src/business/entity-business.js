@@ -25,7 +25,7 @@ class EntityBusiness extends AbstractBusiness {
     let data = {};
 
     if (this.entity['_key'] && this.entity['_stamp']) {
-      data['__KEY'] = this.entity['_key'];
+      data['__KEY']   = this.entity['_key'];
       data['__STAMP'] = this.entity['_stamp'];
     }
 
@@ -33,12 +33,9 @@ class EntityBusiness extends AbstractBusiness {
       let objAttr = this.entity[attr.name] || null;
 
       if (attr instanceof AttributeRelated) {
-        //TODO
+        data[attr.name] = objAttr._key;
       }
-      else if (attr instanceof AttributeCollection) {
-        //TODO
-      }
-      else if (!attr.readOnly) {
+      else if (!(attr instanceof AttributeCollection) && !attr.readOnly) {
         data[attr.name] = objAttr;
       }
     }

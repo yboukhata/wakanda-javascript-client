@@ -17,17 +17,17 @@
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
 
-  ds.Employee.query({pageSize: 1, filter: 'salary > 80000', select: 'employer.staff'}).then(function (er) {
-    var e = er.entities[0];
-    console.log(e);
-debugger;
-    e.firstName = "Foo";
-    e.lastName = "Bar";
-
-    e.save().then(function(ee) {
-      console.log(ee);
-    });
-  });
+//   ds.Employee.query({pageSize: 1, filter: 'salary > 80000', select: 'employer.staff'}).then(function (er) {
+//     var e = er.entities[0];
+//     console.log(e);
+// debugger;
+//     e.firstName = "Foo";
+//     e.lastName = "Bar";
+//
+//     e.save().then(function(ee) {
+//       console.log(ee);
+//     });
+//   });
 
   // ds.Employee.query({
   //   filter: 'firstName = :1',
@@ -37,5 +37,17 @@ debugger;
   //   console.log(e);
   // });
 
+  //employer 184202
+  ds.Company.find(184202).then(function (company) {
+    var e = ds.Employee.create({
+      firstName: 'toto',
+      lastName: 'tata',
+      employer: company
+    });
+    console.log(e);
+    e.save().then(function (ee) {
+      console.log(ee);
+    });
+  });
 
 });
