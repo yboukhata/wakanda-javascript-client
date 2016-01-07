@@ -33,7 +33,7 @@ class EntityBusiness extends AbstractBusiness {
       let objAttr = this.entity[attr.name] || null;
 
       if (attr instanceof AttributeRelated) {
-        data[attr.name] = objAttr._key;
+        data[attr.name] = objAttr ? objAttr._key : null;
       }
       else if (!(attr instanceof AttributeCollection) && !attr.readOnly) {
         data[attr.name] = objAttr;

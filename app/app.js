@@ -38,16 +38,27 @@ WakJSC.getCatalog().then(function (ds) {
   // });
 
   //employer 184202
-  ds.Company.find(184202).then(function (company) {
-    var e = ds.Employee.create({
-      firstName: 'toto',
-      lastName: 'tata',
-      employer: company
-    });
-    console.log(e);
-    e.save().then(function (ee) {
+  // ds.Company.find(184202).then(function (company) {
+  //   var e = ds.Employee.create({
+  //     firstName: 'toto',
+  //     lastName: 'tata',
+  //     employer: company
+  //   });
+  //   console.log(e);
+  //   e.save().then(function (ee) {
+  //     console.log(ee);
+  //   });
+  // });
+
+  ds.Employee.find(2971317).then(function (employee) {
+    console.log(employee);
+    debugger;
+    employee.employer = null;
+    employee.salary = 1234;
+    employee.save().then(function (ee) {
       console.log(ee);
-    });
-  });
+      ee.save();
+    })
+  })
 
 });
