@@ -11,7 +11,8 @@ class Util {
       params,
       pageSize,
       start,
-      orderBy
+      orderBy,
+      method
     } = options;
 
     var ret = '?';
@@ -65,6 +66,10 @@ class Util {
       }
 
       ret += '&$skip=' + start;
+    }
+
+    if (method) {
+      ret += '&$method=' + method
     }
 
     if (ret.length > 1 && ret[1] === '&') {
