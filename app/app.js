@@ -16,9 +16,12 @@
 
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
-  ds.Company.myDataClassMethod().then(function (e) {
-    console.log(e);
-  })
+
+  ds.Company.query().then(function (e) {
+    e.entities[0].myEntityMethod().then(function (ee) {
+      console.log(ee);
+    });
+  });
 //   ds.Employee.query({pageSize: 1, filter: 'salary > 80000', select: 'employer.staff'}).then(function (er) {
 //     var e = er.entities[0];
 //     console.log(e);

@@ -27,6 +27,16 @@ class EntityService extends AbstractService {
       return entity;
     });
   }
+
+  callMethod(methodName, parameters) {
+    return this.httpClient.post({
+      uri: '/' + this.dataClass.name + '(' + this.entity._key + ')/' + methodName,
+      data: parameters
+    }).then(res => {
+      let obj = JSON.parse(res.body);
+      return obj.result || null;
+    });
+  }
 }
 
 export default EntityService;
