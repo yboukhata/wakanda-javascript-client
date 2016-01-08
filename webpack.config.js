@@ -20,6 +20,16 @@ var baseConfig = {
     }
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        exclude: [
+          /node_modules/,
+          /lib/
+        ],
+        loader: 'eslint-loader'
+      }
+    ],
     loaders: [{
       test: /\.js$/,
       exclude: [
@@ -66,7 +76,9 @@ var nodeConfig = {
   devtool: baseConfig.devtool,
   resolve: baseConfig.resolve,
   externals: nodeModules,
-  module: baseConfig.module,
+  module: {
+    loaders: baseConfig.module.loaders
+  },
   node: {
     fs: 'empty',
     net: 'empty',

@@ -21,7 +21,7 @@ class DataClassService extends AbstractService {
     })
       .then(res => {
         let entity = JSON.parse(res.body);
-        delete entity['__entityModel'];
+        delete entity.__entityModel;
 
         Util.removeRestInfoFromEntity(entity);
 
@@ -36,9 +36,9 @@ class DataClassService extends AbstractService {
       uri: '/' + this.dataClass.name + optString
     }).then(res => {
       let collection = JSON.parse(res.body);
-      delete collection['__entityModel'];
+      delete collection.__entityModel;
 
-      for (let entity of collection['__ENTITIES']) {
+      for (let entity of collection.__ENTITIES) {
         Util.removeRestInfoFromEntity(entity);
       }
 

@@ -66,6 +66,8 @@ class CatalogBusiness extends AbstractBusiness {
             case 'dataClass':
               methods.dataClass.push(method.name);
               break;
+            default:
+              throw new Error('Unrecognized method type');
           }
         }
 

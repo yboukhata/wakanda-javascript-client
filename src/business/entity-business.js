@@ -40,7 +40,7 @@ class EntityBusiness extends AbstractBusiness {
   }
 
   delete() {
-    return this.service.delete().then(_ => {
+    return this.service.delete().then(() => {
       this.entity = null;
     });
   }
@@ -48,9 +48,9 @@ class EntityBusiness extends AbstractBusiness {
   save() {
     let data = {};
 
-    if (this.entity['_key'] && this.entity['_stamp']) {
-      data['__KEY']   = this.entity['_key'];
-      data['__STAMP'] = this.entity['_stamp'];
+    if (this.entity._key && this.entity._stamp) {
+      data.__KEY   = this.entity._key;
+      data.__STAMP = this.entity._stamp;
     }
 
     for (let attr of this.dataClass.attributes) {
@@ -85,7 +85,7 @@ class EntityBusiness extends AbstractBusiness {
     }
   }
 
-  _getExpandString(entity) {
+  _getExpandString() {
     var expand = '';
     for (let attr of this.dataClass.attributes) {
       if (attr instanceof AttributeRelated || attr instanceof AttributeCollection) {

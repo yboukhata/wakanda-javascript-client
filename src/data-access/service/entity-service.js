@@ -21,7 +21,7 @@ class EntityService extends AbstractService {
       data
     }).then(res => {
       var entity = JSON.parse(res.body);
-      delete entity['__entityModel'];
+      delete entity.__entityModel;
       Util.removeRestInfoFromEntity(entity);
 
       return entity;

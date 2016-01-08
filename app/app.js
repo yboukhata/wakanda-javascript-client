@@ -17,11 +17,11 @@
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
 
-  ds.Company.query().then(function (e) {
-    e.entities[0].myEntityMethod().then(function (ee) {
-      console.log(ee);
-    });
-  });
+  // ds.Company.query().then(function (e) {
+  //   e.myCollectionMethod().then(function (ee) {
+  //     console.log(ee);
+  //   });
+  // });
 //   ds.Employee.query({pageSize: 1, filter: 'salary > 80000', select: 'employer.staff'}).then(function (er) {
 //     var e = er.entities[0];
 //     console.log(e);
@@ -55,15 +55,14 @@ WakJSC.getCatalog().then(function (ds) {
   //   });
   // });
 
-  // ds.Employee.find(2971317).then(function (employee) {
-  //   console.log(employee);
-  //   debugger;
-  //   employee.employer = null;
-  //   employee.salary = 1234;
-  //   employee.save().then(function (ee) {
-  //     console.log(ee);
-  //     ee.save();
-  //   })
-  // })
+  ds.Employee.find(2971317).then(function (employee) {
+    console.log(employee);
+    // debugger;
+    employee.delete().then(function (e) {
+      debugger;
+    });
+  }).catch(function () {
+    console.log('not found');
+  });
 
 });

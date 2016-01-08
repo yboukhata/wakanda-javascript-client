@@ -132,17 +132,17 @@ class DataClassBusiness extends AbstractBusiness {
     if (!dbo) {
       entity = null;
     }
-    if (dbo['__deferred']) {
+    if (dbo.__deferred) {
       entity = this._createEntity({
-        key: dbo['__deferred']['__KEY'],
+        key: dbo.__deferred.__KEY,
         deferred: true
       });
     }
     else {
       entity = this._createEntity({
-        key: dbo['__KEY']
+        key: dbo.__KEY
       });
-      entity['_stamp'] = dbo['__STAMP'];
+      entity._stamp = dbo.__STAMP;
 
       for (let attr of this.dataClass.attributes) {
 
@@ -182,18 +182,18 @@ class DataClassBusiness extends AbstractBusiness {
     if (!dbo) {
       collection = null;
     }
-    else if (dbo['__deferred']) {
+    else if (dbo.__deferred) {
       collection = this._createCollection({
         deferred: true
       });
     }
     else {
       collection = this._createCollection();
-      collection['_count'] = dbo['__COUNT'];
-      collection['_first'] = dbo['__FIRST'];
-      collection['_sent']  = dbo['__SENT'];
+      collection._count = dbo.__COUNT;
+      collection._first = dbo.__FIRST;
+      collection._sent  = dbo.__SENT;
 
-      for (let dboEntity of dbo['__ENTITIES']) {
+      for (let dboEntity of dbo.__ENTITIES) {
         collection.entities.push(this._presentationEntityFromDbo({
           dbo: dboEntity
         }));

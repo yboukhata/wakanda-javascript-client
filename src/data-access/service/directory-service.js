@@ -7,10 +7,10 @@ class DirectoryService extends AbstractService {
       uri: '/$directory/login',
       data: [username, password]
     })
-      .then(_ => {
+      .then(() => {
         return true;
       })
-      .catch(_ => {
+      .catch(() => {
         throw new Error('Directory.login: Unauthorized');
       });
   }

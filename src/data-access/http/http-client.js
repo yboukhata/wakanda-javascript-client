@@ -4,11 +4,11 @@ class HttpClient {
     this.prefix = apiPrefix;
   }
 
-  get({uri}) {
+  get() {
     throw new Error('HttpClient.get: Must be implemented');
   }
 
-  post({uri, data}) {
+  post() {
     throw new Error('HttpClient.post: Must be implemented');
   }
 }

@@ -20,21 +20,21 @@ class CollectionBusiness extends AbstractBusiness {
   }
 
   _addUserDefinedMethods() {
-    let _this = this;
+    // let _this = this;
     for (let method of this.dataClassBusiness.methods.collection) {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.collection[method] = (function() {
-        let params = Array.from(arguments);
-        return _this.callMethod(method, params);
+
+        throw new Error('Not yet implemented');
+        // let params = Array.from(arguments);
+        // return _this.callMethod(method, params);
       }).bind(this);
     }
   }
 
-  callMethod(methodName, parameters) {
-    //FIXME
-    throw new Error('Not yet implemented');
-    // return this.service.callMethod(methodName, parameters);
-  }
+  // callMethod(methodName, parameters) {
+  //   return this.service.callMethod(methodName, parameters);
+  // }
 }
 
 export default CollectionBusiness;
