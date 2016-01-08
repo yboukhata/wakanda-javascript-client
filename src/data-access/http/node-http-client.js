@@ -34,7 +34,7 @@ class NodeHttpClient extends HttpClient {
     return new Promise((resolve, reject) => {
       this.request(requestOptions, (error, response, body) => {
         if (error || response.statusCode >= 400) {
-          reject(error || response.statusMessage);
+          reject(error || {statusMessage: response.statusMessage, body: body});
         }
         else {
           resolve(new HttpResponse({

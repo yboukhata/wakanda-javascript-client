@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // WakJSC.catalog.get()
 //   .then(function (ds) {
 //     console.log(ds);
@@ -55,14 +57,20 @@ WakJSC.getCatalog().then(function (ds) {
   //   });
   // });
 
-  ds.Employee.find(2971317).then(function (employee) {
-    console.log(employee);
-    // debugger;
-    employee.delete().then(function (e) {
-      debugger;
-    });
-  }).catch(function () {
-    console.log('not found');
-  });
+  // ds.Employee.find(2971317).then(function (employee) {
+  //   console.log(employee);
+  //   // debugger;
+  //   employee.delete().then(function (e) {
+  //     debugger;
+  //   });
+  // }).catch(function () {
+  //   console.log('not found');
+  // });
 
+  ds.Employee.query({filter: 'firstName = :1', params: ['HARRY']}).then(function (collection) {
+    console.log(collection);
+  })
+  .catch(function (err) {
+    console.log(err);
+  });
 });

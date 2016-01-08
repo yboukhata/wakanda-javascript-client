@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 var isBrowser = new Function("try { return this === window; } catch(e) { return false; }");
 if (!isBrowser()) {
   var chai = require('chai');

@@ -20,4 +20,24 @@ module.exports = function(router) {
       res.status(400).json({});
     }
   });
+  router.get('/Employee', function (req, res) {
+    var collection;
+    if (req.query.$filter === '"ID > 0"') {
+      collection = require('./query/id-sup-0.json');
+      res.json(collection);
+    }
+    else if (req.query.$limit === '10') {
+      collection = require('./query/limit-10.json');
+      res.json(collection);
+    }
+    else if(req.query.$filter === '"firstName = :1"' && req.query.$params === '\'["ARON"]\'') {
+      collection = require('./query/firstname-aron.json');
+      res.json(collection);
+    }
+    else {
+      collection = require('./query/id-sup-0.json');
+      res.json(collection);
+      // res.json(req.query);
+    }
+  });
 };

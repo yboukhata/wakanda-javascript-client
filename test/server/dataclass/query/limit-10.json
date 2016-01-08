@@ -1,0 +1,178 @@
+{
+  "__entityModel": "Employee",
+  "__COUNT": 1013,
+  "__SENT": 10,
+  "__FIRST": 0,
+  "__ENTITIES": [
+    {
+      "__KEY": "2971305",
+      "__STAMP": 240,
+      "ID": 2971305,
+      "lastName": "Bar",
+      "firstName": "Foo",
+      "salary": 60000,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184202)",
+          "__KEY": "184202"
+        }
+      },
+      "salaryProcessed": "1941307.7943507943 baht",
+      "employerName": "Bag While Engineering",
+      "photo": null
+    },
+    {
+      "__KEY": "2971304",
+      "__STAMP": 6003,
+      "ID": 2971304,
+      "lastName": "bar",
+      "firstName": "toto",
+      "salary": 60000,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184202)",
+          "__KEY": "184202"
+        }
+      },
+      "salaryProcessed": "1941307.7943507943 baht",
+      "employerName": "Bag While Engineering",
+      "photo": null
+    },
+    {
+      "__KEY": "2971302",
+      "__STAMP": 5962,
+      "ID": 2971302,
+      "lastName": "Bar",
+      "firstName": "Foo",
+      "salary": 82500,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184202)",
+          "__KEY": "184202"
+        }
+      },
+      "salaryProcessed": "2669298.2172323423 baht",
+      "employerName": "Bag While Engineering",
+      "photo": null
+    },
+    {
+      "__KEY": "2971301",
+      "__STAMP": 6043,
+      "ID": 2971301,
+      "lastName": "VEGGGAR",
+      "firstName": "REFUGIO",
+      "salary": 86982,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184201)",
+          "__KEY": "184201"
+        }
+      },
+      "salaryProcessed": "2814313.9094703463 baht",
+      "employerName": "Kilo Data Ireland",
+      "photo": null
+    },
+    {
+      "__KEY": "2971300",
+      "__STAMP": 6100,
+      "ID": 2971300,
+      "lastName": "CLIMIU",
+      "firstName": "ABRAHAM",
+      "salary": 84923,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184201)",
+          "__KEY": "184201"
+        }
+      },
+      "salaryProcessed": "2747694.6969942083 baht",
+      "employerName": "Kilo Data Ireland",
+      "photo": null
+    },
+    {
+      "__KEY": "2971299",
+      "__STAMP": 5951,
+      "ID": 2971299,
+      "lastName": "JETOCESA",
+      "firstName": "ROSELLA",
+      "salary": 113393,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184201)",
+          "__KEY": "184201"
+        }
+      },
+      "salaryProcessed": "3668845.24541366 baht",
+      "employerName": "Kilo Data Ireland",
+      "photo": null
+    },
+    {
+      "__KEY": "2971298",
+      "__STAMP": 5941,
+      "ID": 2971298,
+      "lastName": "LUADTKA",
+      "firstName": "GALE",
+      "salary": 116390,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184201)",
+          "__KEY": "184201"
+        }
+      },
+      "salaryProcessed": "3765813.5697414824 baht",
+      "employerName": "Kilo Data Ireland",
+      "photo": null
+    },
+    {
+      "__KEY": "2971297",
+      "__STAMP": 5941,
+      "ID": 2971297,
+      "lastName": "HUPENA",
+      "firstName": "SHANNON",
+      "salary": 25250,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184201)",
+          "__KEY": "184201"
+        }
+      },
+      "salaryProcessed": "816967.0301226259 baht",
+      "employerName": "Kilo Data Ireland",
+      "photo": null
+    },
+    {
+      "__KEY": "2971296",
+      "__STAMP": 5941,
+      "ID": 2971296,
+      "lastName": "VUPIFE",
+      "firstName": "RANDAL",
+      "salary": 26027,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184201)",
+          "__KEY": "184201"
+        }
+      },
+      "salaryProcessed": "842106.9660594687 baht",
+      "employerName": "Kilo Data Ireland",
+      "photo": null
+    },
+    {
+      "__KEY": "2971295",
+      "__STAMP": 5941,
+      "ID": 2971295,
+      "lastName": "GIBAMOWO",
+      "firstName": "ARON",
+      "salary": 60631,
+      "employer": {
+        "__deferred": {
+          "uri": "/rest/Company(184201)",
+          "__KEY": "184201"
+        }
+      },
+      "salaryProcessed": "1961723.8813213834 baht",
+      "employerName": "Kilo Data Ireland",
+      "photo": null
+    }
+  ]
+}

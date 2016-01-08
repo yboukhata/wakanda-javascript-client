@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 var isBrowser = new Function("try { return this === window; } catch(e) { return false; }");
 if (!isBrowser()) {
   var chai = require('chai');
@@ -12,15 +14,15 @@ if (!isBrowser()) {
 
 describe('Dataclass API', function() {
 
-  describe('find method', function () {
-
-    var ds;
-    before(function (done) {
-      WakJSC.getCatalog().then(function (ds_) {
-        ds = ds_;
-        done();
-      });
+  var ds;
+  before(function (done) {
+    WakJSC.getCatalog().then(function (ds_) {
+      ds = ds_;
+      done();
     });
+  });
+
+  describe('find method', function () {
 
     it('should be defined', function () {
       expect(ds.Employee.find).to.be.a('function');
@@ -77,6 +79,67 @@ describe('Dataclass API', function() {
         expect(employee.employer.name).to.be.a('string');
         expect(employee.employer.staff).to.be.an('object');
         expect(employee.employer.staff.entities[0].firstName).to.be.a('string');
+      });
+    });
+  });
+
+  describe('query method', function () {
+
+    it ('should be defined', function () {
+      expect(ds.Employee.query).to.be.a('function');
+    });
+
+    it('should return a promise', function () {
+      expect(ds.Employee.query({filter: 'ID > 0'})).to.be.a('promise');
+    });
+
+    it('should retrieve a collection of entity', function () {
+      return ds.Employee.query({filter: 'ID > 0'}).then(function (collection) {
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+
+        var employee = collection.entities[0];
+        expect(employee).to.be.an('object');
+        expect(employee.ID).to.be.an('number');
+        expect(employee.firstName).to.be.a('string');
+      });
+    });
+
+    it('should works if called without options', function () {
+      return ds.Employee.query().then(function (collection) {
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+      });
+    });
+
+    it('should not expand related entities by default', function () {
+      return ds.Employee.query({filter: 'ID > 0'}).then(function (collection) {
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+
+        var employee = collection.entities[0];
+        expect(employee).to.be.an('object');
+        expect(employee.employer).to.be.an('object');
+        expect(employee.employer.name).to.be.undefined;
+      });
+    });
+
+    it('should retrieve at most pageSize entity', function () {
+      return ds.Employee.query({pageSize: 10}).then(function (collection) {
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+        expect(collection.entities.length).to.be.at.most(10);
+      });
+    });
+
+    it('should filter query with parameters placeholder', function () {
+      return ds.Employee.query({filter: 'firstName = :1', params: ['ARON']}).then(function (collection) {
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+
+        var employee = collection.entities[0];
+        expect(employee).to.be.an('object');
+        expect(employee.firstName).to.be.equal('ARON');
       });
     });
   });
