@@ -37,6 +37,21 @@ class EntityService extends AbstractService {
       return obj.result || null;
     });
   }
+
+  delete() {
+    return this.httpClient.get({
+      uri: '/' + this.dataClass.name + '(' + this.entity._key + ')?$method=delete'
+    }).then(res => {
+      let obj = JSON.parse(res.body);
+
+      if (!(obj && obj.ok === true)) {
+        return Promise.reject();
+      }
+      else {
+        return true;
+      }
+    });
+  }
 }
 
 export default EntityService;
