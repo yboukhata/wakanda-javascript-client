@@ -20,6 +20,7 @@ class EntityBusiness extends AbstractBusiness {
   _decorateEntity() {
     this.entity.save = this.save.bind(this);
     this.entity.delete = this.delete.bind(this);
+    this.entity.fetch = this.fetch.bind(this);
 
     this._addUserDefinedMethods();
   }
@@ -33,6 +34,13 @@ class EntityBusiness extends AbstractBusiness {
         return _this.callMethod(method, params);
       }).bind(this);
     }
+  }
+
+  fetch(options) {
+    return this.dataClassBusiness.find(this.entity._key, options).then(fresherEntity => {
+      this._refreshEntity({fresherEntity});
+      return this.entity;
+    });
   }
 
   callMethod(methodName, parameters) {
