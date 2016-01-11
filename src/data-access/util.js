@@ -85,9 +85,11 @@ class Util {
 
   static removeRestInfoFromEntity(entity) {
     for (let prop in entity) {
-      let p = entity[prop];
-      if (p && p.__deferred) {
-        delete p.__deferred.uri;
+      if (Object.prototype.hasOwnProperty.call(entity, prop)) {
+        let p = entity[prop];
+        if (p && p.__deferred) {
+          delete p.__deferred.uri;
+        }
       }
     }
   }

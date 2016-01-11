@@ -78,7 +78,9 @@ class DataClassBusiness extends AbstractBusiness {
     });
 
     for (let prop in entityToAttach) {
-      entity[prop] = entityToAttach[prop];
+      if (Object.prototype.hasOwnProperty.call(entityToAttach, prop)) {
+        entity[prop] = entityToAttach[prop];
+      }
     }
 
     return entity;

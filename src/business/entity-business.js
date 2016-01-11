@@ -89,7 +89,9 @@ class EntityBusiness extends AbstractBusiness {
 
   _refreshEntity({fresherEntity}) {
     for (let prop in fresherEntity) {
-      this.entity[prop] = fresherEntity[prop];
+      if (Object.prototype.hasOwnProperty.call(fresherEntity, prop)) {
+        this.entity[prop] = fresherEntity[prop];
+      }
     }
   }
 
