@@ -34,6 +34,18 @@ module.exports = function(router) {
       collection = require('./query/firstname-aron.json');
       res.json(collection);
     }
+    else if(req.query.$expand === 'employer.staff' && req.query.$limit === '3') {
+      collection = require('./query/expand-2-levels.json');
+      res.json(collection);
+    }
+    else if(req.query.$orderby === 'lastName' && req.query.$limit === '20') {
+      collection = require('./query/order-lastname.json');
+      res.json(collection);
+    }
+    else if (req.query.$orderby === 'salary desc' && req.query.$limit === '20') {
+      collection = require('./query/order-salary-desc.json');
+      res.json(collection);
+    }
     else {
       collection = require('./query/id-sup-0.json');
       res.json(collection);

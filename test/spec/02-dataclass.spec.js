@@ -142,5 +142,53 @@ describe('Dataclass API', function() {
         expect(employee.firstName).to.be.equal('ARON');
       });
     });
+
+    it ('should expand related attributes on several levels', function () {
+      return ds.Employee.query({select: 'employer.staff', pageSize: 3}).then(function (collection) {
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+        expect(collection.entities.length).to.be.at.most(3);
+
+        var entity = collection.entities[0];
+        expect(entity).to.be.an('object');
+        expect(entity.firstName).to.be.a('string');
+        expect(entity.employer).to.be.an('object');
+        expect(entity.employer.name).to.be.a('string');
+        expect(entity.employer.staff).to.be.an('object');
+        expect(entity.employer.staff.entities).to.be.an('array');
+        expect(entity.employer.staff.entities.length).to.be.at.least(1);
+
+        var subEntity = entity.employer.staff.entities[0];
+        expect(subEntity).to.be.an('object');
+        expect(subEntity.firstName).to.be.a('string');
+      });
+    });
+
+    it('should sort result with orderBy', function () {
+      return ds.Employee.query({orderBy: 'lastName', pageSize: 20}).then(function (collection) {
+
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+        expect(collection.entities.length).to.be.at.least(2);
+        expect(collection.entities.length).to.be.at.most(20);
+
+        for (var i = 0; i < collection.entities.length - 1; i++) {
+          expect(collection.entities[i].lastName).to.be.at.most(collection.entities[i + 1].lastName);
+        }
+      });
+    });
+
+    it ('should sort result in reverse order', function () {
+      return ds.Employee.query({orderBy: 'salary desc', pageSize: 20}).then(function (collection) {
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+        expect(collection.entities.length).to.be.at.least(2);
+        expect(collection.entities.length).to.be.at.most(20);
+
+        for (var i = 0; i < collection.entities.length - 1; i++) {
+          expect(collection.entities[i].salary).to.be.at.least(collection.entities[i + 1].salary);
+        }
+      });
+    })
   });
 });
