@@ -1,7 +1,7 @@
 import AbstractBusiness from './abstract-business';
 import EntityService from '../data-access/service/entity-service';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
-import {Entity} from '../presentation/entity';
+import Entity from '../presentation/entity';
 
 class EntityBusiness extends AbstractBusiness {
   constructor({wakJSC, entity, dataClass, dataClassBusiness}) {

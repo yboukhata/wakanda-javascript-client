@@ -2,7 +2,7 @@ import AbstractBusiness from './abstract-business';
 import EntityBusiness from './entity-business';
 import DataClassService from '../data-access/service/dataclass-service';
 import CollectionBusiness from './collection-business';
-import {Entity, DeferredEntity} from '../presentation/entity';
+import Entity from '../presentation/entity';
 import {Collection, DeferredCollection} from '../presentation/collection';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 
@@ -85,15 +85,8 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   _createEntity({key, deferred}) {
-    var entity;
 
-    if (deferred === true) {
-      entity = new DeferredEntity({key});
-    }
-    else {
-      entity = new Entity({key});
-    }
-
+    let entity = new Entity({key, deferred});
     let business = new EntityBusiness({
       wakJSC: this.wakJSC,
       dataClass: this.dataClass,

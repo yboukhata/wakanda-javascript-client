@@ -1,10 +1,8 @@
 class Entity {
-  constructor({key}) {
+  constructor({key, deferred}) {
     this._key = key;
+    this._deferred = deferred === true;
   }
 }
 
-class DeferredEntity extends Entity {
-}
-
-export {Entity, DeferredEntity};
+export default Entity;
