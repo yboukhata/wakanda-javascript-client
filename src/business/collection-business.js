@@ -23,12 +23,12 @@ class CollectionBusiness extends AbstractBusiness {
     // let _this = this;
     for (let method of this.dataClassBusiness.methods.collection) {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
-      this.collection[method] = (function() {
+      this.collection[method] = function() {
 
         throw new Error('Not yet implemented');
         // let params = Array.from(arguments);
         // return _this.callMethod(method, params);
-      }).bind(this);
+      };
     }
   }
 

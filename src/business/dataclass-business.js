@@ -37,10 +37,10 @@ class DataClassBusiness extends AbstractBusiness {
     let _this = this;
     for (let method of this.methods.dataClass) {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
-      this.dataClass[method] = (function() {
+      this.dataClass[method] = function() {
         let params = Array.from(arguments);
         return _this.callMethod(method, params);
-      });
+      };
     }
   }
 

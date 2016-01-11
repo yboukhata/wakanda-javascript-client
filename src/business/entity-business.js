@@ -29,10 +29,10 @@ class EntityBusiness extends AbstractBusiness {
     let _this = this;
     for (let method of this.dataClassBusiness.methods.entity) {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
-      this.entity[method] = (function() {
+      this.entity[method] = function() {
         let params = Array.from(arguments);
         return _this.callMethod(method, params);
-      });
+      };
     }
   }
 
