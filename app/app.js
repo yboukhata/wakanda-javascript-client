@@ -3,14 +3,9 @@
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
 
-  ds.Employee.query({pageSize: 1}).then(function (collection) {
-    var e = collection.entities[0];
-
-    console.log(e);
-
-    e.employer.fetch().then(function (ee) {
-      console.log(e);
+  ds.Company.query().then(function (e) {
+    e.entities[0].myEntityMethod().then(function (ee) {
       console.log(ee);
-    });
-  });
+    })
+  })
 });

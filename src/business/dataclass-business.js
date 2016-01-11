@@ -40,7 +40,7 @@ class DataClassBusiness extends AbstractBusiness {
       this.dataClass[method] = (function() {
         let params = Array.from(arguments);
         return _this.callMethod(method, params);
-      }).bind(this);
+      });
     }
   }
 
