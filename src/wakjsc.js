@@ -1,26 +1,11 @@
-import BrowserHttpClient from './data-access/http/browser-http-client';
-import NodeHttpClient from './data-access/http/node-http-client';
 import CatalogBusiness from './business/catalog-business';
 import DirectoryBusiness from './business/directory-business';
 
 class WakJSC {
   constructor(host) {
-    //Context detection. Are we on node or a browser ?
-    let isBrowser = new Function("try { return this === window; } catch(e) { return false; }");
-
-    var httpClient;
-    if (isBrowser()) {
-      httpClient = new BrowserHttpClient({
-        apiPrefix: '/rest'
-      });
-    }
-    else {
-      httpClient = new NodeHttpClient({
-        apiPrefix: host + '/rest'
-      });
-    }
-
-    this._httpClient = httpClient;
+    this._httpClient = new WakJSC.HttpClient({
+      apiPrefix: (host || '') + '/rest'
+    });
 
     let directoryBusiness = new DirectoryBusiness({
       wakJSC: this
