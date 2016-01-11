@@ -1,10 +1,7 @@
 class Collection {
-  constructor() {
+  constructor({deferred}) {
     this.entities = [];
+    this._deferred = deferred === true;
   }
 }
-
-class DeferredCollection extends Collection {
-}
-
-export {Collection, DeferredCollection};
+export default Collection;

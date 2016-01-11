@@ -3,7 +3,7 @@ import EntityBusiness from './entity-business';
 import DataClassService from '../data-access/service/dataclass-service';
 import CollectionBusiness from './collection-business';
 import Entity from '../presentation/entity';
-import {Collection, DeferredCollection} from '../presentation/collection';
+import Collection from '../presentation/collection';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
@@ -86,7 +86,10 @@ class DataClassBusiness extends AbstractBusiness {
 
   _createEntity({key, deferred}) {
 
-    let entity = new Entity({key, deferred});
+    let entity = new Entity({
+      key,
+      deferred
+    });
     let business = new EntityBusiness({
       wakJSC: this.wakJSC,
       dataClass: this.dataClass,
@@ -99,15 +102,10 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   _createCollection(options) {
-    var collection;
 
-    if (options && options.deferred === true) {
-      collection = new DeferredCollection();
-    }
-    else {
-      collection = new Collection();
-    }
-
+    let collection = new Collection({
+        deferred: options.deferred
+      });
     let business = new CollectionBusiness({
       wakJSC: this.wakJSC,
       dataClass: this.dataClass,
@@ -181,7 +179,7 @@ class DataClassBusiness extends AbstractBusiness {
       });
     }
     else {
-      collection = this._createCollection();
+      collection = this._createCollection({});
       collection._count = dbo.__COUNT;
       collection._first = dbo.__FIRST;
       collection._sent  = dbo.__SENT;
