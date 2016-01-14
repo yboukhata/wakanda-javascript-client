@@ -2,7 +2,7 @@ import AbstractBusiness from './abstract-business';
 import CollectionService from '../data-access/service/collection-service';
 
 class CollectionBusiness extends AbstractBusiness {
-  constructor({wakJSC, dataClass, collection, dataClassBusiness}) {
+  constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri}) {
     super({wakJSC});
 
     this.collection = collection;
@@ -11,12 +11,28 @@ class CollectionBusiness extends AbstractBusiness {
     this.service = new CollectionService({
       wakJSC,
       collection,
-      dataClass
+      dataClass,
+      collectionUri
     });
   }
 
   _decorateCollection() {
+    this.collection.fetch = this.fetch.bind(this);
+
     this._addUserDefinedMethods();
+  }
+
+  fetch(options) {
+    let opt = options || {};
+
+    return this.service.fetch(opt).then(collectionDbo => {
+      let fresherCollection = this.dataClassBusiness._presentationCollectionFromDbo({
+        dbo: collectionDbo
+      });
+
+      this._refreshCollection({fresherCollection});
+      return this.collection;
+    });
   }
 
   _addUserDefinedMethods() {
@@ -35,6 +51,14 @@ class CollectionBusiness extends AbstractBusiness {
   // callMethod(methodName, parameters) {
   //   return this.service.callMethod(methodName, parameters);
   // }
+
+  _refreshCollection({fresherCollection}) {
+    for (let prop in fresherCollection) {
+      if (Object.prototype.hasOwnProperty.call(fresherCollection, prop)) {
+        this.collection[prop] = fresherCollection[prop];
+      }
+    }
+  }
 }
 
 export default CollectionBusiness;

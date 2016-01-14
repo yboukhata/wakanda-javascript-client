@@ -3,9 +3,10 @@
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
 
-  ds.Employee.query().then(function (e) {
-    e.entities[0].employer.fetch().then(function (ee) {
-      console.log(ee);
+  ds.Company.find(195176).then(function (company) {
+    console.log(company);
+    company.staff.fetch().then(function () {
+      console.log(company);
     })
-  })
+  });
 });

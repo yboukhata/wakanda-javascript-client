@@ -87,7 +87,7 @@ class Util {
     for (let prop in entity) {
       if (Object.prototype.hasOwnProperty.call(entity, prop)) {
         let p = entity[prop];
-        if (p && p.__deferred) {
+        if (p && p.__deferred && p.__deferred.__KEY) { //Do not remove uri for collection
           delete p.__deferred.uri;
         }
       }

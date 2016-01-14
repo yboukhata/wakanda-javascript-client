@@ -103,16 +103,17 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _createCollection(options) {
+  _createCollection({uri, deferred}) {
 
     let collection = new Collection({
-        deferred: options.deferred
+        deferred: deferred
       });
     let business = new CollectionBusiness({
       wakJSC: this.wakJSC,
       dataClass: this.dataClass,
       dataClassBusiness: this,
-      collection
+      collection,
+      collectionUri: uri
     });
     business._decorateCollection();
 
@@ -177,11 +178,14 @@ class DataClassBusiness extends AbstractBusiness {
     }
     else if (dbo.__deferred) {
       collection = this._createCollection({
-        deferred: true
+        deferred: true,
+        uri: dbo.__deferred.uri
       });
     }
     else {
-      collection = this._createCollection({});
+      collection = this._createCollection({
+        uri: dbo.__ENTITYSET
+      });
       collection._count = dbo.__COUNT;
       collection._first = dbo.__FIRST;
       collection._sent  = dbo.__SENT;
