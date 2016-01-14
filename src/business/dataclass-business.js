@@ -49,7 +49,9 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   find(id, options) {
-    return this.service.find(id, options).then(entity => {
+    let opt = options || {};
+
+    return this.service.find(id, opt).then(entity => {
       return this._presentationEntityFromDbo({
         dbo: entity
       });
@@ -57,7 +59,9 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   query(options) {
-    return this.service.query(options).then(collection => {
+    let opt = options || {};
+
+    return this.service.query(opt).then(collection => {
       return this._presentationCollectionFromDbo({
         dbo: collection
       });

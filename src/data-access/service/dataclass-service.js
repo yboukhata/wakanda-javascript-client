@@ -30,6 +30,13 @@ class DataClassService extends AbstractService {
   }
 
   query(options) {
+
+    if (options.method && options.method.length > 0) {
+      throw new Error('DataClass.query can not have "method" option');
+    }
+
+    options.method = 'entityset';
+
     let optString = Util.handleOptions(options);
 
     return this.httpClient.get({
