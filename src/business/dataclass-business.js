@@ -126,12 +126,15 @@ class DataClassBusiness extends AbstractBusiness {
     return collection;
   }
 
-  _createMedia({uri}) {
+  _createMedia({uri, isImage, attributeName, entity}) {
     let media = new Media({uri});
     let business = new MediaBusiness({
       wakJSC: this.wakJSC,
       media,
-      dataClassBusiness: this
+      dataClassBusiness: this,
+      isImage,
+      attributeName,
+      entity
     });
 
     business._decorateMedia();
@@ -184,7 +187,12 @@ class DataClassBusiness extends AbstractBusiness {
             else {
               uri = null;
             }
-            entity[attr.name] = this._createMedia({uri});
+            entity[attr.name] = this._createMedia({
+              uri,
+              isImage: attr.type === 'image',
+              attributeName: attr.name,
+              entity
+            });
           }
           else {
             entity[attr.name] = dboAttribute || null;
@@ -195,7 +203,10 @@ class DataClassBusiness extends AbstractBusiness {
           //to handle the upload part
           if (attr.type === 'image' || attr.type === 'blob') {
             entity[attr.name] = this._createMedia({
-              uri: null
+              uri: null,
+              isImage: attr.type === 'image',
+              attributeName: attr.name,
+              entity
             });
           }
           else {
