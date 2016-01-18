@@ -2,9 +2,11 @@ import AbstractBusiness from './abstract-business';
 import EntityBusiness from './entity-business';
 import DataClassService from '../data-access/service/dataclass-service';
 import CollectionBusiness from './collection-business';
+import MediaBusiness from './media-business';
 import Entity from '../presentation/entity';
 import Collection from '../presentation/collection';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
+import Media from '../presentation/media';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
 let _dataClassBusinessMap = new Map();
@@ -124,6 +126,19 @@ class DataClassBusiness extends AbstractBusiness {
     return collection;
   }
 
+  _createMedia({uri}) {
+    let media = new Media({uri});
+    let business = new MediaBusiness({
+      wakJSC: this.wakJSC,
+      media,
+      dataClassBusiness: this
+    });
+
+    business._decorateMedia();
+
+    return media;
+  }
+
   _presentationEntityFromDbo({dbo}) {
     var entity;
 
@@ -161,12 +176,31 @@ class DataClassBusiness extends AbstractBusiness {
               dbo: dboAttribute
             });
           }
+          else if (attr.type === 'image' || attr.type === 'blob') {
+            var uri;
+            if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
+              uri = dboAttribute.__deferred.uri;
+            }
+            else {
+              uri = null;
+            }
+            entity[attr.name] = this._createMedia({uri});
+          }
           else {
             entity[attr.name] = dboAttribute || null;
           }
         }
         else {
-          entity[attr.name] = null;
+          //Even if the property is null, we need a media for this kind of attributes
+          //to handle the upload part
+          if (attr.type === 'image' || attr.type === 'blob') {
+            entity[attr.name] = this._createMedia({
+              uri: null
+            });
+          }
+          else {
+            entity[attr.name] = null;
+          }
         }
       }
     }
