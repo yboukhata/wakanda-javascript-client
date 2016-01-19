@@ -7,6 +7,7 @@ import Entity from '../presentation/entity';
 import Collection from '../presentation/collection';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 import Media from '../presentation/media';
+import Const from '../const';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
 let _dataClassBusinessMap = new Map();
@@ -63,9 +64,14 @@ class DataClassBusiness extends AbstractBusiness {
   query(options) {
     let opt = options || {};
 
+    if (!opt.pageSize) {
+      opt.pageSize = Const.DEFAULT_PAGE_SIZE;
+    }
+
     return this.service.query(opt).then(collection => {
       return this._presentationCollectionFromDbo({
-        dbo: collection
+        dbo: collection,
+        pageSize: opt.pageSize
       });
     });
   }
@@ -109,7 +115,7 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _createCollection({uri, deferred}) {
+  _createCollection({uri, deferred, pageSize}) {
 
     let collection = new Collection({
         deferred: deferred
@@ -119,7 +125,8 @@ class DataClassBusiness extends AbstractBusiness {
       dataClass: this.dataClass,
       dataClassBusiness: this,
       collection,
-      collectionUri: uri
+      collectionUri: uri,
+      pageSize
     });
     business._decorateCollection();
 
@@ -219,7 +226,7 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _presentationCollectionFromDbo({dbo}) {
+  _presentationCollectionFromDbo({dbo, pageSize}) {
     var collection;
 
     if (!dbo) {
@@ -233,7 +240,8 @@ class DataClassBusiness extends AbstractBusiness {
     }
     else {
       collection = this._createCollection({
-        uri: dbo.__ENTITYSET
+        uri: dbo.__ENTITYSET,
+        pageSize: pageSize || dbo.__ENTITIES.length
       });
       collection._count = dbo.__COUNT;
       collection._first = dbo.__FIRST;

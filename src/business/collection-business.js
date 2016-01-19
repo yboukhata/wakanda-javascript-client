@@ -1,8 +1,9 @@
 import AbstractBusiness from './abstract-business';
 import CollectionService from '../data-access/service/collection-service';
+import Const from '../const';
 
 class CollectionBusiness extends AbstractBusiness {
-  constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri}) {
+  constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri, pageSize}) {
     super({wakJSC});
 
     this.collection = collection;
@@ -14,6 +15,7 @@ class CollectionBusiness extends AbstractBusiness {
       dataClass,
       collectionUri
     });
+    this.pageSize = pageSize;
   }
 
   _decorateCollection() {
@@ -26,6 +28,11 @@ class CollectionBusiness extends AbstractBusiness {
   fetch(options) {
     let opt = options || {};
 
+    if (!opt.pageSize) {
+      opt.pageSize = Const.DEFAULT_PAGE_SIZE;
+    }
+    this.pageSize = opt.pageSize;
+
     return this.service.fetch(opt).then(collectionDbo => {
       let fresherCollection = this.dataClassBusiness._presentationCollectionFromDbo({
         dbo: collectionDbo
@@ -37,9 +44,14 @@ class CollectionBusiness extends AbstractBusiness {
   }
 
   nextPage() {
+
+    if (this.collection._deferred === true) {
+      throw new Error('Collection.nextPage: can not call nextPage on a deferred collection');
+    }
+
     let options = {
       start: this.collection._first + this.collection._sent,
-      pageSize: this.collection._sent
+      pageSize: this.pageSize
     };
 
     return this.fetch(options);
