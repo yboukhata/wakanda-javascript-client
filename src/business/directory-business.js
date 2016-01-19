@@ -9,7 +9,17 @@ class DirectoryBusiness extends AbstractBusiness {
   }
 
   login(username, password) {
-    return this.service.login(username, password);
+    return this.service.login(username, password)
+      .catch(() => {
+        throw new Error('Directory.login: Unauthorized');
+      });
+  }
+
+  logout() {
+    return this.service.logout()
+      .catch(() => {
+        throw new Error('Directory.logout: logout failed');
+      });
   }
 }
 

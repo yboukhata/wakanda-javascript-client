@@ -6,13 +6,24 @@ class DirectoryService extends AbstractService {
     return this.httpClient.post({
       uri: '/$directory/login',
       data: [username, password]
-    })
-      .then(() => {
+    }).then(() => {
         return true;
-      })
-      .catch(() => {
-        throw new Error('Directory.login: Unauthorized');
       });
+  }
+
+  logout() {
+    return this.httpClient.get({
+      uri: '/$directory/logout'
+    }).then(res => {
+      let obj = JSON.parse(res.body);
+      if (obj.result) {
+        if (obj.result === true) {
+          return true;
+        }
+      }
+
+      return Promise.reject();
+    });
   }
 }
 
