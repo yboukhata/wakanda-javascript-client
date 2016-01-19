@@ -21,6 +21,16 @@ class DirectoryBusiness extends AbstractBusiness {
         throw new Error('Directory.logout: logout failed');
       });
   }
+
+  currentUser() {
+    return this.service.currentUser()
+      .then(dbo => {
+        return dbo;
+      })
+      .catch(() => {
+        throw new Error('Directory.currentUser: user is not logged in');
+      });
+  }
 }
 
 export default DirectoryBusiness;

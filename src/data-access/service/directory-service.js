@@ -25,6 +25,22 @@ class DirectoryService extends AbstractService {
       return Promise.reject();
     });
   }
+
+  currentUser() {
+    return this.httpClient.get({
+      uri: '/$directory/currentUser'
+    })
+      .then(res => {
+        let obj = JSON.parse(res.body);
+
+        if (obj.result && obj.result.ID) {
+          return obj.result;
+        }
+        else {
+          return Promise.reject();
+        }
+      });
+  }
 }
 
 export default DirectoryService;

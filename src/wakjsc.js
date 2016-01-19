@@ -17,6 +17,9 @@ class WakJSC {
       },
       logout: () => {
         return directoryBusiness.logout();
+      },
+      currentUser: () => {
+        return directoryBusiness.currentUser();
       }
     };
   }
