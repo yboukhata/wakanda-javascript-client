@@ -24,6 +24,11 @@ class MediaBusiness extends AbstractBusiness {
   }
 
   upload(file, mimeType) {
+
+    if (!this.entity._key) {
+      throw new Error('Media.upload: entity must be saved before uploading a media');
+    }
+
     return this.service.upload(file, mimeType).then(dbo => {
       return dbo; //FIXME
     }).then(() => {
@@ -33,6 +38,11 @@ class MediaBusiness extends AbstractBusiness {
   }
 
   delete() {
+
+    if (!this.entity._key) {
+      throw new Error('Media.upload: entity must be saved before deleting a media');
+    }
+
     return this.service.delete().then(() => {
       //FIXME - crappy, force a refresh of the entity to get proper stamp and media uri
       return this.entity.fetch();
