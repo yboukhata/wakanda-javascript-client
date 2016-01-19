@@ -1,22 +1,24 @@
 /* eslint-disable */
 
-WakJSC.getCatalog().then(function (ds) {
+WakJSC.getCatalog().then(function(ds) {
   console.log(ds);
 
-  ds.Company.query({pageSize: 10}).then(function (c) {
+  ds.Company.query({
+    pageSize: 100
+  }).then(function(c) {
+
     console.log(c);
-    debugger;
-    c.nextPage().then(function () {
+    c.nextPage().then(function() {
       console.log(c);
-      debugger;
-      c.nextPage().then(function () {
+      c.nextPage().then(function() {
         console.log(c);
-        debugger;
-        c.nextPage().then(function () {
+        c.prevPage().then(function() {
           console.log(c);
-          debugger;
-        });
-      });
-    });
+          c.prevPage().then(function() {
+            console.log(c);
+          })
+        })
+      })
+    })
   })
 });

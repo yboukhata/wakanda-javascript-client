@@ -21,6 +21,7 @@ class CollectionBusiness extends AbstractBusiness {
   _decorateCollection() {
     this.collection.fetch = this.fetch.bind(this);
     this.collection.nextPage = this.nextPage.bind(this);
+    this.collection.prevPage = this.prevPage.bind(this);
 
     this._addUserDefinedMethods();
   }
@@ -50,7 +51,21 @@ class CollectionBusiness extends AbstractBusiness {
     }
 
     let options = {
-      start: this.collection._first + this.collection._sent,
+      start: this.collection._first + this.pageSize,
+      pageSize: this.pageSize
+    };
+
+    return this.fetch(options);
+  }
+
+  prevPage() {
+
+    if (this.collection._deferred === true) {
+      throw new Error('Collection.prevPage: can not call prevPage on a deferred collection');
+    }
+
+    let options = {
+      start: this.collection._first - this.pageSize,
       pageSize: this.pageSize
     };
 
