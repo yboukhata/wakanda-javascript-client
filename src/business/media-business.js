@@ -18,6 +18,11 @@ class MediaBusiness extends AbstractBusiness {
     });
   }
 
+  _decorateMedia() {
+    this.media.upload = this.upload.bind(this);
+    this.media.delete = this.delete.bind(this);
+  }
+
   upload(file, mimeType) {
     return this.service.upload(file, mimeType).then(dbo => {
       return dbo; //FIXME
@@ -27,8 +32,11 @@ class MediaBusiness extends AbstractBusiness {
     });
   }
 
-  _decorateMedia() {
-    this.media.upload = this.upload.bind(this);
+  delete() {
+    return this.service.delete().then(() => {
+      //FIXME - crappy, force a refresh of the entity to get proper stamp and media uri
+      return this.entity.fetch();
+    });
   }
 }
 

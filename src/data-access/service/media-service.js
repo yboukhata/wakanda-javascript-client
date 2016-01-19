@@ -26,6 +26,22 @@ class MediaService extends AbstractService {
     });
   }
 
+  delete() {
+    var uri = '/' + this.dataClassName + '(' + this.entity._key + ')';
+    var data = {
+      __KEY: this.entity._key,
+      __STAMP: this.entity._stamp
+    };
+
+    data[this.attributeName] = null;
+
+    //FIXME - crappy
+    return this.httpClient.post({
+      uri,
+      data
+    });
+  }
+
   _buildUri() {
     return '/' + this.dataClassName + '(' + this.entity._key + ')'
      + '/' + this.attributeName;
