@@ -32,10 +32,11 @@ class CatalogBusiness extends AbstractBusiness {
             case 'storage':
             case 'calculated':
             case 'alias':
+              let readOnly = attr.readOnly || (attr.type === 'image' || attr.type === 'blob');
               attributes.push(new Attribute({
                 name: attr.name,
                 type: attr.type,
-                readOnly: attr.readOnly
+                readOnly
               }));
               break;
             case 'relatedEntities':
