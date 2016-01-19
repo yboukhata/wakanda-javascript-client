@@ -16,13 +16,12 @@ class DirectoryService extends AbstractService {
       uri: '/$directory/logout'
     }).then(res => {
       let obj = JSON.parse(res.body);
-      if (obj.result) {
-        if (obj.result === true) {
-          return true;
-        }
+      if (obj.result && obj.result === true) {
+        return true;
       }
-
-      return Promise.reject();
+      else {
+        return Promise.reject();
+      }
     });
   }
 
@@ -40,6 +39,22 @@ class DirectoryService extends AbstractService {
           return Promise.reject();
         }
       });
+  }
+
+  currentUserBelongsTo(group) {
+    return this.httpClient.post({
+      uri: '/$directory/currentUserBelongsTo',
+      data: [group]
+    }).then(res => {
+      let obj = JSON.parse(res.body);
+
+      if (obj && obj.result && obj.result === true) {
+        return true;
+      }
+      else {
+        return Promise.reject();
+      }
+    });
   }
 }
 

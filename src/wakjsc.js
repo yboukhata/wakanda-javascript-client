@@ -20,6 +20,9 @@ class WakJSC {
       },
       currentUser: () => {
         return directoryBusiness.currentUser();
+      },
+      currentUserBelongsTo: (group) => {
+        return directoryBusiness.currentUserBelongsTo(group);
       }
     };
   }

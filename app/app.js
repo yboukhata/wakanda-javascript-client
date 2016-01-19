@@ -4,13 +4,11 @@ WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
 
   WakJSC.directory.login('bar', 'bar').then(function (e) {
-    WakJSC.directory.logout().then(function () {
-      WakJSC.directory.currentUser().then(function (user) {
-        console.log(user);
-      });
+    WakJSC.directory.currentUserBelongsTo('Admins').then(function (ee) {
+      console.log(ee);
     });
   })
-  .catch(function () {
-    console.log('auth failed');
-  });
+  // .catch(function () {
+  //   console.log('auth failed');
+  // });
 });

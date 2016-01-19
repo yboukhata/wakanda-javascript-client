@@ -31,6 +31,21 @@ class DirectoryBusiness extends AbstractBusiness {
         throw new Error('Directory.currentUser: user is not logged in');
       });
   }
+
+  currentUserBelongsTo(group) {
+
+    if (!(typeof group === 'string')) {
+      throw new Error('Directory.currentUserBelongsTo: group must be a string');
+    }
+
+    return this.service.currentUserBelongsTo(group)
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
 }
 
 export default DirectoryBusiness;
