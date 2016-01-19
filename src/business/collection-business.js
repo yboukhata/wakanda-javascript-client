@@ -18,6 +18,7 @@ class CollectionBusiness extends AbstractBusiness {
 
   _decorateCollection() {
     this.collection.fetch = this.fetch.bind(this);
+    this.collection.nextPage = this.nextPage.bind(this);
 
     this._addUserDefinedMethods();
   }
@@ -33,6 +34,15 @@ class CollectionBusiness extends AbstractBusiness {
       this._refreshCollection({fresherCollection});
       return this.collection;
     });
+  }
+
+  nextPage() {
+    let options = {
+      start: this.collection._first + this.collection._sent,
+      pageSize: this.collection._sent
+    };
+
+    return this.fetch(options);
   }
 
   _addUserDefinedMethods() {
@@ -55,7 +65,9 @@ class CollectionBusiness extends AbstractBusiness {
   _refreshCollection({fresherCollection}) {
     for (let prop in fresherCollection) {
       if (Object.prototype.hasOwnProperty.call(fresherCollection, prop)) {
-        this.collection[prop] = fresherCollection[prop];
+        if (typeof fresherCollection[prop] !== 'function') {
+          this.collection[prop] = fresherCollection[prop];
+        }
       }
     }
   }

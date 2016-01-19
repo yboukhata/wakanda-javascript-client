@@ -3,12 +3,20 @@
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
 
-  WakJSC.directory.login('bar', 'bar').then(function (e) {
-    WakJSC.directory.currentUserBelongsTo('Admins').then(function (ee) {
-      console.log(ee);
+  ds.Company.query({pageSize: 10}).then(function (c) {
+    console.log(c);
+    debugger;
+    c.nextPage().then(function () {
+      console.log(c);
+      debugger;
+      c.nextPage().then(function () {
+        console.log(c);
+        debugger;
+        c.nextPage().then(function () {
+          console.log(c);
+          debugger;
+        });
+      });
     });
   })
-  // .catch(function () {
-  //   console.log('auth failed');
-  // });
 });
