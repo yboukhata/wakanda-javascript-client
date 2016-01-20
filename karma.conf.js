@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Tue Dec 22 2015 13:52:35 GMT+0100 (CET)
 
-var testEnv = process.env.TEST_ENV || 'unit';
+var testEnv = process.env.TEST_ENV || 'integration';
 var serverInfo = require('./test/server.' + testEnv + '.json');
 
 module.exports = function(config) {
