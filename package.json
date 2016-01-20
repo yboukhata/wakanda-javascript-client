@@ -11,8 +11,10 @@
     "test:node:full": "npm run webpack-build && npm run test:node:single",
     "test-single": "./test.sh single",
     "test": "./test.sh",
-    "test-server:start": "node test/server/server.js & echo $! > testserver.pid",
-    "test-server:stop": "kill `cat testserver.pid` && rm testserver.pid"
+    "test-server:start": "node test/connect/server.js & echo $! > testserver.pid && sleep 1",
+    "test-server:stop": "kill `cat testserver.pid` && rm testserver.pid",
+    "test-server:record": "node test/connect/server.js record & echo $! > testserver.pid",
+    "test-server:init": "rm -rf test/connect/mocks && npm run test-server:record && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop"
   },
   "author": "Wakanda SAS",
   "license": "MIT",

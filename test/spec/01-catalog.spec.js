@@ -5,7 +5,7 @@ if (!isBrowser()) {
   var chai = require('chai');
   var expect = chai.expect;
 
-  var testEnv = process.env.TEST_ENV || 'unit';
+  var testEnv = process.env.TEST_ENV || 'integration';
   var serverInfo = require('../server.' + testEnv + '.json');
 
   var wakjsc = require('../../build/wakjsc.node.js');
