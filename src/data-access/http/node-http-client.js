@@ -20,12 +20,19 @@ class NodeHttpClient extends HttpClient {
     return this._httpResponseAdaptor({requestOptions: options});
   }
 
-  post({uri, data}) {
+  post({uri, data, binary}) {
     let options = {
       url: this.prefix + uri,
       method: 'POST',
       form: data
     };
+
+    if (!binary) {
+      options.headers = {
+        'Content-Type': 'application/json'
+      };
+      options.form = JSON.stringify(data);
+    }
 
     return this._httpResponseAdaptor({requestOptions: options});
   }

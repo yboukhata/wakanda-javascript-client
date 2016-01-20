@@ -193,6 +193,22 @@ describe('Dataclass API', function() {
           expect(collection.entities[i].salary).to.be.at.least(collection.entities[i + 1].salary);
         }
       });
-    })
+    });
+  });
+
+  describe('user defined methods', function () {
+    it('should be defined', function () {
+      expect(ds.Employee.myDataClassMethod).to.be.a('function');
+    });
+
+    it('should return a promise', function () {
+      expect(ds.Employee.myDataClassMethod()).to.be.a('promise');
+    });
+
+    it('should return the right value when resolving', function () {
+      return ds.Employee.myDataClassMethod('foo', 'bar').then(function (result) {
+        expect(result).to.be.equal("This is a call to my dataClass method (Employee) with the following arguments : [\"foo\",\"bar\"]");
+      });
+    });
   });
 });

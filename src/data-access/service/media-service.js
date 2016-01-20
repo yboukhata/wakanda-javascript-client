@@ -22,7 +22,8 @@ class MediaService extends AbstractService {
     //FIXME - real crappy not to return some piece of information to refresh entity
     return this.httpClient.post({
       uri,
-      data: file
+      data: file,
+      binary: true
     });
   }
 

@@ -1,13 +1,15 @@
-var WakJSC = require('../build/wakjsc.node.js');
+/* eslint-disable */
 
-var w = new WakJSC('http://localhost:3030');
+var wakjsc = require('../build/wakjsc.node.js');
+var WakJSC = new wakjsc('http://localhost:3000');
 
-var a = w.catalog.get(['Toto'])
-// .then(function (ds) {
-//   console.log(ds);
-// })
-.catch(function (err) {
-  console.error(err);
+
+WakJSC.getCatalog().then(function(ds) {
+
+  ds.Employee.myDataClassMethod('foo', 'bar').then(function (result) {
+    console.log('result:', result);
+  })
+  .catch(function (e) {
+    console.error('error:', e);
+  });
 });
-
-console.log(typeof a);
