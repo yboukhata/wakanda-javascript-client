@@ -15,10 +15,14 @@ if (!isBrowser()) {
 describe('Dataclass API', function() {
 
   var ds;
+  var existingId;
   before(function (done) {
     WakJSC.getCatalog().then(function (ds_) {
       ds = ds_;
-      done();
+      ds.Employee.query({pageSize: 1}).then(function (c) {
+        existingId = c.entities[0]._key;
+        done();
+      });
     });
   });
 
@@ -29,16 +33,16 @@ describe('Dataclass API', function() {
     });
 
     it('should return a promise', function () {
-      var find = ds.Employee.find(10);
+      var find = ds.Employee.find(existingId);
       expect(find).to.be.a('promise');
       expect(find.then).to.be.a('function');
       expect(find.catch).to.be.a('function');
     });
 
     it('should retrieve an entity', function () {
-      return ds.Employee.find(10).then(function (employee) {
+      return ds.Employee.find(existingId).then(function (employee) {
         expect(employee).to.be.an('object');
-        expect(employee.ID).to.be.equal(10);
+        expect(employee._key).to.be.equal(existingId);
         expect(employee.firstName).to.be.a('string');
         expect(employee.lastName).to.be.a('string');
         expect(employee.salary).to.be.a('number');
@@ -60,21 +64,21 @@ describe('Dataclass API', function() {
     });
 
     it('should not expand related attributes by default', function () {
-      return ds.Employee.find(10).then(function (employee) {
+      return ds.Employee.find(existingId).then(function (employee) {
         expect(employee.employer.ID).to.be.defined;
         expect(employee.employer.name).to.be.undefined;
       });
     });
 
     it('should expand related attributes provided on select parameter', function () {
-      return ds.Employee.find(10, {select: 'employer'}).then(function (employee) {
+      return ds.Employee.find(existingId, {select: 'employer'}).then(function (employee) {
         expect(employee.employer.ID).to.be.defined;
         expect(employee.employer.name).to.be.a('string');
       });
     });
 
     it('should expand related attributes on several levels', function () {
-      return ds.Employee.find(10, {select: 'employer,employer.staff'}).then(function (employee) {
+      return ds.Employee.find(existingId, {select: 'employer,employer.staff'}).then(function (employee) {
         expect(employee.employer.ID).to.be.defined;
         expect(employee.employer.name).to.be.a('string');
         expect(employee.employer.staff).to.be.an('object');

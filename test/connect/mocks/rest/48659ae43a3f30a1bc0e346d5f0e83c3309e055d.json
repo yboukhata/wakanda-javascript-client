@@ -1,0 +1,31 @@
+{
+  "requestUrl": "/rest/Employee?$filter=%22firstName%20=%20:1%22&$params='%5B%22ARON%22%5D'&$limit=40&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Employee/$entityset/8913DD8EA5754B5C8B67B49B29C63A41",
+    "__entityModel": "Employee",
+    "__COUNT": 1,
+    "__SENT": 1,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "3196480",
+        "__STAMP": 6391,
+        "ID": 3196480,
+        "lastName": "GIBAMOWO",
+        "firstName": "ARON",
+        "salary": 60631,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198151)",
+            "__KEY": "198151"
+          }
+        },
+        "salaryProcessed": "1961723.8813213834 baht",
+        "employerName": "Kilo Data Ireland",
+        "photo": null
+      }
+    ]
+  }
+}

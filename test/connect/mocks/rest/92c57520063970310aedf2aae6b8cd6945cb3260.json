@@ -1,0 +1,354 @@
+{
+  "requestUrl": "/rest/Employee?$orderby=lastName&$limit=20&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Employee/$entityset/0E38E4F100DF437D90E5651AB6BAC6D2",
+    "__entityModel": "Employee",
+    "__COUNT": 1000,
+    "__SENT": 20,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "3196213",
+        "__STAMP": 6391,
+        "ID": 3196213,
+        "lastName": "AHLARS",
+        "firstName": "ARLEN",
+        "salary": 33226,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198134)",
+            "__KEY": "198134"
+          }
+        },
+        "salaryProcessed": "1075031.5462516581 baht",
+        "employerName": "Network Rocket See",
+        "photo": null
+      },
+      {
+        "__KEY": "3195957",
+        "__STAMP": 6391,
+        "ID": 3195957,
+        "lastName": "AHRHERDT",
+        "firstName": "EVE",
+        "salary": 47355,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198117)",
+            "__KEY": "198117"
+          }
+        },
+        "salaryProcessed": "1532177.1766913645 baht",
+        "employerName": "Firestone Tea Fusion",
+        "photo": null
+      },
+      {
+        "__KEY": "3195882",
+        "__STAMP": 6391,
+        "ID": 3195882,
+        "lastName": "ANCOMES",
+        "firstName": "SAVANNAH",
+        "salary": 41485,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198107)",
+            "__KEY": "198107"
+          }
+        },
+        "salaryProcessed": "1342252.564144045 baht",
+        "employerName": "Flying Terra Loran",
+        "photo": null
+      },
+      {
+        "__KEY": "3195706",
+        "__STAMP": 6391,
+        "ID": 3195706,
+        "lastName": "ARYAZRY",
+        "firstName": "DILLON",
+        "salary": 141540,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198104)",
+            "__KEY": "198104"
+          }
+        },
+        "salaryProcessed": "4579545.086873524 baht",
+        "employerName": "Blobarray Core Library",
+        "photo": null
+      },
+      {
+        "__KEY": "3195627",
+        "__STAMP": 6391,
+        "ID": 3195627,
+        "lastName": "AXBELON",
+        "firstName": "JULES",
+        "salary": 134931,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198103)",
+            "__KEY": "198103"
+          }
+        },
+        "salaryProcessed": "4365710.033325784 baht",
+        "employerName": "Month Business Plane",
+        "photo": null
+      },
+      {
+        "__KEY": "3196126",
+        "__STAMP": 6391,
+        "ID": 3196126,
+        "lastName": "BACABABO",
+        "firstName": "WOODROW",
+        "salary": 40455,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198131)",
+            "__KEY": "198131"
+          }
+        },
+        "salaryProcessed": "1308926.780341023 baht",
+        "employerName": "Hand Year Papers",
+        "photo": null
+      },
+      {
+        "__KEY": "3195692",
+        "__STAMP": 6391,
+        "ID": 3195692,
+        "lastName": "BACEMABO",
+        "firstName": "EVA",
+        "salary": 83073,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198104)",
+            "__KEY": "198104"
+          }
+        },
+        "salaryProcessed": "2687837.7066683923 baht",
+        "employerName": "Blobarray Core Library",
+        "photo": null
+      },
+      {
+        "__KEY": "3195578",
+        "__STAMP": 6391,
+        "ID": 3195578,
+        "lastName": "BADAVE",
+        "firstName": "PATTI",
+        "salary": 7575,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198102)",
+            "__KEY": "198102"
+          }
+        },
+        "salaryProcessed": "245090.1090367878 baht",
+        "employerName": "Moon Developing Tree",
+        "photo": null
+      },
+      {
+        "__KEY": "3195752",
+        "__STAMP": 6391,
+        "ID": 3195752,
+        "lastName": "BADETU",
+        "firstName": "LATONYA",
+        "salary": 113243,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198104)",
+            "__KEY": "198104"
+          }
+        },
+        "salaryProcessed": "3663991.975927783 baht",
+        "employerName": "Blobarray Core Library",
+        "photo": null
+      },
+      {
+        "__KEY": "3196476",
+        "__STAMP": 6391,
+        "ID": 3196476,
+        "lastName": "BADONE",
+        "firstName": "CHARITY",
+        "salary": 29647,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198150)",
+            "__KEY": "198150"
+          }
+        },
+        "salaryProcessed": "959232.5363186334 baht",
+        "employerName": "Earth Sable Andloging",
+        "photo": null
+      },
+      {
+        "__KEY": "3195653",
+        "__STAMP": 6391,
+        "ID": 3195653,
+        "lastName": "BAGOSO",
+        "firstName": "JEWEL",
+        "salary": 134731,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198103)",
+            "__KEY": "198103"
+          }
+        },
+        "salaryProcessed": "4359239.007344615 baht",
+        "employerName": "Month Business Plane",
+        "photo": null
+      },
+      {
+        "__KEY": "3196170",
+        "__STAMP": 6391,
+        "ID": 3196170,
+        "lastName": "BAHANERU",
+        "firstName": "REFUGIO",
+        "salary": 95439,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198134)",
+            "__KEY": "198134"
+          }
+        },
+        "salaryProcessed": "3087941.2430840908 baht",
+        "employerName": "Network Rocket See",
+        "photo": null
+      },
+      {
+        "__KEY": "3195773",
+        "__STAMP": 6391,
+        "ID": 3195773,
+        "lastName": "BAKAFYJY",
+        "firstName": "PATTI",
+        "salary": 8336,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198104)",
+            "__KEY": "198104"
+          }
+        },
+        "salaryProcessed": "269712.36289513705 baht",
+        "employerName": "Blobarray Core Library",
+        "photo": null
+      },
+      {
+        "__KEY": "3196103",
+        "__STAMP": 6391,
+        "ID": 3196103,
+        "lastName": "BALLICQ",
+        "firstName": "TIA",
+        "salary": 142773,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198129)",
+            "__KEY": "198129"
+          }
+        },
+        "salaryProcessed": "4619438.962047433 baht",
+        "employerName": "Calendar House Drawer",
+        "photo": null
+      },
+      {
+        "__KEY": "3195757",
+        "__STAMP": 6391,
+        "ID": 3195757,
+        "lastName": "BALLINA",
+        "firstName": "RAY",
+        "salary": 149471,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198104)",
+            "__KEY": "198104"
+          }
+        },
+        "salaryProcessed": "4836153.622156793 baht",
+        "employerName": "Blobarray Core Library",
+        "photo": null
+      },
+      {
+        "__KEY": "3196023",
+        "__STAMP": 6391,
+        "ID": 3196023,
+        "lastName": "BAMEDUMO",
+        "firstName": "JANET",
+        "salary": 7250,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198122)",
+            "__KEY": "198122"
+          }
+        },
+        "salaryProcessed": "234574.69181738765 baht",
+        "employerName": "India Junior Bytes",
+        "photo": null
+      },
+      {
+        "__KEY": "3195827",
+        "__STAMP": 6391,
+        "ID": 3195827,
+        "lastName": "BANILOAL",
+        "firstName": "LANNY",
+        "salary": 45483,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198106)",
+            "__KEY": "198106"
+          }
+        },
+        "salaryProcessed": "1471608.3735076196 baht",
+        "employerName": "Key Rect Andloging",
+        "photo": null
+      },
+      {
+        "__KEY": "3196424",
+        "__STAMP": 6391,
+        "ID": 3196424,
+        "lastName": "BARCHAT",
+        "firstName": "ROSS",
+        "salary": 139181,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198146)",
+            "__KEY": "198146"
+          }
+        },
+        "salaryProcessed": "4503219.335425632 baht",
+        "employerName": "Alpha Montain Training",
+        "photo": null
+      },
+      {
+        "__KEY": "3195571",
+        "__STAMP": 6391,
+        "ID": 3195571,
+        "lastName": "BARECU",
+        "firstName": "NANETTE",
+        "salary": 41509,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198101)",
+            "__KEY": "198101"
+          }
+        },
+        "salaryProcessed": "1343029.0872617853 baht",
+        "employerName": "X-Ray Corridor Plane",
+        "photo": null
+      },
+      {
+        "__KEY": "3195602",
+        "__STAMP": 6391,
+        "ID": 3195602,
+        "lastName": "BARENE",
+        "firstName": "AMADO",
+        "salary": 58185,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(198102)",
+            "__KEY": "198102"
+          }
+        },
+        "salaryProcessed": "1882583.2335716828 baht",
+        "employerName": "Moon Developing Tree",
+        "photo": null
+      }
+    ]
+  }
+}
