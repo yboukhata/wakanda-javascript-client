@@ -15,7 +15,8 @@ prism.create({
   host: 'localhost',
   port: 8081,
   mode: mode,
-  mocksPath: __dirname + '/mocks'
+  mocksPath: __dirname + '/mocks',
+  hashFullRequest: true
 });
 
 var app = connect()
