@@ -266,4 +266,35 @@ describe('Dataclass API', function() {
       });
     });
   });
+
+  describe('metadata properties', function () {
+
+    it('should have a name property', function () {
+      expect(ds.Employee.name).to.be.equal('Employee');
+    });
+
+    it('should have a collectionName property', function () {
+      expect(ds.Employee.collectionName).to.be.equal('EmployeeCollection');
+    });
+
+    it('should have an attributes property', function () {
+      expect(ds.Employee.attributes).to.be.an('array');
+      expect(ds.Employee.attributes.length).to.be.at.least(1);
+    });
+
+    it('should describe its attributes', function () {
+      var attrs = ds.Employee.attributes;
+
+      for (var i = 0; i < attrs.length; i++) {
+        var attr = attrs[i];
+        expect(attr.name).to.be.a('string');
+        expect(attr.type).to.be.a('string');
+        expect(attr.readOnly).to.be.a('boolean');
+
+        if (attr.entityType) {
+          expect(attr.entityType).to.be.a('string');
+        }
+      }
+    });
+  });
 });

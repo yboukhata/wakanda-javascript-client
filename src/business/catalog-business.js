@@ -74,7 +74,7 @@ class CatalogBusiness extends AbstractBusiness {
 
         let dataClass = new DataClass({
           name: dcDBO.name,
-          collectionName: dcDBO.name,
+          collectionName: dcDBO.collectionName,
           attributes
         });
 
