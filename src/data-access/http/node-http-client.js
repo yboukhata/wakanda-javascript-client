@@ -14,7 +14,8 @@ class NodeHttpClient extends HttpClient {
     let options = {
       url: this.prefix + uri,
       method: 'GET',
-      qs: params
+      qs: params,
+      jar: true
     };
 
     return this._httpResponseAdaptor({requestOptions: options});
@@ -24,7 +25,8 @@ class NodeHttpClient extends HttpClient {
     let options = {
       url: this.prefix + uri,
       method: 'POST',
-      form: data
+      form: data,
+      jar: true
     };
 
     try {
