@@ -86,7 +86,7 @@ class DataClassBusiness extends AbstractBusiness {
     }
 
     let entity = this._presentationEntityFromDbo({
-      dbo: pojo
+      dbo: pojo || {}
     });
 
     for (let prop in entityToAttach) {

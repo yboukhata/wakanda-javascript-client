@@ -196,6 +196,61 @@ describe('Dataclass API', function() {
     });
   });
 
+  describe('create method', function () {
+    it('should be defined', function () {
+      expect(ds.Employee.create).to.be.a('function');
+    });
+
+    it('should return an entity with a save method', function () {
+      var entity = ds.Employee.create();
+
+      expect(entity).to.be.an('object');
+      expect(entity.save).to.be.a('function');
+    });
+
+    it('should return an entity without a key nor a stamp', function () {
+      var entity = ds.Employee.create();
+
+      expect(entity).to.be.an('object');
+      expect(entity.save).to.be.a('function');
+      expect(entity._key).to.be.undefined;
+      expect(entity._stamp).to.be.undefined;
+    });
+
+    it('should fill the created entity with given parameter', function () {
+      var entity = ds.Employee.create({
+        firstName: 'foo',
+        lastName: 'bar',
+        salary: 80000
+      });
+
+      expect(entity).to.be.an('object');
+      expect(entity.save).to.be.a('function');
+      expect(entity.firstName).to.be.equal('foo');
+      expect(entity.lastName).to.be.equal('bar');
+      expect(entity.salary).to.be.equal(80000);
+    });
+
+    it('should link related entities passed on parameter', function () {
+      return ds.Company.query({pageSize: 1}).then(function (c) {
+        var company = c.entities[0];
+
+        var entity = ds.Employee.create({
+          firstName: 'foo',
+          lastName: 'bar',
+          employer: company
+        });
+
+        expect(entity).to.be.an('object');
+        expect(entity.save).to.be.a('function');
+        expect(entity.firstName).to.be.equal('foo');
+        expect(entity.lastName).to.be.equal('bar');
+        expect(entity.employer._key).to.be.equal(entity.employer._key);
+        expect(entity.employer.name).to.be.equal(entity.employer.name);
+      });
+    });
+  });
+
   describe('user defined methods', function () {
     it('should be defined', function () {
       expect(ds.Employee.myDataClassMethod).to.be.a('function');
