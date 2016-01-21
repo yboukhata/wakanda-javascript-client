@@ -27,11 +27,16 @@ class NodeHttpClient extends HttpClient {
       form: data
     };
 
-    if (!binary) {
-      options.headers = {
-        'Content-Type': 'application/json'
-      };
-      options.form = JSON.stringify(data);
+    try {
+      if (!binary) {
+        options.headers = {
+          'Content-Type': 'application/json'
+        };
+        options.form = JSON.stringify(data);
+      }
+    }
+    catch(e) {
+      return Promise.reject(e);
     }
 
     return this._httpResponseAdaptor({requestOptions: options});
