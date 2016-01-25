@@ -6,6 +6,11 @@ class NodeHttpClient extends HttpClient {
   constructor({apiPrefix}) {
     super({apiPrefix});
     this.request = require('request');
+    this.cookieJar = this.request.jar();
+  }
+
+  _clearCookie() {
+    this.cookieJar = this.request.jar();
   }
 
   get({uri, params}) {
@@ -15,7 +20,7 @@ class NodeHttpClient extends HttpClient {
       url: this.prefix + uri,
       method: 'GET',
       qs: params,
-      jar: true
+      jar: this.cookieJar
     };
 
     return this._httpResponseAdaptor({requestOptions: options});
@@ -26,7 +31,7 @@ class NodeHttpClient extends HttpClient {
       url: this.prefix + uri,
       method: 'POST',
       form: data,
-      jar: true
+      jar: this.cookieJar
     };
 
     try {
