@@ -21,7 +21,6 @@ describe('Directory API', function () {
 
 
   beforeEach(function () {
-    console.log('clearing cookies');
     if (isBrowser()) {
       window.top.callPhantom({
         type: 'clearCookies'

@@ -20,11 +20,10 @@ console.log(chalk.yellow('Starting record/mocking test server with mode ' + mode
 var prismUtils = new PrismUtils();
 
 var mockFileName = function (config, req) {
-  console.log('mockFileName called, body:' + req.body);
   var reqData = prismUtils.filterUrl(config, req.url);
   var url = req.url.replace(/\/|\$|\_|\?|\<|\>|\\|\:|\*|\||\"/g,'_');
-  // include request body in hash
 
+  // include request body and cookie in hash
   var cookie = req.headers.cookie || "";
   reqData = req.body + reqData + cookie;
 
@@ -47,32 +46,7 @@ prism.create({
 });
 
 var app = connect()
-  // .use(function (req, res, next) {
-  //   console.log('middleware yay');
-  //
-  //   var passThroughStream = stream.PassThrough();
-  //   req.pipe(passThroughStream);
-  //
-  //   var buffer = '';
-  //   passThroughStream.on('data', function(data) {
-  //     buffer += data;
-  //
-  //     // Too much POST data, kill the connection!
-  //     if (buffer.length > 1e6) {
-  //       passThroughStream.connection.destroy();
-  //     }
-  //   });
-  //
-  //   passThroughStream.on('end', function() {
-  //     passThroughStream.body = buffer;
-  //     req.bodyStream = passThroughStream;
-  //     req.body = buffer;
-  //     next();
-  //   });
-  // })
   .use(function (req, res, next) {
-    console.log('middleware yay');
-
     var buffer = '';
     req.on('data', function(data) {
       buffer += data;
@@ -84,8 +58,6 @@ var app = connect()
     });
 
     req.on('end', function() {
-      // passThroughStream.body = buffer;
-      // req.bodyStream = passThroughStream;
       req.body = buffer;
 
       var bufferStream = new stream.PassThrough();
