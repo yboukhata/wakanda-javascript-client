@@ -7,7 +7,7 @@
     "webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
     "test:karma:single": "node ./node_modules/karma/bin/karma start",
     "test:karma:full": "npm run webpack-build && npm run test:karma:single",
-    "test:node:single": "http_proxy=\"\" node ./node_modules/mocha/bin/mocha test/spec/**/*.spec.js",
+    "test:node:single": "http_proxy=\"\" node ./node_modules/mocha/bin/mocha test/bootstrap.js test/spec/**/*.spec.js",
     "test:node:full": "npm run webpack-build && npm run test:node:single",
     "test-single": "./test.sh single",
     "test": "./test.sh",

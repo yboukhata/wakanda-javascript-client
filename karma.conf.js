@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Tue Dec 22 2015 13:52:35 GMT+0100 (CET)
+/* eslint-disable */
 
 var testEnv = process.env.TEST_ENV || 'integration';
 var serverInfo = require('./test/server.' + testEnv + '.json');
@@ -20,6 +21,7 @@ module.exports = function(config) {
     files: [
       'test/customevent-polyfill.js',
       'build/wakjsc.js',
+      'test/bootstrap.js',
       'test/spec/**/*.spec.js'
     ],
 

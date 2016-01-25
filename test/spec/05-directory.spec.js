@@ -1,17 +1,5 @@
 /* eslint-disable */
 
-var isBrowser = new Function("try { return this === window; } catch(e) { return false; }");
-if (!isBrowser()) {
-  var chai = require('chai');
-  var expect = chai.expect;
-
-  var testEnv = process.env.TEST_ENV || 'integration';
-  var serverInfo = require('../server.' + testEnv + '.json');
-
-  var wakjsc = require('../../build/wakjsc.node.js');
-  var WakJSC = new wakjsc(serverInfo.host + ':' + serverInfo.port);
-}
-
 describe('Directory API', function () {
 
   var dir;
@@ -19,17 +7,6 @@ describe('Directory API', function () {
     dir = WakJSC.directory;
   });
 
-
-  beforeEach(function () {
-    if (isBrowser()) {
-      window.top.callPhantom({
-        type: 'clearCookies'
-      });
-    }
-    else {
-      WakJSC._httpClient._clearCookie();
-    }
-  });
 
   describe('login method', function () {
 
