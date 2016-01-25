@@ -1,9 +1,9 @@
 {
-  "requestUrl": "/rest/Employee?$filter=%22ID%20%3E%200%22&$limit=40&$method=entityset",
+  "requestUrl": "/rest/Employee?$limit=40&$method=entityset",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/B0EC14557BC1469193811A1EC662779E",
+    "__ENTITYSET": "/rest/Employee/$entityset/B6645AA3DA1A407E8448D53CB6A6252A",
     "__entityModel": "Employee",
     "__COUNT": 1000,
     "__SENT": 40,
@@ -690,5 +690,6 @@
         "photo": null
       }
     ]
-  }
+  },
+  "headers": {}
 }

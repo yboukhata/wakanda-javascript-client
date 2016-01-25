@@ -1,5 +1,5 @@
 {
-  "requestUrl": "/rest/Employee(3196487)?$expand=employer",
+  "requestUrl": "/rest/Employee(3196487)",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
@@ -11,18 +11,14 @@
     "firstName": "HARRY",
     "salary": 132765,
     "employer": {
-      "__KEY": "198152",
-      "__STAMP": 6391,
-      "ID": 198152,
-      "name": "Bag While Engineering",
-      "staff": {
-        "__deferred": {
-          "uri": "/rest/Company(198152)/staff?$expand=staff"
-        }
+      "__deferred": {
+        "uri": "/rest/Company(198152)",
+        "__KEY": "198152"
       }
     },
     "salaryProcessed": "4295628.82194972 baht",
     "employerName": "Bag While Engineering",
     "photo": null
-  }
+  },
+  "headers": {}
 }

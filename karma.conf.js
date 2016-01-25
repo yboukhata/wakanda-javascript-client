@@ -64,7 +64,20 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJSCustom'],
+
+    customLaunchers: {
+      PhantomJSCustom: {
+        base:'PhantomJS',
+        options: {
+          onCallback: function (data) {
+            if (data.type === 'clearCookies') {
+              page.clearCookies();
+            }
+          }
+        }
+      }
+    },
 
 
     // Continuous Integration mode

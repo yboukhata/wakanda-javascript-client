@@ -4,7 +4,6 @@
   "statusCode": 200,
   "data": {
     "result": "This is a call to my dataClass method (Employee) with the following arguments : []"
-  }
-}\"bar\"]"
-  }
+  },
+  "headers": {}
 }

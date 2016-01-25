@@ -17,7 +17,20 @@ describe('Directory API', function () {
   var dir;
   before(function () {
     dir = WakJSC.directory;
-  })
+  });
+
+
+  beforeEach(function () {
+    console.log('clearing cookies');
+    if (isBrowser()) {
+      window.top.callPhantom({
+        type: 'clearCookies'
+      });
+    }
+    else {
+      WakJSC._httpClient._clearCookie();
+    }
+  });
 
   describe('login method', function () {
 
@@ -29,7 +42,7 @@ describe('Directory API', function () {
       var p = dir.login();
       expect(p).to.be.a('promise');
 
-      //Silence the error report by Karma because there is a unhandled promise rejection
+      //Silence the error reported by Karma because there is a unhandled promise rejection
       p.catch(function () {
       });
     });
@@ -40,15 +53,15 @@ describe('Directory API', function () {
       });
     });
 
-    it('should fail with bad credentials', function (done) {
-      dir.login('bad', 'credentials').catch(function () {
-        done();
+    it('should fail with bad credentials', function () {
+      return dir.login('bad', 'credentials').catch(function (e) {
+        expect(e).to.be.defined;
       });
     });
 
-    it('should fail without any credentials', function (done) {
-      dir.login().catch(function () {
-        done();
+    it('should fail without any credentials', function () {
+      return dir.login().catch(function (e) {
+        expect(e).to.be.defined;
       });
     });
   });
@@ -60,6 +73,93 @@ describe('Directory API', function () {
 
     it('should return a promise', function () {
       expect(dir.logout()).to.be.a('promise');
+    });
+
+    it('should resolve', function () {
+      return dir.logout().then(function (result) {
+        expect(result).to.be.true;
+      });
+    });
+  });
+
+  describe('currentUser method', function () {
+    it('should be defined', function () {
+      expect(dir.currentUser).to.be.a('function');
+    });
+
+    it('should return a promise', function () {
+      var p = dir.currentUser();
+
+      expect(p).to.be.a('promise');
+
+      //Silence Karma error report
+      p.catch(function () {
+      });
+    });
+
+    it('should return current user info if logged in', function () {
+      return dir.login('bar', 'bar').then(function () {
+        return dir.currentUser().then(function (user) {
+          expect(user.userName).to.be.equal('bar');
+          expect(user.fullName).to.be.equal('bar');
+          expect(user.ID).to.be.a('string');
+          expect(user.ID.length).to.be.at.least(1);
+        });
+      });
+    });
+
+    it('should fail if user is not logged in', function () {
+      return dir.logout().then(function () {
+        return dir.currentUser().catch(function (e) {
+          expect(e).to.be.defined;
+        });
+      });
+    });
+  });
+
+  describe('currentUserBelongsTo method', function () {
+    it('should be defined', function () {
+      expect(dir.currentUserBelongsTo).to.be.a('function');
+    });
+
+    it('should return a promise', function () {
+      expect(dir.currentUserBelongsTo('')).to.be.a('promise');
+    });
+
+    it('should fail if no parameter is given', function () {
+      expect(function () {
+        dir.currentUserBelongsTo();
+      }).to.throw(Error);
+    });
+
+    it('shoud fail if given parameter is not a string', function () {
+      expect(function () {
+        dir.currentUserBelongsTo({userName: 'bar'});
+      }).to.throw(Error);
+    });
+
+    it('should resolve true if current user belongs to given group', function () {
+      return dir.login('bar', 'bar').then(function (user) {
+        return dir.currentUserBelongsTo('Admin').then(function (result) {
+          expect(result).to.be.true;
+        });
+      });
+    });
+
+    it('should resolve false if current user doesn\'t belong to given group', function () {
+      return dir.login('bar', 'bar').then(function (user) {
+        return dir.currentUserBelongsTo('QA').then(function (result) {
+          expect(result).to.be.false;
+        });
+      });
+    });
+
+    it('should resolve false if user is not logged in', function () {
+      return dir.logout().then(function (user) {
+        return dir.currentUserBelongsTo('QA').then(function (result) {
+          expect(result).to.be.false;
+        });
+      });
     });
   });
 });
