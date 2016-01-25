@@ -120,4 +120,44 @@ describe('Entity API', function () {
         });
     });
   });
+
+  describe('delete method', function () {
+    it('sould be defined', function () {
+      return ds.Product.query({pageSize: 1})
+        .then(function (collection) {
+          return collection.entities[0];
+        })
+        .then(function (product) {
+          expect(product.delete).to.be.a('function');
+        });
+    });
+
+    it('should return a promise', function () {
+      return ds.Product.query({pageSize: 1})
+        .then(function (collection) {
+          expect(collection.entities[0].delete()).to.be.a('promise');
+        });
+    });
+
+    it('should delete the entity', function () {
+      return ds.Product.query({pageSize: 1})
+        .then(function (collection) {
+          var product = collection.entities[0];
+          var productId = product._key;
+
+          return product.delete().then(function () {
+            return ds.Product.find(productId).catch(function (e) {
+              expect(e).to.be.defined;
+            });
+          });
+        });
+    });
+
+    it('should throw an error when called on non-saved entity', function () {
+      var entity = ds.Product.create();
+      expect(function () {
+        entity.delete();
+      }).to.throw(Error);
+    });
+  });
 });

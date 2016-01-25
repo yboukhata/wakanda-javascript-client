@@ -48,6 +48,10 @@ class EntityBusiness extends AbstractBusiness {
   }
 
   delete() {
+    if (!this.entity._key) {
+      throw new Error('Entity.delete: can not delete unsaved entity');
+    }
+
     return this.service.delete().then(() => {
       this.entity = null;
     });
