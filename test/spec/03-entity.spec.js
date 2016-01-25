@@ -57,5 +57,67 @@ describe('Entity API', function () {
           });
         });
     });
+
+    it('should store the given attributes', function () {
+      var entity = ds.Product.create({
+        name: 'FooProduct',
+        myBoolean: true,
+        spec: {
+          foo: 'bar',
+          number: 1234,
+          subObject: {
+            baz: 'taz'
+          }
+        }
+      });
+
+      return entity.save()
+        .then(function () {
+          expect(entity.ID).to.be.a('number');
+          expect(entity.name).to.be.equal('FooProduct');
+          expect(entity.myBoolean).to.be.true;
+          expect(entity.spec).to.be.an('object');
+          expect(entity.spec.foo).to.be.equal('bar');
+          expect(entity.spec.number).to.be.equal(1234);
+          expect(entity.spec.subObject).to.be.an('object');
+          expect(entity.spec.subObject.baz).to.be.equal('taz');
+        });
+    });
+
+    it('should store related entity', function () {
+
+      return ds.Company.query({pageSize: 1})
+        .then(function (companies) {
+          return companies.entities[0];
+        })
+        .then(function (company) {
+          var entity = ds.Employee.create({
+            firstName: 'John',
+            lastName: 'Smith',
+            salary: 80000,
+            employer: company
+          });
+
+          return entity.save().then(function () {
+            expect(entity.employer).to.be.an('object');
+            expect(entity.employer._key).to.be.equal(company._key);
+            expect(entity.employerName).to.be.equal(company.name);
+          });
+        });
+    });
+
+    it('should unlink related entity by passing a null value', function () {
+      return ds.Employee.query({pageSize: 1, filter: 'employer.ID > 0'})
+        .then(function (collection) {
+          return collection.entities[0];
+        })
+        .then(function (employee) {
+          employee.employer = null;
+          return employee.save();
+        })
+        .then(function (employee) {
+          expect(employee.employer).to.be.null;
+        });
+    });
   });
 });

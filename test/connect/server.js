@@ -14,8 +14,10 @@ var PrismUtils = require('../../node_modules/connect-prism/lib/services/prism-ut
 var mode = process.argv[2] || 'mock';
 if (mode === 'record') {
   mode = 'mockrecord';
+  console.log(chalk.red('You are on record mode. Do not forget to reset DB before executing test suite.'));
 }
-console.log(chalk.yellow('Starting record/mocking test server with mode ' + mode + ' on port 3000'));
+
+console.log(chalk.green('Starting record/mocking test server with mode ' + mode + ' on port 3000'));
 
 var prismUtils = new PrismUtils();
 
