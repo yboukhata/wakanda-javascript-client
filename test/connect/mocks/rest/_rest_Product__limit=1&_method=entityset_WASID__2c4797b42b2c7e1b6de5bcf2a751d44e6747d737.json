@@ -1,0 +1,25 @@
+{
+  "requestUrl": "/rest/Product?$limit=1&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Product/$entityset/DF31782CC2B1499B8F5418A3032786C4",
+    "__entityModel": "Product",
+    "__COUNT": 26,
+    "__SENT": 1,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "76738",
+        "__STAMP": 6393,
+        "ID": 76738,
+        "name": null,
+        "myBoolean": null,
+        "born": null,
+        "spec": null,
+        "photo": null
+      }
+    ]
+  },
+  "headers": {}
+}

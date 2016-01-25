@@ -1,19 +1,24 @@
 {
-  "requestUrl": "/rest/Employee(3196487)",
+  "requestUrl": "/rest/Employee(3197488)?$expand=employer",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
     "__entityModel": "Employee",
-    "__KEY": "3196487",
-    "__STAMP": 6498,
-    "ID": 3196487,
+    "__KEY": "3197488",
+    "__STAMP": 6500,
+    "ID": 3197488,
     "lastName": "LUHEJI",
     "firstName": "HARRY",
     "salary": 132765,
     "employer": {
-      "__deferred": {
-        "uri": "/rest/Company(198152)",
-        "__KEY": "198152"
+      "__KEY": "198214",
+      "__STAMP": 6393,
+      "ID": 198214,
+      "name": "Bag While Engineering",
+      "staff": {
+        "__deferred": {
+          "uri": "/rest/Company(198214)/staff?$expand=staff"
+        }
       }
     },
     "salaryProcessed": "4295628.82194972 baht",
