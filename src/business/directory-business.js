@@ -1,5 +1,6 @@
 import AbstractBusiness from './abstract-business';
 import DirectoryService from '../data-access/service/directory-service';
+import Const from '../const';
 
 class DirectoryBusiness extends AbstractBusiness {
   constructor({wakJSC}) {
@@ -8,8 +9,15 @@ class DirectoryBusiness extends AbstractBusiness {
     this.service = new DirectoryService({wakJSC});
   }
 
-  login(username, password) {
-    return this.service.login(username, password)
+  login(username, password, duration) {
+
+    let durationTime = duration || Const.DEFAULT_SESSION_DURATION;
+
+    if (!(typeof durationTime === 'number') || durationTime <= 0) {
+      throw new Error('Directory.login: invalid duration parameter');
+    }
+
+    return this.service.login(username, password, durationTime)
       .catch(() => {
         throw new Error('Directory.login: Unauthorized');
       });

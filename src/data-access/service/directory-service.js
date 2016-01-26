@@ -2,10 +2,10 @@ import AbstractService from './abstract-service';
 
 class DirectoryService extends AbstractService {
 
-  login(username, password) {
+  login(username, password, duration) {
     return this.httpClient.post({
       uri: '/$directory/login',
-      data: [username, password]
+      data: [username, password, duration]
     }).then(() => {
         return true;
       });

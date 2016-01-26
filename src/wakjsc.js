@@ -12,8 +12,8 @@ class WakJSC {
     });
 
     this.directory = {
-      login: (username, password) => {
-        return directoryBusiness.login(username, password);
+      login: (username, password, duration) => {
+        return directoryBusiness.login(username, password, duration);
       },
       logout: () => {
         return directoryBusiness.logout();
