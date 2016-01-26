@@ -24,7 +24,7 @@ describe('Directory API', function () {
     });
 
     it('should resolve with correct credentials', function () {
-      return dir.login('bar', 'bar').then(function (result) {
+      return dir.login('bar', 'bar', 3600 * 24 * 365).then(function (result) {
         expect(result).to.be.true;
       });
     });
@@ -39,6 +39,18 @@ describe('Directory API', function () {
       return dir.login().catch(function (e) {
         expect(e).to.be.defined;
       });
+    });
+
+    it('should fail if given duration is not a number', function () {
+      expect(function () {
+        dir.login('foo', 'foo', '1 year');
+      }).to.throw(Error);
+    });
+
+    it('should fail if given duration is a negative number', function () {
+      expect(function () {
+        dir.login('foo', 'foo', -3600);
+      }).to.throw(Error);
     });
   });
 

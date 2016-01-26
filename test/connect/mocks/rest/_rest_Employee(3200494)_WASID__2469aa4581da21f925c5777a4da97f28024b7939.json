@@ -1,19 +1,19 @@
 {
-  "requestUrl": "/rest/Employee(3199492)",
+  "requestUrl": "/rest/Employee(3200494)",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
     "__entityModel": "Employee",
-    "__KEY": "3199492",
-    "__STAMP": 6505,
-    "ID": 3199492,
+    "__KEY": "3200494",
+    "__STAMP": 6507,
+    "ID": 3200494,
     "lastName": "LUHEJI",
     "firstName": "HARRY",
     "salary": 132765,
     "employer": {
       "__deferred": {
-        "uri": "/rest/Company(198338)",
-        "__KEY": "198338"
+        "uri": "/rest/Company(198400)",
+        "__KEY": "198400"
       }
     },
     "salaryProcessed": "4295628.82194972 baht",
