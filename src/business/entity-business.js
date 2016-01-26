@@ -44,6 +44,10 @@ class EntityBusiness extends AbstractBusiness {
   }
 
   callMethod(methodName, parameters) {
+    if (!this.entity._key) {
+      throw new Error('Entity.' + methodName + ': can not be called on an unsaved entity');
+    }
+
     return this.service.callMethod(methodName, parameters);
   }
 
