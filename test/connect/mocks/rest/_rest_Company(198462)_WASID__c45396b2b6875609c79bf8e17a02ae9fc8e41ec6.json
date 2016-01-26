@@ -1,16 +1,16 @@
 {
-  "requestUrl": "/rest/Company(198400)",
+  "requestUrl": "/rest/Company(198462)",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
     "__entityModel": "Company",
-    "__KEY": "198400",
-    "__STAMP": 6399,
-    "ID": 198400,
+    "__KEY": "198462",
+    "__STAMP": 6401,
+    "ID": 198462,
     "name": "Bag While Engineering",
     "staff": {
       "__deferred": {
-        "uri": "/rest/Company(198400)/staff?$expand=staff"
+        "uri": "/rest/Company(198462)/staff?$expand=staff"
       }
     }
   },

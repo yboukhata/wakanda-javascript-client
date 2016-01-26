@@ -1,0 +1,38 @@
+{
+  "requestUrl": "/rest/Product(76850)",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__entityModel": "Product",
+    "__KEY": "76850",
+    "__STAMP": 6401,
+    "ID": 76850,
+    "name": "orange true",
+    "myBoolean": null,
+    "born": null,
+    "spec": {
+      "name": "orange true",
+      "myObject": {
+        "myArray": [
+          {
+            "foo": "bar"
+          },
+          "tata"
+        ]
+      },
+      "myArray": [
+        {
+          "foo": "bar"
+        },
+        "tata"
+      ]
+    },
+    "photo": {
+      "__deferred": {
+        "uri": "/rest/Product(76850)/photo?$imageformat=best&$version=6401&$expand=photo",
+        "image": true
+      }
+    }
+  },
+  "headers": {}
+}

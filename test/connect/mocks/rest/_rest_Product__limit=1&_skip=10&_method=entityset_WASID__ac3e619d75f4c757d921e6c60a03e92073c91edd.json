@@ -1,0 +1,46 @@
+{
+  "requestUrl": "/rest/Product?$limit=1&$skip=10&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Product/$entityset/2949C314FC374E5C9C190407256D0FC7",
+    "__entityModel": "Product",
+    "__COUNT": 26,
+    "__SENT": 1,
+    "__FIRST": 10,
+    "__ENTITIES": [
+      {
+        "__KEY": "76850",
+        "__STAMP": 6401,
+        "ID": 76850,
+        "name": "orange true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "name": "orange true",
+          "myObject": {
+            "myArray": [
+              {
+                "foo": "bar"
+              },
+              "tata"
+            ]
+          },
+          "myArray": [
+            {
+              "foo": "bar"
+            },
+            "tata"
+          ]
+        },
+        "photo": {
+          "__deferred": {
+            "uri": "/rest/Product(76850)/photo?$imageformat=best&$version=6401&$expand=photo",
+            "image": true
+          }
+        }
+      }
+    ]
+  },
+  "headers": {}
+}

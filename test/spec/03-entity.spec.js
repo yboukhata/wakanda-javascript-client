@@ -153,11 +153,70 @@ describe('Entity API', function () {
         });
     });
 
-    it('should throw an error when called on non-saved entity', function () {
+    it('should throw an error when called on a non-saved entity', function () {
       var entity = ds.Product.create();
       expect(function () {
         entity.delete();
       }).to.throw(Error);
+    });
+  });
+
+  describe('fetch method', function () {
+    it ('should be defined', function () {
+      var entity = ds.Product.create();
+      expect(entity.fetch).to.be.a('function');
+    });
+
+    it('should return a promise', function () {
+      return ds.Employee.query({pageSize: 1, filter: 'employer.ID > 0'})
+        .then(function (collection) {
+          var employee = collection.entities[0];
+          expect(employee.employer.fetch()).to.be.a('promise');
+        });
+    });
+
+    it('should fetch a deferred related entity', function () {
+      return ds.Employee.query({pageSize: 1, filter: 'employer.ID > 0'})
+        .then(function (collection) {
+          var employee = collection.entities[0];
+          return employee.employer.fetch();
+        })
+        .then(function (company) {
+          expect(company).to.be.an('object');
+          expect(company._stamp).to.be.a('number');
+          expect(company._key).to.be.a('string');
+          expect(company.name).to.be.a('string');
+        });
+    });
+
+    it('should update the fetched entity', function () {
+      var employee;
+
+      return ds.Employee.query({pageSize: 1, filter: 'employer.ID > 0'})
+        .then(function (collection) {
+          employee = collection.entities[0];
+          return employee.employer.fetch();
+        })
+        .then(function (company) {
+          expect(company === employee.employer).to.be.true;
+        });
+    });
+
+    it('should refresh an already fetched entity', function () {
+      var product, originalName;
+
+      //Skipping some product as we removed some of it on previous tests
+      return ds.Product.query({pageSize: 1, start: 10})
+        .then(function (collection) {
+          product = collection.entities[0];
+          originalName = product.name;
+          product.name = "Brand New Product Name";
+
+          return product.fetch();
+        })
+        .then(function () {
+          expect(product.name === originalName);
+        });
     });
   });
 });
