@@ -219,4 +219,47 @@ describe('Entity API', function () {
         });
     });
   });
+
+  describe('user defined methods', function () {
+
+    it('should be defined', function () {
+      return ds.Employee.query({pageSize: 1})
+        .then(function (collection) {
+          var employee = collection.entities[0];
+
+          expect(employee.myEntityMethod).to.be.a('function');
+        });
+    });
+
+    it('should return a promise', function () {
+      return ds.Employee.query({pageSize: 1})
+        .then(function (collection) {
+          var employee = collection.entities[0];
+
+          expect(employee.myEntityMethod()).to.be.a('promise');
+        });
+    });
+
+    it('should return the right value', function () {
+      var employee;
+
+      return ds.Employee.query({pageSize: 1})
+        .then(function (collection) {
+          employee = collection.entities[0];
+
+          return employee.myEntityMethod();
+        })
+        .then(function (result) {
+          expect(result).to.be.equal('Hello from ' + employee.firstName + ' ' + employee.lastName);
+        });
+    });
+
+    it('should fail if called on an unsaved entity', function () {
+      var employee = ds.Employee.create();
+
+      expect(function () {
+        employee.myEntityMethod()
+      }).to.throw(Error);
+    });
+  });
 });
