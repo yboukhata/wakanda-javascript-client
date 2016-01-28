@@ -47,18 +47,12 @@ class BrowserHttpClient extends HttpClient {
   }
 
   _httpResponseAdaptor({request}) {
-    return new Promise((resolve, reject) => {
-      request
-        .then(res => {
-          resolve(new HttpResponse({
-            statusCode: 0,
-            headers: [],
-            body: res.response
-          }));
-        })
-        .catch(err => {
-          reject(err);
-        });
+    return request.then(res => {
+      return new HttpResponse({
+        statusCode: res.statusCode,
+        headers: [],
+        body: res.response
+      });
     });
   }
 }
