@@ -9,21 +9,41 @@ class BrowserHttpClient extends HttpClient {
     this.client = new AureliaHttpClient();
   }
 
-  get({uri}) {
-      let request = this.client.createRequest(this.prefix + uri)
-        .asGet()
-        .send();
+  get({uri, params}) {
+    try {
+      let res = super.get({uri, params});
+      if (res !== null) {
+        return Promise.resolve(res);
+      }
+    }
+    catch (e) {
+      return Promise.reject(e);
+    }
 
-      return this._httpResponseAdaptor({request});
+    let request = this.client.createRequest(this.prefix + uri)
+      .asGet()
+      .send();
+
+    return this._httpResponseAdaptor({request});
   }
 
-  post({uri, data}) {
+  post({uri, data, binary}) {
+    try {
+      let res = super.post({uri, data, binary});
+      if (res !== null) {
+        return Promise.resolve(res);
+      }
+    }
+    catch (e) {
+      return Promise.reject(e);
+    }
+
     let request = this.client.createRequest(this.prefix + uri)
       .asPost()
       .withContent(data)
       .send();
 
-      return this._httpResponseAdaptor({request});
+    return this._httpResponseAdaptor({request});
   }
 
   _httpResponseAdaptor({request}) {

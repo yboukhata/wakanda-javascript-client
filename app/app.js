@@ -1,15 +1,26 @@
 /* eslint-disable */
 
-WakJSC.directory.login('bar', 'bar', 31536000).then(function (e)  {
-  console.log('login successfull', e);
+WakJSC._httpClient.registerRequestInterceptor('GET', function (options) {
+  console.log('GET interceptor', options);
+  throw new Error('No GET request allowed');
+});
 
-  WakJSC.directory.currentUser().then(function (u) {
-    console.log('user', u);
-  })
-  .catch(function (e) {
-    console.log('current user error', e);
+WakJSC._httpClient.registerRequestInterceptor('POST', function (options) {
+  console.log('POST interceptor', options);
+  throw new Error('No POST request allowed');
+});
+
+WakJSC.getCatalog().then(function (ds) {
+  ds.Product.query().then(function (c) {
+    console.log(c);
   });
-})
-.catch(function (e) {
-  console.log('error caught', e);
-})
+}).catch(function (e) {
+  console.error('catalog failed', e);
+});
+
+
+WakJSC.directory.login('bar', 'bar').then(function () {
+  console.log('logged in');
+}).catch(function (e) {
+  console.error('login error', e);
+});

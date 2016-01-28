@@ -14,6 +14,16 @@ class NodeHttpClient extends HttpClient {
   }
 
   get({uri, params}) {
+    try {
+      let res = super.get({uri, params});
+      if (res !== null) {
+        return Promise.resolve(res);
+      }
+    }
+    catch (e) {
+      return Promise.reject(e);
+    }
+
     //TODO - response adapter to transform response from node or browser clients
     //to a standardize one (headers, status code, content etc)
     let options = {
@@ -27,6 +37,16 @@ class NodeHttpClient extends HttpClient {
   }
 
   post({uri, data, binary}) {
+    try {
+      let res = super.post({uri, data, binary});
+      if (res !== null) {
+        return Promise.resolve(res);
+      }
+    }
+    catch (e) {
+      return Promise.reject(e);
+    }
+
     let options = {
       url: this.prefix + uri,
       method: 'POST',

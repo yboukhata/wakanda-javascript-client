@@ -1,15 +1,19 @@
 /* eslint-disable */
 
 var wakjsc = require('../build/wakjsc.node.js');
-var WakJSC = new wakjsc('http://localhost:3000');
+var WakJSC = new wakjsc('http://localhost:8081');
 
 
-WakJSC.getCatalog().then(function(ds) {
+WakJSC.directory.login('bar', 'bar').then(e => {
+  console.log('login successfull', e);
 
-  ds.Employee.myDataClassMethod('foo', 'bar').then(function (result) {
-    console.log('result:', result);
+  WakJSC.directory.currentUser().then(u => {
+    console.log('user', u);
   })
-  .catch(function (e) {
-    console.error('error:', e);
+  .catch(e => {
+    console.log('current user error', e);
   });
-});
+})
+.catch(e => {
+  console.log('error caught', e);
+})
