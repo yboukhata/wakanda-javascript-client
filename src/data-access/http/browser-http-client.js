@@ -20,6 +20,10 @@ class BrowserHttpClient extends HttpClient {
       return Promise.reject(e);
     }
 
+    return this._getWithoutInterceptor({uri, params});
+  }
+
+  _getWithoutInterceptor({uri}) {
     let request = this.client.createRequest(this.prefix + uri)
       .asGet()
       .send();

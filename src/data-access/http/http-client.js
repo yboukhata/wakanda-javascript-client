@@ -3,13 +3,13 @@ class HttpClient {
   constructor({apiPrefix}) {
     this.prefix = apiPrefix;
 
-    this._getInterceptors = [];
-    this._postInterceptors = [];
+    this._getRequestInterceptors = [];
+    this._postRequestInterceptors = [];
   }
 
   get(options) {
-    for (let i = 0; i < this._getInterceptors.length; i++) {
-      let interceptor = this._getInterceptors[i];
+    for (let i = 0; i < this._getRequestInterceptors.length; i++) {
+      let interceptor = this._getRequestInterceptors[i];
       let res = interceptor(options);
 
       if (res !== null && (typeof res !== 'undefined')) {
@@ -21,8 +21,8 @@ class HttpClient {
   }
 
   post(options) {
-    for (let i = 0; i < this._postInterceptors.length; i++) {
-      let interceptor = this._postInterceptors[i];
+    for (let i = 0; i < this._postRequestInterceptors.length; i++) {
+      let interceptor = this._postRequestInterceptors[i];
       let res = interceptor(options);
 
       if (res !== null && (typeof res !== 'undefined')) {
@@ -40,6 +40,19 @@ class HttpClient {
    */
   registerRequestInterceptor(type, callback) {
 
+    let interceptorType = this._interceptorTypeToArray(type);
+
+    interceptorType.forEach(t => {
+      if (t === 'get') {
+        this._getRequestInterceptors.push(callback);
+      }
+      else if(t === 'post') {
+        this._postRequestInterceptors.push(callback);
+      }
+    });
+  }
+
+  _interceptorTypeToArray(type) {
     let interceptorType = [];
 
     if (typeof type === 'string') {
@@ -64,14 +77,7 @@ class HttpClient {
       throw new Error('HttpClient.registerInterceptor: type must be a string or an array');
     }
 
-    interceptorType.forEach(t => {
-      if (t === 'get') {
-        this._getInterceptors.push(callback);
-      }
-      else if(t === 'post') {
-        this._postInterceptors.push(callback);
-      }
-    });
+    return interceptorType;
   }
 
   _isValidInterceptorType(type) {

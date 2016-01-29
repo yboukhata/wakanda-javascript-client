@@ -24,8 +24,10 @@ class NodeHttpClient extends HttpClient {
       return Promise.reject(e);
     }
 
-    //TODO - response adapter to transform response from node or browser clients
-    //to a standardize one (headers, status code, content etc)
+    return this._getWithoutInterceptor({uri, params});
+  }
+
+  _getWithoutInterceptor({uri, params}) {
     let options = {
       url: this.prefix + uri,
       method: 'GET',

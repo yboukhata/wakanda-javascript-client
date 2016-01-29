@@ -1,14 +1,12 @@
 /* eslint-disable */
 
-WakJSC._httpClient.registerRequestInterceptor('GET', function (options) {
-  console.log('GET interceptor', options);
-  throw new Error('No GET request allowed');
+// var WJSCOffline = WakJSC.plugin.offline;
+
+var offline = new WakJSCOffline.default({
+  wakJSC: WakJSC
 });
 
-WakJSC._httpClient.registerRequestInterceptor('POST', function (options) {
-  console.log('POST interceptor', options);
-  throw new Error('No POST request allowed');
-});
+
 
 WakJSC.getCatalog().then(function (ds) {
   ds.Product.query().then(function (c) {
