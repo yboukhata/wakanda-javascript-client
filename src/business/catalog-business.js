@@ -26,7 +26,8 @@ class CatalogBusiness extends AbstractBusiness {
             case 'relatedEntity':
               attributes.push(new AttributeRelated({
                 name: attr.name,
-                type: attr.type
+                type: attr.type,
+                kind: attr.kind
               }));
               break;
             case 'storage':
@@ -36,13 +37,15 @@ class CatalogBusiness extends AbstractBusiness {
               attributes.push(new Attribute({
                 name: attr.name,
                 type: attr.type,
-                readOnly
+                readOnly,
+                kind: attr.kind
               }));
               break;
             case 'relatedEntities':
               attributes.push(new AttributeCollection({
                 name: attr.name,
-                type: attr.type
+                type: attr.type,
+                kind: attr.kind
               }));
               break;
             default:
