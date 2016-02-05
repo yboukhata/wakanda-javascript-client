@@ -3,3 +3,4 @@ build/
 npm-debug.log
 testserver.pid
 app/wakjsc-offline.js*
+.vscode
