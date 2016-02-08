@@ -78,7 +78,8 @@ class CatalogBusiness extends AbstractBusiness {
         let dataClass = new DataClass({
           name: dcDBO.name,
           collectionName: dcDBO.collectionName,
-          attributes
+          attributes,
+          methods
         });
 
         //Binding framework methods to the dataclass

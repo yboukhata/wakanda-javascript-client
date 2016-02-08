@@ -1,8 +1,9 @@
 class DataClass {
-  constructor({name, collectionName, attributes}) {
+  constructor({name, collectionName, attributes, methods}) {
     this.name = name;
     this.collectionName = collectionName;
     this.attributes = attributes;
+    this.methods = methods;
   }
 }
 
