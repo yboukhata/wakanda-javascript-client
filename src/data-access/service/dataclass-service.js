@@ -59,7 +59,7 @@ class DataClassService extends AbstractService {
       data: parameters
     }).then(res => {
       let obj = JSON.parse(res.body);
-      return obj.result || null;
+      return obj.result || obj || null;
     });
   }
 }
