@@ -131,7 +131,8 @@ class DataClassBusiness extends AbstractBusiness {
 
     let entity = new Entity({
       key,
-      deferred
+      deferred,
+      dataClass: this.dataClass
     });
     let business = new EntityBusiness({
       wakJSC: this.wakJSC,
@@ -147,7 +148,8 @@ class DataClassBusiness extends AbstractBusiness {
   _createCollection({uri, deferred, pageSize, initialSelect}) {
 
     let collection = new Collection({
-        deferred: deferred
+        deferred: deferred,
+        dataClass: this.dataClass
       });
     let business = new CollectionBusiness({
       wakJSC: this.wakJSC,
