@@ -63,6 +63,7 @@ class DataClassBusiness extends AbstractBusiness {
 
   query(options) {
     let opt = options || {};
+    let initialSelect = opt.select;
 
     if (!opt.pageSize) {
       opt.pageSize = Const.DEFAULT_PAGE_SIZE;
@@ -71,7 +72,8 @@ class DataClassBusiness extends AbstractBusiness {
     return this.service.query(opt).then(collection => {
       return this._presentationCollectionFromDbo({
         dbo: collection,
-        pageSize: opt.pageSize
+        pageSize: opt.pageSize,
+        initialSelect
       });
     });
   }
@@ -115,7 +117,7 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _createCollection({uri, deferred, pageSize}) {
+  _createCollection({uri, deferred, pageSize, initialSelect}) {
 
     let collection = new Collection({
         deferred: deferred
@@ -126,7 +128,8 @@ class DataClassBusiness extends AbstractBusiness {
       dataClassBusiness: this,
       collection,
       collectionUri: uri,
-      pageSize
+      pageSize,
+      initialSelect
     });
     business._decorateCollection();
 
@@ -226,7 +229,7 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _presentationCollectionFromDbo({dbo, pageSize}) {
+  _presentationCollectionFromDbo({dbo, pageSize, initialSelect}) {
     var collection;
 
     if (!dbo) {
@@ -241,7 +244,8 @@ class DataClassBusiness extends AbstractBusiness {
     else {
       collection = this._createCollection({
         uri: dbo.__ENTITYSET,
-        pageSize: pageSize || dbo.__ENTITIES.length
+        pageSize: pageSize || dbo.__ENTITIES.length,
+        initialSelect
       });
       collection._count = dbo.__COUNT;
       collection._first = dbo.__FIRST;

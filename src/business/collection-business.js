@@ -3,7 +3,7 @@ import CollectionService from '../data-access/service/collection-service';
 import Const from '../const';
 
 class CollectionBusiness extends AbstractBusiness {
-  constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri, pageSize}) {
+  constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri, pageSize, initialSelect}) {
     super({wakJSC});
 
     this.collection = collection;
@@ -16,6 +16,7 @@ class CollectionBusiness extends AbstractBusiness {
       collectionUri
     });
     this.pageSize = pageSize;
+    this.initialSelect = initialSelect;
   }
 
   _decorateCollection() {
@@ -33,6 +34,11 @@ class CollectionBusiness extends AbstractBusiness {
     if (!opt.pageSize) {
       opt.pageSize = Const.DEFAULT_PAGE_SIZE;
     }
+
+    if (opt.select) {
+      this.initialSelect = opt.select;
+    }
+    
     this.pageSize = opt.pageSize;
 
     return this.service.fetch(opt).then(collectionDbo => {
@@ -55,6 +61,10 @@ class CollectionBusiness extends AbstractBusiness {
       start: this.collection._first + this.collection._sent,
       pageSize: this.pageSize
     };
+
+    if (this.initialSelect) {
+      options.select = this.initialSelect;
+    }
 
     return this.service.fetch(options)
       .then(dbo => {
