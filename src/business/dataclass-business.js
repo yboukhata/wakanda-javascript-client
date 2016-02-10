@@ -247,9 +247,10 @@ class DataClassBusiness extends AbstractBusiness {
         pageSize: pageSize || dbo.__ENTITIES.length,
         initialSelect
       });
-      collection._count = dbo.__COUNT;
-      collection._first = dbo.__FIRST;
-      collection._sent  = dbo.__SENT;
+      collection._count     = dbo.__COUNT;
+      collection._first     = dbo.__FIRST;
+      collection._sent      = dbo.__SENT;
+      collection._pageSize  = pageSize;
 
       for (let dboEntity of dbo.__ENTITIES) {
         collection.entities.push(this._presentationEntityFromDbo({
