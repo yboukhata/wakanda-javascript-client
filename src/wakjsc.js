@@ -1,5 +1,7 @@
 import CatalogBusiness from './business/catalog-business';
 import DirectoryBusiness from './business/directory-business';
+import Entity from './presentation/entity';
+import Collection from './presentation/collection';
 
 class WakJSC {
   constructor(host) {
@@ -23,6 +25,15 @@ class WakJSC {
       },
       currentUserBelongsTo: (group) => {
         return directoryBusiness.currentUserBelongsTo(group);
+      }
+    };
+
+    this.helper = {
+      isEntity: object => {
+        return object instanceof Entity;
+      },
+      isCollection: object => {
+        return object instanceof Collection;
       }
     };
   }
