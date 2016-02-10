@@ -86,7 +86,7 @@ describe('Directory API', function () {
     });
 
     it('should return current user info if logged in', function () {
-      return dir.login('bar', 'bar').then(function () {
+      return dir.login('bar', 'bar', 3600 * 24 * 365).then(function () {
         return dir.currentUser().then(function (user) {
           expect(user.userName).to.be.equal('bar');
           expect(user.fullName).to.be.equal('bar');
@@ -127,7 +127,7 @@ describe('Directory API', function () {
     });
 
     it('should resolve true if current user belongs to given group', function () {
-      return dir.login('bar', 'bar').then(function (user) {
+      return dir.login('bar', 'bar', 3600 * 24 * 365).then(function (user) {
         return dir.currentUserBelongsTo('Admin').then(function (result) {
           expect(result).to.be.true;
         });

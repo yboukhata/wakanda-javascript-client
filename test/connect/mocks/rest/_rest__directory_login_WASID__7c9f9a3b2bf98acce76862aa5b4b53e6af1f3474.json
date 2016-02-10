@@ -7,8 +7,8 @@
   },
   "headers": {
     "set-cookie": [
-      "WASID=0B8ABEF8FDD34CB2AFC0880E651DFBBF; Path=/; Max-Age=31536000; Expires=Wed, 25-Jan-2017 09:33:43 GMT; HttpOnly; Version=1"
+      "WASID=05BC6244BA554F2BACEB6C2A56B854A9; Path=/; Max-Age=31536000; Expires=Thu, 09-Feb-2017 09:05:17 GMT; HttpOnly; Version=1"
     ],
-    "wasid": "0B8ABEF8FDD34CB2AFC0880E651DFBBF"
+    "wasid": "05BC6244BA554F2BACEB6C2A56B854A9"
   }
 }

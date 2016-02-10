@@ -1,9 +1,9 @@
 {
-  "requestUrl": "/rest/Product(76859)?$method=delete",
+  "requestUrl": "/rest/Employee(3203502)/myEntityMethod",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "ok": true
+    "result": "Hello from HARRY LUHEJI"
   },
   "headers": {}
 }
