@@ -22,6 +22,7 @@ class CollectionBusiness extends AbstractBusiness {
     this.collection.fetch = this.fetch.bind(this);
     this.collection.nextPage = this.nextPage.bind(this);
     this.collection.prevPage = this.prevPage.bind(this);
+    this.collection.more = this.more.bind(this);
 
     this._addUserDefinedMethods();
   }
@@ -42,6 +43,31 @@ class CollectionBusiness extends AbstractBusiness {
       this._refreshCollection({fresherCollection});
       return this.collection;
     });
+  }
+
+  more() {
+
+    if (this.collection._deferred === true) {
+      throw new Error('Collection.more: can not call more on a deferred collection');
+    }
+
+    let options = {
+      start: this.collection._first + this.collection._sent,
+      pageSize: this.pageSize
+    };
+
+    return this.service.fetch(options)
+      .then(dbo => {
+        this.collection._sent += dbo.__ENTITIES.length;
+
+        for (let entity of dbo.__ENTITIES) {
+          this.collection.entities.push(this.dataClassBusiness._presentationEntityFromDbo({
+            dbo: entity
+          }));
+        }
+
+        return this.collection;
+      });
   }
 
   nextPage() {
