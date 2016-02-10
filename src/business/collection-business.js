@@ -38,7 +38,7 @@ class CollectionBusiness extends AbstractBusiness {
     if (opt.select) {
       this.initialSelect = opt.select;
     }
-    
+
     this.pageSize = opt.pageSize;
 
     return this.service.fetch(opt).then(collectionDbo => {
@@ -91,6 +91,10 @@ class CollectionBusiness extends AbstractBusiness {
       pageSize: this.pageSize
     };
 
+    if (this.initialSelect) {
+      options.select = this.initialSelect;
+    }
+
     return this.fetch(options);
   }
 
@@ -104,6 +108,10 @@ class CollectionBusiness extends AbstractBusiness {
       start: this.collection._first - this.pageSize,
       pageSize: this.pageSize
     };
+
+    if (this.initialSelect) {
+      options.select = this.initialSelect;
+    }
 
     return this.fetch(options);
   }
