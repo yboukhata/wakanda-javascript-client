@@ -24,6 +24,7 @@ class DataClassBusiness extends AbstractBusiness {
     });
 
     _dataClassBusinessMap.set(dataClass.name, this);
+    this._dataClassBusinessMap = _dataClassBusinessMap;
   }
 
   _decorateDataClass() {
@@ -48,7 +49,33 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   callMethod(methodName, parameters) {
-    return this.service.callMethod(methodName, parameters);
+    return this.service.callMethod(methodName, parameters)
+      .then(obj => {
+
+        if (obj && obj.__entityModel) {
+          let business = _dataClassBusinessMap.get(obj.__entityModel);
+
+          if (business) {
+            //Returned object is a collection
+            if (typeof obj.__COUNT !== 'undefined' &&
+                typeof obj.__ENTITIES !== 'undefined' &&
+                typeof obj.__FIRST !== 'undefined' &&
+                typeof obj.__SENT !== 'undefined') {
+              return business._presentationCollectionFromDbo({
+                dbo: obj
+              });
+            }
+            //Returned object is an entity
+            else if (obj.__KEY && obj.__STAMP) {
+              return business._presentationEntityFromDbo({
+                dbo: obj
+              });
+            }
+          }
+        }
+
+        return obj;
+      });
   }
 
   find(id, options) {

@@ -48,7 +48,33 @@ class EntityBusiness extends AbstractBusiness {
       throw new Error('Entity.' + methodName + ': can not be called on an unsaved entity');
     }
 
-    return this.service.callMethod(methodName, parameters);
+    return this.service.callMethod(methodName, parameters)
+    .then(obj => {
+
+      if (obj && obj.__entityModel) {
+        let business = this.dataClassBusiness._dataClassBusinessMap.get(obj.__entityModel);
+
+        if (business) {
+          //Returned object is a collection
+          if (typeof obj.__COUNT !== 'undefined' &&
+              typeof obj.__ENTITIES !== 'undefined' &&
+              typeof obj.__FIRST !== 'undefined' &&
+              typeof obj.__SENT !== 'undefined') {
+            return business._presentationCollectionFromDbo({
+              dbo: obj
+            });
+          }
+          //Returned object is an entity
+          else if (obj.__KEY && obj.__STAMP) {
+            return business._presentationEntityFromDbo({
+              dbo: obj
+            });
+          }
+        }
+      }
+
+      return obj;
+    });
   }
 
   delete() {

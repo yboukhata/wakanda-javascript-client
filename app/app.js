@@ -9,23 +9,18 @@
 
 WakJSC.getCatalog().then(function (ds) {
   console.log(ds);
-  ds.Employee.query({pageSize: 5}).then(function (c) {
-    console.log(c);
 
-    debugger;
-    c.more().then(function () {
-      console.log(c);
-      debugger;
+  ds.Employee.oneEmployee().then(function (e) {
+    console.log(e);
+  })
 
-      c.more().then(function () {
-        console.log(c);
-        debugger;
+  ds.Employee.lotsOfEmployees().then(function (e) {
+    console.log(e);
+  })
 
-        c.more().then(function () {
-          console.log(c);
-          debugger;
-        })
-      })
+  ds.Company.query({pageSize: 1}).then(function (c) {
+    c.entities[0].me().then(function (e) {
+      console.log(e);
     })
   })
 })
