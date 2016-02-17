@@ -14,7 +14,8 @@
     "test-server:start": "node test/connect/server.js & echo $! > testserver.pid && sleep 1",
     "test-server:stop": "kill `cat testserver.pid` && rm testserver.pid",
     "test-server:record": "node test/connect/server.js record & echo $! > testserver.pid",
-    "test-server:init": "rm -rf test/connect/mocks && npm run test-server:record && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop"
+    "test-server:init": "rm -rf test/connect/mocks && npm run test-server:record && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop",
+    "codecov": "cat coverage/*/lcov.info | codecov"
   },
   "author": "Wakanda SAS",
   "license": "MIT",
@@ -26,6 +27,7 @@
     "body-parser": "^1.14.2",
     "chai": "^3.4.1",
     "chalk": "^1.1.1",
+    "codecov.io": "^0.1.6",
     "connect": "^3.4.0",
     "connect-prism": "mrblackus/connect-prism",
     "eslint": "^1.10.3",
@@ -38,6 +40,7 @@
     "json-loader": "^0.5.4",
     "karma": "^0.13.15",
     "karma-chai": "^0.1.0",
+    "karma-coverage": "^0.5.3",
     "karma-mocha": "^0.2.1",
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-verbose-reporter": "0.0.3",
