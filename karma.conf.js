@@ -2,8 +2,10 @@
 // Generated on Tue Dec 22 2015 13:52:35 GMT+0100 (CET)
 /* eslint-disable */
 
-var testEnv = process.env.TEST_ENV || 'integration';
-var serverInfo = require('./test/server.' + testEnv + '.json');
+var testEnv     = process.env.TEST_ENV || 'integration';
+var isCI        = process.env.CI === true || process.env.CI === 'true';
+var serverInfo  = require('./test/server.' + testEnv + '.json');
+var buildFile   = isCI ? 'karma.wakjsc.js' : 'wakjsc.js';
 
 module.exports = function(config) {
   config.set({
@@ -20,7 +22,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/customevent-polyfill.js',
-      'build/wakjsc.js',
+      'build/' + buildFile,
       'test/bootstrap.js',
       'test/spec/**/*.spec.js'
     ],
@@ -44,7 +46,14 @@ module.exports = function(config) {
     reporters: ['verbose', 'progress', 'coverage'],
 
     coverageReporter: {
-      reporters: [{type: 'lcov'}]
+      reporters: [
+        {
+          type: 'lcov'
+        },
+        {
+          type: 'html'
+        }
+      ]
     },
 
     // web server port

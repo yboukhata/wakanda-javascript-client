@@ -4,7 +4,13 @@ npm run test-server:start
 
 if [[ "$1" != "single" ]]
 then
-  npm run webpack-build
+  if [[ $CI == "true" ]]
+  then
+    npm run webpack-build:ci
+  else
+    npm run webpack-build
+  fi
+    
   RESULT=$?
 
   if [[ RESULT -gt 0 ]]
