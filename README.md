@@ -1,6 +1,7 @@
 # Wakanda Javascript Client
 
 [![Build Status](https://travis-ci.org/Wakanda/wakanda-javascript-client.svg?branch=master)](https://travis-ci.org/Wakanda/wakanda-javascript-client)
+[![codecov.io](https://codecov.io/github/Wakanda/wakanda-javascript-client/coverage.svg?branch=master)](https://codecov.io/github/Wakanda/wakanda-javascript-client?branch=master)
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
 Minimalist, framework agnostic, JS client to interact with REST API that exposes a
