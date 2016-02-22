@@ -5,7 +5,7 @@ var fs = require('fs');
 var baseConfig = {
   name: 'base',
   entry: [
-    "./src/entry.browser.js"
+    "./src/entry.browser.ts"
   ],
   output: {
     filename: "wakjsc.js",
@@ -15,22 +15,20 @@ var baseConfig = {
   },
   devtool: 'source-map',
   resolve: {
+    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js'],
     alias: {
       'aurelia-http-client': path.join(__dirname, './lib/aurelia-http-client')
     }
   },
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        exclude: [
-          /node_modules/,
-          /lib/
-        ],
-        loader: 'eslint-loader'
-      }
-    ],
     loaders: [{
+      test: /\.ts$/,
+      exclude: [
+        /node_modules/
+      ],
+      loader: 'ts-loader'
+    },
+    {
       test: /\.js$/,
       exclude: [
         /node_modules/
@@ -64,7 +62,7 @@ fs.readdirSync('node_modules')
 var nodeConfig = {
   name: 'node',
   entry: [
-    "./src/entry.node.js"
+    "./src/entry.node.ts"
   ],
   target: 'node',
   output: {

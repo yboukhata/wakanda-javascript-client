@@ -5,3 +5,4 @@ testserver.pid
 app/wakjsc-offline.js*
 .vscode
 coverage/
+tsBuild/

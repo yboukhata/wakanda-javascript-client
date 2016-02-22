@@ -16,7 +16,8 @@
     "test-server:stop": "kill `cat testserver.pid` && rm testserver.pid",
     "test-server:record": "node test/connect/server.js record & echo $! > testserver.pid",
     "test-server:init": "rm -rf test/connect/mocks && npm run test-server:record && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop",
-    "codecov": "cat coverage/*/lcov.info | codecov"
+    "codecov": "cat coverage/*/lcov.info | codecov",
+    "tsc": "node ./node_modules/typescript/bin/tsc"
   },
   "author": "Wakanda SAS",
   "license": "MIT",
@@ -51,6 +52,8 @@
     "path": "^0.12.7",
     "phantomjs": "^1.9.19",
     "serve-static": "^1.10.2",
+    "ts-loader": "^0.8.1",
+    "typescript": "^1.7.5",
     "webpack": "^1.12.9"
   },
   "dependencies": {

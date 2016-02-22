@@ -39,13 +39,14 @@ class DataClassBusiness extends AbstractBusiness {
 
   _addUserDefinedMethods() {
     let _this = this;
-    for (let method of this.methods.dataClass) {
+    // for (let method of this.methods.dataClass) {
+    this.methods.dataClass.forEach(method => {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.dataClass[method] = function() {
         let params = Array.from(arguments);
         return _this.callMethod(method, params);
       };
-    }
+    });
   }
 
   callMethod(methodName, parameters) {

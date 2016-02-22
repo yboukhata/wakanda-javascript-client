@@ -1,0 +1,37 @@
+{
+  "requestUrl": "/rest/Product?$method=update",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__KEY": "3264",
+    "__STAMP": 386,
+    "uri": "/rest/Product(3264)",
+    "ID": 3264,
+    "name": "watermelon true",
+    "myBoolean": true,
+    "spec": {
+      "name": "watermelon true",
+      "myObject": {
+        "myArray": [
+          {
+            "foo": "bar"
+          },
+          "tata"
+        ]
+      },
+      "myArray": [
+        {
+          "foo": "bar"
+        },
+        "tata"
+      ]
+    },
+    "photo": {
+      "__deferred": {
+        "uri": "/rest/Product(3264)/photo?$imageformat=best&$version=386&$expand=photo",
+        "image": true
+      }
+    }
+  },
+  "headers": {}
+}

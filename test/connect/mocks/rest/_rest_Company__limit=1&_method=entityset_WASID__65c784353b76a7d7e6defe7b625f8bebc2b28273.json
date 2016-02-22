@@ -3,20 +3,20 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Company/$entityset/98E1E6EBC74C44AEA61372CC5537E8BE",
+    "__ENTITYSET": "/rest/Company/$entityset/E0B64B6DEE174F14B5D0D317E77FAF93",
     "__entityModel": "Company",
     "__COUNT": 62,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "198586",
-        "__STAMP": 6405,
-        "ID": 198586,
+        "__KEY": "8432",
+        "__STAMP": 271,
+        "ID": 8432,
         "name": "Bag While Engineering",
         "staff": {
           "__deferred": {
-            "uri": "/rest/Company(198586)/staff?$expand=staff"
+            "uri": "/rest/Company(8432)/staff?$expand=staff"
           }
         }
       }
