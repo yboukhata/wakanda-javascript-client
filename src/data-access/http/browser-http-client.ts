@@ -20,7 +20,8 @@ class BrowserHttpClient extends HttpClient {
       return Promise.reject(e);
     }
 
-    return this._getWithoutInterceptor({uri, params});
+    let result = this._getWithoutInterceptor({uri, params});
+    return super.responseGet(result);
   }
 
   _getWithoutInterceptor({uri}) {
@@ -47,7 +48,8 @@ class BrowserHttpClient extends HttpClient {
       .withContent(data)
       .send();
 
-    return this._httpResponseAdaptor({request});
+    let result = this._httpResponseAdaptor({request});
+    return super.responsePost(result);
   }
 
   _httpResponseAdaptor({request}) {

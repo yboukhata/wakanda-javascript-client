@@ -1,13 +1,38 @@
+interface RequestOption {
+  uri: string;
+}
+
+interface GetRequestOption extends RequestOption {
+  params?: any;
+}
+
+interface PostRequestOption extends RequestOption {
+  data?: any;
+  binary?: boolean;
+}
+
+type RequestInterceptor<T extends RequestOption> = (options: T) => any;
+type ResponseInterceptor = (promise: Promise) => Promise;
+
 class HttpClient {
+
+  public prefix: string;
+  
+  private _getRequestInterceptors: RequestInterceptor<GetRequestOption>[];
+  private _postRequestInterceptors: RequestInterceptor<PostRequestOption>[];
+  private _getResponseInterceptors: ResponseInterceptor[];
+  private _postResponseInterceptors: ResponseInterceptor[];
 
   constructor({apiPrefix}) {
     this.prefix = apiPrefix;
 
     this._getRequestInterceptors = [];
     this._postRequestInterceptors = [];
+    this._getResponseInterceptors = [];
+    this._postResponseInterceptors = [];
   }
 
-  get(options) {
+  public get(options: GetRequestOption) {
     for (let i = 0; i < this._getRequestInterceptors.length; i++) {
       let interceptor = this._getRequestInterceptors[i];
       let res = interceptor(options);
@@ -20,7 +45,7 @@ class HttpClient {
     return null;
   }
 
-  post(options) {
+  public post(options: PostRequestOption) {
     for (let i = 0; i < this._postRequestInterceptors.length; i++) {
       let interceptor = this._postRequestInterceptors[i];
       let res = interceptor(options);
@@ -32,13 +57,46 @@ class HttpClient {
 
     return null;
   }
+  
+  /**
+   * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
+   */
+  protected responseGet(promise: Promise): Promise {
+    //Execute response interceptors
+
+    for(let interceptor of this._getResponseInterceptors) {
+      let res = interceptor(promise);
+      
+      if (res) {
+        return res;
+      }
+    }
+    
+    return promise;
+  }
+  
+  /**
+   * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
+   */
+  protected responsePost(promise: Promise) {
+    //Execute response interceptors
+    for(let interceptor of this._postResponseInterceptors) {
+      let res = interceptor(promise);
+      
+      if (res) {
+        return res;
+      }
+    }
+    
+    return promise;
+  }
 
   /**
    * @param {array|string} type - HTTP verb of the request to intercept
    * @param {function} callback - The interceptor function to execute before HTTP request. If it returns something different than null, the underlying HTTP request won't be executed
    * @returns {null|object} Returns null or an object, if an object is returned, the underlying HTTP request won't be executed
    */
-  registerRequestInterceptor(type, callback) {
+  public registerRequestInterceptor(type: string|string[], callback: RequestInterceptor<RequestOption>) {
 
     let interceptorType = this._interceptorTypeToArray(type);
 
@@ -51,9 +109,23 @@ class HttpClient {
       }
     });
   }
+  
+  public registerResponseInterceptor(type: string|string[], callback: ResponseInterceptor) {
+    
+    let interceptorType = this._interceptorTypeToArray(type);
 
-  _interceptorTypeToArray(type) {
-    let interceptorType = [];
+    interceptorType.forEach(t => {
+      if (t === 'get') {
+        this._getResponseInterceptors.push(callback);
+      }
+      else if(t === 'post') {
+        this._postResponseInterceptors.push(callback);
+      }
+    });
+  }
+
+  private _interceptorTypeToArray(type: string|string[]): string[] {
+    let interceptorType: string[] = [];
 
     if (typeof type === 'string') {
       if (!this._isValidInterceptorType(type.toLowerCase())) {
@@ -80,7 +152,7 @@ class HttpClient {
     return interceptorType;
   }
 
-  _isValidInterceptorType(type) {
+  private _isValidInterceptorType(type: string): boolean {
     let validTypes = ['get', 'post'];
 
     return validTypes.indexOf(type) !== -1;
