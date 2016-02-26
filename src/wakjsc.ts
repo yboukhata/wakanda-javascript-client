@@ -1,10 +1,33 @@
+import {Promise} from 'es6-promise';
+
 import CatalogBusiness from './business/catalog-business';
 import DirectoryBusiness from './business/directory-business';
 import Entity from './presentation/entity';
 import Collection from './presentation/collection';
+import HttpClient from './data-access/http/http-client';
+import Catalog from './presentation/catalog';
+
+export interface Directory {
+  login(username: string, password: string, duration?: number): Promise<boolean>;
+  logout(): Promise<boolean>;
+  currentUser(): Promise<any>;
+  currentUserBelongsTo(groupName: string): Promise<boolean>;
+}
+
+export interface Helper {
+  isEntity(object: any): boolean;
+  isCollection(object: any): boolean;
+}
 
 class WakJSC {
-  constructor(host) {
+  
+  public static HttpClient: typeof HttpClient;
+  
+  public _httpClient: HttpClient;
+  public directory: Directory;
+  public helper: Helper;
+  
+  constructor(host?: string) {
     this._httpClient = new WakJSC.HttpClient({
       apiPrefix: (host || '') + '/rest'
     });
@@ -38,7 +61,7 @@ class WakJSC {
     };
   }
 
-  getCatalog(dataClasses) {
+  getCatalog(dataClasses?: string[]): Promise<Catalog> {
     let catalogBusiness = new CatalogBusiness({
       wakJSC: this
     });
@@ -46,7 +69,7 @@ class WakJSC {
     return catalogBusiness.get(dataClasses);
   }
 
-  version() {
+  version(): string {
     return '0.0.1';
   }
 }

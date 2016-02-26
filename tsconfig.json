@@ -2,7 +2,7 @@
     "compilerOptions": {
         "noImplicitAny": true,
         "module": "commonjs",
-        "target": "ES5",
+        "target": "es5",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "sourceMap": true,
@@ -10,9 +10,7 @@
         "outDir": "tsBuild"
     },
     "files": [
-        "src/entry.browser.ts"
-    ],
-    "exclude": [
-        "node_modules"
+      "typings/main.d.ts",
+      "src/entry.browser.ts"
     ]
 }
