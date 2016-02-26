@@ -12,7 +12,7 @@ interface PostRequestOption extends RequestOption {
 }
 
 type RequestInterceptor<T extends RequestOption> = (options: T) => any;
-type ResponseInterceptor = (promise: Promise) => Promise;
+type ResponseInterceptor = (requestUri: string, promise: Promise) => Promise;
 
 class HttpClient {
 
@@ -61,11 +61,11 @@ class HttpClient {
   /**
    * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
    */
-  protected responseGet(promise: Promise): Promise {
+  protected responseGet(requestUri:string, promise: Promise): Promise {
     //Execute response interceptors
 
     for(let interceptor of this._getResponseInterceptors) {
-      let res = interceptor(promise);
+      let res = interceptor(requestUri, promise);
       
       if (res) {
         return res;
@@ -78,10 +78,10 @@ class HttpClient {
   /**
    * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
    */
-  protected responsePost(promise: Promise) {
+  protected responsePost(requestUri: string, promise: Promise) {
     //Execute response interceptors
     for(let interceptor of this._postResponseInterceptors) {
-      let res = interceptor(promise);
+      let res = interceptor(requestUri, promise);
       
       if (res) {
         return res;

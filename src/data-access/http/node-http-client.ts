@@ -25,7 +25,7 @@ class NodeHttpClient extends HttpClient {
     }
 
     let result = this._getWithoutInterceptor({uri, params});
-    return super.responseGet(result);
+    return super.responseGet(uri, result);
   }
 
   _getWithoutInterceptor({uri, params}) {
@@ -70,7 +70,7 @@ class NodeHttpClient extends HttpClient {
     }
 
     let result = this._httpResponseAdaptor({requestOptions: options});
-    return super.responsePost(result);
+    return super.responsePost(uri, result);
   }
 
   _httpResponseAdaptor({requestOptions}) {

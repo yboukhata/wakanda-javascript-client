@@ -21,7 +21,7 @@ class BrowserHttpClient extends HttpClient {
     }
 
     let result = this._getWithoutInterceptor({uri, params});
-    return super.responseGet(result);
+    return super.responseGet(uri, result);
   }
 
   _getWithoutInterceptor({uri}) {
@@ -49,7 +49,7 @@ class BrowserHttpClient extends HttpClient {
       .send();
 
     let result = this._httpResponseAdaptor({request});
-    return super.responsePost(result);
+    return super.responsePost(uri, result);
   }
 
   _httpResponseAdaptor({request}) {
