@@ -3,10 +3,14 @@ export class DataClass {
   public name: string;
   public collectionName: string;
   public attributes: Attribute[];
-  public methods: any[];
+  public methods: {
+    entity: string[],
+    collection: string[],
+    dataClass: string[]
+  };
   
   constructor({name, collectionName, attributes, methods}:
-    {name: string, collectionName: string, attributes: Attribute[], methods: any[]}) {
+    {name: string, collectionName: string, attributes: Attribute[], methods: {entity: string[], collection: string[], dataClass: string[]}}) {
       
     this.name = name;
     this.collectionName = collectionName;
@@ -23,7 +27,7 @@ export class Attribute {
   public kind: string;
   
   constructor({name, type, readOnly, kind}:
-   {name: string, type: string, readOnly: boolean, kind: string}) {
+   {name: string, type: string, readOnly?: boolean, kind: string}) {
      
     this.name = name;
     this.type = type;
@@ -41,7 +45,7 @@ export class AttributeCollection extends Attribute {
   public entityType: string;
   
   constructor({name, type, readOnly, kind}:
-    {name: string, type: string, readOnly: boolean, kind: string}) {
+    {name: string, type: string, readOnly?: boolean, kind: string}) {
       
     super({name, type, readOnly, kind});
     this.entityType = type.substring(0, type.length - 10);

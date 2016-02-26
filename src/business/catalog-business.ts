@@ -1,11 +1,31 @@
+import {Promise} from 'es6-promise';
+
 import AbstractBusiness from './abstract-business';
 import CatalogService from '../data-access/service/catalog-service';
 import Catalog from '../presentation/catalog';
 import {DataClass, Attribute, AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 import DataClassBusiness from './dataclass-business';
 
+export interface DataClassDBO {
+  name: string;
+  collectionName: string;
+  attributes: {
+    name: string,
+    type: string,
+    kind: string,
+    readOnly: boolean
+  }[];
+  methods: {
+    name: string,
+    applyTo: string
+  }[];
+}
+
 class CatalogBusiness extends AbstractBusiness {
-  constructor(obj) {
+  
+  private service: CatalogService;
+  
+  constructor(obj: any) {
     super(obj);
 
     this.service = new CatalogService({
@@ -13,13 +33,13 @@ class CatalogBusiness extends AbstractBusiness {
     });
   }
 
-  get(dataClasses) {
-    return this.service.get(dataClasses).then(dataClassDBOArray => {
+  get(dataClasses?: string[]): Promise<Catalog> {
+    return this.service.get(dataClasses).then((dataClassDBOArray: DataClassDBO[]) => {
 
-      let dcArray = [];
+      let dcArray: DataClass[] = [];
 
       for (let dcDBO of dataClassDBOArray) {
-        let attributes = [];
+        let attributes: Attribute[] = [];
 
         for(let attr of dcDBO.attributes) {
           switch (attr.kind) {
@@ -53,7 +73,11 @@ class CatalogBusiness extends AbstractBusiness {
           }
         }
 
-        let methods = {
+        let methods: {
+          entity: string[],
+          collection: string[],
+          dataClass: string[]
+        } = {
           entity: [],
           collection: [],
           dataClass: []
