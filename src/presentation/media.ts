@@ -1,5 +1,8 @@
 class Media {
-  constructor({uri}) {
+  
+  public uri: string;
+  
+  constructor({uri}, {uri: string}) {
     this.uri = uri;
   }
 }

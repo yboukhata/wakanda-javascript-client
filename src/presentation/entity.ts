@@ -1,5 +1,14 @@
+import {DataClass} from './dataclass';
+
 class Entity {
-  constructor({key, deferred, dataClass}) {
+  
+  public _key: string;
+  public _deferred: boolean;
+  public _dataClass: DataClass;
+  
+  constructor({key, deferred, dataClass}:
+   {key: string, deferred: boolean, dataClass: DataClass}) {
+     
     this._key = key;
     this._deferred = deferred === true;
 
