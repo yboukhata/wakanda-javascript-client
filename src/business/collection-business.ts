@@ -16,6 +16,8 @@ export interface CollectionDBO {
   __SENT: number;
   __ENTITIES: EntityDBO[];
   __deferred: {uri: string};
+  
+  [key: string]: any;
 }
 
 class CollectionBusiness extends AbstractBusiness {

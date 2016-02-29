@@ -1,3 +1,5 @@
+/// <reference path="./request.d.ts" />
+
 import {Promise} from 'es6-promise';
 import request = require('request');
 
@@ -82,7 +84,7 @@ class NodeHttpClient extends HttpClient {
 
   _httpResponseAdaptor({requestOptions}): Promise<HttpResponse> {
     return new Promise((resolve, reject) => {
-      this.request(requestOptions, (error, response, body) => {
+      this.request(requestOptions, (error: any, response: any, body: string) => {
         if (error || response.statusCode >= 400) {
           reject(error || {statusMessage: response.statusMessage, body: body});
         }

@@ -12,6 +12,8 @@ export interface EntityDBO {
   __KEY?: string;
   __STAMP?: number;
   __deferred?: {uri: string, __KEY: string};
+  
+  [key: string]: any;
 }
 
 class EntityBusiness extends AbstractBusiness {

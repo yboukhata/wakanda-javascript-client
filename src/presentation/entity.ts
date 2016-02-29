@@ -10,6 +10,8 @@ class Entity {
   public _deferred: boolean;
   public _dataClass: DataClass;
   
+  [key: string]: any;
+  
   public save: () => Promise<Entity>;
   public delete: () => Promise<void>;
   public fetch: (options?: QueryOption) => Promise<Entity>;

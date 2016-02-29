@@ -13,6 +13,8 @@ class Collection {
   public _sent: number;
   public _pageSize: number;
   
+  [key: string]: any;
+  
   private _dataClass: DataClass;
   
   public fetch: (options?: QueryOption) => Promise<Collection>;

@@ -19,6 +19,8 @@ export class DataClass {
   public query: (options?: QueryOption) => Promise<Collection>;
   public create: (pojo?: any) => Entity;
   
+  [key: string]: any;
+  
   constructor({name, collectionName, attributes, methods}:
     {name: string, collectionName: string, attributes: Attribute[], methods: {entity: string[], collection: string[], dataClass: string[]}}) {
       
