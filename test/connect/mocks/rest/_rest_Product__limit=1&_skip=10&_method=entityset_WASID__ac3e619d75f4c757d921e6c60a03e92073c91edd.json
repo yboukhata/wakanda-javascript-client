@@ -3,21 +3,21 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Product/$entityset/65D627775BD445BE899189860731922C",
+    "__ENTITYSET": "/rest/Product/$entityset/824DFE625F13400997EF59B4C3976E4D",
     "__entityModel": "Product",
     "__COUNT": 26,
     "__SENT": 1,
     "__FIRST": 10,
     "__ENTITIES": [
       {
-        "__KEY": "3253",
-        "__STAMP": 271,
-        "ID": 3253,
-        "name": "melon true",
+        "__KEY": "3523",
+        "__STAMP": 293,
+        "ID": 3523,
+        "name": "orange true",
         "myBoolean": null,
         "born": null,
         "spec": {
-          "name": "melon true",
+          "name": "orange true",
           "myObject": {
             "myArray": [
               {
@@ -35,7 +35,7 @@
         },
         "photo": {
           "__deferred": {
-            "uri": "/rest/Product(3253)/photo?$imageformat=best&$version=271&$expand=photo",
+            "uri": "/rest/Product(3523)/photo?$imageformat=best&$version=293&$expand=photo",
             "image": true
           }
         }
