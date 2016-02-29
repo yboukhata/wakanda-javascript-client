@@ -1,5 +1,7 @@
+import {QueryOption} from '../presentation/query-option';
+
 class Util {
-  static handleOptions(options) {
+  static handleOptions(options: QueryOption) {
 
     if (!options) {
       return '';
@@ -79,11 +81,11 @@ class Util {
     return ret === '?' ? '' : ret;
   }
 
-  static isInteger(n) {
+  static isInteger(n: any) {
     return typeof n === 'number' && !isNaN(n) && (n % 1) === 0;
   }
 
-  static removeRestInfoFromEntity(entity) {
+  static removeRestInfoFromEntity(entity: any) {
     for (let prop in entity) {
       if (Object.prototype.hasOwnProperty.call(entity, prop)) {
         let p = entity[prop];

@@ -3,6 +3,7 @@ import {DataClass} from './dataclass';
 class Entity {
   
   public _key: string;
+  public _stamp: number;
   public _deferred: boolean;
   public _dataClass: DataClass;
   

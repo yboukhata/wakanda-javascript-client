@@ -3,6 +3,12 @@ import EntityService from '../data-access/service/entity-service';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 import Entity from '../presentation/entity';
 
+export interface EntityDBO {
+  __KEY: string;
+  __STAMP: number;
+  __deferred: {uri: string, __KEY: string};
+}
+
 class EntityBusiness extends AbstractBusiness {
   constructor({wakJSC, entity, dataClass, dataClassBusiness}) {
     super({wakJSC});

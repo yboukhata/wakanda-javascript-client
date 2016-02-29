@@ -1,7 +1,19 @@
+import {Promise} from 'es6-promise';
+
 import AbstractService from './abstract-service';
 import Util from '../util';
+import Collection from '../../presentation/collection';
+import {DataClass} from '../../presentation/dataclass';
+import {QueryOption} from '../../presentation/query-option';
+import {CollectionDBO} from '../../business/collection-business';
 
 class CollectionService extends AbstractService {
+  
+  private collection: Collection;
+  private dataClass: DataClass;
+  private collectionUri: string;
+  private isEntitySet: boolean;
+  
   constructor({wakJSC, collection, dataClass, collectionUri}) {
     super({wakJSC});
 
@@ -11,7 +23,7 @@ class CollectionService extends AbstractService {
     this.isEntitySet = this._isEntitySetUri({uri: collectionUri});
   }
 
-  fetch(options) {
+  fetch(options: QueryOption): Promise<CollectionDBO> {
 
     if (!this.isEntitySet) {
       if(options.select && options.select.length > 0) {
@@ -56,7 +68,7 @@ class CollectionService extends AbstractService {
     });
   }
 
-  _isEntitySetUri({uri}) {
+  _isEntitySetUri({uri}: {uri: string}): boolean {
     return /^\/rest\/\w+\/\$entityset\/[A-Z0-9]+(\?.*)?$/i.test(uri);
   }
 }

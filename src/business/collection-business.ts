@@ -1,8 +1,32 @@
+import {Promise} from 'es6-promise';
+
 import AbstractBusiness from './abstract-business';
 import CollectionService from '../data-access/service/collection-service';
 import Const from '../const';
+import {EntityDBO} from './entity-business';
+import Collection from '../presentation/collection';
+import {DataClass} from '../presentation/dataclass';
+import DataClassBusiness from './dataclass-business';
+import {QueryOption} from '../presentation/query-option';
+
+export interface CollectionDBO {
+  __ENTITYSET: string;
+  __COUNT: number;
+  __FIRST: number;
+  __SENT: number;
+  __ENTITIES: EntityDBO[];
+  __deferred: {uri: string};
+}
 
 class CollectionBusiness extends AbstractBusiness {
+  
+  private collection: Collection;
+  private dataClass: DataClass;
+  private dataClassBusiness: DataClassBusiness;
+  private service: CollectionService;
+  private pageSize: number;
+  private initialSelect: string;
+  
   constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri, pageSize, initialSelect}) {
     super({wakJSC});
 
@@ -28,7 +52,7 @@ class CollectionBusiness extends AbstractBusiness {
     this._addUserDefinedMethods();
   }
 
-  fetch(options) {
+  fetch(options: QueryOption): Promise<Collection> {
     let opt = options || {};
 
     if (!opt.pageSize) {
@@ -51,13 +75,13 @@ class CollectionBusiness extends AbstractBusiness {
     });
   }
 
-  more() {
+  more(): Promise<Collection> {
 
     if (this.collection._deferred === true) {
       throw new Error('Collection.more: can not call more on a deferred collection');
     }
 
-    let options = {
+    let options: QueryOption = {
       start: this.collection._first + this.collection._sent,
       pageSize: this.pageSize
     };
@@ -86,7 +110,7 @@ class CollectionBusiness extends AbstractBusiness {
       throw new Error('Collection.nextPage: can not call nextPage on a deferred collection');
     }
 
-    let options = {
+    let options: QueryOption = {
       start: this.collection._first + this.pageSize,
       pageSize: this.pageSize
     };
@@ -104,7 +128,7 @@ class CollectionBusiness extends AbstractBusiness {
       throw new Error('Collection.prevPage: can not call prevPage on a deferred collection');
     }
 
-    let options = {
+    let options: QueryOption = {
       start: this.collection._first - this.pageSize,
       pageSize: this.pageSize
     };

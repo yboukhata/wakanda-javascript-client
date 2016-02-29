@@ -1,3 +1,5 @@
+import {Promise} from 'es6-promise';
+
 import AbstractBusiness from './abstract-business';
 import EntityBusiness from './entity-business';
 import DataClassService from '../data-access/service/dataclass-service';
@@ -8,11 +10,25 @@ import Collection from '../presentation/collection';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 import Media from '../presentation/media';
 import Const from '../const';
+import {CollectionDBO} from './collection-business';
+import {DataClass} from '../presentation/dataclass';
+import {QueryOption} from '../presentation/query-option';
+import {EntityDBO} from './entity-business';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
 let _dataClassBusinessMap = new Map();
 
 class DataClassBusiness extends AbstractBusiness {
+  
+  private dataClass: DataClass;
+  private methods: {
+          entity: string[],
+          collection: string[],
+          dataClass: string[]
+  };
+  private service: DataClassService;
+  private _dataClassBusinessMap: Map;
+  
   constructor({wakJSC, dataClass, methods}) {
     super({wakJSC});
 
@@ -38,18 +54,18 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   _addUserDefinedMethods() {
-    let _this = this;
-    // for (let method of this.methods.dataClass) {
+    let _this_ = this;
+    
     this.methods.dataClass.forEach(method => {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.dataClass[method] = function() {
         let params = Array.from(arguments);
-        return _this.callMethod(method, params);
+        return _this_.callMethod(method, params);
       };
     });
   }
 
-  callMethod(methodName, parameters) {
+  callMethod(methodName: string, parameters: any[]): Promise<Entity|Collection|any> {
     return this.service.callMethod(methodName, parameters)
       .then(obj => {
 
@@ -79,7 +95,7 @@ class DataClassBusiness extends AbstractBusiness {
       });
   }
 
-  find(id, options) {
+  find(id: string|number, options?: QueryOption): Promise<Entity> {
     let opt = options || {};
 
     return this.service.find(id, opt).then(entity => {
@@ -89,7 +105,7 @@ class DataClassBusiness extends AbstractBusiness {
     });
   }
 
-  query(options) {
+  query(options?: QueryOption): Promise<Collection> {
     let opt = options || {};
     let initialSelect = opt.select;
 
@@ -106,12 +122,15 @@ class DataClassBusiness extends AbstractBusiness {
     });
   }
 
-  create(pojo) {
-    var entityToAttach = {};
-    for (let prop in pojo) {
-      if (pojo[prop] instanceof Entity) {
-        entityToAttach[prop] = pojo[prop];
-        delete pojo[prop];
+  create(pojo?: any): Entity {
+    var entityToAttach: any = {};
+    
+    if (pojo) {
+      for (let prop in pojo) {
+        if (pojo[prop] instanceof Entity) {
+          entityToAttach[prop] = pojo[prop];
+          delete pojo[prop];
+        }
       }
     }
 
@@ -128,7 +147,7 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _createEntity({key, deferred}) {
+  _createEntity({key, deferred}: {key: string, deferred?: boolean}): Entity {
 
     let entity = new Entity({
       key,
@@ -146,7 +165,8 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _createCollection({uri, deferred, pageSize, initialSelect}) {
+  _createCollection({uri, deferred, pageSize, initialSelect}
+    :{uri: string, deferred?: boolean, pageSize?: number, initialSelect?: string}): Collection {
 
     let collection = new Collection({
         deferred: deferred,
@@ -166,7 +186,9 @@ class DataClassBusiness extends AbstractBusiness {
     return collection;
   }
 
-  _createMedia({uri, isImage, attributeName, entity}) {
+  _createMedia({uri, isImage, attributeName, entity}
+   :{uri: string, isImage: boolean, attributeName: string, entity: Entity}): Media {
+     
     let media = new Media({uri});
     let business = new MediaBusiness({
       wakJSC: this.wakJSC,
@@ -182,8 +204,8 @@ class DataClassBusiness extends AbstractBusiness {
     return media;
   }
 
-  _presentationEntityFromDbo({dbo}) {
-    var entity;
+  _presentationEntityFromDbo({dbo}: {dbo: EntityDBO}): Entity {
+    var entity: Entity;
 
     if (!dbo) {
       entity = null;
@@ -220,7 +242,8 @@ class DataClassBusiness extends AbstractBusiness {
             });
           }
           else if (attr.type === 'image' || attr.type === 'blob') {
-            var uri;
+            var uri: string;
+            
             if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
               uri = dboAttribute.__deferred.uri;
             }
@@ -259,8 +282,10 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _presentationCollectionFromDbo({dbo, pageSize, initialSelect}) {
-    var collection;
+  _presentationCollectionFromDbo({dbo, pageSize, initialSelect}:
+    {dbo: CollectionDBO, pageSize?: number, initialSelect?: string}): Collection {
+      
+    var collection: Collection;
 
     if (!dbo) {
       collection = null;

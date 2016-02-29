@@ -1,8 +1,12 @@
+import {Promise} from 'es6-promise';
+
 import AbstractService from './abstract-service';
+import {CurrentUserDBO} from '../../business/directory-business';
 
 class DirectoryService extends AbstractService {
 
-  login(username, password, duration) {
+  login(username: string, password: string, duration: number): Promise<boolean> {
+    
     return this.httpClient.post({
       uri: '/$directory/login',
       data: [username, password, duration]
@@ -11,7 +15,7 @@ class DirectoryService extends AbstractService {
       });
   }
 
-  logout() {
+  logout(): Promise<boolean> {
     return this.httpClient.get({
       uri: '/$directory/logout'
     }).then(res => {
@@ -20,12 +24,12 @@ class DirectoryService extends AbstractService {
         return true;
       }
       else {
-        return Promise.reject();
+        return Promise.reject(new Error());
       }
     });
   }
 
-  currentUser() {
+  currentUser(): Promise<CurrentUserDBO> {
     return this.httpClient.get({
       uri: '/$directory/currentUser'
     })
@@ -36,12 +40,12 @@ class DirectoryService extends AbstractService {
           return obj.result;
         }
         else {
-          return Promise.reject();
+          return Promise.reject(new Error());
         }
       });
   }
 
-  currentUserBelongsTo(group) {
+  currentUserBelongsTo(group: string): Promise<boolean> {
     return this.httpClient.post({
       uri: '/$directory/currentUserBelongsTo',
       data: [group]
@@ -52,7 +56,7 @@ class DirectoryService extends AbstractService {
         return true;
       }
       else {
-        return Promise.reject();
+        return Promise.reject(new Error());
       }
     });
   }

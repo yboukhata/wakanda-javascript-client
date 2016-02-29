@@ -1,15 +1,26 @@
+import {Promise} from 'es6-promise';
+
 import AbstractBusiness from './abstract-business';
 import DirectoryService from '../data-access/service/directory-service';
 import Const from '../const';
 
+export interface CurrentUserDBO {
+  userName: string;
+  fullName: string;
+  ID: string|number;
+}
+
 class DirectoryBusiness extends AbstractBusiness {
+  
+  private service: DirectoryService;
+  
   constructor({wakJSC}) {
     super({wakJSC});
 
     this.service = new DirectoryService({wakJSC});
   }
 
-  login(username, password, duration) {
+  login(username: string, password: string, duration?: number): Promise<boolean> {
 
     let durationTime = duration || Const.DEFAULT_SESSION_DURATION;
 
@@ -19,28 +30,28 @@ class DirectoryBusiness extends AbstractBusiness {
 
     return this.service.login(username, password, durationTime)
       .catch(() => {
-        throw new Error('Directory.login: Unauthorized');
+        return Promise.reject(new Error('Directory.login: Unauthorized'));
       });
   }
 
-  logout() {
+  logout(): Promise<boolean> {
     return this.service.logout()
       .catch(() => {
-        throw new Error('Directory.logout: logout failed');
+        return Promise.reject(new Error('Directory.logout: logout failed'));
       });
   }
 
-  currentUser() {
+  currentUser(): Promise<CurrentUserDBO> {
     return this.service.currentUser()
       .then(dbo => {
         return dbo;
       })
       .catch(() => {
-        throw new Error('Directory.currentUser: user is not logged in');
+        return Promise.reject(new Error('Directory.currentUser: user is not logged in'))
       });
   }
 
-  currentUserBelongsTo(group) {
+  currentUserBelongsTo(group: string): Promise<boolean> {
 
     if (!(typeof group === 'string')) {
       throw new Error('Directory.currentUserBelongsTo: group must be a string');

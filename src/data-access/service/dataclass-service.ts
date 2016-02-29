@@ -1,7 +1,15 @@
+import {Promise} from 'es6-promise';
+
 import AbstractService from './abstract-service';
 import Util from '../util';
+import {QueryOption} from '../../presentation/query-option';
+import {DataClass} from '../../presentation/dataclass';
+import {EntityDBO} from '../../business/entity-business';
+import {CollectionDBO} from '../../business/collection-business';
 
 class DataClassService extends AbstractService {
+
+  private dataClass: DataClass;
 
   constructor({wakJSC, dataClass}) {
     super({wakJSC});
@@ -9,7 +17,8 @@ class DataClassService extends AbstractService {
     this.dataClass = dataClass;
   }
 
-  find(id, options) {
+  find(id: string|number, options: QueryOption): Promise<EntityDBO> {
+    
     if (typeof id !== 'string' && typeof id !== 'number') {
       throw new Error('DataClass.find: Invalid id type');
     }
@@ -29,7 +38,7 @@ class DataClassService extends AbstractService {
       });
   }
 
-  query(options) {
+  query(options: QueryOption): Promise<CollectionDBO> {
 
     if (options.method && options.method.length > 0) {
       throw new Error('DataClass.query can not have "method" option');
@@ -53,7 +62,7 @@ class DataClassService extends AbstractService {
     });
   }
 
-  callMethod(methodName, parameters) {
+  callMethod(methodName: string, parameters: any[]): Promise<any> {
     return this.httpClient.post({
       uri: '/' + this.dataClass.name + '/' + methodName,
       data: parameters
