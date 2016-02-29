@@ -1,15 +1,26 @@
+import {Promise} from 'es6-promise';
+
 import AbstractBusiness from './abstract-business';
 import EntityService from '../data-access/service/entity-service';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 import Entity from '../presentation/entity';
+import {DataClass} from '../presentation/dataclass';
+import DataClassBusiness from './dataclass-business';
+import {QueryOption} from '../presentation/query-option';
 
 export interface EntityDBO {
-  __KEY: string;
-  __STAMP: number;
-  __deferred: {uri: string, __KEY: string};
+  __KEY?: string;
+  __STAMP?: number;
+  __deferred?: {uri: string, __KEY: string};
 }
 
 class EntityBusiness extends AbstractBusiness {
+  
+  private entity: Entity;
+  private dataClass: DataClass;
+  private dataClassBusiness: DataClassBusiness;
+  private service: EntityService;
+  
   constructor({wakJSC, entity, dataClass, dataClassBusiness}) {
     super({wakJSC});
 
@@ -32,24 +43,24 @@ class EntityBusiness extends AbstractBusiness {
   }
 
   _addUserDefinedMethods() {
-    let _this = this;
+    let _this_ = this;
     this.dataClassBusiness.methods.entity.forEach(method => {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.entity[method] = function() {
         let params = Array.from(arguments);
-        return _this.callMethod(method, params);
+        return _this_.callMethod(method, params);
       };
     });
   }
 
-  fetch(options) {
+  fetch(options: QueryOption): Promise<Entity> {
     return this.dataClassBusiness.find(this.entity._key, options).then(fresherEntity => {
       this._refreshEntity({fresherEntity});
       return this.entity;
     });
   }
 
-  callMethod(methodName, parameters) {
+  callMethod(methodName: string, parameters: any[]): Promise<any> {
     if (!this.entity._key) {
       throw new Error('Entity.' + methodName + ': can not be called on an unsaved entity');
     }
@@ -83,7 +94,7 @@ class EntityBusiness extends AbstractBusiness {
     });
   }
 
-  delete() {
+  delete(): Promise<void> {
     if (!this.entity._key) {
       throw new Error('Entity.delete: can not delete unsaved entity');
     }
@@ -93,8 +104,8 @@ class EntityBusiness extends AbstractBusiness {
     });
   }
 
-  save() {
-    let data = {};
+  save(): Promise<Entity> {
+    let data: EntityDBO = {};
 
     if (this.entity._key && this.entity._stamp) {
       data.__KEY   = this.entity._key;
@@ -127,7 +138,7 @@ class EntityBusiness extends AbstractBusiness {
     });
   }
 
-  _refreshEntity({fresherEntity}) {
+  _refreshEntity({fresherEntity}: {fresherEntity: Entity}) {
     for (let prop in fresherEntity) {
       if (Object.prototype.hasOwnProperty.call(fresherEntity, prop)) {
         this.entity[prop] = fresherEntity[prop];
@@ -135,7 +146,7 @@ class EntityBusiness extends AbstractBusiness {
     }
   }
 
-  _getExpandString() {
+  _getExpandString(): string {
     var expand = '';
     for (let attr of this.dataClass.attributes) {
       if (attr instanceof AttributeRelated || attr instanceof AttributeCollection) {

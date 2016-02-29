@@ -1,7 +1,16 @@
+import {Promise} from 'es6-promise';
+
 import AbstractService from './abstract-service';
 import Util from '../util';
+import Entity from '../../presentation/entity';
+import {DataClass} from '../../presentation/dataclass';
+import {EntityDBO} from '../../business/entity-business';
 
 class EntityService extends AbstractService {
+  
+  private entity: Entity;
+  private dataClass: DataClass;
+  
   constructor({wakJSC, entity, dataClass}) {
     super({wakJSC});
 
@@ -9,7 +18,7 @@ class EntityService extends AbstractService {
     this.dataClass = dataClass;
   }
 
-  save(data, expand) {
+  save(data: EntityDBO, expand: string): Promise<EntityDBO> {
 
     var expandStr = '';
     if (expand) {
@@ -28,7 +37,7 @@ class EntityService extends AbstractService {
     });
   }
 
-  callMethod(methodName, parameters) {
+  callMethod(methodName: string, parameters: any[]): Promise<any> {
     return this.httpClient.post({
       uri: '/' + this.dataClass.name + '(' + this.entity._key + ')/' + methodName,
       data: parameters
@@ -38,14 +47,14 @@ class EntityService extends AbstractService {
     });
   }
 
-  delete() {
+  delete(): Promise<boolean> {
     return this.httpClient.get({
       uri: '/' + this.dataClass.name + '(' + this.entity._key + ')?$method=delete'
     }).then(res => {
       let obj = JSON.parse(res.body);
 
       if (!(obj && obj.ok === true)) {
-        return Promise.reject();
+        return Promise.reject(new Error());
       }
       else {
         return true;

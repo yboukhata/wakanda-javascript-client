@@ -1,6 +1,19 @@
+import {Promise} from 'es6-promise';
+
 import AbstractService from './abstract-service';
+import Entity from '../../presentation/entity';
+import Media from '../../presentation/media';
+import HttpResponse from '../http/http-response';
+import {EntityDBO} from '../../business/entity-business';
 
 class MediaService extends AbstractService {
+  
+  private dataClassName: string;
+  private entity: Entity;
+  private isImage: boolean;
+  private media: Media;
+  private attributeName: string;
+  
   constructor({wakJSC, mediaBusiness, media, attributeName, dataClassBusiness}) {
     super({wakJSC});
 
@@ -11,7 +24,7 @@ class MediaService extends AbstractService {
     this.attributeName = attributeName;
   }
 
-  upload(file, mimeType) {
+  upload(file: any, mimeType: string): Promise<HttpResponse> {
 
     var uri = this._buildUri();
 
@@ -27,9 +40,9 @@ class MediaService extends AbstractService {
     });
   }
 
-  delete() {
+  delete(): Promise<HttpResponse> {
     var uri = '/' + this.dataClassName + '(' + this.entity._key + ')';
-    var data = {
+    var data: EntityDBO = {
       __KEY: this.entity._key,
       __STAMP: this.entity._stamp
     };
@@ -43,7 +56,7 @@ class MediaService extends AbstractService {
     });
   }
 
-  _buildUri() {
+  _buildUri(): string {
     return '/' + this.dataClassName + '(' + this.entity._key + ')'
      + '/' + this.attributeName;
   }

@@ -21,13 +21,13 @@ let _dataClassBusinessMap = new Map();
 class DataClassBusiness extends AbstractBusiness {
   
   private dataClass: DataClass;
-  private methods: {
+  public methods: {
           entity: string[],
           collection: string[],
           dataClass: string[]
   };
   private service: DataClassService;
-  private _dataClassBusinessMap: Map;
+  public _dataClassBusinessMap: Map;
   
   constructor({wakJSC, dataClass, methods}) {
     super({wakJSC});

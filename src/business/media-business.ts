@@ -1,7 +1,19 @@
+import {Promise} from 'es6-promise';
+
 import AbstractBusiness from './abstract-business';
 import MediaService from '../data-access/service/media-service';
+import Media from '../presentation/media';
+import Entity from '../presentation/entity';
+import DataClassBusiness from './dataclass-business';
 
 class MediaBusiness extends AbstractBusiness {
+  
+  private media: Media;
+  private entity: Entity;
+  private dataClassBusiness: DataClassBusiness;
+  private isImage: boolean;
+  private service: MediaService;
+  
   constructor({wakJSC, media, dataClassBusiness, isImage, attributeName, entity}) {
     super({wakJSC});
 
@@ -23,7 +35,7 @@ class MediaBusiness extends AbstractBusiness {
     this.media.delete = this.delete.bind(this);
   }
 
-  upload(file, mimeType) {
+  upload(file: any, mimeType?: string): Promise<Entity> {
 
     if (!this.entity._key) {
       throw new Error('Media.upload: entity must be saved before uploading a media');
@@ -37,7 +49,7 @@ class MediaBusiness extends AbstractBusiness {
     });
   }
 
-  delete() {
+  delete(): Promise<Entity> {
 
     if (!this.entity._key) {
       throw new Error('Media.upload: entity must be saved before deleting a media');
