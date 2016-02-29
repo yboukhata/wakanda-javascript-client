@@ -1,15 +1,21 @@
-import HttpClient from './http-client';
+/// <reference path="./aurelia-http-client.d.ts" />
+
+import {Promise} from 'es6-promise';
+
+import {HttpClient, GetRequestOption, PostRequestOption} from './http-client';
 import {HttpClient as AureliaHttpClient} from 'aurelia-http-client';
 import HttpResponse from './http-response';
 
 class BrowserHttpClient extends HttpClient {
+
+  private client: AureliaHttpClient;
 
   constructor({apiPrefix}) {
     super({apiPrefix});
     this.client = new AureliaHttpClient();
   }
 
-  get({uri, params}) {
+  get({uri, params}: GetRequestOption): Promise<HttpResponse> {
     try {
       let res = super.get({uri, params});
       if (res !== null) {
@@ -24,7 +30,7 @@ class BrowserHttpClient extends HttpClient {
     return super.responseGet(uri, result);
   }
 
-  _getWithoutInterceptor({uri}) {
+  _getWithoutInterceptor({uri}: GetRequestOption): Promise<HttpResponse> {
     let request = this.client.createRequest(this.prefix + uri)
       .asGet()
       .send();
@@ -32,7 +38,7 @@ class BrowserHttpClient extends HttpClient {
     return this._httpResponseAdaptor({request});
   }
 
-  post({uri, data, binary}) {
+  post({uri, data, binary}: PostRequestOption): Promise<HttpResponse> {
     try {
       let res = super.post({uri, data, binary});
       if (res !== null) {
@@ -52,8 +58,8 @@ class BrowserHttpClient extends HttpClient {
     return super.responsePost(uri, result);
   }
 
-  _httpResponseAdaptor({request}) {
-    return request.then(res => {
+  _httpResponseAdaptor({request}): Promise<HttpResponse> {
+    return request.then((res: any) => {
       return new HttpResponse({
         statusCode: res.statusCode,
         headers: [],

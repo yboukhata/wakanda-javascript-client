@@ -81,11 +81,11 @@ class Util {
     return ret === '?' ? '' : ret;
   }
 
-  static isInteger(n: any) {
+  static isInteger(n: any): boolean {
     return typeof n === 'number' && !isNaN(n) && (n % 1) === 0;
   }
 
-  static removeRestInfoFromEntity(entity: any) {
+  static removeRestInfoFromEntity(entity: any): void {
     for (let prop in entity) {
       if (Object.prototype.hasOwnProperty.call(entity, prop)) {
         let p = entity[prop];

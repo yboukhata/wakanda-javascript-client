@@ -15,9 +15,9 @@ export interface PostRequestOption extends RequestOption {
 }
 
 export type RequestInterceptor<T extends RequestOption> = (options: T) => any;
-export type ResponseInterceptor = (requestUri: string, promise: Promise<any>) => Promise<any>;
+export type ResponseInterceptor = (requestUri: string, promise: Promise<HttpResponse>) => Promise<HttpResponse>;
 
-abstract class HttpClient {
+export abstract class HttpClient {
 
   public prefix: string;
   
@@ -64,7 +64,7 @@ abstract class HttpClient {
   /**
    * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
    */
-  protected responseGet(requestUri:string, promise: Promise<any>): Promise<any> {
+  protected responseGet(requestUri:string, promise: Promise<HttpResponse>): Promise<HttpResponse> {
     //Execute response interceptors
 
     for(let interceptor of this._getResponseInterceptors) {
@@ -81,7 +81,7 @@ abstract class HttpClient {
   /**
    * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
    */
-  protected responsePost(requestUri: string, promise: Promise<any>): Promise<any> {
+  protected responsePost(requestUri: string, promise: Promise<HttpResponse>): Promise<HttpResponse> {
     //Execute response interceptors
     for(let interceptor of this._postResponseInterceptors) {
       let res = interceptor(requestUri, promise);

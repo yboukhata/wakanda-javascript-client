@@ -1,19 +1,26 @@
-import HttpClient from './http-client';
+import {Promise} from 'es6-promise';
+import request = require('request');
+
+import {HttpClient, GetRequestOption, PostRequestOption} from './http-client';
 import HttpResponse from './http-response';
 
 class NodeHttpClient extends HttpClient {
 
+  private request: any;
+  private cookieJar: any;
+
   constructor({apiPrefix}) {
     super({apiPrefix});
-    this.request = require('request');
+    
+    this.request = request;
     this.cookieJar = this.request.jar();
   }
 
-  _clearCookie() {
+  _clearCookie(): void {
     this.cookieJar = this.request.jar();
   }
 
-  get({uri, params}) {
+  get({uri, params}: GetRequestOption): Promise<HttpResponse> {
     try {
       let res = super.get({uri, params});
       if (res !== null) {
@@ -28,7 +35,7 @@ class NodeHttpClient extends HttpClient {
     return super.responseGet(uri, result);
   }
 
-  _getWithoutInterceptor({uri, params}) {
+  _getWithoutInterceptor({uri, params}: GetRequestOption): Promise<HttpResponse> {
     let options = {
       url: this.prefix + uri,
       method: 'GET',
@@ -39,7 +46,7 @@ class NodeHttpClient extends HttpClient {
     return this._httpResponseAdaptor({requestOptions: options});
   }
 
-  post({uri, data, binary}) {
+  post({uri, data, binary}: PostRequestOption): Promise<HttpResponse> {
     try {
       let res = super.post({uri, data, binary});
       if (res !== null) {
@@ -50,7 +57,7 @@ class NodeHttpClient extends HttpClient {
       return Promise.reject(e);
     }
 
-    let options = {
+    let options: any = {
       url: this.prefix + uri,
       method: 'POST',
       form: data,
@@ -73,7 +80,7 @@ class NodeHttpClient extends HttpClient {
     return super.responsePost(uri, result);
   }
 
-  _httpResponseAdaptor({requestOptions}) {
+  _httpResponseAdaptor({requestOptions}): Promise<HttpResponse> {
     return new Promise((resolve, reject) => {
       this.request(requestOptions, (error, response, body) => {
         if (error || response.statusCode >= 400) {
