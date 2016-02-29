@@ -2,6 +2,7 @@ import {Promise} from 'es6-promise';
 
 import Entity from './entity';
 import {DataClass} from './dataclass';
+import {QueryOption} from './query-option';
 
 class Collection {
 
@@ -13,6 +14,11 @@ class Collection {
   public _pageSize: number;
   
   private _dataClass: DataClass;
+  
+  public fetch: (options?: QueryOption) => Promise<Collection>;
+  public nextPage: () => Promise<Collection>;
+  public prevPage: () => Promise<Collection>;
+  public more: () => Promise<Collection>;
   
   constructor({deferred, dataClass}) {
     this.entities = [];

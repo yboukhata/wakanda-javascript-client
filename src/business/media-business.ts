@@ -7,7 +7,7 @@ import Entity from '../presentation/entity';
 import DataClassBusiness from './dataclass-business';
 
 class MediaBusiness extends AbstractBusiness {
-  
+    
   private media: Media;
   private entity: Entity;
   private dataClassBusiness: DataClassBusiness;

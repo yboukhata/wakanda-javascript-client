@@ -104,7 +104,7 @@ class CollectionBusiness extends AbstractBusiness {
       });
   }
 
-  nextPage() {
+  nextPage(): Promise<Collection> {
 
     if (this.collection._deferred === true) {
       throw new Error('Collection.nextPage: can not call nextPage on a deferred collection');
@@ -122,7 +122,7 @@ class CollectionBusiness extends AbstractBusiness {
     return this.fetch(options);
   }
 
-  prevPage() {
+  prevPage(): Promise<Collection> {
 
     if (this.collection._deferred === true) {
       throw new Error('Collection.prevPage: can not call prevPage on a deferred collection');

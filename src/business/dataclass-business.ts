@@ -44,8 +44,8 @@ class DataClassBusiness extends AbstractBusiness {
   }
 
   _decorateDataClass() {
-    //Do not forget to bind(this) to have "this" pointing on business object
-    //instead of given dataclass object
+    //Do not forget to bind(this) to have "this" pointing on business instance
+    //instead of given dataclass instance
     this.dataClass.find    = this.find.bind(this);
     this.dataClass.query   = this.query.bind(this);
     this.dataClass.create  = this.create.bind(this);

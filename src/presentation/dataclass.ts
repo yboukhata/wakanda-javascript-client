@@ -1,3 +1,9 @@
+import {Promise} from 'es6-promise';
+
+import Entity from './entity';
+import Collection from './collection';
+import {QueryOption} from './query-option';
+
 export class DataClass {
   
   public name: string;
@@ -8,6 +14,10 @@ export class DataClass {
     collection: string[],
     dataClass: string[]
   };
+  
+  public find: (id: string|number, options?: QueryOption) => Promise<Entity>;
+  public query: (options?: QueryOption) => Promise<Collection>;
+  public create: (pojo?: any) => Entity;
   
   constructor({name, collectionName, attributes, methods}:
     {name: string, collectionName: string, attributes: Attribute[], methods: {entity: string[], collection: string[], dataClass: string[]}}) {

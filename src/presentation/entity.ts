@@ -1,4 +1,7 @@
+import {Promise} from 'es6-promise';
+
 import {DataClass} from './dataclass';
+import {QueryOption} from './query-option';
 
 class Entity {
   
@@ -6,6 +9,10 @@ class Entity {
   public _stamp: number;
   public _deferred: boolean;
   public _dataClass: DataClass;
+  
+  public save: () => Promise<Entity>;
+  public delete: () => Promise<void>;
+  public fetch: (options?: QueryOption) => Promise<Entity>;
   
   constructor({key, deferred, dataClass}:
    {key: string, deferred: boolean, dataClass: DataClass}) {
