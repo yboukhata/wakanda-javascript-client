@@ -16,7 +16,7 @@ import {QueryOption} from '../presentation/query-option';
 import {EntityDBO} from './entity-business';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
-let _dataClassBusinessMap = new Map();
+let _dataClassBusinessMap = new Map<string, DataClassBusiness>();
 
 class DataClassBusiness extends AbstractBusiness {
   
@@ -27,7 +27,7 @@ class DataClassBusiness extends AbstractBusiness {
           dataClass: string[]
   };
   private service: DataClassService;
-  public _dataClassBusinessMap: Map;
+  public _dataClassBusinessMap: Map<string, DataClassBusiness>;
   
   constructor({wakJSC, dataClass, methods}) {
     super({wakJSC});
