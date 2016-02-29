@@ -1,20 +1,23 @@
-interface RequestOption {
+import {Promise} from 'es6-promise';
+import HttpResponse from './http-response';
+
+export interface RequestOption {
   uri: string;
 }
 
-interface GetRequestOption extends RequestOption {
+export interface GetRequestOption extends RequestOption {
   params?: any;
 }
 
-interface PostRequestOption extends RequestOption {
+export interface PostRequestOption extends RequestOption {
   data?: any;
   binary?: boolean;
 }
 
-type RequestInterceptor<T extends RequestOption> = (options: T) => any;
-type ResponseInterceptor = (requestUri: string, promise: Promise) => Promise;
+export type RequestInterceptor<T extends RequestOption> = (options: T) => any;
+export type ResponseInterceptor = (requestUri: string, promise: Promise<any>) => Promise<any>;
 
-class HttpClient {
+abstract class HttpClient {
 
   public prefix: string;
   
@@ -23,7 +26,7 @@ class HttpClient {
   private _getResponseInterceptors: ResponseInterceptor[];
   private _postResponseInterceptors: ResponseInterceptor[];
 
-  constructor({apiPrefix}) {
+  constructor({apiPrefix}: {apiPrefix: string}) {
     this.prefix = apiPrefix;
 
     this._getRequestInterceptors = [];
@@ -32,7 +35,7 @@ class HttpClient {
     this._postResponseInterceptors = [];
   }
 
-  public get(options: GetRequestOption) {
+  public get(options: GetRequestOption): Promise<HttpResponse> {
     for (let i = 0; i < this._getRequestInterceptors.length; i++) {
       let interceptor = this._getRequestInterceptors[i];
       let res = interceptor(options);
@@ -45,7 +48,7 @@ class HttpClient {
     return null;
   }
 
-  public post(options: PostRequestOption) {
+  public post(options: PostRequestOption): Promise<HttpResponse> {
     for (let i = 0; i < this._postRequestInterceptors.length; i++) {
       let interceptor = this._postRequestInterceptors[i];
       let res = interceptor(options);
@@ -61,7 +64,7 @@ class HttpClient {
   /**
    * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
    */
-  protected responseGet(requestUri:string, promise: Promise): Promise {
+  protected responseGet(requestUri:string, promise: Promise<any>): Promise<any> {
     //Execute response interceptors
 
     for(let interceptor of this._getResponseInterceptors) {
@@ -78,7 +81,7 @@ class HttpClient {
   /**
    * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
    */
-  protected responsePost(requestUri: string, promise: Promise) {
+  protected responsePost(requestUri: string, promise: Promise<any>): Promise<any> {
     //Execute response interceptors
     for(let interceptor of this._postResponseInterceptors) {
       let res = interceptor(requestUri, promise);

@@ -1,8 +1,14 @@
+import {Promise} from 'es6-promise';
+
 import AbstractService from './abstract-service';
+import {DataClassDBO} from '../../business/catalog-business';
 
 class CatalogService extends AbstractService {
-  get(dataClasses) {
+  
+  get(dataClasses?: string| string[]): Promise<DataClassDBO[]> {
+    
     var strDataclasses = '/';
+    
     if (Array.isArray(dataClasses)) {
       strDataclasses += dataClasses.join();
     }
@@ -15,12 +21,12 @@ class CatalogService extends AbstractService {
 
     return this.httpClient.get({uri: '/$catalog' + strDataclasses})
       .then(res => {
-        let catalog = [];
+        let catalog: DataClassDBO[] = [];
         let rawObj = JSON.parse(res.body);
 
         for (let d of rawObj.dataClasses) {
 
-          let attributes = [];
+          let attributes: any[] = [];
           if (d.attributes) { //Seriously? :)
             for (let attr of d.attributes) {
               attributes.push({
@@ -32,7 +38,7 @@ class CatalogService extends AbstractService {
             }
           }
 
-          let methods = [];
+          let methods: any[] = [];
           if (d.methods) {
             for (let m of d.methods) {
               methods.push({

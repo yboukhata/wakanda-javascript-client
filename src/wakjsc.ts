@@ -6,6 +6,9 @@ import Entity from './presentation/entity';
 import Collection from './presentation/collection';
 import HttpClient from './data-access/http/http-client';
 import Catalog from './presentation/catalog';
+import BrowserHttpClient from './data-access/http/browser-http-client';
+import NodeHttpClient from './data-access/http/node-http-client';
+
 
 export interface Directory {
   login(username: string, password: string, duration?: number): Promise<boolean>;
@@ -21,7 +24,7 @@ export interface Helper {
 
 class WakJSC {
   
-  public static HttpClient: typeof HttpClient;
+  public static HttpClient: typeof BrowserHttpClient|typeof NodeHttpClient;
   
   public _httpClient: HttpClient;
   public directory: Directory;
