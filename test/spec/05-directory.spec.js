@@ -135,7 +135,7 @@ describe('Directory API', function () {
     });
 
     it('should resolve false if current user doesn\'t belong to given group', function () {
-      return dir.login('bar', 'bar').then(function (user) {
+      return dir.login('bar', 'bar', 3600 * 24 * 365).then(function (user) {
         return dir.currentUserBelongsTo('QA').then(function (result) {
           expect(result).to.be.false;
         });

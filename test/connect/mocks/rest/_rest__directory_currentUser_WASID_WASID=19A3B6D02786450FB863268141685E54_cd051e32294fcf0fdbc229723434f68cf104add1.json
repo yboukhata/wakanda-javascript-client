@@ -1,0 +1,18 @@
+{
+  "requestUrl": "/rest/$directory/currentUser",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "result": {
+      "userName": "bar",
+      "fullName": "bar",
+      "ID": "836C1320BECC4870B06D60D65896E2D9"
+    }
+  },
+  "headers": {
+    "set-cookie": [
+      "WASID=19A3B6D02786450FB863268141685E54; Path=/; Max-Age=31536000; Expires=Tue, 28-Feb-2017 16:33:04 GMT; HttpOnly; Version=1"
+    ],
+    "wasid": "19A3B6D02786450FB863268141685E54"
+  }
+}

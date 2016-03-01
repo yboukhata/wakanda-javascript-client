@@ -3,41 +3,41 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/A51DAFE390664A8CBEC9C56C00365630",
+    "__ENTITYSET": "/rest/Employee/$entityset/D74BD3375FAE48C7A6163103E0829E2B",
     "__entityModel": "Employee",
     "__COUNT": 1000,
     "__SENT": 3,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "3203502",
-        "__STAMP": 6513,
-        "ID": 3203502,
+        "__KEY": "147343",
+        "__STAMP": 469,
+        "ID": 147343,
         "lastName": "LUHEJI",
         "firstName": "HARRY",
         "salary": 132765,
         "employer": {
-          "__KEY": "198586",
-          "__STAMP": 6405,
-          "ID": 198586,
+          "__KEY": "9116",
+          "__STAMP": 293,
+          "ID": 9116,
           "name": "Bag While Engineering",
           "staff": {
-            "__ENTITYSET": "/rest/Company(198586)/staff?$expand=staff",
+            "__ENTITYSET": "/rest/Company(9116)/staff?$expand=staff",
             "__COUNT": 1,
             "__SENT": 1,
             "__FIRST": 0,
             "__ENTITIES": [
               {
-                "__KEY": "3203502",
-                "__STAMP": 6513,
-                "ID": 3203502,
+                "__KEY": "147343",
+                "__STAMP": 469,
+                "ID": 147343,
                 "lastName": "LUHEJI",
                 "firstName": "HARRY",
                 "salary": 132765,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198586)",
-                    "__KEY": "198586"
+                    "uri": "/rest/Company(9116)",
+                    "__KEY": "9116"
                   }
                 },
                 "salaryProcessed": "4295628.82194972 baht",
@@ -52,34 +52,34 @@
         "photo": null
       },
       {
-        "__KEY": "3203501",
-        "__STAMP": 6413,
-        "ID": 3203501,
+        "__KEY": "147342",
+        "__STAMP": 293,
+        "ID": 147342,
         "lastName": "VEGGGAR",
         "firstName": "REFUGIO",
         "salary": 86982,
         "employer": {
-          "__KEY": "198585",
-          "__STAMP": 6405,
-          "ID": 198585,
+          "__KEY": "9115",
+          "__STAMP": 293,
+          "ID": 9115,
           "name": "Kilo Data Ireland",
           "staff": {
-            "__ENTITYSET": "/rest/Company(198585)/staff?$expand=staff",
+            "__ENTITYSET": "/rest/Company(9115)/staff?$expand=staff",
             "__COUNT": 7,
             "__SENT": 7,
             "__FIRST": 0,
             "__ENTITIES": [
               {
-                "__KEY": "3203501",
-                "__STAMP": 6413,
-                "ID": 3203501,
+                "__KEY": "147342",
+                "__STAMP": 293,
+                "ID": 147342,
                 "lastName": "VEGGGAR",
                 "firstName": "REFUGIO",
                 "salary": 86982,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "2814313.9094703463 baht",
@@ -87,16 +87,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203500",
-                "__STAMP": 6438,
-                "ID": 3203500,
+                "__KEY": "147341",
+                "__STAMP": 344,
+                "ID": 147341,
                 "lastName": "CLIMIU",
                 "firstName": "ABRAHAM",
                 "salary": 84923,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "2747694.6969942083 baht",
@@ -104,16 +104,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203499",
-                "__STAMP": 6471,
-                "ID": 3203499,
+                "__KEY": "147340",
+                "__STAMP": 409,
+                "ID": 147340,
                 "lastName": "JETOCESA",
                 "firstName": "ROSELLA",
                 "salary": 113393,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "3668845.24541366 baht",
@@ -121,16 +121,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203498",
-                "__STAMP": 6405,
-                "ID": 3203498,
+                "__KEY": "147339",
+                "__STAMP": 293,
+                "ID": 147339,
                 "lastName": "LUADTKA",
                 "firstName": "GALE",
                 "salary": 116390,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "3765813.5697414824 baht",
@@ -138,16 +138,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203497",
-                "__STAMP": 6405,
-                "ID": 3203497,
+                "__KEY": "147338",
+                "__STAMP": 293,
+                "ID": 147338,
                 "lastName": "HUPENA",
                 "firstName": "SHANNON",
                 "salary": 25250,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "816967.0301226259 baht",
@@ -155,16 +155,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203496",
-                "__STAMP": 6405,
-                "ID": 3203496,
+                "__KEY": "147337",
+                "__STAMP": 293,
+                "ID": 147337,
                 "lastName": "VUPIFE",
                 "firstName": "RANDAL",
                 "salary": 26027,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "842106.9660594687 baht",
@@ -172,16 +172,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203495",
-                "__STAMP": 6405,
-                "ID": 3203495,
+                "__KEY": "147336",
+                "__STAMP": 293,
+                "ID": 147336,
                 "lastName": "GIBAMOWO",
                 "firstName": "ARON",
                 "salary": 60631,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "1961723.8813213834 baht",
@@ -196,34 +196,34 @@
         "photo": null
       },
       {
-        "__KEY": "3203500",
-        "__STAMP": 6438,
-        "ID": 3203500,
+        "__KEY": "147341",
+        "__STAMP": 344,
+        "ID": 147341,
         "lastName": "CLIMIU",
         "firstName": "ABRAHAM",
         "salary": 84923,
         "employer": {
-          "__KEY": "198585",
-          "__STAMP": 6405,
-          "ID": 198585,
+          "__KEY": "9115",
+          "__STAMP": 293,
+          "ID": 9115,
           "name": "Kilo Data Ireland",
           "staff": {
-            "__ENTITYSET": "/rest/Company(198585)/staff?$expand=staff",
+            "__ENTITYSET": "/rest/Company(9115)/staff?$expand=staff",
             "__COUNT": 7,
             "__SENT": 7,
             "__FIRST": 0,
             "__ENTITIES": [
               {
-                "__KEY": "3203501",
-                "__STAMP": 6413,
-                "ID": 3203501,
+                "__KEY": "147342",
+                "__STAMP": 293,
+                "ID": 147342,
                 "lastName": "VEGGGAR",
                 "firstName": "REFUGIO",
                 "salary": 86982,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "2814313.9094703463 baht",
@@ -231,16 +231,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203500",
-                "__STAMP": 6438,
-                "ID": 3203500,
+                "__KEY": "147341",
+                "__STAMP": 344,
+                "ID": 147341,
                 "lastName": "CLIMIU",
                 "firstName": "ABRAHAM",
                 "salary": 84923,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "2747694.6969942083 baht",
@@ -248,16 +248,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203499",
-                "__STAMP": 6471,
-                "ID": 3203499,
+                "__KEY": "147340",
+                "__STAMP": 409,
+                "ID": 147340,
                 "lastName": "JETOCESA",
                 "firstName": "ROSELLA",
                 "salary": 113393,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "3668845.24541366 baht",
@@ -265,16 +265,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203498",
-                "__STAMP": 6405,
-                "ID": 3203498,
+                "__KEY": "147339",
+                "__STAMP": 293,
+                "ID": 147339,
                 "lastName": "LUADTKA",
                 "firstName": "GALE",
                 "salary": 116390,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "3765813.5697414824 baht",
@@ -282,16 +282,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203497",
-                "__STAMP": 6405,
-                "ID": 3203497,
+                "__KEY": "147338",
+                "__STAMP": 293,
+                "ID": 147338,
                 "lastName": "HUPENA",
                 "firstName": "SHANNON",
                 "salary": 25250,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "816967.0301226259 baht",
@@ -299,16 +299,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203496",
-                "__STAMP": 6405,
-                "ID": 3203496,
+                "__KEY": "147337",
+                "__STAMP": 293,
+                "ID": 147337,
                 "lastName": "VUPIFE",
                 "firstName": "RANDAL",
                 "salary": 26027,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "842106.9660594687 baht",
@@ -316,16 +316,16 @@
                 "photo": null
               },
               {
-                "__KEY": "3203495",
-                "__STAMP": 6405,
-                "ID": 3203495,
+                "__KEY": "147336",
+                "__STAMP": 293,
+                "ID": 147336,
                 "lastName": "GIBAMOWO",
                 "firstName": "ARON",
                 "salary": 60631,
                 "employer": {
                   "__deferred": {
-                    "uri": "/rest/Company(198585)",
-                    "__KEY": "198585"
+                    "uri": "/rest/Company(9115)",
+                    "__KEY": "9115"
                   }
                 },
                 "salaryProcessed": "1961723.8813213834 baht",

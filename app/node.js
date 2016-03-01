@@ -1,6 +1,9 @@
 /* eslint-disable */
 
 var wakjsc = require('../build/wakjsc.node.js');
+
+console.log(wakjsc);
+
 var WakJSC = new wakjsc('http://localhost:8081');
 
 
