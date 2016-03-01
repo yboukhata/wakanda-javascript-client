@@ -1,16 +1,16 @@
 /* eslint-disable */
 
-var wakjsc = require('../build/wakjsc.node.js');
+var WakandaClient = require('../dist/wakanda-client.node.js');
 
-console.log(wakjsc);
+console.log(WakandaClient);
 
-var WakJSC = new wakjsc('http://localhost:8081');
+var wakClient = new WakandaClient('http://localhost:8081');
 
 
-WakJSC.directory.login('bar', 'bar').then(e => {
+wakClient.directory.login('bar', 'bar').then(e => {
   console.log('login successfull', e);
 
-  WakJSC.directory.currentUser().then(u => {
+  wakClient.directory.currentUser().then(u => {
     console.log('user', u);
   })
   .catch(e => {

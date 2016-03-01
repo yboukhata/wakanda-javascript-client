@@ -5,7 +5,7 @@ describe('Entity API', function () {
   var ds;
 
   before(function (done) {
-    WakJSC.getCatalog().then(function (ds_) {
+    wakClient.getCatalog().then(function (ds_) {
       ds = ds_;
       done();
     });

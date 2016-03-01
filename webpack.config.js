@@ -8,9 +8,9 @@ var baseConfig = {
     "./src/entry.browser.ts"
   ],
   output: {
-    filename: "wakjsc.js",
-    path: __dirname + "/build/",
-    library: 'WakJSC',
+    filename: "wakanda-client.js",
+    path: __dirname + "/dist/",
+    library: 'WakandaClient',
     libraryTarget: 'umd'
   },
   devtool: 'source-map',
@@ -66,10 +66,10 @@ var nodeConfig = {
   ],
   target: 'node',
   output: {
-    filename: 'wakjsc.node.js',
-    path: __dirname + "/build/",
-    library: 'WakJSC',
-    libraryTarget: 'umd'
+    filename: 'wakanda-client.node.js',
+    path: baseConfig.output.path,
+    library: baseConfig.output.library,
+    libraryTarget: baseConfig.output.libraryTarget
   },
   devtool: baseConfig.devtool,
   resolve: baseConfig.resolve,

@@ -4,7 +4,7 @@ describe('Directory API', function () {
 
   var dir;
   before(function () {
-    dir = WakJSC.directory;
+    dir = wakClient.directory;
   });
 
 

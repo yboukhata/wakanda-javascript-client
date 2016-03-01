@@ -21,7 +21,7 @@ export interface Helper {
   isCollection(object: any): boolean;
 }
 
-class WakJSC {
+class WakandaClient {
   
   public static HttpClient: typeof BrowserHttpClient|typeof NodeHttpClient;
   
@@ -30,7 +30,7 @@ class WakJSC {
   public helper: Helper;
   
   constructor(host?: string) {
-    this._httpClient = new WakJSC.HttpClient({
+    this._httpClient = new WakandaClient.HttpClient({
       apiPrefix: (host || '') + '/rest'
     });
 
@@ -76,4 +76,4 @@ class WakJSC {
   }
 }
 
-export default WakJSC;
+export default WakandaClient;

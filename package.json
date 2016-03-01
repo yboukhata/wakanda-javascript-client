@@ -1,7 +1,7 @@
 {
-  "name": "wak-jsc",
+  "name": "wakanda-client",
   "version": "0.0.1",
-  "description": "Wakanda Javascript Client",
+  "description": "Wakanda Client allows you to easily interact with Wakanda Server on a JavaScript (browser or node) environment",
   "scripts": {
     "webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
     "webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",

@@ -3,11 +3,9 @@ import 'core-js/fn/array/from';
 import 'core-js/fn/array/is-array';
 import 'core-js/fn/map';
 
-import WakJSC from './wakjsc';
+import WakandaClient from './wakanda-client';
 import BrowserHttpClient from './data-access/http/browser-http-client';
 
-WakJSC.HttpClient = BrowserHttpClient;
+WakandaClient.HttpClient = BrowserHttpClient;
 
-var wakjsc = new WakJSC();
-
-export = wakjsc; 
+export = WakandaClient; 

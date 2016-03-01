@@ -1,8 +1,12 @@
-node_modules/
-build/
-npm-debug.log
-testserver.pid
-app/wakjsc-offline.js*
+*~
+.DS_Store
+.idea
 .vscode
+
+node_modules/
+npm-debug.log
+build/
+dist/
+testserver.pid
 coverage/
 tsBuild/
