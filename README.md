@@ -111,7 +111,7 @@ directory.
 Wakanda Server URI on `WakandaClient` is mandatory for node bundle.
 
 ```javascript
-var WakandaClient = require('./wakanda-client.node.js');
+var WakandaClient = require('wakanda-client');
 var wakClient = new WakandaClient('http://localhost:8081'); //Pass here Wakanda Server url
 console.log(wakClient.version()); //0.0.1
 ```
@@ -121,9 +121,20 @@ console.log(wakClient.version()); //0.0.1
 You will have to proxy all request on `/rest` to your Wakanda Server (example on gulpfile), or directly
 pass a server URI to `WakandaClient` constructor.
 ```javascript
-<script src="./wakanda-client.js"></script>
+<script src="./wakanda-client.min.js"></script>
 <script>
   var wakClient = new WakandaClient(); //It will reach server on /rest address, you can pass an URI if you want to reach a specific server
   console.log(wakClient.version()); //0.0.1
 </script>
 ```
+
+You can alse use npm package for browser using (with webpack for example),
+but you will have to require `wakanda-client/browser` module.
+
+```javascript
+var WakandaClient = require('wakanda-client/browser');
+```
+
+## License
+
+MIT
