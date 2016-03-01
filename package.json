@@ -6,6 +6,7 @@
     "webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
     "webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
     "webpack-build:ci": "node ./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.ci.js",
+    "webpack-build:prod": "node ./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.prod.js",
     "test:karma:single": "node ./node_modules/karma/bin/karma start",
     "test:karma:full": "npm run webpack-build && npm run test:karma:single",
     "test:node:single": "http_proxy=\"\" node ./node_modules/mocha/bin/mocha test/bootstrap.js test/spec/**/*.spec.js",
