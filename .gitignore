@@ -6,7 +6,7 @@
 node_modules/
 npm-debug.log
 build/
-dist/
+dist/tsBuild
 testserver.pid
 coverage/
 tsBuild/
