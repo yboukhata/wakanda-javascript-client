@@ -10,3 +10,4 @@ dist/tsBuild
 testserver.pid
 coverage/
 tsBuild/
+*.json.404

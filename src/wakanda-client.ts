@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import CatalogBusiness from './business/catalog-business';
 import DirectoryBusiness from './business/directory-business';
 import Entity from './presentation/entity';
@@ -72,7 +70,7 @@ class WakandaClient {
   }
 
   version(): string {
-    return '0.0.1';
+    return '0.1.0';
   }
 }
 

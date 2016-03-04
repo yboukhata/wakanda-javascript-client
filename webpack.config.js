@@ -85,7 +85,33 @@ var nodeConfig = {
 };
 
 
+//NoPromise is a browser bundle that do not bundle Promise polyfill
+var noPromiseConfig = {
+  name: 'nopromise',
+  entry: [
+    "./src/entry.browser-nopromise.ts"
+  ],
+  output: {
+    filename: 'wakanda-client.no-promise.js',
+    path: baseConfig.output.path,
+    library: baseConfig.output.library,
+    libraryTarget: baseConfig.output.libraryTarget
+  },
+  devtool: baseConfig.devtool,
+  resolve: baseConfig.resolve,
+  externals: nodeModules,
+  module: {
+    loaders: baseConfig.module.loaders
+  },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  }
+};
+
 module.exports = [
   baseConfig,
-  nodeConfig
+  nodeConfig,
+  noPromiseConfig
 ];

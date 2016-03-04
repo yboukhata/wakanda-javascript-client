@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractService from './abstract-service';
 import Util from '../util';
 import Collection from '../../presentation/collection';

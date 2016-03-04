@@ -1,4 +1,3 @@
-import {Promise} from 'es6-promise';
 import Entity from './entity';
 
 class Media {

@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractService from './abstract-service';
 import Util from '../util';
 import Entity from '../../presentation/entity';
@@ -54,7 +52,7 @@ class EntityService extends AbstractService {
       let obj = JSON.parse(res.body);
 
       if (!(obj && obj.ok === true)) {
-        return Promise.reject(new Error());
+        return <any>Promise.reject(new Error());
       }
       else {
         return true;

@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractBusiness from './abstract-business';
 import CollectionService from '../data-access/service/collection-service';
 import Const from '../const';

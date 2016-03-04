@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractBusiness from './abstract-business';
 import MediaService from '../data-access/service/media-service';
 import Media from '../presentation/media';

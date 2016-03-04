@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractBusiness from './abstract-business';
 import CatalogService from '../data-access/service/catalog-service';
 import Catalog from '../presentation/catalog';

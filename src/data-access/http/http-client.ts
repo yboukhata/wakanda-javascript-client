@@ -1,4 +1,3 @@
-import {Promise} from 'es6-promise';
 import HttpResponse from './http-response';
 
 export interface RequestOption {

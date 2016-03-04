@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractService from './abstract-service';
 import {CurrentUserDBO} from '../../business/directory-business';
 
@@ -24,7 +22,7 @@ class DirectoryService extends AbstractService {
         return true;
       }
       else {
-        return Promise.reject(new Error());
+        return <any>Promise.reject(new Error());
       }
     });
   }
@@ -56,7 +54,7 @@ class DirectoryService extends AbstractService {
         return true;
       }
       else {
-        return Promise.reject(new Error());
+        return <any>Promise.reject(new Error());
       }
     });
   }

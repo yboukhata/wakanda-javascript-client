@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("es6-promise"), require("request"));
+		module.exports = factory(require("request"));
 	else if(typeof define === 'function' && define.amd)
-		define(["es6-promise", "request"], factory);
+		define(["request"], factory);
 	else if(typeof exports === 'object')
-		exports["WakandaClient"] = factory(require("es6-promise"), require("request"));
+		exports["WakandaClient"] = factory(require("request"));
 	else
-		root["WakandaClient"] = factory(root["es6-promise"], root["request"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_12__, __WEBPACK_EXTERNAL_MODULE_26__) {
+		root["WakandaClient"] = factory(root["request"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_25__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -63,7 +63,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var wakanda_client_1 = __webpack_require__(2);
-	var node_http_client_1 = __webpack_require__(25);
+	var node_http_client_1 = __webpack_require__(24);
 	wakanda_client_1.default.HttpClient = node_http_client_1.default;
 	module.exports = wakanda_client_1.default;
 
@@ -74,9 +74,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var catalog_business_1 = __webpack_require__(3);
-	var directory_business_1 = __webpack_require__(23);
-	var entity_1 = __webpack_require__(14);
-	var collection_1 = __webpack_require__(21);
+	var directory_business_1 = __webpack_require__(22);
+	var entity_1 = __webpack_require__(13);
+	var collection_1 = __webpack_require__(20);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -115,7 +115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return catalogBusiness.get(dataClasses);
 	    };
 	    WakandaClient.prototype.version = function () {
-	        return '0.0.1';
+	        return '0.1.0';
 	    };
 	    return WakandaClient;
 	}());
@@ -419,14 +419,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var abstract_business_1 = __webpack_require__(4);
 	var entity_business_1 = __webpack_require__(10);
-	var dataclass_service_1 = __webpack_require__(15);
-	var collection_business_1 = __webpack_require__(16);
-	var media_business_1 = __webpack_require__(19);
-	var entity_1 = __webpack_require__(14);
-	var collection_1 = __webpack_require__(21);
+	var dataclass_service_1 = __webpack_require__(14);
+	var collection_business_1 = __webpack_require__(15);
+	var media_business_1 = __webpack_require__(18);
+	var entity_1 = __webpack_require__(13);
+	var collection_1 = __webpack_require__(20);
 	var dataclass_1 = __webpack_require__(8);
-	var media_1 = __webpack_require__(22);
-	var const_1 = __webpack_require__(18);
+	var media_1 = __webpack_require__(21);
+	var const_1 = __webpack_require__(17);
 	//This map stores all DataClassBusiness instances of existing dataClasses
 	var _dataClassBusinessMap = new Map();
 	var DataClassBusiness = (function (_super) {
@@ -702,7 +702,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var abstract_business_1 = __webpack_require__(4);
 	var entity_service_1 = __webpack_require__(11);
 	var dataclass_1 = __webpack_require__(8);
-	var entity_1 = __webpack_require__(14);
+	var entity_1 = __webpack_require__(13);
 	var EntityBusiness = (function (_super) {
 	    __extends(EntityBusiness, _super);
 	    function EntityBusiness(_a) {
@@ -844,9 +844,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var es6_promise_1 = __webpack_require__(12);
 	var abstract_service_1 = __webpack_require__(6);
-	var util_1 = __webpack_require__(13);
+	var util_1 = __webpack_require__(12);
 	var EntityService = (function (_super) {
 	    __extends(EntityService, _super);
 	    function EntityService(_a) {
@@ -885,7 +884,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
 	            if (!(obj && obj.ok === true)) {
-	                return es6_promise_1.Promise.reject(new Error());
+	                return Promise.reject(new Error());
 	            }
 	            else {
 	                return true;
@@ -900,12 +899,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 12 */
-/***/ function(module, exports) {
-
-	module.exports = require("es6-promise");
-
-/***/ },
-/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -987,7 +980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1010,7 +1003,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1020,7 +1013,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var util_1 = __webpack_require__(13);
+	var util_1 = __webpack_require__(12);
 	var DataClassService = (function (_super) {
 	    __extends(DataClassService, _super);
 	    function DataClassService(_a) {
@@ -1077,7 +1070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1087,8 +1080,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var collection_service_1 = __webpack_require__(17);
-	var const_1 = __webpack_require__(18);
+	var collection_service_1 = __webpack_require__(16);
+	var const_1 = __webpack_require__(17);
 	var CollectionBusiness = (function (_super) {
 	    __extends(CollectionBusiness, _super);
 	    function CollectionBusiness(_a) {
@@ -1213,7 +1206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1223,7 +1216,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var util_1 = __webpack_require__(13);
+	var util_1 = __webpack_require__(12);
 	var CollectionService = (function (_super) {
 	    __extends(CollectionService, _super);
 	    function CollectionService(_a) {
@@ -1280,7 +1273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1292,7 +1285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1302,7 +1295,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var media_service_1 = __webpack_require__(20);
+	var media_service_1 = __webpack_require__(19);
 	var MediaBusiness = (function (_super) {
 	    __extends(MediaBusiness, _super);
 	    function MediaBusiness(_a) {
@@ -1353,7 +1346,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1410,7 +1403,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1433,7 +1426,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1449,7 +1442,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1458,10 +1451,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var es6_promise_1 = __webpack_require__(12);
 	var abstract_business_1 = __webpack_require__(4);
-	var directory_service_1 = __webpack_require__(24);
-	var const_1 = __webpack_require__(18);
+	var directory_service_1 = __webpack_require__(23);
+	var const_1 = __webpack_require__(17);
 	var DirectoryBusiness = (function (_super) {
 	    __extends(DirectoryBusiness, _super);
 	    function DirectoryBusiness(_a) {
@@ -1476,13 +1468,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return this.service.login(username, password, durationTime)
 	            .catch(function () {
-	            return es6_promise_1.Promise.reject(new Error('Directory.login: Unauthorized'));
+	            return Promise.reject(new Error('Directory.login: Unauthorized'));
 	        });
 	    };
 	    DirectoryBusiness.prototype.logout = function () {
 	        return this.service.logout()
 	            .catch(function () {
-	            return es6_promise_1.Promise.reject(new Error('Directory.logout: logout failed'));
+	            return Promise.reject(new Error('Directory.logout: logout failed'));
 	        });
 	    };
 	    DirectoryBusiness.prototype.currentUser = function () {
@@ -1491,7 +1483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return dbo;
 	        })
 	            .catch(function () {
-	            return es6_promise_1.Promise.reject(new Error('Directory.currentUser: user is not logged in'));
+	            return Promise.reject(new Error('Directory.currentUser: user is not logged in'));
 	        });
 	    };
 	    DirectoryBusiness.prototype.currentUserBelongsTo = function (group) {
@@ -1513,7 +1505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1522,7 +1514,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var es6_promise_1 = __webpack_require__(12);
 	var abstract_service_1 = __webpack_require__(6);
 	var DirectoryService = (function (_super) {
 	    __extends(DirectoryService, _super);
@@ -1546,7 +1537,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return true;
 	            }
 	            else {
-	                return es6_promise_1.Promise.reject(new Error());
+	                return Promise.reject(new Error());
 	            }
 	        });
 	    };
@@ -1560,7 +1551,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return obj.result;
 	            }
 	            else {
-	                return es6_promise_1.Promise.reject(new Error());
+	                return Promise.reject(new Error());
 	            }
 	        });
 	    };
@@ -1574,7 +1565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return true;
 	            }
 	            else {
-	                return es6_promise_1.Promise.reject(new Error());
+	                return Promise.reject(new Error());
 	            }
 	        });
 	    };
@@ -1585,7 +1576,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./request.d.ts" />
@@ -1595,10 +1586,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var es6_promise_1 = __webpack_require__(12);
-	var request = __webpack_require__(26);
-	var http_client_1 = __webpack_require__(27);
-	var http_response_1 = __webpack_require__(28);
+	var request = __webpack_require__(25);
+	var http_client_1 = __webpack_require__(26);
+	var http_response_1 = __webpack_require__(27);
 	var NodeHttpClient = (function (_super) {
 	    __extends(NodeHttpClient, _super);
 	    function NodeHttpClient(_a) {
@@ -1615,11 +1605,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        try {
 	            var res = _super.prototype.get.call(this, { uri: uri, params: params });
 	            if (res !== null) {
-	                return es6_promise_1.Promise.resolve(res);
+	                return Promise.resolve(res);
 	            }
 	        }
 	        catch (e) {
-	            return es6_promise_1.Promise.reject(e);
+	            return Promise.reject(e);
 	        }
 	        var result = this._getWithoutInterceptor({ uri: uri, params: params });
 	        return _super.prototype.responseGet.call(this, uri, result);
@@ -1639,11 +1629,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        try {
 	            var res = _super.prototype.post.call(this, { uri: uri, data: data, binary: binary });
 	            if (res !== null) {
-	                return es6_promise_1.Promise.resolve(res);
+	                return Promise.resolve(res);
 	            }
 	        }
 	        catch (e) {
-	            return es6_promise_1.Promise.reject(e);
+	            return Promise.reject(e);
 	        }
 	        var options = {
 	            url: this.prefix + uri,
@@ -1660,7 +1650,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 	        catch (e) {
-	            return es6_promise_1.Promise.reject(e);
+	            return Promise.reject(e);
 	        }
 	        var result = this._httpResponseAdaptor({ requestOptions: options });
 	        return _super.prototype.responsePost.call(this, uri, result);
@@ -1668,7 +1658,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    NodeHttpClient.prototype._httpResponseAdaptor = function (_a) {
 	        var _this = this;
 	        var requestOptions = _a.requestOptions;
-	        return new es6_promise_1.Promise(function (resolve, reject) {
+	        return new Promise(function (resolve, reject) {
 	            _this.request(requestOptions, function (error, response, body) {
 	                if (error || response.statusCode >= 400) {
 	                    reject(error || { statusMessage: response.statusMessage, body: body });
@@ -1690,13 +1680,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 	module.exports = require("request");
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1824,7 +1814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractService from './abstract-service';
 import Entity from '../../presentation/entity';
 import Media from '../../presentation/media';
