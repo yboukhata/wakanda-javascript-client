@@ -1,10 +1,10 @@
-import WakJSC from '../wakjsc';
+import WakandaClient from '../wakanda-client';
 
 abstract class AbstractBusiness {
   
-  public wakJSC: WakJSC;
+  public wakJSC: WakandaClient;
   
-  constructor({wakJSC}: {wakJSC: WakJSC}) {
+  constructor({wakJSC}: {wakJSC: WakandaClient}) {
     this.wakJSC = wakJSC;
   }
 }

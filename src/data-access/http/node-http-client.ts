@@ -1,6 +1,5 @@
 /// <reference path="./request.d.ts" />
 
-import {Promise} from 'es6-promise';
 import request = require('request');
 
 import {HttpClient, GetRequestOption, PostRequestOption} from './http-client';
@@ -30,7 +29,7 @@ class NodeHttpClient extends HttpClient {
       }
     }
     catch (e) {
-      return Promise.reject(e);
+      return <any>Promise.reject(e);
     }
 
     let result = this._getWithoutInterceptor({uri, params});
@@ -56,7 +55,7 @@ class NodeHttpClient extends HttpClient {
       }
     }
     catch (e) {
-      return Promise.reject(e);
+      return <any>Promise.reject(e);
     }
 
     let options: any = {
@@ -75,7 +74,7 @@ class NodeHttpClient extends HttpClient {
       }
     }
     catch(e) {
-      return Promise.reject(e);
+      return <any>Promise.reject(e);
     }
 
     let result = this._httpResponseAdaptor({requestOptions: options});

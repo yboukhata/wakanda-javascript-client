@@ -8,9 +8,9 @@ var baseConfig = {
     "./src/entry.browser.ts"
   ],
   output: {
-    filename: "wakjsc.js",
-    path: __dirname + "/build/",
-    library: 'WakJSC',
+    filename: "wakanda-client.js",
+    path: __dirname + "/dist/",
+    library: 'WakandaClient',
     libraryTarget: 'umd'
   },
   devtool: 'source-map',
@@ -66,10 +66,10 @@ var nodeConfig = {
   ],
   target: 'node',
   output: {
-    filename: 'wakjsc.node.js',
-    path: __dirname + "/build/",
-    library: 'WakJSC',
-    libraryTarget: 'umd'
+    filename: 'wakanda-client.node.js',
+    path: baseConfig.output.path,
+    library: baseConfig.output.library,
+    libraryTarget: baseConfig.output.libraryTarget
   },
   devtool: baseConfig.devtool,
   resolve: baseConfig.resolve,
@@ -85,7 +85,33 @@ var nodeConfig = {
 };
 
 
+//NoPromise is a browser bundle that do not bundle Promise polyfill
+var noPromiseConfig = {
+  name: 'nopromise',
+  entry: [
+    "./src/entry.browser-nopromise.ts"
+  ],
+  output: {
+    filename: 'wakanda-client.no-promise.js',
+    path: baseConfig.output.path,
+    library: baseConfig.output.library,
+    libraryTarget: baseConfig.output.libraryTarget
+  },
+  devtool: baseConfig.devtool,
+  resolve: baseConfig.resolve,
+  externals: nodeModules,
+  module: {
+    loaders: baseConfig.module.loaders
+  },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  }
+};
+
 module.exports = [
   baseConfig,
-  nodeConfig
+  nodeConfig,
+  noPromiseConfig
 ];

@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import Entity from './entity';
 import Collection from './collection';
 import {QueryOption} from './query-option';

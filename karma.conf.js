@@ -5,7 +5,7 @@
 var testEnv     = process.env.TEST_ENV || 'integration';
 var isCI        = process.env.CI === true || process.env.CI === 'true';
 var serverInfo  = require('./test/server.' + testEnv + '.json');
-var buildFile   = isCI ? 'karma.wakjsc.js' : 'wakjsc.js';
+var buildFile   = isCI ? 'karma.wakanda-client.js' : 'wakanda-client.js';
 
 module.exports = function(config) {
   config.set({
@@ -22,7 +22,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/customevent-polyfill.js',
-      'build/' + buildFile,
+      'dist/' + buildFile,
       'test/bootstrap.js',
       'test/spec/**/*.spec.js'
     ],
@@ -36,7 +36,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'build/*.js': 'coverage'
+      'dist/*.js': 'coverage'
     },
 
 

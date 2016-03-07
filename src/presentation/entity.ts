@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import {DataClass} from './dataclass';
 import {QueryOption} from './query-option';
 

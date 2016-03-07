@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import CatalogBusiness from './business/catalog-business';
 import DirectoryBusiness from './business/directory-business';
 import Entity from './presentation/entity';
@@ -21,7 +19,7 @@ export interface Helper {
   isCollection(object: any): boolean;
 }
 
-class WakJSC {
+class WakandaClient {
   
   public static HttpClient: typeof BrowserHttpClient|typeof NodeHttpClient;
   
@@ -30,7 +28,7 @@ class WakJSC {
   public helper: Helper;
   
   constructor(host?: string) {
-    this._httpClient = new WakJSC.HttpClient({
+    this._httpClient = new WakandaClient.HttpClient({
       apiPrefix: (host || '') + '/rest'
     });
 
@@ -72,8 +70,8 @@ class WakJSC {
   }
 
   version(): string {
-    return '0.0.1';
+    return '0.1.0';
   }
 }
 
-export default WakJSC;
+export default WakandaClient;

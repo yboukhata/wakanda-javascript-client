@@ -1,6 +1,6 @@
-import WakJSC from './wakjsc';
+import WakandaClient from './wakanda-client';
 import NodeHttpClient from './data-access/http/node-http-client';
 
-WakJSC.HttpClient = NodeHttpClient;
+WakandaClient.HttpClient = NodeHttpClient;
 
-export = WakJSC;
+export = WakandaClient;

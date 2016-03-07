@@ -1,7 +1,5 @@
 /// <reference path="./aurelia-http-client.d.ts" />
 
-import {Promise} from 'es6-promise';
-
 import {HttpClient, GetRequestOption, PostRequestOption} from './http-client';
 import {HttpClient as AureliaHttpClient} from 'aurelia-http-client';
 import HttpResponse from './http-response';
@@ -23,7 +21,7 @@ class BrowserHttpClient extends HttpClient {
       }
     }
     catch (e) {
-      return Promise.reject(e);
+      return <any>Promise.reject(e);
     }
 
     let result = this._getWithoutInterceptor({uri, params});
@@ -46,7 +44,7 @@ class BrowserHttpClient extends HttpClient {
       }
     }
     catch (e) {
-      return Promise.reject(e);
+      return <any>Promise.reject(e);
     }
 
     let request = this.client.createRequest(this.prefix + uri)

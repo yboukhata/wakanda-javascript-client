@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractBusiness from './abstract-business';
 import EntityService from '../data-access/service/entity-service';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';

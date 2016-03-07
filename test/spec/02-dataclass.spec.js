@@ -5,7 +5,7 @@ describe('Dataclass API', function() {
   var ds;
   var existingId;
   before(function (done) {
-    WakJSC.getCatalog().then(function (ds_) {
+    wakClient.getCatalog().then(function (ds_) {
       ds = ds_;
       ds.Employee.query({pageSize: 1}).then(function (c) {
         existingId = c.entities[0]._key;

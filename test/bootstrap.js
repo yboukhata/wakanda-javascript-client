@@ -8,8 +8,11 @@ if (!isBrowser()) {
   var testEnv = process.env.TEST_ENV || 'integration';
   var serverInfo = require('./server.' + testEnv + '.json');
 
-  var wakjsc = require('../build/wakjsc.node.js');
-  WakJSC = new wakjsc(serverInfo.host + ':' + serverInfo.port);
+  var WakandaClient = require('../dist/wakanda-client.node.js');
+  wakClient = new WakandaClient(serverInfo.host + ':' + serverInfo.port);
+}
+else {
+  wakClient = new WakandaClient();
 }
 
 beforeEach(function () {
@@ -19,6 +22,6 @@ beforeEach(function () {
     });
   }
   else {
-    WakJSC._httpClient._clearCookie();
+    wakClient._httpClient._clearCookie();
   }
 });

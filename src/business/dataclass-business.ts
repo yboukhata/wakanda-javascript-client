@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import AbstractBusiness from './abstract-business';
 import EntityBusiness from './entity-business';
 import DataClassService from '../data-access/service/dataclass-service';

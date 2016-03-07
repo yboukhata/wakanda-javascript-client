@@ -2,25 +2,36 @@
 
 [![Build Status](https://travis-ci.org/Wakanda/wakanda-javascript-client.svg?branch=master)](https://travis-ci.org/Wakanda/wakanda-javascript-client)
 [![codecov.io](https://codecov.io/github/Wakanda/wakanda-javascript-client/coverage.svg?branch=master)](https://codecov.io/github/Wakanda/wakanda-javascript-client?branch=master)
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
-Minimalist, framework agnostic, JS client to interact with REST API that exposes a
-standard and easy to use JS API.
+Minimalist, framework agnostic, JavaScript client to interact with Wakanda Server REST API that exposes a
+standard and easy to use JavaScript API.
 
-## Install
-Git clone this repository then install dependencies. This may not work on Node < 4.0.
+## Instal
+
+Install through `npm` or `bower`. There is only browser version on `bower`, both node and browser ones on `npm`.
+
+```bash
+npm install wakanda-client
+//or
+bower install wakanda-client
+```
+
+## Development
+Git clone this repository then install dependencies. Wakanda Client needs Node 4.0 or greater.
 
 ```bash
 npm install
 ```
 
-## Run (on web browser)
+### Run (on web browser)
+
+Launch webpack build on watch mode, it will rebuild the client when sources are edited.
 
 ```bash
 npm run webpack-watch
 ```
 
-On another tab
+On another tab, launch a server that serve example application on `app/` directory.
 
 ```bash
 gulp serve
@@ -28,16 +39,16 @@ gulp serve
 
 Then open your browser on `http://localhost:1136/app/index.html`.
 
-## Build (dev)
+### Build (dev)
 
 ```bash
 npm run webpack-build
 ```
 
-Bundles are built on `./build/` directory.
+Bundles are built on `./dist/` directory.
 
-You can `require` `wakjsc.node.js` on a Node application, or directly insert
-`wakjsc.js` on a `<script>` tag (it's a UMD module) and use `WakJSC` object.
+You can `require` `wakanda-client.node.js` on a Node application, or directly insert
+`wakanda-client.js` on a `<script>` tag (it's a UMD module) and use `WakandaClient` object.
 
 ## Integration tests
 Integration testing is made with mocha and chai. It directly runs tests against built bundles.
@@ -84,7 +95,7 @@ npm run test-single
 ```
 
 Karma automatically proxies requests on `/rest` to test server. For node
-test, `WakJSC` module is instancied with test server address on each
+test, `WakandaClient` module is instancied with test server address on each
 test file.
 
 If port `3000` doesn't suit your needs, you can change it on `test/connect/server.js`
@@ -96,17 +107,34 @@ directory.
 ## Example
 
 ### Node.js
+
+Wakanda Server URI on `WakandaClient` is mandatory for node bundle.
+
 ```javascript
-var wakjsc = require('./wakjsc.node.js');
-var WakJSC = new wakjsc('http://localhost:8081'); //Pass here Wakanda Server url
-console.log(WakJSC.version()); //0.0.1
+var WakandaClient = require('wakanda-client');
+var wakClient = new WakandaClient('http://localhost:8081'); //Pass here Wakanda Server url
+console.log(wakClient.version()); //0.0.1
 ```
 
 ### Browser
-You will have to proxy all request on `/rest` to your Wakanda Server (example on gulpfile).
-```html
-<script src="./wakjsc.js"></script>
+
+You will have to proxy all request on `/rest` to your Wakanda Server (example on gulpfile), or directly
+pass a server URI to `WakandaClient` constructor.
+```javascript
+<script src="./wakanda-client.min.js"></script>
 <script>
-  console.log(WakJSC.version()); //0.0.1
+  var wakClient = new WakandaClient(); //It will reach server on /rest address, you can pass an URI if you want to reach a specific server
+  console.log(wakClient.version()); //0.0.1
 </script>
 ```
+
+You can alse use npm package for browser using (with webpack for example),
+but you will have to require `wakanda-client/browser` module.
+
+```javascript
+var WakandaClient = require('wakanda-client/browser');
+```
+
+## License
+
+MIT
