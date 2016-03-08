@@ -25,12 +25,8 @@ class CollectionService extends AbstractService {
 
     if (!this.isEntitySet) {
       if(options.select && options.select.length > 0) {
-        throw new Error('Collection.fetch can not have "select" option when deferred');
+        throw new Error('Collection.fetch: option select is not allowed when collection is deferred');
       }
-    }
-
-    if (options.method && options.method.length > 0) {
-      throw new Error('Collection.fetch can not have "method" option');
     }
 
     options.method = 'subentityset';

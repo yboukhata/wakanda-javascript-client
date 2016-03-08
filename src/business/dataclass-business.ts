@@ -98,7 +98,7 @@ class DataClassBusiness extends AbstractBusiness {
     
     if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
       opt.start !== undefined || opt.orderBy !== undefined) {
-      throw new Error('Options filter, params, pageSize, start and orderBy are not allowed on find()');
+      throw new Error('Dataclass.find: options filter, params, pageSize, start and orderBy are not allowed');
     }
 
     return this.service.find(id, opt).then(entity => {
@@ -113,7 +113,7 @@ class DataClassBusiness extends AbstractBusiness {
     let initialSelect = opt.select;
     
     if (opt.method && opt.method.length > 0) {
-      throw new Error('Option method is not allowed on query()');
+      throw new Error('Dataclass.query: option method is not allowed');
     }
 
     if (!opt.pageSize) {

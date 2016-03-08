@@ -52,8 +52,12 @@ class CollectionBusiness extends AbstractBusiness {
     this._addUserDefinedMethods();
   }
 
-  fetch(options: QueryOption): Promise<Collection> {
+  fetch(options?: QueryOption): Promise<Collection> {
     let opt = options || {};
+
+    if (options.method && options.method.length > 0) {
+      throw new Error('Collection.fetch: option method is not allowed');
+    }
 
     if (!opt.pageSize) {
       opt.pageSize = Const.DEFAULT_PAGE_SIZE;
@@ -62,7 +66,7 @@ class CollectionBusiness extends AbstractBusiness {
     if (opt.select) {
       this.initialSelect = opt.select;
     }
-
+    
     this.pageSize = opt.pageSize;
 
     return this.service.fetch(opt).then(collectionDbo => {
