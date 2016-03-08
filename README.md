@@ -6,7 +6,7 @@
 Minimalist, framework agnostic, JavaScript client to interact with Wakanda Server REST API that exposes a
 standard and easy to use JavaScript API.
 
-## Instal
+## Install
 
 Install through `npm` or `bower`. There is only browser version on `bower`, both node and browser ones on `npm`.
 
