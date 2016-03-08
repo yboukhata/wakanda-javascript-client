@@ -507,6 +507,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    DataClassBusiness.prototype.find = function (id, options) {
 	        var _this = this;
 	        var opt = options || {};
+	        if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
+	            opt.start !== undefined || opt.orderBy !== undefined) {
+	            throw new Error('Dataclass.find: options filter, params, pageSize, start and orderBy are not allowed');
+	        }
 	        return this.service.find(id, opt).then(function (entity) {
 	            return _this._presentationEntityFromDbo({
 	                dbo: entity
@@ -517,6 +521,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	        var opt = options || {};
 	        var initialSelect = opt.select;
+	        if (opt.method && opt.method.length > 0) {
+	            throw new Error('Dataclass.query: option method is not allowed');
+	        }
 	        if (!opt.pageSize) {
 	            opt.pageSize = const_1.default.DEFAULT_PAGE_SIZE;
 	        }
@@ -753,6 +760,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EntityBusiness.prototype.fetch = function (options) {
 	        var _this = this;
+	        var opt = options || {};
+	        if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
+	            opt.start !== undefined || opt.orderBy !== undefined) {
+	            throw new Error('Entity.fetch: options filter, params, pageSize, start and orderBy are not allowed');
+	        }
 	        return this.dataClassBusiness.find(this.entity._key, options).then(function (fresherEntity) {
 	            _this._refreshEntity({ fresherEntity: fresherEntity });
 	            return _this.entity;
@@ -1054,9 +1066,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    DataClassService.prototype.query = function (options) {
-	        if (options.method && options.method.length > 0) {
-	            throw new Error('DataClass.query can not have "method" option');
-	        }
 	        options.method = 'entityset';
 	        var optString = util_1.default.handleOptions(options);
 	        return this.httpClient.get({
@@ -1126,6 +1135,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    CollectionBusiness.prototype.fetch = function (options) {
 	        var _this = this;
 	        var opt = options || {};
+	        if (options.method && options.method.length > 0) {
+	            throw new Error('Collection.fetch: option method is not allowed');
+	        }
 	        if (!opt.pageSize) {
 	            opt.pageSize = const_1.default.DEFAULT_PAGE_SIZE;
 	        }
@@ -1248,11 +1260,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	        if (!this.isEntitySet) {
 	            if (options.select && options.select.length > 0) {
-	                throw new Error('Collection.fetch can not have "select" option when deferred');
+	                throw new Error('Collection.fetch: option select is not allowed when collection is deferred');
 	            }
-	        }
-	        if (options.method && options.method.length > 0) {
-	            throw new Error('Collection.fetch can not have "method" option');
 	        }
 	        options.method = 'subentityset';
 	        var optString = util_1.default.handleOptions(options);

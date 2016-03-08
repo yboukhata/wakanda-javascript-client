@@ -53,7 +53,14 @@ class EntityBusiness extends AbstractBusiness {
     });
   }
 
-  fetch(options: QueryOption): Promise<Entity> {
+  fetch(options?: QueryOption): Promise<Entity> {
+    let opt = options || {};
+    
+    if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
+      opt.start !== undefined || opt.orderBy !== undefined) {
+      throw new Error('Entity.fetch: options filter, params, pageSize, start and orderBy are not allowed');
+    }
+    
     return this.dataClassBusiness.find(this.entity._key, options).then(fresherEntity => {
       this._refreshEntity({fresherEntity});
       return this.entity;

@@ -218,6 +218,32 @@ describe('Entity API', function () {
           expect(product.name === originalName);
         });
     });
+    
+    it('should fail if called with invalid options', function () {
+      return ds.Employee.query({pageSize: 1, filter: 'employer.ID > 0'}).then(function (c) {
+        var employee = c.entities[0];
+        
+        expect(function () {
+          employee.employer.fetch({pageSize: 4});
+        }).to.throw(Error);
+        
+        expect(function () {
+          employee.employer.fetch({filter: 'ID < 10'});
+        }).to.throw(Error);
+        
+        expect(function () {
+          employee.employer.fetch({params: [2]});
+        }).to.throw(Error);
+        
+        expect(function () {
+          employee.employer.fetch({orderBy: 'name'});
+        }).to.throw(Error);
+        
+        expect(function () {
+          employee.employer.fetch({start: 0});
+        }).to.throw(Error);
+      })
+    });
   });
 
   describe('user defined methods', function () {
