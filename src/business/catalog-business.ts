@@ -22,6 +22,7 @@ export interface DataClassDBO {
 class CatalogBusiness extends AbstractBusiness {
   
   private service: CatalogService;
+  private seenDataClasses: string[];
   
   constructor(obj: any) {
     super(obj);
@@ -31,7 +32,16 @@ class CatalogBusiness extends AbstractBusiness {
     });
   }
 
-  get(dataClasses?: string[]): Promise<Catalog> {
+  private needDataClass(dcName: string) {
+    if (this.seenDataClasses.indexOf(dcName) === -1) {
+      this.seenDataClasses.push(dcName);
+    }
+  }
+
+  public get(dataClasses?: string[]): Promise<Catalog> {
+    
+    this.seenDataClasses = [];
+    
     return this.service.get(dataClasses).then((dataClassDBOArray: DataClassDBO[]) => {
 
       let dcArray: DataClass[] = [];
@@ -47,6 +57,7 @@ class CatalogBusiness extends AbstractBusiness {
                 type: attr.type,
                 kind: attr.kind
               }));
+              this.needDataClass(attr.type);
               break;
             case 'storage':
             case 'calculated':
@@ -60,14 +71,16 @@ class CatalogBusiness extends AbstractBusiness {
               }));
               break;
             case 'relatedEntities':
-              attributes.push(new AttributeCollection({
+            let attrCollection = new AttributeCollection({
                 name: attr.name,
                 type: attr.type,
                 kind: attr.kind
-              }));
+              });
+              attributes.push(attrCollection);
+              this.needDataClass(attrCollection.entityType);
               break;
             default:
-              throw new Error('[WakJSC] Unhandled ' + attr.kind + ' attribute type');
+              throw new Error('[WakandaClient] Unhandled ' + attr.kind + ' attribute type');
           }
         }
 
@@ -93,7 +106,7 @@ class CatalogBusiness extends AbstractBusiness {
               methods.dataClass.push(method.name);
               break;
             default:
-              throw new Error('Unrecognized method type');
+              throw new Error('[WakandaClient] Unrecognized method type');
           }
         }
 
@@ -114,10 +127,19 @@ class CatalogBusiness extends AbstractBusiness {
 
         dcArray.push(dataClass);
       }
-
-      return new Catalog({
+      
+      let catalog = new Catalog({
         dataClasses: dcArray
       });
+      
+      //Check if we have all needed dataClasses on the catalog
+      for (let dcName of this.seenDataClasses) {
+        if (!catalog[dcName]) {
+          throw new Error('Needed ' + dcName + ' dataClass is not present on catalog');
+        }
+      }
+
+      return catalog;
     });
   }
 }
