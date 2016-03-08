@@ -204,6 +204,12 @@ describe('Dataclass API', function() {
         }
       });
     });
+    
+    it('should fail if called with a method options', function () {
+      expect(function () {
+        ds.Company.query({method: 'entityset'});
+      }).to.throw(Error);
+    });
   });
 
   describe('create method', function () {

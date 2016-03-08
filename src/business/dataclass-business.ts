@@ -111,6 +111,10 @@ class DataClassBusiness extends AbstractBusiness {
   query(options?: QueryOption): Promise<Collection> {
     let opt = options || {};
     let initialSelect = opt.select;
+    
+    if (opt.method && opt.method.length > 0) {
+      throw new Error('Option method is not allowed on query()');
+    }
 
     if (!opt.pageSize) {
       opt.pageSize = Const.DEFAULT_PAGE_SIZE;
