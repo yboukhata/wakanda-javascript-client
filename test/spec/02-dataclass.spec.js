@@ -73,6 +73,28 @@ describe('Dataclass API', function() {
         expect(employee.employer.staff.entities[0].firstName).to.be.a('string');
       });
     });
+    
+    it('should throw an error if called with incorrect options', function () {
+      expect(function () {
+        ds.Company.find(1, {pageSize: 4});
+      }).to.throw(Error);
+      
+      expect(function () {
+        ds.Company.find(1, {filter: 'ID < 10'});
+      }).to.throw(Error);
+      
+      expect(function () {
+        ds.Company.find(1, {params: [2]});
+      }).to.throw(Error);
+      
+      expect(function () {
+        ds.Company.find(1, {orderBy: 'name'});
+      }).to.throw(Error);
+      
+      expect(function () {
+        ds.Company.find(1, {start: 0});
+      }).to.throw(Error);
+    });
   });
 
   describe('query method', function () {

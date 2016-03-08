@@ -95,6 +95,11 @@ class DataClassBusiness extends AbstractBusiness {
 
   find(id: string|number, options?: QueryOption): Promise<Entity> {
     let opt = options || {};
+    
+    if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
+      opt.start !== undefined || opt.orderBy !== undefined) {
+      throw new Error('Options filter, params, pageSize, start and orderBy are not allowed on find()');
+    }
 
     return this.service.find(id, opt).then(entity => {
       return this._presentationEntityFromDbo({
