@@ -1692,8 +1692,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            wakJSC: this.wakJSC
 	        });
 	    }
+	    CatalogBusiness.prototype.needDataClass = function (dcName) {
+	        if (this.seenDataClasses.indexOf(dcName) === -1) {
+	            this.seenDataClasses.push(dcName);
+	        }
+	    };
 	    CatalogBusiness.prototype.get = function (dataClasses) {
 	        var _this = this;
+	        this.seenDataClasses = [];
 	        return this.service.get(dataClasses).then(function (dataClassDBOArray) {
 	            var dcArray = [];
 	            for (var _i = 0, dataClassDBOArray_1 = dataClassDBOArray; _i < dataClassDBOArray_1.length; _i++) {
@@ -1708,6 +1714,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                type: attr.type,
 	                                kind: attr.kind
 	                            }));
+	                            _this.needDataClass(attr.type);
 	                            break;
 	                        case 'storage':
 	                        case 'calculated':
@@ -1721,14 +1728,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            }));
 	                            break;
 	                        case 'relatedEntities':
-	                            attributes.push(new dataclass_1.AttributeCollection({
+	                            var attrCollection = new dataclass_1.AttributeCollection({
 	                                name: attr.name,
 	                                type: attr.type,
 	                                kind: attr.kind
-	                            }));
+	                            });
+	                            attributes.push(attrCollection);
+	                            _this.needDataClass(attrCollection.entityType);
 	                            break;
 	                        default:
-	                            throw new Error('[WakJSC] Unhandled ' + attr.kind + ' attribute type');
+	                            throw new Error('[WakandaClient] Unhandled ' + attr.kind + ' attribute type');
 	                    }
 	                }
 	                var methods = {
@@ -1749,7 +1758,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            methods.dataClass.push(method.name);
 	                            break;
 	                        default:
-	                            throw new Error('Unrecognized method type');
+	                            throw new Error('[WakandaClient] Unrecognized method type');
 	                    }
 	                }
 	                var dataClass = new dataclass_1.DataClass({
@@ -1767,9 +1776,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                dataClassBusiness._decorateDataClass();
 	                dcArray.push(dataClass);
 	            }
-	            return new catalog_1.default({
+	            var catalog = new catalog_1.default({
 	                dataClasses: dcArray
 	            });
+	            //Check if we have all needed dataClasses on the catalog
+	            for (var _e = 0, _f = _this.seenDataClasses; _e < _f.length; _e++) {
+	                var dcName = _f[_e];
+	                if (!catalog[dcName]) {
+	                    throw new Error('Needed ' + dcName + ' dataClass is not present on catalog');
+	                }
+	            }
+	            return catalog;
 	        });
 	    };
 	    return CatalogBusiness;

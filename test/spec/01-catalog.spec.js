@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 describe('Catalog API', function() {
 
   describe('getCatalog method', function() {
@@ -44,6 +42,12 @@ describe('Catalog API', function() {
       expect(function () {
         wakClient.getCatalog('Foo')
       }).to.throw(Error);
+    });
+    
+    it('should throw an exception if all needed dataClasses are not retrieved', function () {
+      return wakClient.getCatalog(['Employee']).catch(function (e) {
+        expect(e).to.be.defined;
+      });
     });
   });
 });
