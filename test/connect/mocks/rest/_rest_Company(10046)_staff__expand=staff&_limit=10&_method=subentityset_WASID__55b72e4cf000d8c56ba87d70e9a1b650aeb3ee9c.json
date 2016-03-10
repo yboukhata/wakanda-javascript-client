@@ -1,25 +1,25 @@
 {
-  "requestUrl": "/rest/Company(9798)/staff?$expand=staff&$limit=40&$method=subentityset",
+  "requestUrl": "/rest/Company(10046)/staff?$expand=staff&$limit=10&$method=subentityset",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/4AE60C96CBA54081B0FE7AF3F536970C",
+    "__ENTITYSET": "/rest/Employee/$entityset/F56DB1DF75154396AF3B5B4CD89723ED",
     "__entityModel": "Employee",
     "__COUNT": 1,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "158362",
-        "__STAMP": 503,
-        "ID": 158362,
+        "__KEY": "162364",
+        "__STAMP": 511,
+        "ID": 162364,
         "lastName": "LUHEJI",
         "firstName": "HARRY",
         "salary": 132765,
         "employer": {
           "__deferred": {
-            "uri": "/rest/Company(9798)",
-            "__KEY": "9798"
+            "uri": "/rest/Company(10046)",
+            "__KEY": "10046"
           }
         },
         "salaryProcessed": "4295628.82194972 baht",

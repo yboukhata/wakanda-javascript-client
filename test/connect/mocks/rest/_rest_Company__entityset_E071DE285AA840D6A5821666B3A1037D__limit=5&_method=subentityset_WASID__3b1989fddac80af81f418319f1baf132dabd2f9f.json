@@ -1,9 +1,8 @@
 {
-  "requestUrl": "/rest/Company?$limit=5&$method=entityset",
+  "requestUrl": "/rest/Company/$entityset/E071DE285AA840D6A5821666B3A1037D?$limit=5&$method=subentityset",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Company/$entityset/E071DE285AA840D6A5821666B3A1037D",
     "__entityModel": "Company",
     "__COUNT": 62,
     "__SENT": 5,

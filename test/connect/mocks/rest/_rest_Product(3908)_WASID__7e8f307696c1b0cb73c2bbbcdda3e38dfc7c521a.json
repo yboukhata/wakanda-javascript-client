@@ -1,11 +1,11 @@
 {
-  "requestUrl": "/rest/Product(3806)",
+  "requestUrl": "/rest/Product(3908)",
   "contentType": "application/json; charset=UTF-8",
-  "statusCode": 404,
+  "statusCode": 401,
   "data": {
     "__ERROR": [
       {
-        "message": "Cannot load entity# 3806 in the \"Product\" datastore class",
+        "message": "Cannot load entity# 3908 in the \"Product\" datastore class",
         "componentSignature": "dbmg",
         "errCode": 1543
       }
