@@ -1,5 +1,5 @@
 {
-  "requestUrl": "/rest/Product(3779)?$method=delete",
+  "requestUrl": "/rest/Product(3806)?$method=delete",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {

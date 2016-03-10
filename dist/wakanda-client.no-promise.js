@@ -2484,7 +2484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!options) {
 	            return '';
 	        }
-	        var select = options.select, filter = options.filter, params = options.params, pageSize = options.pageSize, start = options.start, orderBy = options.orderBy, method = options.method;
+	        var select = options.select, filter = options.filter, params = options.params, pageSize = options.pageSize, start = options.start, orderBy = options.orderBy, method = options.method, emMethod = options.emMethod;
 	        var ret = '?';
 	        if (select) {
 	            ret += '&$expand=' + select;
@@ -2529,6 +2529,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        if (method) {
 	            ret += '&$method=' + method;
+	        }
+	        if (emMethod) {
+	            ret += '&$emMethod=' + emMethod;
 	        }
 	        if (ret.length > 1 && ret[1] === '&') {
 	            ret = ret.replace('?&', '?');
@@ -2681,7 +2684,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    CollectionBusiness.prototype.fetch = function (options) {
 	        var _this = this;
 	        var opt = options || {};
-	        if (options.method && options.method.length > 0) {
+	        if (opt.method && opt.method.length > 0) {
 	            throw new Error('Collection.fetch: option method is not allowed');
 	        }
 	        if (!opt.pageSize) {
@@ -2750,20 +2753,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this.fetch(options);
 	    };
 	    CollectionBusiness.prototype._addUserDefinedMethods = function () {
-	        // let _this = this;
-	        for (var _i = 0, _a = this.dataClassBusiness.methods.collection; _i < _a.length; _i++) {
-	            var method = _a[_i];
+	        var _this = this;
+	        var _this_ = this;
+	        this.dataClassBusiness.methods.collection.forEach(function (method) {
 	            //Voluntary don't use fat arrow notation to use arguments object without a bug
-	            this.collection[method] = function () {
-	                throw new Error('Not yet implemented');
-	                // let params = Array.from(arguments);
-	                // return _this.callMethod(method, params);
+	            _this.collection[method] = function () {
+	                var params = Array.from(arguments);
+	                return _this_.callMethod(method, params);
 	            };
-	        }
+	        });
 	    };
-	    // callMethod(methodName, parameters) {
-	    //   return this.service.callMethod(methodName, parameters);
-	    // }
+	    CollectionBusiness.prototype.callMethod = function (methodName, parameters) {
+	        return this.service.callMethod(methodName, parameters);
+	    };
 	    CollectionBusiness.prototype._refreshCollection = function (_a) {
 	        var fresherCollection = _a.fresherCollection;
 	        for (var prop in fresherCollection) {
@@ -2817,7 +2819,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            optString = '&' + optString.slice(1);
 	        }
 	        //Remove the /rest/ part of the URI as our service will add it on its own
-	        var uri = this.collectionUri.slice(5);
+	        // let uri = this.collectionUri.slice(5);
+	        var uri = this._removeRestFromUri(this.collectionUri);
 	        return this.httpClient.get({
 	            uri: uri + optString
 	        }).then(function (res) {
@@ -2833,6 +2836,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            return obj;
 	        });
+	    };
+	    CollectionService.prototype.callMethod = function (methodName, parameters) {
+	        //Two cases. If it's an entity set, just call the method
+	        //If not, call it with emMethod and subentityset parameters
+	        var uri = this._removeRestFromUri(this.collectionUri);
+	        if (this.isEntitySet) {
+	            uri += '/' + methodName;
+	        }
+	        else {
+	            var optString = util_1.default.handleOptions({
+	                method: 'subentityset',
+	                emMethod: methodName
+	            });
+	            uri += '&' + optString.slice(1);
+	        }
+	        return this.httpClient.post({
+	            uri: uri,
+	            data: parameters
+	        }).then(function (res) {
+	            var obj = JSON.parse(res.body);
+	            return obj.result || obj || null;
+	        });
+	    };
+	    CollectionService.prototype._removeRestFromUri = function (uri) {
+	        return uri.slice(5);
 	    };
 	    CollectionService.prototype._isEntitySetUri = function (_a) {
 	        var uri = _a.uri;
