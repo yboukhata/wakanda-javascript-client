@@ -55,7 +55,7 @@ class CollectionBusiness extends AbstractBusiness {
   fetch(options?: QueryOption): Promise<Collection> {
     let opt = options || {};
 
-    if (options.method && options.method.length > 0) {
+    if (opt.method && opt.method.length > 0) {
       throw new Error('Collection.fetch: option method is not allowed');
     }
 
