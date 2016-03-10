@@ -60,7 +60,7 @@ class CollectionBusiness extends AbstractBusiness {
     }
 
     if (!opt.pageSize) {
-      opt.pageSize = Const.DEFAULT_PAGE_SIZE;
+      opt.pageSize = this.pageSize ? this.pageSize : Const.DEFAULT_PAGE_SIZE;
     }
 
     if (opt.select) {
@@ -71,7 +71,8 @@ class CollectionBusiness extends AbstractBusiness {
 
     return this.service.fetch(opt).then(collectionDbo => {
       let fresherCollection = this.dataClassBusiness._presentationCollectionFromDbo({
-        dbo: collectionDbo
+        dbo: collectionDbo,
+        pageSize: this.pageSize
       });
 
       this._refreshCollection({fresherCollection});
