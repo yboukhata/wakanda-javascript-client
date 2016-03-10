@@ -3161,7 +3161,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            throw new Error('Collection.fetch: option method is not allowed');
 	        }
 	        if (!opt.pageSize) {
-	            opt.pageSize = const_1.default.DEFAULT_PAGE_SIZE;
+	            opt.pageSize = this.pageSize ? this.pageSize : const_1.default.DEFAULT_PAGE_SIZE;
 	        }
 	        if (opt.select) {
 	            this.initialSelect = opt.select;
@@ -3169,7 +3169,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pageSize = opt.pageSize;
 	        return this.service.fetch(opt).then(function (collectionDbo) {
 	            var fresherCollection = _this.dataClassBusiness._presentationCollectionFromDbo({
-	                dbo: collectionDbo
+	                dbo: collectionDbo,
+	                pageSize: _this.pageSize
 	            });
 	            _this._refreshCollection({ fresherCollection: fresherCollection });
 	            return _this.collection;
