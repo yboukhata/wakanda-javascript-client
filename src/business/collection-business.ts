@@ -145,21 +145,19 @@ class CollectionBusiness extends AbstractBusiness {
   }
 
   _addUserDefinedMethods() {
-    // let _this = this;
-    for (let method of this.dataClassBusiness.methods.collection) {
+    let _this_ = this;
+    this.dataClassBusiness.methods.collection.forEach(method => {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.collection[method] = function() {
-
-        throw new Error('Not yet implemented');
-        // let params = Array.from(arguments);
-        // return _this.callMethod(method, params);
+        let params = Array.from(arguments);
+        return _this_.callMethod(method, params);
       };
-    }
+    });
   }
 
-  // callMethod(methodName, parameters) {
-  //   return this.service.callMethod(methodName, parameters);
-  // }
+  callMethod(methodName: string, parameters: any[]) {
+    return this.service.callMethod(methodName, parameters);
+  }
 
   _refreshCollection({fresherCollection}) {
     for (let prop in fresherCollection) {
