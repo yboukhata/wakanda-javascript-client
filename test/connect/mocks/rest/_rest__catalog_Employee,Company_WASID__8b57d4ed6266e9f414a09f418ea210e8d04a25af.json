@@ -68,6 +68,13 @@
         ],
         "methods": [
           {
+            "name": "firstOfCollection",
+            "applyTo": "entityCollection",
+            "scope": "public",
+            "from": "$mainModel.Employee.collectionMethods.firstOfCollection",
+            "userDefined": true
+          },
+          {
             "name": "lotsOfEmployees",
             "applyTo": "dataClass",
             "scope": "public",
@@ -107,6 +114,20 @@
             "applyTo": "dataClass",
             "scope": "public",
             "from": "$mainModel.Employee.methods.oneEmployee",
+            "userDefined": true
+          },
+          {
+            "name": "returnSelf",
+            "applyTo": "entity",
+            "scope": "public",
+            "from": "$mainModel.Employee.entityMethods.returnSelf",
+            "userDefined": true
+          },
+          {
+            "name": "someCompanies",
+            "applyTo": "entityCollection",
+            "scope": "public",
+            "from": "$mainModel.Employee.collectionMethods.someCompanies",
             "userDefined": true
           }
         ],
@@ -148,6 +169,13 @@
         ],
         "methods": [
           {
+            "name": "firstOfCollection",
+            "applyTo": "entityCollection",
+            "scope": "public",
+            "from": "$mainModel.Company.collectionMethods.firstOfCollection",
+            "userDefined": true
+          },
+          {
             "name": "myCollectionMethod",
             "applyTo": "entityCollection",
             "scope": "public",
@@ -166,6 +194,20 @@
             "applyTo": "entity",
             "scope": "public",
             "from": "$mainModel.Company.entityMethods.myEntityMethod",
+            "userDefined": true
+          },
+          {
+            "name": "returnSelf",
+            "applyTo": "entityCollection",
+            "scope": "public",
+            "from": "$mainModel.Company.collectionMethods.returnSelf",
+            "userDefined": true
+          },
+          {
+            "name": "returnStaff",
+            "applyTo": "entity",
+            "scope": "public",
+            "from": "$mainModel.Company.entityMethods.returnStaff",
             "userDefined": true
           }
         ],

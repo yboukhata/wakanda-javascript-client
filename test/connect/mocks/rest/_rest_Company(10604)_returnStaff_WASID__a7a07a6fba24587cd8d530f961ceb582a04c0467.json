@@ -1,28 +1,27 @@
 {
-  "requestUrl": "/rest/Employee?$filter=%22employer.ID%20%3E%200%22&$limit=1&$method=entityset",
+  "requestUrl": "/rest/Company(10604)/returnStaff",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/A4D793DF8D244638AE9E87D57B11E68C",
     "__entityModel": "Employee",
-    "__COUNT": 1001,
+    "__COUNT": 1,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "171375",
-        "__STAMP": 224,
-        "ID": 171375,
-        "lastName": "Smith",
-        "firstName": "John",
-        "salary": 80000,
+        "__KEY": "171374",
+        "__STAMP": 529,
+        "ID": 171374,
+        "lastName": "LUHEJI",
+        "firstName": "HARRY",
+        "salary": 132765,
         "employer": {
           "__deferred": {
             "uri": "/rest/Company(10604)",
             "__KEY": "10604"
           }
         },
-        "salaryProcessed": "2588410.3924677256 baht",
+        "salaryProcessed": "4295628.82194972 baht",
         "employerName": "Bag While Engineering",
         "photo": null
       }

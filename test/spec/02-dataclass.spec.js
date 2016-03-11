@@ -281,6 +281,18 @@ describe('Dataclass API', function() {
         expect(result).to.be.equal("This is a call to my dataClass method (Employee) with the following arguments : [\"foo\",\"bar\"]");
       });
     });
+    
+    it('should transform result into an entity if needed', function () {
+      return ds.Employee.oneEmployee().then(function (e) {
+        expect(wakClient.helper.isEntity(e)).to.be.true;
+      });
+    });
+    
+    it('should transform result into a collection if needed', function () {
+      return ds.Employee.lotsOfEmployees().then(function (e) {
+        expect(wakClient.helper.isCollection(e)).to.be.true;
+      });
+    });
   });
 
   describe('metadata properties', function () {

@@ -297,6 +297,18 @@ describe('Collection API', function () {
           expect(result).to.be.equal('This is a call to my collection method (Company)');
         });
       });
+      
+      it('should transform result into an entity if needed', function () {
+        return collection.firstOfCollection().then(function (e) {
+          expect(wakClient.helper.isEntity(e)).to.be.true;
+        });
+      });
+      
+      it('should transform result into a collection if needed', function () {
+        return collection.returnSelf().then(function (e) {
+          expect(wakClient.helper.isCollection(e)).to.be.true;
+        });
+      });
     });
     
     describe('on expanded collections', function () {
@@ -320,6 +332,18 @@ describe('Collection API', function () {
       it('should return the right value', function () {
         return collection.myCollectionMethod().then(function (result) {
           expect(result).to.be.equal('Hello from collection employee ! There is 1 items on the collection.');
+        });
+      });
+      
+      it('should transform result into an entity if needed', function () {
+        return collection.firstOfCollection().then(function (e) {
+          expect(wakClient.helper.isEntity(e)).to.be.true;
+        });
+      });
+      
+      it('should transform result into a collection if needed', function () {
+        return collection.someCompanies().then(function (e) {
+          expect(wakClient.helper.isCollection(e)).to.be.true;
         });
       });
     });
@@ -347,6 +371,18 @@ describe('Collection API', function () {
       it('should return the right value', function () {
         return collection.myCollectionMethod().then(function (result) {
           expect(result).to.be.equal('Hello from collection employee ! There is 1 items on the collection.');
+        });
+      });
+      
+      it('should transform result into an entity if needed', function () {
+        return collection.firstOfCollection().then(function (e) {
+          expect(wakClient.helper.isEntity(e)).to.be.true;
+        });
+      });
+      
+      it('should transform result into a collection if needed', function () {
+        return collection.someCompanies().then(function (e) {
+          expect(wakClient.helper.isCollection(e)).to.be.true;
         });
       });
     });

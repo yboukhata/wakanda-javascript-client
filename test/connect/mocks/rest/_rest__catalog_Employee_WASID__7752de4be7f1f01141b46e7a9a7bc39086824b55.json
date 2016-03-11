@@ -68,6 +68,13 @@
         ],
         "methods": [
           {
+            "name": "firstOfCollection",
+            "applyTo": "entityCollection",
+            "scope": "public",
+            "from": "$mainModel.Employee.collectionMethods.firstOfCollection",
+            "userDefined": true
+          },
+          {
             "name": "lotsOfEmployees",
             "applyTo": "dataClass",
             "scope": "public",
@@ -107,6 +114,20 @@
             "applyTo": "dataClass",
             "scope": "public",
             "from": "$mainModel.Employee.methods.oneEmployee",
+            "userDefined": true
+          },
+          {
+            "name": "returnSelf",
+            "applyTo": "entity",
+            "scope": "public",
+            "from": "$mainModel.Employee.entityMethods.returnSelf",
+            "userDefined": true
+          },
+          {
+            "name": "someCompanies",
+            "applyTo": "entityCollection",
+            "scope": "public",
+            "from": "$mainModel.Employee.collectionMethods.someCompanies",
             "userDefined": true
           }
         ],

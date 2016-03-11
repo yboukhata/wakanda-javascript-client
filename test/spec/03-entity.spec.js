@@ -287,5 +287,21 @@ describe('Entity API', function () {
         employee.myEntityMethod()
       }).to.throw(Error);
     });
+    
+    it('should transform result into an entity if needed', function () {
+      return ds.Employee.query({pageSize: 1}).then(function (c) {
+        return c.entities[0].returnSelf().then(function (e) {
+          expect(wakClient.helper.isEntity(e)).to.be.true;
+        });
+      });
+    });
+    
+    it('should transform result into a collection if needed', function () {
+      return ds.Company.query({pageSize: 1}).then(function (c) {
+        return c.entities[0].returnStaff().then(function (e) {
+          expect(wakClient.helper.isCollection(e)).to.be.true;
+        });
+      });
+    });
   });
 });
