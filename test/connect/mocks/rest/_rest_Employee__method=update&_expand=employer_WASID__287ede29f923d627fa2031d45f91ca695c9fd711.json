@@ -3,23 +3,23 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__KEY": "164367",
-    "__STAMP": 203,
-    "uri": "/rest/Employee(164367)",
-    "ID": 164367,
+    "__KEY": "165368",
+    "__STAMP": 206,
+    "uri": "/rest/Employee(165368)",
+    "ID": 165368,
     "lastName": "Smith",
     "firstName": "John",
     "salary": 80000,
     "salaryProcessed": "2588410.3924677256 baht",
     "employerName": "Bag While Engineering",
     "employer": {
-      "__KEY": "10170",
-      "__STAMP": 327,
-      "ID": 10170,
+      "__KEY": "10232",
+      "__STAMP": 329,
+      "ID": 10232,
       "name": "Bag While Engineering",
       "staff": {
         "__deferred": {
-          "uri": "/rest/Company(10170)/staff?$expand=staff"
+          "uri": "/rest/Company(10232)/staff?$expand=staff"
         }
       }
     }

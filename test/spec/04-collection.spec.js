@@ -172,6 +172,14 @@ describe('Collection API', function () {
         expect(collection._first).to.be.equal(oldFirst + collection._pageSize);  
       });
     });
+    
+    it('should throw an error if called on a deferred collection', function () {
+      var staff = collection.entities[0].staff;
+      
+      expect(function () {
+        staff.nextPage();
+      }).to.throw(Error);
+    });
   });
   
   describe('prevPage method', function () {
@@ -211,6 +219,57 @@ describe('Collection API', function () {
       return collection.prevPage().then(function () {
         expect(collection._first).to.be.equal(oldFirst - collection._pageSize);
       });
+    });
+    
+    it('should throw an error if called on a deferred collection', function () {
+      var staff = collection.entities[0].staff;
+      
+      expect(function () {
+        staff.prevPage();
+      }).to.throw(Error);
+    });
+  });
+  
+  describe('more method', function () {
+    
+    var collection;
+    
+    beforeEach(function () {
+      return ds.Company.query({pageSize: 5}).then(function (c) {
+        collection = c;
+      });
+    });
+    
+    it('should be defined', function () {
+      expect(collection.more).to.be.a('function');
+    });
+    
+    it('should return a promise', function () {
+      expect(collection.more()).to.be.a('promise');
+    });
+    
+    it('should append more data to the actual collection', function () {
+      var oldSize = collection.entities.length;
+      
+      return collection.more().then(function () {
+        expect(collection.entities.length).to.be.at.most(oldSize + 5);
+      });
+    });
+    
+    it('should update metadata', function () {
+      var oldSent = collection._sent;
+      
+      return collection.more().then(function () {
+        expect(collection._sent).to.be.at.most(oldSent + 5);
+      });
+    });
+    
+    it('should throw an error if called on a deferred collection', function () {
+      var staff = collection.entities[0].staff;
+      
+      expect(function () {
+        staff.more();
+      }).to.throw(Error);
     });
   });
   
