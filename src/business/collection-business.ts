@@ -6,6 +6,7 @@ import Collection from '../presentation/collection';
 import {DataClass} from '../presentation/dataclass';
 import DataClassBusiness from './dataclass-business';
 import {QueryOption} from '../presentation/query-option';
+import {MethodAdapter} from './method-adapter';
 
 export interface CollectionDBO {
   __ENTITYSET: string;
@@ -157,7 +158,14 @@ class CollectionBusiness extends AbstractBusiness {
   }
 
   callMethod(methodName: string, parameters: any[]) {
-    return this.service.callMethod(methodName, parameters);
+    if (this.collection._deferred) {
+      throw new Error('Collection.' + methodName + ': can not be called on a deferred collection');
+    }
+    
+    return this.service.callMethod(methodName, parameters)
+      .then((obj: any) => {
+        return MethodAdapter.transform(obj, this.dataClassBusiness._dataClassBusinessMap);
+      });
   }
 
   _refreshCollection({fresherCollection}) {

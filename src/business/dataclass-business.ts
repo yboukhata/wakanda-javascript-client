@@ -12,6 +12,7 @@ import {CollectionDBO} from './collection-business';
 import {DataClass} from '../presentation/dataclass';
 import {QueryOption} from '../presentation/query-option';
 import {EntityDBO} from './entity-business';
+import {MethodAdapter} from './method-adapter';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
 let _dataClassBusinessMap = new Map<string, DataClassBusiness>();
@@ -66,30 +67,7 @@ class DataClassBusiness extends AbstractBusiness {
   callMethod(methodName: string, parameters: any[]): Promise<Entity|Collection|any> {
     return this.service.callMethod(methodName, parameters)
       .then(obj => {
-
-        if (obj && obj.__entityModel) {
-          let business = _dataClassBusinessMap.get(obj.__entityModel);
-
-          if (business) {
-            //Returned object is a collection
-            if (typeof obj.__COUNT !== 'undefined' &&
-                typeof obj.__ENTITIES !== 'undefined' &&
-                typeof obj.__FIRST !== 'undefined' &&
-                typeof obj.__SENT !== 'undefined') {
-              return business._presentationCollectionFromDbo({
-                dbo: obj
-              });
-            }
-            //Returned object is an entity
-            else if (obj.__KEY && obj.__STAMP) {
-              return business._presentationEntityFromDbo({
-                dbo: obj
-              });
-            }
-          }
-        }
-
-        return obj;
+        return MethodAdapter.transform(obj, this._dataClassBusinessMap);
       });
   }
 
