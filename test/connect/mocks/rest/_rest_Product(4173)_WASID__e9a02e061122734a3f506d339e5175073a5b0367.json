@@ -1,12 +1,12 @@
 {
-  "requestUrl": "/rest/Product(3979)",
+  "requestUrl": "/rest/Product(4173)",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
     "__entityModel": "Product",
-    "__KEY": "3979",
-    "__STAMP": 329,
-    "ID": 3979,
+    "__KEY": "4173",
+    "__STAMP": 343,
+    "ID": 4173,
     "name": "orange true",
     "myBoolean": null,
     "born": null,
@@ -29,7 +29,7 @@
     },
     "photo": {
       "__deferred": {
-        "uri": "/rest/Product(3979)/photo?$imageformat=best&$version=329&$expand=photo",
+        "uri": "/rest/Product(4173)/photo?$imageformat=best&$version=343&$expand=photo",
         "image": true
       }
     }

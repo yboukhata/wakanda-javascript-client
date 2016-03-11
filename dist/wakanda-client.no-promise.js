@@ -67,7 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(57);
 	__webpack_require__(60);
 	var wakanda_client_1 = __webpack_require__(81);
-	var browser_http_client_1 = __webpack_require__(103);
+	var browser_http_client_1 = __webpack_require__(104);
 	wakanda_client_1.default.HttpClient = browser_http_client_1.default;
 	module.exports = wakanda_client_1.default;
 
@@ -1620,9 +1620,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var catalog_business_1 = __webpack_require__(82);
-	var directory_business_1 = __webpack_require__(101);
+	var directory_business_1 = __webpack_require__(102);
 	var entity_1 = __webpack_require__(92);
-	var collection_1 = __webpack_require__(99);
+	var collection_1 = __webpack_require__(100);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -1982,14 +1982,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var abstract_business_1 = __webpack_require__(83);
 	var entity_business_1 = __webpack_require__(89);
-	var dataclass_service_1 = __webpack_require__(93);
-	var collection_business_1 = __webpack_require__(94);
-	var media_business_1 = __webpack_require__(97);
+	var dataclass_service_1 = __webpack_require__(94);
+	var collection_business_1 = __webpack_require__(95);
+	var media_business_1 = __webpack_require__(98);
 	var entity_1 = __webpack_require__(92);
-	var collection_1 = __webpack_require__(99);
+	var collection_1 = __webpack_require__(100);
 	var dataclass_1 = __webpack_require__(87);
-	var media_1 = __webpack_require__(100);
-	var const_1 = __webpack_require__(96);
+	var media_1 = __webpack_require__(101);
+	var const_1 = __webpack_require__(97);
+	var method_adapter_1 = __webpack_require__(93);
 	//This map stores all DataClassBusiness instances of existing dataClasses
 	var _dataClassBusinessMap = new Map();
 	var DataClassBusiness = (function (_super) {
@@ -2026,28 +2027,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    DataClassBusiness.prototype.callMethod = function (methodName, parameters) {
+	        var _this = this;
 	        return this.service.callMethod(methodName, parameters)
 	            .then(function (obj) {
-	            if (obj && obj.__entityModel) {
-	                var business = _dataClassBusinessMap.get(obj.__entityModel);
-	                if (business) {
-	                    //Returned object is a collection
-	                    if (typeof obj.__COUNT !== 'undefined' &&
-	                        typeof obj.__ENTITIES !== 'undefined' &&
-	                        typeof obj.__FIRST !== 'undefined' &&
-	                        typeof obj.__SENT !== 'undefined') {
-	                        return business._presentationCollectionFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                    else if (obj.__KEY && obj.__STAMP) {
-	                        return business._presentationEntityFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                }
-	            }
-	            return obj;
+	            return method_adapter_1.MethodAdapter.transform(obj, _this._dataClassBusinessMap);
 	        });
 	    };
 	    DataClassBusiness.prototype.find = function (id, options) {
@@ -2273,6 +2256,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var entity_service_1 = __webpack_require__(90);
 	var dataclass_1 = __webpack_require__(87);
 	var entity_1 = __webpack_require__(92);
+	var method_adapter_1 = __webpack_require__(93);
 	var EntityBusiness = (function (_super) {
 	    __extends(EntityBusiness, _super);
 	    function EntityBusiness(_a) {
@@ -2323,26 +2307,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return this.service.callMethod(methodName, parameters)
 	            .then(function (obj) {
-	            if (obj && obj.__entityModel) {
-	                var business = _this.dataClassBusiness._dataClassBusinessMap.get(obj.__entityModel);
-	                if (business) {
-	                    //Returned object is a collection
-	                    if (typeof obj.__COUNT !== 'undefined' &&
-	                        typeof obj.__ENTITIES !== 'undefined' &&
-	                        typeof obj.__FIRST !== 'undefined' &&
-	                        typeof obj.__SENT !== 'undefined') {
-	                        return business._presentationCollectionFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                    else if (obj.__KEY && obj.__STAMP) {
-	                        return business._presentationEntityFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                }
-	            }
-	            return obj;
+	            return method_adapter_1.MethodAdapter.transform(obj, _this.dataClassBusiness._dataClassBusinessMap);
 	        });
 	    };
 	    EntityBusiness.prototype.delete = function () {
@@ -2582,6 +2547,41 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 93 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var MethodAdapter = (function () {
+	    function MethodAdapter() {
+	    }
+	    MethodAdapter.transform = function (object, dcBusinessMap) {
+	        if (object && object.__entityModel) {
+	            var business = dcBusinessMap.get(object.__entityModel);
+	            if (business) {
+	                //Returned object is a collection
+	                if (typeof object.__COUNT !== 'undefined' &&
+	                    typeof object.__ENTITIES !== 'undefined' &&
+	                    typeof object.__FIRST !== 'undefined' &&
+	                    typeof object.__SENT !== 'undefined') {
+	                    return business._presentationCollectionFromDbo({
+	                        dbo: object
+	                    });
+	                }
+	                else if (object.__KEY && object.__STAMP) {
+	                    return business._presentationEntityFromDbo({
+	                        dbo: object
+	                    });
+	                }
+	            }
+	        }
+	        return object;
+	    };
+	    return MethodAdapter;
+	}());
+	exports.MethodAdapter = MethodAdapter;
+
+
+/***/ },
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2645,7 +2645,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 94 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2655,8 +2655,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(83);
-	var collection_service_1 = __webpack_require__(95);
-	var const_1 = __webpack_require__(96);
+	var collection_service_1 = __webpack_require__(96);
+	var const_1 = __webpack_require__(97);
+	var method_adapter_1 = __webpack_require__(93);
 	var CollectionBusiness = (function (_super) {
 	    __extends(CollectionBusiness, _super);
 	    function CollectionBusiness(_a) {
@@ -2765,7 +2766,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    CollectionBusiness.prototype.callMethod = function (methodName, parameters) {
-	        return this.service.callMethod(methodName, parameters);
+	        var _this = this;
+	        if (this.collection._deferred) {
+	            throw new Error('Collection.' + methodName + ': can not be called on a deferred collection');
+	        }
+	        return this.service.callMethod(methodName, parameters)
+	            .then(function (obj) {
+	            return method_adapter_1.MethodAdapter.transform(obj, _this.dataClassBusiness._dataClassBusinessMap);
+	        });
 	    };
 	    CollectionBusiness.prototype._refreshCollection = function (_a) {
 	        var fresherCollection = _a.fresherCollection;
@@ -2784,7 +2792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 95 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2874,7 +2882,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 96 */
+/* 97 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2886,7 +2894,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 97 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2896,7 +2904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(83);
-	var media_service_1 = __webpack_require__(98);
+	var media_service_1 = __webpack_require__(99);
 	var MediaBusiness = (function (_super) {
 	    __extends(MediaBusiness, _super);
 	    function MediaBusiness(_a) {
@@ -2947,7 +2955,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 98 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3004,7 +3012,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 99 */
+/* 100 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3027,7 +3035,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3043,7 +3051,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 101 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3053,8 +3061,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(83);
-	var directory_service_1 = __webpack_require__(102);
-	var const_1 = __webpack_require__(96);
+	var directory_service_1 = __webpack_require__(103);
+	var const_1 = __webpack_require__(97);
 	var DirectoryBusiness = (function (_super) {
 	    __extends(DirectoryBusiness, _super);
 	    function DirectoryBusiness(_a) {
@@ -3106,7 +3114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 102 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3177,7 +3185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 103 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./aurelia-http-client.d.ts" />
@@ -3187,9 +3195,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var http_client_1 = __webpack_require__(104);
-	var aurelia_http_client_1 = __webpack_require__(105);
-	var http_response_1 = __webpack_require__(115);
+	var http_client_1 = __webpack_require__(105);
+	var aurelia_http_client_1 = __webpack_require__(106);
+	var http_response_1 = __webpack_require__(116);
 	var BrowserHttpClient = (function (_super) {
 	    __extends(BrowserHttpClient, _super);
 	    function BrowserHttpClient(_a) {
@@ -3253,7 +3261,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 104 */
+/* 105 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3381,7 +3389,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 105 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3390,7 +3398,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _httpClient = __webpack_require__(106);
+	var _httpClient = __webpack_require__(107);
 	
 	Object.defineProperty(exports, 'HttpClient', {
 	  enumerable: true,
@@ -3399,7 +3407,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _httpRequestMessage = __webpack_require__(110);
+	var _httpRequestMessage = __webpack_require__(111);
 	
 	Object.defineProperty(exports, 'HttpRequestMessage', {
 	  enumerable: true,
@@ -3408,7 +3416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _httpResponseMessage = __webpack_require__(112);
+	var _httpResponseMessage = __webpack_require__(113);
 	
 	Object.defineProperty(exports, 'HttpResponseMessage', {
 	  enumerable: true,
@@ -3417,7 +3425,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _jsonpRequestMessage = __webpack_require__(114);
+	var _jsonpRequestMessage = __webpack_require__(115);
 	
 	Object.defineProperty(exports, 'JSONPRequestMessage', {
 	  enumerable: true,
@@ -3426,7 +3434,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _headers = __webpack_require__(107);
+	var _headers = __webpack_require__(108);
 	
 	Object.defineProperty(exports, 'Headers', {
 	  enumerable: true,
@@ -3435,7 +3443,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _requestBuilder = __webpack_require__(108);
+	var _requestBuilder = __webpack_require__(109);
 	
 	Object.defineProperty(exports, 'RequestBuilder', {
 	  enumerable: true,
@@ -3445,7 +3453,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 106 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3457,13 +3465,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.HttpClient = undefined;
 	
-	var _headers = __webpack_require__(107);
+	var _headers = __webpack_require__(108);
 	
-	var _requestBuilder = __webpack_require__(108);
+	var _requestBuilder = __webpack_require__(109);
 	
-	var _httpRequestMessage = __webpack_require__(110);
+	var _httpRequestMessage = __webpack_require__(111);
 	
-	var _jsonpRequestMessage = __webpack_require__(114);
+	var _jsonpRequestMessage = __webpack_require__(115);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -3712,7 +3720,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 107 */
+/* 108 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3796,7 +3804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 108 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3808,11 +3816,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.RequestBuilder = undefined;
 	
-	var _aureliaPath = __webpack_require__(109);
+	var _aureliaPath = __webpack_require__(110);
 	
-	var _httpRequestMessage = __webpack_require__(110);
+	var _httpRequestMessage = __webpack_require__(111);
 	
-	var _jsonpRequestMessage = __webpack_require__(114);
+	var _jsonpRequestMessage = __webpack_require__(115);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -3989,7 +3997,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 109 */
+/* 110 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4149,7 +4157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 110 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4160,11 +4168,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.HttpRequestMessage = undefined;
 	exports.createHttpRequestMessageProcessor = createHttpRequestMessageProcessor;
 	
-	var _headers = __webpack_require__(107);
+	var _headers = __webpack_require__(108);
 	
-	var _requestMessageProcessor = __webpack_require__(111);
+	var _requestMessageProcessor = __webpack_require__(112);
 	
-	var _transformers = __webpack_require__(113);
+	var _transformers = __webpack_require__(114);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4183,7 +4191,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 111 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4195,9 +4203,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.RequestMessageProcessor = undefined;
 	
-	var _httpResponseMessage = __webpack_require__(112);
+	var _httpResponseMessage = __webpack_require__(113);
 	
-	var _aureliaPath = __webpack_require__(109);
+	var _aureliaPath = __webpack_require__(110);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4289,7 +4297,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 112 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4301,7 +4309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.HttpResponseMessage = undefined;
 	
-	var _headers = __webpack_require__(107);
+	var _headers = __webpack_require__(108);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4359,7 +4367,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 113 */
+/* 114 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4441,7 +4449,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 114 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4454,11 +4462,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.JSONPRequestMessage = undefined;
 	exports.createJSONPRequestMessageProcessor = createJSONPRequestMessageProcessor;
 	
-	var _headers = __webpack_require__(107);
+	var _headers = __webpack_require__(108);
 	
-	var _requestMessageProcessor = __webpack_require__(111);
+	var _requestMessageProcessor = __webpack_require__(112);
 	
-	var _transformers = __webpack_require__(113);
+	var _transformers = __webpack_require__(114);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4538,7 +4546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 115 */
+/* 116 */
 /***/ function(module, exports) {
 
 	"use strict";

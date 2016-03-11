@@ -5,6 +5,7 @@ import Entity from '../presentation/entity';
 import {DataClass} from '../presentation/dataclass';
 import DataClassBusiness from './dataclass-business';
 import {QueryOption} from '../presentation/query-option';
+import {MethodAdapter} from './method-adapter';
 
 export interface EntityDBO {
   __KEY?: string;
@@ -74,30 +75,8 @@ class EntityBusiness extends AbstractBusiness {
 
     return this.service.callMethod(methodName, parameters)
     .then(obj => {
-
-      if (obj && obj.__entityModel) {
-        let business = this.dataClassBusiness._dataClassBusinessMap.get(obj.__entityModel);
-
-        if (business) {
-          //Returned object is a collection
-          if (typeof obj.__COUNT !== 'undefined' &&
-              typeof obj.__ENTITIES !== 'undefined' &&
-              typeof obj.__FIRST !== 'undefined' &&
-              typeof obj.__SENT !== 'undefined') {
-            return business._presentationCollectionFromDbo({
-              dbo: obj
-            });
-          }
-          //Returned object is an entity
-          else if (obj.__KEY && obj.__STAMP) {
-            return business._presentationEntityFromDbo({
-              dbo: obj
-            });
-          }
-        }
-      }
-
-      return obj;
+      
+      return MethodAdapter.transform(obj, this.dataClassBusiness._dataClassBusinessMap);
     });
   }
 

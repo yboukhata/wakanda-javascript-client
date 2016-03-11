@@ -1,16 +1,16 @@
 {
-  "requestUrl": "/rest/Company(10232)",
+  "requestUrl": "/rest/Company/$entityset/EAEFC029321E4A3E890CCBD1592F82BD/firstOfCollection",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
     "__entityModel": "Company",
-    "__KEY": "10232",
-    "__STAMP": 329,
-    "ID": 10232,
+    "__KEY": "10666",
+    "__STAMP": 343,
+    "ID": 10666,
     "name": "Bag While Engineering",
     "staff": {
       "__deferred": {
-        "uri": "/rest/Company(10232)/staff?$expand=staff"
+        "uri": "/rest/Company(10666)/staff?$expand=staff"
       }
     }
   },

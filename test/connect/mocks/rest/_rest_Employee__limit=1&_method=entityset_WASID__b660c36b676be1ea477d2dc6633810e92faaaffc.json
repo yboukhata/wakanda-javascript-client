@@ -3,23 +3,23 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/49D99D37E4EE4D5A879966BB3F48464E",
+    "__ENTITYSET": "/rest/Employee/$entityset/47ABBC17CC29459EB2B07358EE337ABA",
     "__entityModel": "Employee",
     "__COUNT": 1000,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "165367",
-        "__STAMP": 517,
-        "ID": 165367,
+        "__KEY": "172375",
+        "__STAMP": 531,
+        "ID": 172375,
         "lastName": "LUHEJI",
         "firstName": "HARRY",
         "salary": 132765,
         "employer": {
           "__deferred": {
-            "uri": "/rest/Company(10232)",
-            "__KEY": "10232"
+            "uri": "/rest/Company(10666)",
+            "__KEY": "10666"
           }
         },
         "salaryProcessed": "4295628.82194972 baht",
