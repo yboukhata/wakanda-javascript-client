@@ -1,5 +1,5 @@
 {
-  "requestUrl": "/rest/Company/$entityset/E071DE285AA840D6A5821666B3A1037D/myCollectionMethod",
+  "requestUrl": "/rest/Company/$entityset/5801608347E14D4D85F22A2FA36DD6C9/myCollectionMethod",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {

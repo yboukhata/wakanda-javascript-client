@@ -1,0 +1,70 @@
+{
+  "requestUrl": "/rest/Company?$limit=5&$skip=10&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Company/$entityset/BBD077944FA74E429727CC37B8329251",
+    "__entityModel": "Company",
+    "__COUNT": 62,
+    "__SENT": 5,
+    "__FIRST": 10,
+    "__ENTITIES": [
+      {
+        "__KEY": "10160",
+        "__STAMP": 327,
+        "ID": 10160,
+        "name": "Curtain Coin Loran",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10160)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10159",
+        "__STAMP": 327,
+        "ID": 10159,
+        "name": "Romeo Preview General",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10159)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10158",
+        "__STAMP": 327,
+        "ID": 10158,
+        "name": "Oscar Week Tree",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10158)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10157",
+        "__STAMP": 327,
+        "ID": 10157,
+        "name": "Fake Address Room",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10157)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10156",
+        "__STAMP": 327,
+        "ID": 10156,
+        "name": "Television Year Platinium",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10156)/staff?$expand=staff"
+          }
+        }
+      }
+    ]
+  },
+  "headers": {}
+}

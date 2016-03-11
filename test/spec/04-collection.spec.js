@@ -133,6 +133,87 @@ describe('Collection API', function () {
     });
   });
   
+  describe('nextPage method', function () {
+    
+    var collection;
+    
+    beforeEach(function () {
+      return ds.Company.query({pageSize: 5}).then(function (c) {
+        collection = c;
+      });
+    });
+    
+    it('should be defined', function () {
+      expect(collection.nextPage).to.be.a('function');
+    });
+    
+    it('should return a promise', function () {
+      expect(collection.nextPage()).to.be.a('promise');
+    });
+    
+    it('should fetch different data', function () {
+      var oldFirstEntity = collection.entities[0];
+      
+      return collection.nextPage().then(function () {
+        expect(oldFirstEntity.ID).to.not.be.equal(collection.entities[0].ID);
+      });
+    });
+    
+    it('should fetch a page of the same size', function () {
+      return collection.nextPage().then(function () {
+        expect(collection._pageSize).to.be.equal(5);
+      });
+    });
+    
+    it('should fetch the next entities', function () {
+      var oldFirst = collection._first;
+      
+      return collection.nextPage().then(function () {
+        expect(collection._first).to.be.equal(oldFirst + collection._pageSize);  
+      });
+    });
+  });
+  
+  describe('prevPage method', function () {
+    var collection;
+    
+    beforeEach(function () {
+      return ds.Company.query({pageSize: 5, start: 10}).then(function (c) {
+        collection = c;
+      });
+    });
+    
+    it('should be defined', function () {
+      expect(collection.prevPage).to.be.a('function');
+    });
+    
+    it('should return a promise', function () {
+      expect(collection.prevPage()).to.be.a('promise');
+    });
+    
+    it('should fetch different data', function () {
+      var oldFirstEntity = collection.entities[0];
+      
+      return collection.prevPage().then(function () {
+        expect(collection.entities[0].ID).to.not.be.equal(oldFirstEntity.ID);
+      });
+    });
+    
+    it('should fetch a page of the same size', function () {
+      return collection.prevPage().then(function () {
+        expect(collection._pageSize).to.be.equal(5);
+      });
+    });
+    
+    it('should fetch previous entities', function () {
+      var oldFirst = collection._first;
+      
+      return collection.prevPage().then(function () {
+        expect(collection._first).to.be.equal(oldFirst - collection._pageSize);
+      });
+    });
+  });
+  
   describe('User defined methods', function () {
     
     describe('on root collections', function () {

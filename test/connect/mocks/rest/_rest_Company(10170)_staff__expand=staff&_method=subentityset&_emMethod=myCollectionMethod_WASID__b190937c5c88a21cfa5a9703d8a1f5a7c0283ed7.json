@@ -1,5 +1,5 @@
 {
-  "requestUrl": "/rest/Employee/$entityset/7288C919CF0E44469ECB48257E67295D/myCollectionMethod",
+  "requestUrl": "/rest/Company(10170)/staff?$expand=staff&$method=subentityset&$emMethod=myCollectionMethod",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
