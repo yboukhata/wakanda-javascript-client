@@ -1,0 +1,179 @@
+{
+  "requestUrl": "/rest/Company/$entityset/EAEFC029321E4A3E890CCBD1592F82BD?$limit=15&$method=subentityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__entityModel": "Company",
+    "__COUNT": 62,
+    "__SENT": 15,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "10666",
+        "__STAMP": 343,
+        "ID": 10666,
+        "name": "Bag While Engineering",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10666)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10665",
+        "__STAMP": 343,
+        "ID": 10665,
+        "name": "Kilo Data Ireland",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10665)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10664",
+        "__STAMP": 343,
+        "ID": 10664,
+        "name": "Earth Sable Andloging",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10664)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10663",
+        "__STAMP": 343,
+        "ID": 10663,
+        "name": "Mexican Worldwide Fusion",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10663)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10662",
+        "__STAMP": 343,
+        "ID": 10662,
+        "name": "Calendar Sable Diffusing Ring",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10662)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10661",
+        "__STAMP": 343,
+        "ID": 10661,
+        "name": "Yankee Maxime Oval",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10661)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10660",
+        "__STAMP": 343,
+        "ID": 10660,
+        "name": "Alpha Montain Training",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10660)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10659",
+        "__STAMP": 343,
+        "ID": 10659,
+        "name": "Video Peter Graphics",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10659)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10658",
+        "__STAMP": 343,
+        "ID": 10658,
+        "name": "Bravo Rect Stone",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10658)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10657",
+        "__STAMP": 343,
+        "ID": 10657,
+        "name": "Flying Engine Left",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10657)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10656",
+        "__STAMP": 343,
+        "ID": 10656,
+        "name": "Curtain Coin Loran",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10656)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10655",
+        "__STAMP": 343,
+        "ID": 10655,
+        "name": "Romeo Preview General",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10655)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10654",
+        "__STAMP": 343,
+        "ID": 10654,
+        "name": "Oscar Week Tree",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10654)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10653",
+        "__STAMP": 343,
+        "ID": 10653,
+        "name": "Fake Address Room",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10653)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "10652",
+        "__STAMP": 343,
+        "ID": 10652,
+        "name": "Television Year Platinium",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(10652)/staff?$expand=staff"
+          }
+        }
+      }
+    ]
+  },
+  "headers": {}
+}

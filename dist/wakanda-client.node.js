@@ -7,7 +7,7 @@
 		exports["WakandaClient"] = factory(require("request"));
 	else
 		root["WakandaClient"] = factory(root["request"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_25__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_26__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -63,7 +63,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var wakanda_client_1 = __webpack_require__(2);
-	var node_http_client_1 = __webpack_require__(24);
+	var node_http_client_1 = __webpack_require__(25);
 	wakanda_client_1.default.HttpClient = node_http_client_1.default;
 	module.exports = wakanda_client_1.default;
 
@@ -74,9 +74,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var catalog_business_1 = __webpack_require__(3);
-	var directory_business_1 = __webpack_require__(22);
+	var directory_business_1 = __webpack_require__(23);
 	var entity_1 = __webpack_require__(13);
-	var collection_1 = __webpack_require__(20);
+	var collection_1 = __webpack_require__(21);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -436,14 +436,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var abstract_business_1 = __webpack_require__(4);
 	var entity_business_1 = __webpack_require__(10);
-	var dataclass_service_1 = __webpack_require__(14);
-	var collection_business_1 = __webpack_require__(15);
-	var media_business_1 = __webpack_require__(18);
+	var dataclass_service_1 = __webpack_require__(15);
+	var collection_business_1 = __webpack_require__(16);
+	var media_business_1 = __webpack_require__(19);
 	var entity_1 = __webpack_require__(13);
-	var collection_1 = __webpack_require__(20);
+	var collection_1 = __webpack_require__(21);
 	var dataclass_1 = __webpack_require__(8);
-	var media_1 = __webpack_require__(21);
-	var const_1 = __webpack_require__(17);
+	var media_1 = __webpack_require__(22);
+	var const_1 = __webpack_require__(18);
+	var method_adapter_1 = __webpack_require__(14);
 	//This map stores all DataClassBusiness instances of existing dataClasses
 	var _dataClassBusinessMap = new Map();
 	var DataClassBusiness = (function (_super) {
@@ -480,28 +481,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    DataClassBusiness.prototype.callMethod = function (methodName, parameters) {
+	        var _this = this;
 	        return this.service.callMethod(methodName, parameters)
 	            .then(function (obj) {
-	            if (obj && obj.__entityModel) {
-	                var business = _dataClassBusinessMap.get(obj.__entityModel);
-	                if (business) {
-	                    //Returned object is a collection
-	                    if (typeof obj.__COUNT !== 'undefined' &&
-	                        typeof obj.__ENTITIES !== 'undefined' &&
-	                        typeof obj.__FIRST !== 'undefined' &&
-	                        typeof obj.__SENT !== 'undefined') {
-	                        return business._presentationCollectionFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                    else if (obj.__KEY && obj.__STAMP) {
-	                        return business._presentationEntityFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                }
-	            }
-	            return obj;
+	            return method_adapter_1.MethodAdapter.transform(obj, _this._dataClassBusinessMap);
 	        });
 	    };
 	    DataClassBusiness.prototype.find = function (id, options) {
@@ -727,6 +710,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var entity_service_1 = __webpack_require__(11);
 	var dataclass_1 = __webpack_require__(8);
 	var entity_1 = __webpack_require__(13);
+	var method_adapter_1 = __webpack_require__(14);
 	var EntityBusiness = (function (_super) {
 	    __extends(EntityBusiness, _super);
 	    function EntityBusiness(_a) {
@@ -777,26 +761,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return this.service.callMethod(methodName, parameters)
 	            .then(function (obj) {
-	            if (obj && obj.__entityModel) {
-	                var business = _this.dataClassBusiness._dataClassBusinessMap.get(obj.__entityModel);
-	                if (business) {
-	                    //Returned object is a collection
-	                    if (typeof obj.__COUNT !== 'undefined' &&
-	                        typeof obj.__ENTITIES !== 'undefined' &&
-	                        typeof obj.__FIRST !== 'undefined' &&
-	                        typeof obj.__SENT !== 'undefined') {
-	                        return business._presentationCollectionFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                    else if (obj.__KEY && obj.__STAMP) {
-	                        return business._presentationEntityFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                }
-	            }
-	            return obj;
+	            return method_adapter_1.MethodAdapter.transform(obj, _this.dataClassBusiness._dataClassBusinessMap);
 	        });
 	    };
 	    EntityBusiness.prototype.delete = function () {
@@ -1036,6 +1001,41 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 14 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var MethodAdapter = (function () {
+	    function MethodAdapter() {
+	    }
+	    MethodAdapter.transform = function (object, dcBusinessMap) {
+	        if (object && object.__entityModel) {
+	            var business = dcBusinessMap.get(object.__entityModel);
+	            if (business) {
+	                //Returned object is a collection
+	                if (typeof object.__COUNT !== 'undefined' &&
+	                    typeof object.__ENTITIES !== 'undefined' &&
+	                    typeof object.__FIRST !== 'undefined' &&
+	                    typeof object.__SENT !== 'undefined') {
+	                    return business._presentationCollectionFromDbo({
+	                        dbo: object
+	                    });
+	                }
+	                else if (object.__KEY && object.__STAMP) {
+	                    return business._presentationEntityFromDbo({
+	                        dbo: object
+	                    });
+	                }
+	            }
+	        }
+	        return object;
+	    };
+	    return MethodAdapter;
+	}());
+	exports.MethodAdapter = MethodAdapter;
+
+
+/***/ },
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1099,7 +1099,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1109,8 +1109,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var collection_service_1 = __webpack_require__(16);
-	var const_1 = __webpack_require__(17);
+	var collection_service_1 = __webpack_require__(17);
+	var const_1 = __webpack_require__(18);
+	var method_adapter_1 = __webpack_require__(14);
 	var CollectionBusiness = (function (_super) {
 	    __extends(CollectionBusiness, _super);
 	    function CollectionBusiness(_a) {
@@ -1219,7 +1220,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    CollectionBusiness.prototype.callMethod = function (methodName, parameters) {
-	        return this.service.callMethod(methodName, parameters);
+	        var _this = this;
+	        if (this.collection._deferred) {
+	            throw new Error('Collection.' + methodName + ': can not be called on a deferred collection');
+	        }
+	        return this.service.callMethod(methodName, parameters)
+	            .then(function (obj) {
+	            return method_adapter_1.MethodAdapter.transform(obj, _this.dataClassBusiness._dataClassBusinessMap);
+	        });
 	    };
 	    CollectionBusiness.prototype._refreshCollection = function (_a) {
 	        var fresherCollection = _a.fresherCollection;
@@ -1238,7 +1246,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1328,7 +1336,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1340,7 +1348,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1350,7 +1358,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var media_service_1 = __webpack_require__(19);
+	var media_service_1 = __webpack_require__(20);
 	var MediaBusiness = (function (_super) {
 	    __extends(MediaBusiness, _super);
 	    function MediaBusiness(_a) {
@@ -1401,7 +1409,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1458,7 +1466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1481,7 +1489,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1497,7 +1505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1507,8 +1515,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var directory_service_1 = __webpack_require__(23);
-	var const_1 = __webpack_require__(17);
+	var directory_service_1 = __webpack_require__(24);
+	var const_1 = __webpack_require__(18);
 	var DirectoryBusiness = (function (_super) {
 	    __extends(DirectoryBusiness, _super);
 	    function DirectoryBusiness(_a) {
@@ -1560,7 +1568,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1631,7 +1639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./request.d.ts" />
@@ -1641,9 +1649,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var request = __webpack_require__(25);
-	var http_client_1 = __webpack_require__(26);
-	var http_response_1 = __webpack_require__(27);
+	var request = __webpack_require__(26);
+	var http_client_1 = __webpack_require__(27);
+	var http_response_1 = __webpack_require__(28);
 	var NodeHttpClient = (function (_super) {
 	    __extends(NodeHttpClient, _super);
 	    function NodeHttpClient(_a) {
@@ -1735,13 +1743,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = require("request");
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1869,7 +1877,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	"use strict";

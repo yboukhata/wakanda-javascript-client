@@ -1,0 +1,16 @@
+{
+  "requestUrl": "/rest/Employee?$method=update",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__KEY": "172376",
+    "__STAMP": 228,
+    "uri": "/rest/Employee(172376)",
+    "ID": 172376,
+    "lastName": "Smith",
+    "firstName": "John",
+    "salary": 80000,
+    "salaryProcessed": "2588410.3924677256 baht"
+  },
+  "headers": {}
+}
