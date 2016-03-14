@@ -2134,7 +2134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return catalogBusiness.get(dataClasses);
 	    };
 	    WakandaClient.prototype.version = function () {
-	        return '0.1.0';
+	        return '0.2.0';
 	    };
 	    return WakandaClient;
 	}());
