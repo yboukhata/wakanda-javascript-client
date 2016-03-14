@@ -30,6 +30,7 @@
     "test.sh",
     "dts.js",
     "gulpfile.js",
-    "karma.conf.js"
+    "karma.conf.js",
+    "wakanda-solution"
   ]
 }
