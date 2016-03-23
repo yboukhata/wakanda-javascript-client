@@ -304,4 +304,66 @@ describe('Entity API', function () {
       });
     });
   });
+  
+  describe('recompute method', function () {
+    
+    it('should be defined', function () {
+      var entity = ds.Product.create();
+      expect(entity.recompute).to.be.a('function');
+    });
+    
+    it('should return a promise', function () {
+      var entity = ds.Product.create();
+      expect(entity.recompute()).to.be.a('promise');
+    });
+    
+    it('should edit the entity in place', function () {
+      var entity = ds.Product.create();
+      return entity.recompute().then(function (result) {
+        expect(result).to.be.equal(entity);
+      });
+    });
+    
+    it('should fire init event for a newly created entity', function () {
+      var entity = ds.Product.create();
+      return entity.recompute().then(function () {
+        expect(entity.myBoolean).to.be.true;
+      });
+    });
+    
+    it('should fire clientrefresh event for a newly created entity', function () {
+      var entity = ds.Product.create();
+      return entity.recompute().then(function () {
+        expect(entity.name).to.be.equal('Unnamed product');
+      });
+    });
+    
+    it('should fire clientrefresh event for an already saved entity', function () {
+      return ds.Product.query({pageSize: 3})
+        .then(function (collection) {
+          var entity = collection.entities[0];
+          
+          entity.name = null;
+          return entity.recompute().then(function () {
+            expect(entity.name).to.be.equal('Unnamed product');
+          });
+        });
+    });
+    
+    it('should not cause any trouble to saving after being called', function () {
+      return ds.Product.query({pageSize: 3})
+        .then(function (collection) {
+          var entity = collection.entities[0];
+          var oldStamp = entity._stamp;
+          
+          entity.name = null;
+          return entity.recompute().then(function () {
+            return entity.save().then(function () {
+              expect(entity._stamp).to.be.above(oldStamp);
+              expect(entity.name).to.be.equal('Unnamed product');
+            });
+          });
+        });
+    });
+  });
 });

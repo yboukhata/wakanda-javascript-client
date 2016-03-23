@@ -34,6 +34,19 @@ class EntityService extends AbstractService {
       return entity;
     });
   }
+  
+  recompute(data: EntityDBO): Promise<EntityDBO> {
+   return this.httpClient.post({
+     uri: '/' + this.dataClass.name + '?$method=update&$refresh=true',
+     data
+   }).then(res => {
+     var dbo = JSON.parse(res.body);
+     delete dbo.__entityModel;
+     Util.removeRestInfoFromEntity(dbo);
+     
+     return dbo;
+   });
+  }
 
   callMethod(methodName: string, parameters: any[]): Promise<any> {
     return this.httpClient.post({

@@ -2748,6 +2748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.entity.save = this.save.bind(this);
 	        this.entity.delete = this.delete.bind(this);
 	        this.entity.fetch = this.fetch.bind(this);
+	        this.entity.recompute = this.recompute.bind(this);
 	        this._addUserDefinedMethods();
 	    };
 	    EntityBusiness.prototype._addUserDefinedMethods = function () {
@@ -2794,21 +2795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EntityBusiness.prototype.save = function () {
 	        var _this = this;
-	        var data = {};
-	        if (this.entity._key && this.entity._stamp) {
-	            data.__KEY = this.entity._key;
-	            data.__STAMP = this.entity._stamp;
-	        }
-	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
-	            var attr = _a[_i];
-	            var objAttr = this.entity[attr.name] || null;
-	            if (attr instanceof dataclass_1.AttributeRelated) {
-	                data[attr.name] = objAttr ? objAttr._key : null;
-	            }
-	            else if (!(attr instanceof dataclass_1.AttributeCollection) && !attr.readOnly) {
-	                data[attr.name] = objAttr;
-	            }
-	        }
+	        var data = this.prepareDataForSave();
 	        //If first-level related entities were already expanded, we will save the
 	        //entity and ask the server to expand theses attributes on its response
 	        //So, the user keeps its entities expanded
@@ -2821,10 +2808,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _this.entity;
 	        });
 	    };
+	    EntityBusiness.prototype.recompute = function () {
+	        var _this = this;
+	        var data = this.prepareDataForSave();
+	        return this.service.recompute(data)
+	            .then(function (dbo) {
+	            var fresherEntity = _this.dataClassBusiness._presentationEntityFromDbo({
+	                dbo: dbo
+	            });
+	            _this._refreshEntity({ fresherEntity: fresherEntity });
+	            return _this.entity;
+	        });
+	    };
+	    EntityBusiness.prototype.prepareDataForSave = function () {
+	        var data = {};
+	        var entityIsNew = false;
+	        if (this.entity._key && this.entity._stamp) {
+	            data.__KEY = this.entity._key;
+	            data.__STAMP = this.entity._stamp;
+	        }
+	        else {
+	            entityIsNew = true;
+	        }
+	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
+	            var attr = _a[_i];
+	            var objAttr = this.entity[attr.name] || null;
+	            if (attr instanceof dataclass_1.AttributeRelated) {
+	                data[attr.name] = objAttr ? objAttr._key : null;
+	            }
+	            else if (!(attr instanceof dataclass_1.AttributeCollection) && !attr.readOnly) {
+	                //Don't send null value for a newly created attribute (to don't override value eventually set on init event)
+	                //except for ID (which is null), because if an empty object is send, save is ignored
+	                if (!entityIsNew || objAttr !== null || attr.name === 'ID') {
+	                    data[attr.name] = objAttr;
+	                }
+	            }
+	        }
+	        return data;
+	    };
 	    EntityBusiness.prototype._refreshEntity = function (_a) {
 	        var fresherEntity = _a.fresherEntity;
 	        for (var prop in fresherEntity) {
-	            if (Object.prototype.hasOwnProperty.call(fresherEntity, prop)) {
+	            if (fresherEntity.hasOwnProperty(prop) && (typeof fresherEntity[prop] !== 'function')) {
 	                this.entity[prop] = fresherEntity[prop];
 	            }
 	        }
@@ -2880,6 +2905,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            delete entity.__entityModel;
 	            util_1.default.removeRestInfoFromEntity(entity);
 	            return entity;
+	        });
+	    };
+	    EntityService.prototype.recompute = function (data) {
+	        return this.httpClient.post({
+	            uri: '/' + this.dataClass.name + '?$method=update&$refresh=true',
+	            data: data
+	        }).then(function (res) {
+	            var dbo = JSON.parse(res.body);
+	            delete dbo.__entityModel;
+	            util_1.default.removeRestInfoFromEntity(dbo);
+	            return dbo;
 	        });
 	    };
 	    EntityService.prototype.callMethod = function (methodName, parameters) {

@@ -40,14 +40,16 @@
 		"model": {
 			"scriptMode": "manual",
 			"workspaceLeft": 0,
-			"workspaceTop": 9,
+			"workspaceTop": 0,
 			"lastScriptLocation": {
 				"Product": {
-					"method": "Product/Product-methods.js"
+					"method": "Product/Product-methods.js",
+					"events": "Product/Product-events.js"
 				},
 				"Employee": {
 					"method": "Employee/Employee-methods.js",
-					"computed": "Employee/Employee-events.js"
+					"computed": "Employee/Employee-events.js",
+					"events": "Employee/Employee-events.js"
 				},
 				"Company": {
 					"method": "Company/Company-methods.js"
@@ -202,6 +204,13 @@
 			],
 			"methods": [
 				{
+					"name": "firstOfCollection",
+					"applyTo": "entityCollection",
+					"scope": "public",
+					"from": "$mainModel.Employee.collectionMethods.firstOfCollection",
+					"userDefined": true
+				},
+				{
 					"name": "lotsOfEmployees",
 					"applyTo": "dataClass",
 					"scope": "public",
@@ -248,6 +257,13 @@
 					"applyTo": "entity",
 					"scope": "public",
 					"from": "$mainModel.Employee.entityMethods.returnSelf",
+					"userDefined": true
+				},
+				{
+					"name": "someCompanies",
+					"applyTo": "entityCollection",
+					"scope": "public",
+					"from": "$mainModel.Employee.collectionMethods.someCompanies",
 					"userDefined": true
 				}
 			]
@@ -298,6 +314,18 @@
 					"kind": "storage",
 					"scope": "public",
 					"type": "image"
+				}
+			],
+			"events": [
+				{
+					"kind": "init",
+					"from": "$mainModel.Product.events.init",
+					"userDefined": true
+				},
+				{
+					"kind": "clientrefresh",
+					"from": "$mainModel.Product.events.clientrefresh",
+					"userDefined": true
 				}
 			],
 			"methods": [
