@@ -13,6 +13,7 @@ class Entity {
   public save: () => Promise<Entity>;
   public delete: () => Promise<void>;
   public fetch: (options?: QueryOption) => Promise<Entity>;
+  public recompute: () => Promise<Entity>;
   
   constructor({key, deferred, dataClass}:
    {key: string, deferred: boolean, dataClass: DataClass}) {

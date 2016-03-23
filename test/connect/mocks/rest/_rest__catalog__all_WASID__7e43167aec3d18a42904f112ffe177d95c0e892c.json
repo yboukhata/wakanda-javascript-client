@@ -264,6 +264,18 @@
             "type": "image"
           }
         ],
+        "events": [
+          {
+            "kind": "init",
+            "from": "$mainModel.Product.events.init",
+            "userDefined": true
+          },
+          {
+            "kind": "clientrefresh",
+            "from": "$mainModel.Product.events.clientrefresh",
+            "userDefined": true
+          }
+        ],
         "methods": [
           {
             "name": "myClassMethod",

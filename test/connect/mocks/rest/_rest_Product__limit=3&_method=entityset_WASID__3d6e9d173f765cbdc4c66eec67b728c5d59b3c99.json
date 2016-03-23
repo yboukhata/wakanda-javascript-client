@@ -1,0 +1,67 @@
+{
+  "requestUrl": "/rest/Product?$limit=3&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Product/$entityset/501CF79D87DC42C6BEE5971F7AA14A31",
+    "__entityModel": "Product",
+    "__COUNT": 26,
+    "__SENT": 3,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "840",
+        "__STAMP": 71,
+        "ID": 840,
+        "name": "FooProduct",
+        "myBoolean": true,
+        "born": null,
+        "spec": {
+          "foo": "bar",
+          "number": 1234,
+          "subObject": {
+            "baz": "taz"
+          }
+        },
+        "photo": null
+      },
+      {
+        "__KEY": "838",
+        "__STAMP": 67,
+        "ID": 838,
+        "name": null,
+        "myBoolean": true,
+        "born": null,
+        "spec": null,
+        "photo": null
+      },
+      {
+        "__KEY": "837",
+        "__STAMP": 67,
+        "ID": 837,
+        "name": "watermelon true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "name": "watermelon true",
+          "myObject": {
+            "myArray": [
+              {
+                "foo": "bar"
+              },
+              "tata"
+            ]
+          },
+          "myArray": [
+            {
+              "foo": "bar"
+            },
+            "tata"
+          ]
+        },
+        "photo": null
+      }
+    ]
+  },
+  "headers": {}
+}
