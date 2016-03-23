@@ -1,0 +1,14 @@
+{
+  "requestUrl": "/rest/Company(2108)/staff?$expand=staff&$limit=40&$skip=10&$method=subentityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Employee/$entityset/43E025EEF470402B93E9CC04F5465059",
+    "__entityModel": "Employee",
+    "__COUNT": 1,
+    "__SENT": -9,
+    "__FIRST": 10,
+    "__ENTITIES": []
+  },
+  "headers": {}
+}

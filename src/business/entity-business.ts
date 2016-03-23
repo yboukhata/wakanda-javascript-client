@@ -36,9 +36,10 @@ class EntityBusiness extends AbstractBusiness {
   }
 
   _decorateEntity() {
-    this.entity.save = this.save.bind(this);
-    this.entity.delete = this.delete.bind(this);
-    this.entity.fetch = this.fetch.bind(this);
+    this.entity.save        = this.save.bind(this);
+    this.entity.delete      = this.delete.bind(this);
+    this.entity.fetch       = this.fetch.bind(this);
+    this.entity.recompute   = this.recompute.bind(this);
 
     this._addUserDefinedMethods();
   }
@@ -91,23 +92,7 @@ class EntityBusiness extends AbstractBusiness {
   }
 
   save(): Promise<Entity> {
-    let data: EntityDBO = {};
-
-    if (this.entity._key && this.entity._stamp) {
-      data.__KEY   = this.entity._key;
-      data.__STAMP = this.entity._stamp;
-    }
-
-    for (let attr of this.dataClass.attributes) {
-      let objAttr = this.entity[attr.name] || null;
-
-      if (attr instanceof AttributeRelated) {
-        data[attr.name] = objAttr ? objAttr._key : null;
-      }
-      else if (!(attr instanceof AttributeCollection) && !attr.readOnly) {
-        data[attr.name] = objAttr;
-      }
-    }
+    let data = this.prepareDataForSave();
 
     //If first-level related entities were already expanded, we will save the
     //entity and ask the server to expand theses attributes on its response
@@ -123,10 +108,55 @@ class EntityBusiness extends AbstractBusiness {
       return this.entity;
     });
   }
+  
+  recompute(): Promise<Entity> {
+    let data = this.prepareDataForSave();
+    
+    return this.service.recompute(data)
+      .then(dbo => {
+        let fresherEntity = this.dataClassBusiness._presentationEntityFromDbo({
+          dbo
+        });
+        
+        this._refreshEntity({fresherEntity});
+        
+        return this.entity;
+      });
+  }
+  
+  private prepareDataForSave(): EntityDBO {
+    let data: EntityDBO = {};
+    let entityIsNew = false;
+
+    if (this.entity._key && this.entity._stamp) {
+      data.__KEY   = this.entity._key;
+      data.__STAMP = this.entity._stamp;
+    }
+    else {
+      entityIsNew = true;
+    }
+
+    for (let attr of this.dataClass.attributes) {
+      let objAttr = this.entity[attr.name] || null;
+
+      if (attr instanceof AttributeRelated) {
+        data[attr.name] = objAttr ? objAttr._key : null;
+      }
+      else if (!(attr instanceof AttributeCollection) && !attr.readOnly) {
+        //Don't send null value for a newly created attribute (to don't override value eventually set on init event)
+        //except for ID (which is null), because if an empty object is send, save is ignored
+        if (!entityIsNew || objAttr !== null || attr.name === 'ID') {
+          data[attr.name] = objAttr;
+        }
+      }
+    }
+    
+    return data;
+  }
 
   _refreshEntity({fresherEntity}: {fresherEntity: Entity}) {
     for (let prop in fresherEntity) {
-      if (Object.prototype.hasOwnProperty.call(fresherEntity, prop)) {
+      if (fresherEntity.hasOwnProperty(prop) && (typeof fresherEntity[prop] !== 'function')) {
         this.entity[prop] = fresherEntity[prop];
       }
     }
