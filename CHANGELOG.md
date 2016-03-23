@@ -4,6 +4,7 @@
 
 - [Feature] Support of server methods for collections
 - [Feature] Throw error if non-allowed properties are passed as option for `find`, `query` and `fetch` methods
+- [Feature] Add `recompute` method, to execute server-side logic (calculated attribute computation, init and clientrefresh events) to the local entity
 - [Bugfix] Throw an error if a partial catalog is retrieved with not all needed dataClasses (related attributes, etc.)
 - [Bugfix] `fetch` called on a already fetched collection will keep previously defined `pageSize` if another one is not given
 - [Test] Integration tests for collection methods
