@@ -12,9 +12,13 @@ Install through `npm` or `bower`. There is only browser version on `bower`, both
 
 ```bash
 npm install wakanda-client
-//or
+#or
 bower install wakanda-client
 ```
+
+## Documentation
+
+Check out the [Quickstart Guide](https://github.com/Wakanda/wakanda-javascript-client/wiki/Quickstart) to learn how to how use Wakanda-Client.
 
 ## Development
 Git clone this repository then install dependencies. Wakanda Client needs Node 4.0 or greater.
