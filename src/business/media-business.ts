@@ -33,13 +33,13 @@ class MediaBusiness extends AbstractBusiness {
     this.media.delete = this.delete.bind(this);
   }
 
-  upload(file: any, mimeType?: string): Promise<Entity> {
+  upload(file: any): Promise<Entity> {
 
     if (!this.entity._key) {
       throw new Error('Media.upload: entity must be saved before uploading a media');
     }
 
-    return this.service.upload(file, mimeType).then(dbo => {
+    return this.service.upload(file, file.type).then(dbo => {
       return dbo; //FIXME
     }).then(() => {
       //FIXME - crappy, force a refresh of the entity to get proper stamp and media uri

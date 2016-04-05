@@ -2962,12 +2962,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.media.upload = this.upload.bind(this);
 	        this.media.delete = this.delete.bind(this);
 	    };
-	    MediaBusiness.prototype.upload = function (file, mimeType) {
+	    MediaBusiness.prototype.upload = function (file) {
 	        var _this = this;
 	        if (!this.entity._key) {
 	            throw new Error('Media.upload: entity must be saved before uploading a media');
 	        }
-	        return this.service.upload(file, mimeType).then(function (dbo) {
+	        return this.service.upload(file, file.type).then(function (dbo) {
 	            return dbo; //FIXME
 	        }).then(function () {
 	            //FIXME - crappy, force a refresh of the entity to get proper stamp and media uri
