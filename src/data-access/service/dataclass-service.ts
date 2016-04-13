@@ -33,7 +33,7 @@ class DataClassService extends AbstractService {
     });
   }
 
-  callMethod(methodName: string, parameters: any[]): Promise<any> {
+  callMethod(methodName: string, parameters: any[]) {
     return DataClassBaseService.callMethod({
       httpClient: this.httpClient,
       dataClassName: this.dataClass.name,
