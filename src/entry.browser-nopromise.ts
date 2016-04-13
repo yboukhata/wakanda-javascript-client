@@ -8,4 +8,4 @@ import BrowserHttpClient from './data-access/http/browser-http-client';
 
 WakandaClient.HttpClient = BrowserHttpClient;
 
-export = WakandaClient; 
+export {WakandaClient}; 
