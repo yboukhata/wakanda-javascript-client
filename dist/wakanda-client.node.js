@@ -7,7 +7,7 @@
 		exports["WakandaClient"] = factory(require("request"));
 	else
 		root["WakandaClient"] = factory(root["request"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_26__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_32__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -63,9 +63,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var wakanda_client_1 = __webpack_require__(2);
-	var node_http_client_1 = __webpack_require__(25);
+	exports.WakandaClient = wakanda_client_1.default;
+	var node_http_client_1 = __webpack_require__(31);
+	var catalog_base_service_1 = __webpack_require__(7);
+	exports.CatalogBaseService = catalog_base_service_1.CatalogBaseService;
+	var collection_base_service_1 = __webpack_require__(21);
+	exports.CollectionBaseService = collection_base_service_1.CollectionBaseService;
+	var dataclass_base_service_1 = __webpack_require__(18);
+	exports.DataClassBaseService = dataclass_base_service_1.DataClassBaseService;
+	var directory_base_service_1 = __webpack_require__(30);
+	exports.DirectoryBaseService = directory_base_service_1.DirectoryBaseService;
+	var entity_base_service_1 = __webpack_require__(13);
+	exports.EntityBaseService = entity_base_service_1.EntityBaseService;
+	var media_base_service_1 = __webpack_require__(25);
+	exports.MediaBaseService = media_base_service_1.MediaBaseService;
 	wakanda_client_1.default.HttpClient = node_http_client_1.default;
-	module.exports = wakanda_client_1.default;
 
 
 /***/ },
@@ -74,9 +86,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var catalog_business_1 = __webpack_require__(3);
-	var directory_business_1 = __webpack_require__(23);
-	var entity_1 = __webpack_require__(13);
-	var collection_1 = __webpack_require__(21);
+	var directory_business_1 = __webpack_require__(28);
+	var entity_1 = __webpack_require__(15);
+	var collection_1 = __webpack_require__(26);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -135,9 +147,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var abstract_business_1 = __webpack_require__(4);
 	var catalog_service_1 = __webpack_require__(5);
-	var catalog_1 = __webpack_require__(7);
-	var dataclass_1 = __webpack_require__(8);
-	var dataclass_business_1 = __webpack_require__(9);
+	var catalog_1 = __webpack_require__(8);
+	var dataclass_1 = __webpack_require__(9);
+	var dataclass_business_1 = __webpack_require__(10);
 	var CatalogBusiness = (function (_super) {
 	    __extends(CatalogBusiness, _super);
 	    function CatalogBusiness(obj) {
@@ -276,12 +288,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
+	var catalog_base_service_1 = __webpack_require__(7);
 	var CatalogService = (function (_super) {
 	    __extends(CatalogService, _super);
 	    function CatalogService() {
 	        _super.apply(this, arguments);
 	    }
 	    CatalogService.prototype.get = function (dataClasses) {
+	        return catalog_base_service_1.CatalogBaseService.get({
+	            httpClient: this.httpClient,
+	            dataClasses: dataClasses
+	        });
+	    };
+	    return CatalogService;
+	}(abstract_service_1.default));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = CatalogService;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var AbstractService = (function () {
+	    function AbstractService(_a) {
+	        var wakJSC = _a.wakJSC;
+	        this.wakJSC = wakJSC;
+	        this.httpClient = wakJSC._httpClient;
+	    }
+	    return AbstractService;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = AbstractService;
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var CatalogBaseService = (function () {
+	    function CatalogBaseService() {
+	    }
+	    CatalogBaseService.get = function (_a) {
+	        var httpClient = _a.httpClient, dataClasses = _a.dataClasses;
 	        var strDataclasses = '/';
 	        if (Array.isArray(dataClasses)) {
 	            strDataclasses += dataClasses.join();
@@ -292,7 +343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        else {
 	            throw new Error('Catalog.get: first parameter should be an array');
 	        }
-	        return this.httpClient.get({ uri: '/$catalog' + strDataclasses })
+	        return httpClient.get({ uri: '/$catalog' + strDataclasses })
 	            .then(function (res) {
 	            var catalog = [];
 	            var rawObj = JSON.parse(res.body);
@@ -330,31 +381,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return catalog;
 	        });
 	    };
-	    return CatalogService;
-	}(abstract_service_1.default));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = CatalogService;
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var AbstractService = (function () {
-	    function AbstractService(_a) {
-	        var wakJSC = _a.wakJSC;
-	        this.wakJSC = wakJSC;
-	        this.httpClient = wakJSC._httpClient;
-	    }
-	    return AbstractService;
+	    return CatalogBaseService;
 	}());
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = AbstractService;
+	exports.CatalogBaseService = CatalogBaseService;
 
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -373,7 +406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -425,7 +458,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -435,16 +468,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var entity_business_1 = __webpack_require__(10);
-	var dataclass_service_1 = __webpack_require__(15);
-	var collection_business_1 = __webpack_require__(16);
-	var media_business_1 = __webpack_require__(19);
-	var entity_1 = __webpack_require__(13);
-	var collection_1 = __webpack_require__(21);
-	var dataclass_1 = __webpack_require__(8);
-	var media_1 = __webpack_require__(22);
-	var const_1 = __webpack_require__(18);
-	var method_adapter_1 = __webpack_require__(14);
+	var entity_business_1 = __webpack_require__(11);
+	var dataclass_service_1 = __webpack_require__(17);
+	var collection_business_1 = __webpack_require__(19);
+	var media_business_1 = __webpack_require__(23);
+	var entity_1 = __webpack_require__(15);
+	var collection_1 = __webpack_require__(26);
+	var dataclass_1 = __webpack_require__(9);
+	var media_1 = __webpack_require__(27);
+	var const_1 = __webpack_require__(22);
+	var method_adapter_1 = __webpack_require__(16);
 	//This map stores all DataClassBusiness instances of existing dataClasses
 	var _dataClassBusinessMap = new Map();
 	var DataClassBusiness = (function (_super) {
@@ -697,7 +730,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -707,10 +740,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var entity_service_1 = __webpack_require__(11);
-	var dataclass_1 = __webpack_require__(8);
-	var entity_1 = __webpack_require__(13);
-	var method_adapter_1 = __webpack_require__(14);
+	var entity_service_1 = __webpack_require__(12);
+	var dataclass_1 = __webpack_require__(9);
+	var entity_1 = __webpack_require__(15);
+	var method_adapter_1 = __webpack_require__(16);
 	var EntityBusiness = (function (_super) {
 	    __extends(EntityBusiness, _super);
 	    function EntityBusiness(_a) {
@@ -854,7 +887,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -864,7 +897,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var util_1 = __webpack_require__(12);
+	var entity_base_service_1 = __webpack_require__(13);
 	var EntityService = (function (_super) {
 	    __extends(EntityService, _super);
 	    function EntityService(_a) {
@@ -874,12 +907,59 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.dataClass = dataClass;
 	    }
 	    EntityService.prototype.save = function (data, expand) {
+	        return entity_base_service_1.EntityBaseService.save({
+	            httpClient: this.httpClient,
+	            dataClassName: this.dataClass.name,
+	            expand: expand,
+	            data: data
+	        });
+	    };
+	    EntityService.prototype.recompute = function (data) {
+	        return entity_base_service_1.EntityBaseService.recompute({
+	            httpClient: this.httpClient,
+	            dataClassName: this.dataClass.name,
+	            data: data
+	        });
+	    };
+	    EntityService.prototype.callMethod = function (methodName, parameters) {
+	        return entity_base_service_1.EntityBaseService.callMethod({
+	            httpClient: this.httpClient,
+	            dataClassName: this.dataClass.name,
+	            methodName: methodName,
+	            parameters: parameters,
+	            entityKey: this.entity._key
+	        });
+	    };
+	    EntityService.prototype.delete = function () {
+	        return entity_base_service_1.EntityBaseService.delete({
+	            httpClient: this.httpClient,
+	            dataClassName: this.dataClass.name,
+	            entityKey: this.entity._key
+	        });
+	    };
+	    return EntityService;
+	}(abstract_service_1.default));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = EntityService;
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var util_1 = __webpack_require__(14);
+	var EntityBaseService = (function () {
+	    function EntityBaseService() {
+	    }
+	    EntityBaseService.save = function (_a) {
+	        var httpClient = _a.httpClient, data = _a.data, expand = _a.expand, dataClassName = _a.dataClassName;
 	        var expandStr = '';
 	        if (expand) {
 	            expandStr = '&$expand=' + expand;
 	        }
-	        return this.httpClient.post({
-	            uri: '/' + this.dataClass.name + '?$method=update' + expandStr,
+	        return httpClient.post({
+	            uri: '/' + dataClassName + '?$method=update' + expandStr,
 	            data: data
 	        }).then(function (res) {
 	            var entity = JSON.parse(res.body);
@@ -888,9 +968,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return entity;
 	        });
 	    };
-	    EntityService.prototype.recompute = function (data) {
-	        return this.httpClient.post({
-	            uri: '/' + this.dataClass.name + '?$method=update&$refresh=true',
+	    EntityBaseService.recompute = function (_a) {
+	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, data = _a.data;
+	        return httpClient.post({
+	            uri: '/' + dataClassName + '?$method=update&$refresh=true',
 	            data: data
 	        }).then(function (res) {
 	            var dbo = JSON.parse(res.body);
@@ -899,18 +980,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return dbo;
 	        });
 	    };
-	    EntityService.prototype.callMethod = function (methodName, parameters) {
-	        return this.httpClient.post({
-	            uri: '/' + this.dataClass.name + '(' + this.entity._key + ')/' + methodName,
+	    EntityBaseService.callMethod = function (_a) {
+	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, methodName = _a.methodName, parameters = _a.parameters, entityKey = _a.entityKey;
+	        return httpClient.post({
+	            uri: '/' + dataClassName + '(' + entityKey + ')/' + methodName,
 	            data: parameters
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
 	            return obj.result || obj || null;
 	        });
 	    };
-	    EntityService.prototype.delete = function () {
-	        return this.httpClient.get({
-	            uri: '/' + this.dataClass.name + '(' + this.entity._key + ')?$method=delete'
+	    EntityBaseService.delete = function (_a) {
+	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, entityKey = _a.entityKey;
+	        return httpClient.get({
+	            uri: '/' + dataClassName + '(' + entityKey + ')?$method=delete'
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
 	            if (!(obj && obj.ok === true)) {
@@ -921,14 +1004,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 	    };
-	    return EntityService;
-	}(abstract_service_1.default));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = EntityService;
+	    return EntityBaseService;
+	}());
+	exports.EntityBaseService = EntityBaseService;
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1013,7 +1095,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1036,7 +1118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1071,7 +1153,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1081,7 +1163,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var util_1 = __webpack_require__(12);
+	var dataclass_base_service_1 = __webpack_require__(18);
 	var DataClassService = (function (_super) {
 	    __extends(DataClassService, _super);
 	    function DataClassService(_a) {
@@ -1090,12 +1172,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.dataClass = dataClass;
 	    }
 	    DataClassService.prototype.find = function (id, options) {
-	        if (typeof id !== 'string' && typeof id !== 'number') {
+	        return dataclass_base_service_1.DataClassBaseService.find({
+	            httpClient: this.httpClient,
+	            key: id,
+	            options: options,
+	            dataClassName: this.dataClass.name
+	        });
+	    };
+	    DataClassService.prototype.query = function (options) {
+	        return dataclass_base_service_1.DataClassBaseService.query({
+	            httpClient: this.httpClient,
+	            options: options,
+	            dataClassName: this.dataClass.name
+	        });
+	    };
+	    DataClassService.prototype.callMethod = function (methodName, parameters) {
+	        return dataclass_base_service_1.DataClassBaseService.callMethod({
+	            httpClient: this.httpClient,
+	            dataClassName: this.dataClass.name,
+	            methodName: methodName,
+	            parameters: parameters
+	        });
+	    };
+	    return DataClassService;
+	}(abstract_service_1.default));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = DataClassService;
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var util_1 = __webpack_require__(14);
+	var DataClassBaseService = (function () {
+	    function DataClassBaseService() {
+	    }
+	    DataClassBaseService.find = function (_a) {
+	        var httpClient = _a.httpClient, key = _a.key, options = _a.options, dataClassName = _a.dataClassName;
+	        if (typeof key !== 'string' && typeof key !== 'number') {
 	            throw new Error('DataClass.find: Invalid id type');
 	        }
 	        var optString = util_1.default.handleOptions(options);
-	        return this.httpClient.get({
-	            uri: '/' + this.dataClass.name + '(' + id + ')' + optString
+	        return httpClient.get({
+	            uri: '/' + dataClassName + '(' + key + ')' + optString
 	        })
 	            .then(function (res) {
 	            var entity = JSON.parse(res.body);
@@ -1104,11 +1225,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return entity;
 	        });
 	    };
-	    DataClassService.prototype.query = function (options) {
+	    DataClassBaseService.query = function (_a) {
+	        var httpClient = _a.httpClient, options = _a.options, dataClassName = _a.dataClassName;
 	        options.method = 'entityset';
 	        var optString = util_1.default.handleOptions(options);
-	        return this.httpClient.get({
-	            uri: '/' + this.dataClass.name + optString
+	        return httpClient.get({
+	            uri: '/' + dataClassName + optString
 	        }).then(function (res) {
 	            var collection = JSON.parse(res.body);
 	            delete collection.__entityModel;
@@ -1119,23 +1241,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return collection;
 	        });
 	    };
-	    DataClassService.prototype.callMethod = function (methodName, parameters) {
-	        return this.httpClient.post({
-	            uri: '/' + this.dataClass.name + '/' + methodName,
+	    DataClassBaseService.callMethod = function (_a) {
+	        var httpClient = _a.httpClient, methodName = _a.methodName, parameters = _a.parameters, dataClassName = _a.dataClassName;
+	        return httpClient.post({
+	            uri: '/' + dataClassName + '/' + methodName,
 	            data: parameters
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
 	            return obj.result || obj || null;
 	        });
 	    };
-	    return DataClassService;
-	}(abstract_service_1.default));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = DataClassService;
+	    return DataClassBaseService;
+	}());
+	exports.DataClassBaseService = DataClassBaseService;
 
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1145,9 +1267,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var collection_service_1 = __webpack_require__(17);
-	var const_1 = __webpack_require__(18);
-	var method_adapter_1 = __webpack_require__(14);
+	var collection_service_1 = __webpack_require__(20);
+	var const_1 = __webpack_require__(22);
+	var method_adapter_1 = __webpack_require__(16);
 	var CollectionBusiness = (function (_super) {
 	    __extends(CollectionBusiness, _super);
 	    function CollectionBusiness(_a) {
@@ -1282,7 +1404,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1292,7 +1414,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var util_1 = __webpack_require__(12);
+	var collection_base_service_1 = __webpack_require__(21);
 	var CollectionService = (function (_super) {
 	    __extends(CollectionService, _super);
 	    function CollectionService(_a) {
@@ -1301,11 +1423,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.collection = collection;
 	        this.dataClass = dataClass;
 	        this.collectionUri = collectionUri;
-	        this.isEntitySet = this._isEntitySetUri({ uri: collectionUri });
+	        this.isEntitySet = collection_base_service_1.isEntitySetUri(collectionUri);
 	    }
 	    CollectionService.prototype.fetch = function (options) {
 	        var _this = this;
-	        if (!this.isEntitySet) {
+	        return collection_base_service_1.CollectionBaseService.fetch({
+	            httpClient: this.httpClient,
+	            collectionUri: this.collectionUri,
+	            isEntitySet: this.isEntitySet,
+	            options: options
+	        })
+	            .then(function (dbo) {
+	            if (dbo.__ENTITYSET) {
+	                _this.collectionUri = dbo.__ENTITYSET;
+	                _this.isEntitySet = collection_base_service_1.isEntitySetUri(dbo.__ENTITYSET);
+	            }
+	            return dbo;
+	        });
+	    };
+	    CollectionService.prototype.callMethod = function (methodName, parameters) {
+	        return collection_base_service_1.CollectionBaseService.callMethod({
+	            httpClient: this.httpClient,
+	            collectionUri: this.collectionUri,
+	            isEntitySet: this.isEntitySet,
+	            methodName: methodName,
+	            parameters: parameters
+	        });
+	    };
+	    return CollectionService;
+	}(abstract_service_1.default));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = CollectionService;
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var util_1 = __webpack_require__(14);
+	var CollectionBaseService = (function () {
+	    function CollectionBaseService() {
+	    }
+	    CollectionBaseService.fetch = function (_a) {
+	        var httpClient = _a.httpClient, collectionUri = _a.collectionUri, isEntitySet = _a.isEntitySet, options = _a.options;
+	        if (!isEntitySet) {
 	            if (options.select && options.select.length > 0) {
 	                throw new Error('Collection.fetch: option select is not allowed when collection is deferred');
 	            }
@@ -1314,20 +1476,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var optString = util_1.default.handleOptions(options);
 	        //Remove the first ? on optString if it's not an entitySet (because there is also
 	        //?$expand=... on collectionUri), and add a &
-	        if (!this.isEntitySet) {
+	        if (!isEntitySet) {
 	            optString = '&' + optString.slice(1);
 	        }
 	        //Remove the /rest/ part of the URI as our service will add it on its own
 	        // let uri = this.collectionUri.slice(5);
-	        var uri = this._removeRestFromUri(this.collectionUri);
-	        return this.httpClient.get({
+	        var uri = this._removeRestFromUri(collectionUri);
+	        return httpClient.get({
 	            uri: uri + optString
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
-	            if (obj.__ENTITYSET) {
-	                _this.collectionUri = obj.__ENTITYSET;
-	                _this.isEntitySet = _this._isEntitySetUri({ uri: obj.__ENTITYSET });
-	            }
 	            delete obj.__entityModel;
 	            for (var _i = 0, _a = obj.__ENTITIES; _i < _a.length; _i++) {
 	                var entity = _a[_i];
@@ -1336,11 +1494,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return obj;
 	        });
 	    };
-	    CollectionService.prototype.callMethod = function (methodName, parameters) {
+	    CollectionBaseService.callMethod = function (_a) {
+	        var httpClient = _a.httpClient, collectionUri = _a.collectionUri, isEntitySet = _a.isEntitySet, methodName = _a.methodName, parameters = _a.parameters;
 	        //Two cases. If it's an entity set, just call the method
 	        //If not, call it with emMethod and subentityset parameters
-	        var uri = this._removeRestFromUri(this.collectionUri);
-	        if (this.isEntitySet) {
+	        var uri = this._removeRestFromUri(collectionUri);
+	        if (isEntitySet) {
 	            uri += '/' + methodName;
 	        }
 	        else {
@@ -1350,7 +1509,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	            uri += '&' + optString.slice(1);
 	        }
-	        return this.httpClient.post({
+	        return httpClient.post({
 	            uri: uri,
 	            data: parameters
 	        }).then(function (res) {
@@ -1358,21 +1517,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return obj.result || obj || null;
 	        });
 	    };
-	    CollectionService.prototype._removeRestFromUri = function (uri) {
+	    CollectionBaseService._removeRestFromUri = function (uri) {
 	        return uri.slice(5);
 	    };
-	    CollectionService.prototype._isEntitySetUri = function (_a) {
-	        var uri = _a.uri;
-	        return /^\/rest\/\w+\/\$entityset\/[A-Z0-9]+(\?.*)?$/i.test(uri);
-	    };
-	    return CollectionService;
-	}(abstract_service_1.default));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = CollectionService;
+	    return CollectionBaseService;
+	}());
+	exports.CollectionBaseService = CollectionBaseService;
+	function isEntitySetUri(uri) {
+	    return /^\/rest\/\w+\/\$entityset\/[A-Z0-9]+(\?.*)?$/i.test(uri);
+	}
+	exports.isEntitySetUri = isEntitySetUri;
 
 
 /***/ },
-/* 18 */
+/* 22 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1384,7 +1542,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1394,7 +1552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var media_service_1 = __webpack_require__(20);
+	var media_service_1 = __webpack_require__(24);
 	var MediaBusiness = (function (_super) {
 	    __extends(MediaBusiness, _super);
 	    function MediaBusiness(_a) {
@@ -1445,7 +1603,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1455,6 +1613,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
+	var media_base_service_1 = __webpack_require__(25);
 	var MediaService = (function (_super) {
 	    __extends(MediaService, _super);
 	    function MediaService(_a) {
@@ -1467,33 +1626,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.attributeName = attributeName;
 	    }
 	    MediaService.prototype.upload = function (file, mimeType) {
-	        var uri = this._buildUri();
-	        if (this.isImage) {
-	            uri += '?$rawPict=' + mimeType;
-	        }
-	        //FIXME - real crappy not to return some piece of information to refresh entity
-	        return this.httpClient.post({
-	            uri: uri,
-	            data: file,
-	            binary: true
+	        return media_base_service_1.MediaBaseService.upload({
+	            httpClient: this.httpClient,
+	            dataClassName: this.dataClassName,
+	            entityKey: this.entity._key,
+	            attributeName: this.attributeName,
+	            isImage: this.isImage,
+	            file: file
 	        });
 	    };
 	    MediaService.prototype.delete = function () {
-	        var uri = '/' + this.dataClassName + '(' + this.entity._key + ')';
-	        var data = {
-	            __KEY: this.entity._key,
-	            __STAMP: this.entity._stamp
-	        };
-	        data[this.attributeName] = null;
-	        //FIXME - crappy
-	        return this.httpClient.post({
-	            uri: uri,
-	            data: data
+	        return media_base_service_1.MediaBaseService.delete({
+	            httpClient: this.httpClient,
+	            dataClassName: this.dataClassName,
+	            entityKey: this.entity._key,
+	            entityStamp: this.entity._stamp,
+	            attributeName: this.attributeName
 	        });
-	    };
-	    MediaService.prototype._buildUri = function () {
-	        return '/' + this.dataClassName + '(' + this.entity._key + ')'
-	            + '/' + this.attributeName;
 	    };
 	    return MediaService;
 	}(abstract_service_1.default));
@@ -1502,7 +1651,50 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 25 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var MediaBaseService = (function () {
+	    function MediaBaseService() {
+	    }
+	    MediaBaseService.upload = function (_a) {
+	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, entityKey = _a.entityKey, attributeName = _a.attributeName, file = _a.file, isImage = _a.isImage;
+	        var uri = this._buildUri(dataClassName, entityKey, attributeName);
+	        if (isImage) {
+	            uri += '?$rawPict=' + file.type;
+	        }
+	        //FIXME - real crappy not to return some piece of information to refresh entity
+	        return httpClient.post({
+	            uri: uri,
+	            data: file,
+	            binary: true
+	        });
+	    };
+	    MediaBaseService.delete = function (_a) {
+	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, entityKey = _a.entityKey, entityStamp = _a.entityStamp, attributeName = _a.attributeName;
+	        var uri = '/' + dataClassName + '(' + entityKey + ')';
+	        var data = {
+	            __KEY: entityKey,
+	            __STAMP: entityStamp
+	        };
+	        data[attributeName] = null;
+	        //FIXME - crappy
+	        return httpClient.post({
+	            uri: uri,
+	            data: data
+	        });
+	    };
+	    MediaBaseService._buildUri = function (dataClassName, entityKey, attributeName) {
+	        return '/' + dataClassName + '(' + entityKey + ')' + '/' + attributeName;
+	    };
+	    return MediaBaseService;
+	}());
+	exports.MediaBaseService = MediaBaseService;
+
+
+/***/ },
+/* 26 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1525,7 +1717,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1541,7 +1733,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1551,8 +1743,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var directory_service_1 = __webpack_require__(24);
-	var const_1 = __webpack_require__(18);
+	var directory_service_1 = __webpack_require__(29);
+	var const_1 = __webpack_require__(22);
 	var DirectoryBusiness = (function (_super) {
 	    __extends(DirectoryBusiness, _super);
 	    function DirectoryBusiness(_a) {
@@ -1604,7 +1796,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1614,21 +1806,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
+	var directory_base_service_1 = __webpack_require__(30);
 	var DirectoryService = (function (_super) {
 	    __extends(DirectoryService, _super);
 	    function DirectoryService() {
 	        _super.apply(this, arguments);
 	    }
 	    DirectoryService.prototype.login = function (username, password, duration) {
-	        return this.httpClient.post({
+	        return directory_base_service_1.DirectoryBaseService.login({
+	            httpClient: this.httpClient,
+	            username: username,
+	            password: password,
+	            duration: duration
+	        });
+	    };
+	    DirectoryService.prototype.logout = function () {
+	        return directory_base_service_1.DirectoryBaseService.logout({
+	            httpClient: this.httpClient
+	        });
+	    };
+	    DirectoryService.prototype.currentUser = function () {
+	        return directory_base_service_1.DirectoryBaseService.currentUser({
+	            httpClient: this.httpClient
+	        });
+	    };
+	    DirectoryService.prototype.currentUserBelongsTo = function (group) {
+	        return directory_base_service_1.DirectoryBaseService.currentUserBelongsTo({
+	            httpClient: this.httpClient,
+	            group: group
+	        });
+	    };
+	    return DirectoryService;
+	}(abstract_service_1.default));
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = DirectoryService;
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var DirectoryBaseService = (function () {
+	    function DirectoryBaseService() {
+	    }
+	    DirectoryBaseService.login = function (_a) {
+	        var httpClient = _a.httpClient, username = _a.username, password = _a.password, duration = _a.duration;
+	        return httpClient.post({
 	            uri: '/$directory/login',
 	            data: [username, password, duration]
 	        }).then(function () {
 	            return true;
 	        });
 	    };
-	    DirectoryService.prototype.logout = function () {
-	        return this.httpClient.get({
+	    DirectoryBaseService.logout = function (_a) {
+	        var httpClient = _a.httpClient;
+	        return httpClient.get({
 	            uri: '/$directory/logout'
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
@@ -1640,8 +1873,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 	    };
-	    DirectoryService.prototype.currentUser = function () {
-	        return this.httpClient.get({
+	    DirectoryBaseService.currentUser = function (_a) {
+	        var httpClient = _a.httpClient;
+	        return httpClient.get({
 	            uri: '/$directory/currentUser'
 	        })
 	            .then(function (res) {
@@ -1654,8 +1888,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 	    };
-	    DirectoryService.prototype.currentUserBelongsTo = function (group) {
-	        return this.httpClient.post({
+	    DirectoryBaseService.currentUserBelongsTo = function (_a) {
+	        var httpClient = _a.httpClient, group = _a.group;
+	        return httpClient.post({
 	            uri: '/$directory/currentUserBelongsTo',
 	            data: [group]
 	        }).then(function (res) {
@@ -1668,14 +1903,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        });
 	    };
-	    return DirectoryService;
-	}(abstract_service_1.default));
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = DirectoryService;
+	    return DirectoryBaseService;
+	}());
+	exports.DirectoryBaseService = DirectoryBaseService;
 
 
 /***/ },
-/* 25 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./request.d.ts" />
@@ -1685,9 +1919,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var request = __webpack_require__(26);
-	var http_client_1 = __webpack_require__(27);
-	var http_response_1 = __webpack_require__(28);
+	var request = __webpack_require__(32);
+	var http_client_1 = __webpack_require__(33);
+	var http_response_1 = __webpack_require__(34);
 	var NodeHttpClient = (function (_super) {
 	    __extends(NodeHttpClient, _super);
 	    function NodeHttpClient(_a) {
@@ -1779,13 +2013,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = require("request");
 
 /***/ },
-/* 27 */
+/* 33 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1913,7 +2147,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 34 */
 /***/ function(module, exports) {
 
 	"use strict";

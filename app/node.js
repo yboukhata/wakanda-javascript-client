@@ -1,22 +1,14 @@
-/* eslint-disable */
-
-var WakandaClient = require('../dist/wakanda-client.node.js');
-
-console.log(WakandaClient);
-
-var wakClient = new WakandaClient('http://localhost:8081');
-
-
-wakClient.directory.login('bar', 'bar').then(e => {
-  console.log('login successfull', e);
-
-  wakClient.directory.currentUser().then(u => {
-    console.log('user', u);
-  })
-  .catch(e => {
-    console.log('current user error', e);
-  });
-})
-.catch(e => {
-  console.log('error caught', e);
-})
+"use strict";
+var _1 = require('../');
+console.log(_1.WakandaClient);
+console.log(_1.DataClassBaseService);
+var client = new _1.WakandaClient('http://localhost:8081');
+_1.DataClassBaseService.query({
+    httpClient: client._httpClient,
+    options: { pageSize: 5 },
+    dataClassName: 'Product'
+}).then(function (c) {
+    console.log(c);
+}).catch(function (e) {
+    console.error(e);
+});
