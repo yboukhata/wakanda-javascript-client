@@ -9,10 +9,10 @@ if (!isBrowser()) {
   var serverInfo = require('./server.' + testEnv + '.json');
 
   var WakandaClient = require('../dist/wakanda-client.node.js');
-  wakClient = new WakandaClient(serverInfo.host + ':' + serverInfo.port);
+  wakClient = new WakandaClient.WakandaClient(serverInfo.host + ':' + serverInfo.port);
 }
 else {
-  wakClient = new WakandaClient();
+  wakClient = new WakandaClient.WakandaClient();
 }
 
 beforeEach(function () {
