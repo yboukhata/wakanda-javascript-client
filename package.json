@@ -60,8 +60,8 @@
     "phantomjs": "^1.9.19",
     "serve-static": "^1.10.2",
     "ts-loader": "^0.8.1",
-    "typescript": "^1.8.2",
-    "webpack": "^1.12.9"
+    "typescript": "^1.8.10",
+    "webpack": "^1.12.15"
   },
   "dependencies": {
     "core-js": "^2.1.2",

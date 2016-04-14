@@ -1,3 +1,6 @@
+/// <reference path="../typings/browser.d.ts" />
+
+
 export {
   WakandaClient,
   CatalogBaseService,
