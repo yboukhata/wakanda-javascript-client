@@ -106,7 +106,7 @@ class CatalogBusiness extends AbstractBusiness {
               methods.dataClass.push(method.name);
               break;
             default:
-              throw new Error('[WakandaClient] Unrecognized method type');
+              throw new Error('[WakandaClient] Unrecognized ' + method.applyTo + ' method type');
           }
         }
 

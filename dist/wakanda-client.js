@@ -2231,7 +2231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            methods.dataClass.push(method.name);
 	                            break;
 	                        default:
-	                            throw new Error('[WakandaClient] Unrecognized method type');
+	                            throw new Error('[WakandaClient] Unrecognized ' + method.applyTo + ' method type');
 	                    }
 	                }
 	                var dataClass = new dataclass_1.DataClass({
