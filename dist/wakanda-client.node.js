@@ -127,7 +127,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return catalogBusiness.get(dataClasses);
 	    };
 	    WakandaClient.prototype.version = function () {
-	        return '0.1.0';
+	        return '0.2.0';
 	    };
 	    return WakandaClient;
 	}());
@@ -224,7 +224,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            methods.dataClass.push(method.name);
 	                            break;
 	                        default:
-	                            throw new Error('[WakandaClient] Unrecognized method type');
+	                            throw new Error('[WakandaClient] Unrecognized ' + method.applyTo + ' method type');
 	                    }
 	                }
 	                var dataClass = new dataclass_1.DataClass({
