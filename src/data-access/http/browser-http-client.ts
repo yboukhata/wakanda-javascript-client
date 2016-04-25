@@ -1,12 +1,11 @@
-/// <reference path="./aurelia-http-client.d.ts" />
-
 import {HttpClient, GetRequestOption, PostRequestOption} from './http-client';
-import {HttpClient as AureliaHttpClient} from 'aurelia-http-client';
 import HttpResponse from './http-response';
+
+const AureliaHttpClient: any = require('aurelia-http-client').HttpClient;
 
 class BrowserHttpClient extends HttpClient {
 
-  private client: AureliaHttpClient;
+  private client: any;
 
   constructor({apiPrefix}) {
     super({apiPrefix});

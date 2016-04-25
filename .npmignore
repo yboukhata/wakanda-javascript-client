@@ -12,7 +12,7 @@ dist/tsBuild/
 test/
 test.sh
 testserver.pid
-tsBuild/
+tsBuild/ 
 dts.js
 gulpfile.js
 karma.conf.js

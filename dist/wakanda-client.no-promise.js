@@ -3458,7 +3458,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/// <reference path="./aurelia-http-client.d.ts" />
 	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -3466,14 +3465,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var http_client_1 = __webpack_require__(111);
-	var aurelia_http_client_1 = __webpack_require__(112);
-	var http_response_1 = __webpack_require__(122);
+	var http_response_1 = __webpack_require__(112);
+	var AureliaHttpClient = __webpack_require__(113).HttpClient;
 	var BrowserHttpClient = (function (_super) {
 	    __extends(BrowserHttpClient, _super);
 	    function BrowserHttpClient(_a) {
 	        var apiPrefix = _a.apiPrefix;
 	        _super.call(this, { apiPrefix: apiPrefix });
-	        this.client = new aurelia_http_client_1.HttpClient();
+	        this.client = new AureliaHttpClient();
 	    }
 	    BrowserHttpClient.prototype.get = function (_a) {
 	        var uri = _a.uri, params = _a.params;
@@ -3660,6 +3659,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 112 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var HttpResponse = (function () {
+	    function HttpResponse(_a) {
+	        var statusCode = _a.statusCode, headers = _a.headers, body = _a.body;
+	        this.statusCode = statusCode;
+	        this.headers = headers || [];
+	        this.body = body;
+	    }
+	    return HttpResponse;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = HttpResponse;
+
+
+/***/ },
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3668,7 +3685,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _httpClient = __webpack_require__(113);
+	var _httpClient = __webpack_require__(114);
 	
 	Object.defineProperty(exports, 'HttpClient', {
 	  enumerable: true,
@@ -3677,7 +3694,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _httpRequestMessage = __webpack_require__(117);
+	var _httpRequestMessage = __webpack_require__(118);
 	
 	Object.defineProperty(exports, 'HttpRequestMessage', {
 	  enumerable: true,
@@ -3686,7 +3703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _httpResponseMessage = __webpack_require__(119);
+	var _httpResponseMessage = __webpack_require__(120);
 	
 	Object.defineProperty(exports, 'HttpResponseMessage', {
 	  enumerable: true,
@@ -3695,7 +3712,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _jsonpRequestMessage = __webpack_require__(121);
+	var _jsonpRequestMessage = __webpack_require__(122);
 	
 	Object.defineProperty(exports, 'JSONPRequestMessage', {
 	  enumerable: true,
@@ -3704,7 +3721,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _headers = __webpack_require__(114);
+	var _headers = __webpack_require__(115);
 	
 	Object.defineProperty(exports, 'Headers', {
 	  enumerable: true,
@@ -3713,7 +3730,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _requestBuilder = __webpack_require__(115);
+	var _requestBuilder = __webpack_require__(116);
 	
 	Object.defineProperty(exports, 'RequestBuilder', {
 	  enumerable: true,
@@ -3723,7 +3740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 113 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3735,13 +3752,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.HttpClient = undefined;
 	
-	var _headers = __webpack_require__(114);
+	var _headers = __webpack_require__(115);
 	
-	var _requestBuilder = __webpack_require__(115);
+	var _requestBuilder = __webpack_require__(116);
 	
-	var _httpRequestMessage = __webpack_require__(117);
+	var _httpRequestMessage = __webpack_require__(118);
 	
-	var _jsonpRequestMessage = __webpack_require__(121);
+	var _jsonpRequestMessage = __webpack_require__(122);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -3990,7 +4007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 114 */
+/* 115 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4074,7 +4091,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 115 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4086,11 +4103,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.RequestBuilder = undefined;
 	
-	var _aureliaPath = __webpack_require__(116);
+	var _aureliaPath = __webpack_require__(117);
 	
-	var _httpRequestMessage = __webpack_require__(117);
+	var _httpRequestMessage = __webpack_require__(118);
 	
-	var _jsonpRequestMessage = __webpack_require__(121);
+	var _jsonpRequestMessage = __webpack_require__(122);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4267,7 +4284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 116 */
+/* 117 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4427,7 +4444,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 117 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4438,11 +4455,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.HttpRequestMessage = undefined;
 	exports.createHttpRequestMessageProcessor = createHttpRequestMessageProcessor;
 	
-	var _headers = __webpack_require__(114);
+	var _headers = __webpack_require__(115);
 	
-	var _requestMessageProcessor = __webpack_require__(118);
+	var _requestMessageProcessor = __webpack_require__(119);
 	
-	var _transformers = __webpack_require__(120);
+	var _transformers = __webpack_require__(121);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4461,7 +4478,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 118 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4473,9 +4490,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.RequestMessageProcessor = undefined;
 	
-	var _httpResponseMessage = __webpack_require__(119);
+	var _httpResponseMessage = __webpack_require__(120);
 	
-	var _aureliaPath = __webpack_require__(116);
+	var _aureliaPath = __webpack_require__(117);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4567,7 +4584,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4579,7 +4596,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.HttpResponseMessage = undefined;
 	
-	var _headers = __webpack_require__(114);
+	var _headers = __webpack_require__(115);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4637,7 +4654,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4719,7 +4736,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4732,11 +4749,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.JSONPRequestMessage = undefined;
 	exports.createJSONPRequestMessageProcessor = createJSONPRequestMessageProcessor;
 	
-	var _headers = __webpack_require__(114);
+	var _headers = __webpack_require__(115);
 	
-	var _requestMessageProcessor = __webpack_require__(118);
+	var _requestMessageProcessor = __webpack_require__(119);
 	
-	var _transformers = __webpack_require__(120);
+	var _transformers = __webpack_require__(121);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4814,24 +4831,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	function createJSONPRequestMessageProcessor() {
 	  return new _requestMessageProcessor.RequestMessageProcessor(JSONPXHR, [_transformers.timeoutTransformer, _transformers.callbackParameterNameTransformer]);
 	}
-
-/***/ },
-/* 122 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var HttpResponse = (function () {
-	    function HttpResponse(_a) {
-	        var statusCode = _a.statusCode, headers = _a.headers, body = _a.body;
-	        this.statusCode = statusCode;
-	        this.headers = headers || [];
-	        this.body = body;
-	    }
-	    return HttpResponse;
-	}());
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = HttpResponse;
-
 
 /***/ }
 /******/ ])

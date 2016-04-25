@@ -1,4 +1,3 @@
-/// <reference path="../../../src/data-access/http/aurelia-http-client.d.ts" />
 import { HttpClient, GetRequestOption, PostRequestOption } from './http-client';
 import HttpResponse from './http-response';
 declare class BrowserHttpClient extends HttpClient {
