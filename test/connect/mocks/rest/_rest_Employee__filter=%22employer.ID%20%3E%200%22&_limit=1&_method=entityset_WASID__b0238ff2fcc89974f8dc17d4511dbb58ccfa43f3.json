@@ -3,23 +3,23 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/218C66621EC5432D86B76C11BD32643C",
+    "__ENTITYSET": "/rest/Employee/$entityset/7BC8521E6F484C2F88CC3361D5A7512A",
     "__entityModel": "Employee",
     "__COUNT": 1001,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "147344",
-        "__STAMP": 176,
-        "ID": 147344,
+        "__KEY": "34063",
+        "__STAMP": 43,
+        "ID": 34063,
         "lastName": "Smith",
         "firstName": "John",
         "salary": 80000,
         "employer": {
           "__deferred": {
-            "uri": "/rest/Company(9116)",
-            "__KEY": "9116"
+            "uri": "/rest/Company(2108)",
+            "__KEY": "2108"
           }
         },
         "salaryProcessed": "2588410.3924677256 baht",

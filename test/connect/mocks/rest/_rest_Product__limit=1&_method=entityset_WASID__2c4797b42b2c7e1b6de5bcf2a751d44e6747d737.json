@@ -3,18 +3,18 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Product/$entityset/2539BCBA22F44A62A7A26288E24BA0F0",
+    "__ENTITYSET": "/rest/Product/$entityset/9D6ED65306914E74B96F79C078838ED9",
     "__entityModel": "Product",
     "__COUNT": 26,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "3533",
-        "__STAMP": 273,
-        "ID": 3533,
+        "__KEY": "839",
+        "__STAMP": 105,
+        "ID": 839,
         "name": null,
-        "myBoolean": null,
+        "myBoolean": true,
         "born": null,
         "spec": null,
         "photo": null

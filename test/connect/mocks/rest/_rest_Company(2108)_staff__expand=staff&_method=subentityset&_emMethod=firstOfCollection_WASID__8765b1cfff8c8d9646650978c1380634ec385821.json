@@ -1,0 +1,12 @@
+{
+  "requestUrl": "/rest/Company(2108)/staff?$expand=staff&$method=subentityset&$emMethod=firstOfCollection",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__entityModel": "Employee",
+    "__KEY": "34062",
+    "__STAMP": 109,
+    "staff": null
+  },
+  "headers": {}
+}

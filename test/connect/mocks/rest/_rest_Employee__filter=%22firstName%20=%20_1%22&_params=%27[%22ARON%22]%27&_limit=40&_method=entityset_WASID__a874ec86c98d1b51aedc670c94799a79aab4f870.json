@@ -3,23 +3,23 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/517510F07F0C426289D8F158504BD4F0",
+    "__ENTITYSET": "/rest/Employee/$entityset/7FC7035FF04543B88DBA262995B2D7F7",
     "__entityModel": "Employee",
     "__COUNT": 1,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "147336",
-        "__STAMP": 293,
-        "ID": 147336,
+        "__KEY": "34055",
+        "__STAMP": 67,
+        "ID": 34055,
         "lastName": "GIBAMOWO",
         "firstName": "ARON",
         "salary": 60631,
         "employer": {
           "__deferred": {
-            "uri": "/rest/Company(9115)",
-            "__KEY": "9115"
+            "uri": "/rest/Company(2107)",
+            "__KEY": "2107"
           }
         },
         "salaryProcessed": "1961723.8813213834 baht",

@@ -73,6 +73,28 @@ describe('Dataclass API', function() {
         expect(employee.employer.staff.entities[0].firstName).to.be.a('string');
       });
     });
+    
+    it('should throw an error if called with incorrect options', function () {
+      expect(function () {
+        ds.Company.find(1, {pageSize: 4});
+      }).to.throw(Error);
+      
+      expect(function () {
+        ds.Company.find(1, {filter: 'ID < 10'});
+      }).to.throw(Error);
+      
+      expect(function () {
+        ds.Company.find(1, {params: [2]});
+      }).to.throw(Error);
+      
+      expect(function () {
+        ds.Company.find(1, {orderBy: 'name'});
+      }).to.throw(Error);
+      
+      expect(function () {
+        ds.Company.find(1, {start: 0});
+      }).to.throw(Error);
+    });
   });
 
   describe('query method', function () {
@@ -182,6 +204,12 @@ describe('Dataclass API', function() {
         }
       });
     });
+    
+    it('should fail if called with a method options', function () {
+      expect(function () {
+        ds.Company.query({method: 'entityset'});
+      }).to.throw(Error);
+    });
   });
 
   describe('create method', function () {
@@ -251,6 +279,18 @@ describe('Dataclass API', function() {
     it('should return the right value when resolving', function () {
       return ds.Employee.myDataClassMethod('foo', 'bar').then(function (result) {
         expect(result).to.be.equal("This is a call to my dataClass method (Employee) with the following arguments : [\"foo\",\"bar\"]");
+      });
+    });
+    
+    it('should transform result into an entity if needed', function () {
+      return ds.Employee.oneEmployee().then(function (e) {
+        expect(wakClient.helper.isEntity(e)).to.be.true;
+      });
+    });
+    
+    it('should transform result into a collection if needed', function () {
+      return ds.Employee.lotsOfEmployees().then(function (e) {
+        expect(wakClient.helper.isCollection(e)).to.be.true;
       });
     });
   });

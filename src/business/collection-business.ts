@@ -6,6 +6,7 @@ import Collection from '../presentation/collection';
 import {DataClass} from '../presentation/dataclass';
 import DataClassBusiness from './dataclass-business';
 import {QueryOption} from '../presentation/query-option';
+import {MethodAdapter} from './method-adapter';
 
 export interface CollectionDBO {
   __ENTITYSET: string;
@@ -52,22 +53,27 @@ class CollectionBusiness extends AbstractBusiness {
     this._addUserDefinedMethods();
   }
 
-  fetch(options: QueryOption): Promise<Collection> {
+  fetch(options?: QueryOption): Promise<Collection> {
     let opt = options || {};
 
+    if (opt.method && opt.method.length > 0) {
+      throw new Error('Collection.fetch: option method is not allowed');
+    }
+
     if (!opt.pageSize) {
-      opt.pageSize = Const.DEFAULT_PAGE_SIZE;
+      opt.pageSize = this.pageSize ? this.pageSize : Const.DEFAULT_PAGE_SIZE;
     }
 
     if (opt.select) {
       this.initialSelect = opt.select;
     }
-
+    
     this.pageSize = opt.pageSize;
 
     return this.service.fetch(opt).then(collectionDbo => {
       let fresherCollection = this.dataClassBusiness._presentationCollectionFromDbo({
-        dbo: collectionDbo
+        dbo: collectionDbo,
+        pageSize: this.pageSize
       });
 
       this._refreshCollection({fresherCollection});
@@ -141,21 +147,26 @@ class CollectionBusiness extends AbstractBusiness {
   }
 
   _addUserDefinedMethods() {
-    // let _this = this;
-    for (let method of this.dataClassBusiness.methods.collection) {
+    let _this_ = this;
+    this.dataClassBusiness.methods.collection.forEach(method => {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.collection[method] = function() {
-
-        throw new Error('Not yet implemented');
-        // let params = Array.from(arguments);
-        // return _this.callMethod(method, params);
+        let params = Array.from(arguments);
+        return _this_.callMethod(method, params);
       };
-    }
+    });
   }
 
-  // callMethod(methodName, parameters) {
-  //   return this.service.callMethod(methodName, parameters);
-  // }
+  callMethod(methodName: string, parameters: any[]) {
+    if (this.collection._deferred) {
+      throw new Error('Collection.' + methodName + ': can not be called on a deferred collection');
+    }
+    
+    return this.service.callMethod(methodName, parameters)
+      .then((obj: any) => {
+        return MethodAdapter.transform(obj, this.dataClassBusiness._dataClassBusinessMap);
+      });
+  }
 
   _refreshCollection({fresherCollection}) {
     for (let prop in fresherCollection) {

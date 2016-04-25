@@ -6,4 +6,5 @@ export interface QueryOption {
   start?: number;
   orderBy?: string;
   method?: string;
+  emMethod?: string;
 }

@@ -14,7 +14,8 @@ class Util {
       pageSize,
       start,
       orderBy,
-      method
+      method,
+      emMethod
     } = options;
 
     var ret = '?';
@@ -72,6 +73,10 @@ class Util {
 
     if (method) {
       ret += '&$method=' + method
+    }
+    
+    if (emMethod) {
+      ret += '&$emMethod=' + emMethod;
     }
 
     if (ret.length > 1 && ret[1] === '&') {

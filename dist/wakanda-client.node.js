@@ -7,7 +7,7 @@
 		exports["WakandaClient"] = factory(require("request"));
 	else
 		root["WakandaClient"] = factory(root["request"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_25__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_26__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -63,7 +63,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var wakanda_client_1 = __webpack_require__(2);
-	var node_http_client_1 = __webpack_require__(24);
+	var node_http_client_1 = __webpack_require__(25);
 	wakanda_client_1.default.HttpClient = node_http_client_1.default;
 	module.exports = wakanda_client_1.default;
 
@@ -74,9 +74,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var catalog_business_1 = __webpack_require__(3);
-	var directory_business_1 = __webpack_require__(22);
+	var directory_business_1 = __webpack_require__(23);
 	var entity_1 = __webpack_require__(13);
-	var collection_1 = __webpack_require__(20);
+	var collection_1 = __webpack_require__(21);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -115,7 +115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return catalogBusiness.get(dataClasses);
 	    };
 	    WakandaClient.prototype.version = function () {
-	        return '0.1.0';
+	        return '0.2.0';
 	    };
 	    return WakandaClient;
 	}());
@@ -146,8 +146,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            wakJSC: this.wakJSC
 	        });
 	    }
+	    CatalogBusiness.prototype.needDataClass = function (dcName) {
+	        if (this.seenDataClasses.indexOf(dcName) === -1) {
+	            this.seenDataClasses.push(dcName);
+	        }
+	    };
 	    CatalogBusiness.prototype.get = function (dataClasses) {
 	        var _this = this;
+	        this.seenDataClasses = [];
 	        return this.service.get(dataClasses).then(function (dataClassDBOArray) {
 	            var dcArray = [];
 	            for (var _i = 0, dataClassDBOArray_1 = dataClassDBOArray; _i < dataClassDBOArray_1.length; _i++) {
@@ -162,6 +168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                type: attr.type,
 	                                kind: attr.kind
 	                            }));
+	                            _this.needDataClass(attr.type);
 	                            break;
 	                        case 'storage':
 	                        case 'calculated':
@@ -175,14 +182,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            }));
 	                            break;
 	                        case 'relatedEntities':
-	                            attributes.push(new dataclass_1.AttributeCollection({
+	                            var attrCollection = new dataclass_1.AttributeCollection({
 	                                name: attr.name,
 	                                type: attr.type,
 	                                kind: attr.kind
-	                            }));
+	                            });
+	                            attributes.push(attrCollection);
+	                            _this.needDataClass(attrCollection.entityType);
 	                            break;
 	                        default:
-	                            throw new Error('[WakJSC] Unhandled ' + attr.kind + ' attribute type');
+	                            throw new Error('[WakandaClient] Unhandled ' + attr.kind + ' attribute type');
 	                    }
 	                }
 	                var methods = {
@@ -203,7 +212,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            methods.dataClass.push(method.name);
 	                            break;
 	                        default:
-	                            throw new Error('Unrecognized method type');
+	                            throw new Error('[WakandaClient] Unrecognized ' + method.applyTo + ' method type');
 	                    }
 	                }
 	                var dataClass = new dataclass_1.DataClass({
@@ -221,9 +230,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                dataClassBusiness._decorateDataClass();
 	                dcArray.push(dataClass);
 	            }
-	            return new catalog_1.default({
+	            var catalog = new catalog_1.default({
 	                dataClasses: dcArray
 	            });
+	            //Check if we have all needed dataClasses on the catalog
+	            for (var _e = 0, _f = _this.seenDataClasses; _e < _f.length; _e++) {
+	                var dcName = _f[_e];
+	                if (!catalog[dcName]) {
+	                    throw new Error('Needed ' + dcName + ' dataClass is not present on catalog');
+	                }
+	            }
+	            return catalog;
 	        });
 	    };
 	    return CatalogBusiness;
@@ -419,14 +436,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var abstract_business_1 = __webpack_require__(4);
 	var entity_business_1 = __webpack_require__(10);
-	var dataclass_service_1 = __webpack_require__(14);
-	var collection_business_1 = __webpack_require__(15);
-	var media_business_1 = __webpack_require__(18);
+	var dataclass_service_1 = __webpack_require__(15);
+	var collection_business_1 = __webpack_require__(16);
+	var media_business_1 = __webpack_require__(19);
 	var entity_1 = __webpack_require__(13);
-	var collection_1 = __webpack_require__(20);
+	var collection_1 = __webpack_require__(21);
 	var dataclass_1 = __webpack_require__(8);
-	var media_1 = __webpack_require__(21);
-	var const_1 = __webpack_require__(17);
+	var media_1 = __webpack_require__(22);
+	var const_1 = __webpack_require__(18);
+	var method_adapter_1 = __webpack_require__(14);
 	//This map stores all DataClassBusiness instances of existing dataClasses
 	var _dataClassBusinessMap = new Map();
 	var DataClassBusiness = (function (_super) {
@@ -463,33 +481,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    DataClassBusiness.prototype.callMethod = function (methodName, parameters) {
+	        var _this = this;
 	        return this.service.callMethod(methodName, parameters)
 	            .then(function (obj) {
-	            if (obj && obj.__entityModel) {
-	                var business = _dataClassBusinessMap.get(obj.__entityModel);
-	                if (business) {
-	                    //Returned object is a collection
-	                    if (typeof obj.__COUNT !== 'undefined' &&
-	                        typeof obj.__ENTITIES !== 'undefined' &&
-	                        typeof obj.__FIRST !== 'undefined' &&
-	                        typeof obj.__SENT !== 'undefined') {
-	                        return business._presentationCollectionFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                    else if (obj.__KEY && obj.__STAMP) {
-	                        return business._presentationEntityFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                }
-	            }
-	            return obj;
+	            return method_adapter_1.MethodAdapter.transform(obj, _this._dataClassBusinessMap);
 	        });
 	    };
 	    DataClassBusiness.prototype.find = function (id, options) {
 	        var _this = this;
 	        var opt = options || {};
+	        if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
+	            opt.start !== undefined || opt.orderBy !== undefined) {
+	            throw new Error('Dataclass.find: options filter, params, pageSize, start and orderBy are not allowed');
+	        }
 	        return this.service.find(id, opt).then(function (entity) {
 	            return _this._presentationEntityFromDbo({
 	                dbo: entity
@@ -500,6 +504,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	        var opt = options || {};
 	        var initialSelect = opt.select;
+	        if (opt.method && opt.method.length > 0) {
+	            throw new Error('Dataclass.query: option method is not allowed');
+	        }
 	        if (!opt.pageSize) {
 	            opt.pageSize = const_1.default.DEFAULT_PAGE_SIZE;
 	        }
@@ -703,6 +710,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var entity_service_1 = __webpack_require__(11);
 	var dataclass_1 = __webpack_require__(8);
 	var entity_1 = __webpack_require__(13);
+	var method_adapter_1 = __webpack_require__(14);
 	var EntityBusiness = (function (_super) {
 	    __extends(EntityBusiness, _super);
 	    function EntityBusiness(_a) {
@@ -721,6 +729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.entity.save = this.save.bind(this);
 	        this.entity.delete = this.delete.bind(this);
 	        this.entity.fetch = this.fetch.bind(this);
+	        this.entity.recompute = this.recompute.bind(this);
 	        this._addUserDefinedMethods();
 	    };
 	    EntityBusiness.prototype._addUserDefinedMethods = function () {
@@ -736,6 +745,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EntityBusiness.prototype.fetch = function (options) {
 	        var _this = this;
+	        var opt = options || {};
+	        if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
+	            opt.start !== undefined || opt.orderBy !== undefined) {
+	            throw new Error('Entity.fetch: options filter, params, pageSize, start and orderBy are not allowed');
+	        }
 	        return this.dataClassBusiness.find(this.entity._key, options).then(function (fresherEntity) {
 	            _this._refreshEntity({ fresherEntity: fresherEntity });
 	            return _this.entity;
@@ -748,26 +762,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return this.service.callMethod(methodName, parameters)
 	            .then(function (obj) {
-	            if (obj && obj.__entityModel) {
-	                var business = _this.dataClassBusiness._dataClassBusinessMap.get(obj.__entityModel);
-	                if (business) {
-	                    //Returned object is a collection
-	                    if (typeof obj.__COUNT !== 'undefined' &&
-	                        typeof obj.__ENTITIES !== 'undefined' &&
-	                        typeof obj.__FIRST !== 'undefined' &&
-	                        typeof obj.__SENT !== 'undefined') {
-	                        return business._presentationCollectionFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                    else if (obj.__KEY && obj.__STAMP) {
-	                        return business._presentationEntityFromDbo({
-	                            dbo: obj
-	                        });
-	                    }
-	                }
-	            }
-	            return obj;
+	            return method_adapter_1.MethodAdapter.transform(obj, _this.dataClassBusiness._dataClassBusinessMap);
 	        });
 	    };
 	    EntityBusiness.prototype.delete = function () {
@@ -781,21 +776,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EntityBusiness.prototype.save = function () {
 	        var _this = this;
-	        var data = {};
-	        if (this.entity._key && this.entity._stamp) {
-	            data.__KEY = this.entity._key;
-	            data.__STAMP = this.entity._stamp;
-	        }
-	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
-	            var attr = _a[_i];
-	            var objAttr = this.entity[attr.name] || null;
-	            if (attr instanceof dataclass_1.AttributeRelated) {
-	                data[attr.name] = objAttr ? objAttr._key : null;
-	            }
-	            else if (!(attr instanceof dataclass_1.AttributeCollection) && !attr.readOnly) {
-	                data[attr.name] = objAttr;
-	            }
-	        }
+	        var data = this.prepareDataForSave();
 	        //If first-level related entities were already expanded, we will save the
 	        //entity and ask the server to expand theses attributes on its response
 	        //So, the user keeps its entities expanded
@@ -808,10 +789,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _this.entity;
 	        });
 	    };
+	    EntityBusiness.prototype.recompute = function () {
+	        var _this = this;
+	        var data = this.prepareDataForSave();
+	        return this.service.recompute(data)
+	            .then(function (dbo) {
+	            var fresherEntity = _this.dataClassBusiness._presentationEntityFromDbo({
+	                dbo: dbo
+	            });
+	            _this._refreshEntity({ fresherEntity: fresherEntity });
+	            return _this.entity;
+	        });
+	    };
+	    EntityBusiness.prototype.prepareDataForSave = function () {
+	        var data = {};
+	        var entityIsNew = false;
+	        if (this.entity._key && this.entity._stamp) {
+	            data.__KEY = this.entity._key;
+	            data.__STAMP = this.entity._stamp;
+	        }
+	        else {
+	            entityIsNew = true;
+	        }
+	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
+	            var attr = _a[_i];
+	            var objAttr = this.entity[attr.name] || null;
+	            if (attr instanceof dataclass_1.AttributeRelated) {
+	                data[attr.name] = objAttr ? objAttr._key : null;
+	            }
+	            else if (!(attr instanceof dataclass_1.AttributeCollection) && !attr.readOnly) {
+	                //Don't send null value for a newly created attribute (to don't override value eventually set on init event)
+	                //except for ID (which is null), because if an empty object is send, save is ignored
+	                if (!entityIsNew || objAttr !== null || attr.name === 'ID') {
+	                    data[attr.name] = objAttr;
+	                }
+	            }
+	        }
+	        return data;
+	    };
 	    EntityBusiness.prototype._refreshEntity = function (_a) {
 	        var fresherEntity = _a.fresherEntity;
 	        for (var prop in fresherEntity) {
-	            if (Object.prototype.hasOwnProperty.call(fresherEntity, prop)) {
+	            if (fresherEntity.hasOwnProperty(prop) && (typeof fresherEntity[prop] !== 'function')) {
 	                this.entity[prop] = fresherEntity[prop];
 	            }
 	        }
@@ -869,6 +888,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return entity;
 	        });
 	    };
+	    EntityService.prototype.recompute = function (data) {
+	        return this.httpClient.post({
+	            uri: '/' + this.dataClass.name + '?$method=update&$refresh=true',
+	            data: data
+	        }).then(function (res) {
+	            var dbo = JSON.parse(res.body);
+	            delete dbo.__entityModel;
+	            util_1.default.removeRestInfoFromEntity(dbo);
+	            return dbo;
+	        });
+	    };
 	    EntityService.prototype.callMethod = function (methodName, parameters) {
 	        return this.httpClient.post({
 	            uri: '/' + this.dataClass.name + '(' + this.entity._key + ')/' + methodName,
@@ -909,7 +939,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!options) {
 	            return '';
 	        }
-	        var select = options.select, filter = options.filter, params = options.params, pageSize = options.pageSize, start = options.start, orderBy = options.orderBy, method = options.method;
+	        var select = options.select, filter = options.filter, params = options.params, pageSize = options.pageSize, start = options.start, orderBy = options.orderBy, method = options.method, emMethod = options.emMethod;
 	        var ret = '?';
 	        if (select) {
 	            ret += '&$expand=' + select;
@@ -954,6 +984,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        if (method) {
 	            ret += '&$method=' + method;
+	        }
+	        if (emMethod) {
+	            ret += '&$emMethod=' + emMethod;
 	        }
 	        if (ret.length > 1 && ret[1] === '&') {
 	            ret = ret.replace('?&', '?');
@@ -1004,6 +1037,41 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 14 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var MethodAdapter = (function () {
+	    function MethodAdapter() {
+	    }
+	    MethodAdapter.transform = function (object, dcBusinessMap) {
+	        if (object && object.__entityModel) {
+	            var business = dcBusinessMap.get(object.__entityModel);
+	            if (business) {
+	                //Returned object is a collection
+	                if (typeof object.__COUNT !== 'undefined' &&
+	                    typeof object.__ENTITIES !== 'undefined' &&
+	                    typeof object.__FIRST !== 'undefined' &&
+	                    typeof object.__SENT !== 'undefined') {
+	                    return business._presentationCollectionFromDbo({
+	                        dbo: object
+	                    });
+	                }
+	                else if (object.__KEY && object.__STAMP) {
+	                    return business._presentationEntityFromDbo({
+	                        dbo: object
+	                    });
+	                }
+	            }
+	        }
+	        return object;
+	    };
+	    return MethodAdapter;
+	}());
+	exports.MethodAdapter = MethodAdapter;
+
+
+/***/ },
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1037,9 +1105,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    DataClassService.prototype.query = function (options) {
-	        if (options.method && options.method.length > 0) {
-	            throw new Error('DataClass.query can not have "method" option');
-	        }
 	        options.method = 'entityset';
 	        var optString = util_1.default.handleOptions(options);
 	        return this.httpClient.get({
@@ -1070,7 +1135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1080,8 +1145,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var collection_service_1 = __webpack_require__(16);
-	var const_1 = __webpack_require__(17);
+	var collection_service_1 = __webpack_require__(17);
+	var const_1 = __webpack_require__(18);
+	var method_adapter_1 = __webpack_require__(14);
 	var CollectionBusiness = (function (_super) {
 	    __extends(CollectionBusiness, _super);
 	    function CollectionBusiness(_a) {
@@ -1109,8 +1175,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    CollectionBusiness.prototype.fetch = function (options) {
 	        var _this = this;
 	        var opt = options || {};
+	        if (opt.method && opt.method.length > 0) {
+	            throw new Error('Collection.fetch: option method is not allowed');
+	        }
 	        if (!opt.pageSize) {
-	            opt.pageSize = const_1.default.DEFAULT_PAGE_SIZE;
+	            opt.pageSize = this.pageSize ? this.pageSize : const_1.default.DEFAULT_PAGE_SIZE;
 	        }
 	        if (opt.select) {
 	            this.initialSelect = opt.select;
@@ -1118,7 +1187,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pageSize = opt.pageSize;
 	        return this.service.fetch(opt).then(function (collectionDbo) {
 	            var fresherCollection = _this.dataClassBusiness._presentationCollectionFromDbo({
-	                dbo: collectionDbo
+	                dbo: collectionDbo,
+	                pageSize: _this.pageSize
 	            });
 	            _this._refreshCollection({ fresherCollection: fresherCollection });
 	            return _this.collection;
@@ -1175,20 +1245,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this.fetch(options);
 	    };
 	    CollectionBusiness.prototype._addUserDefinedMethods = function () {
-	        // let _this = this;
-	        for (var _i = 0, _a = this.dataClassBusiness.methods.collection; _i < _a.length; _i++) {
-	            var method = _a[_i];
+	        var _this = this;
+	        var _this_ = this;
+	        this.dataClassBusiness.methods.collection.forEach(function (method) {
 	            //Voluntary don't use fat arrow notation to use arguments object without a bug
-	            this.collection[method] = function () {
-	                throw new Error('Not yet implemented');
-	                // let params = Array.from(arguments);
-	                // return _this.callMethod(method, params);
+	            _this.collection[method] = function () {
+	                var params = Array.from(arguments);
+	                return _this_.callMethod(method, params);
 	            };
-	        }
+	        });
 	    };
-	    // callMethod(methodName, parameters) {
-	    //   return this.service.callMethod(methodName, parameters);
-	    // }
+	    CollectionBusiness.prototype.callMethod = function (methodName, parameters) {
+	        var _this = this;
+	        if (this.collection._deferred) {
+	            throw new Error('Collection.' + methodName + ': can not be called on a deferred collection');
+	        }
+	        return this.service.callMethod(methodName, parameters)
+	            .then(function (obj) {
+	            return method_adapter_1.MethodAdapter.transform(obj, _this.dataClassBusiness._dataClassBusinessMap);
+	        });
+	    };
 	    CollectionBusiness.prototype._refreshCollection = function (_a) {
 	        var fresherCollection = _a.fresherCollection;
 	        for (var prop in fresherCollection) {
@@ -1206,7 +1282,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1231,11 +1307,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	        if (!this.isEntitySet) {
 	            if (options.select && options.select.length > 0) {
-	                throw new Error('Collection.fetch can not have "select" option when deferred');
+	                throw new Error('Collection.fetch: option select is not allowed when collection is deferred');
 	            }
-	        }
-	        if (options.method && options.method.length > 0) {
-	            throw new Error('Collection.fetch can not have "method" option');
 	        }
 	        options.method = 'subentityset';
 	        var optString = util_1.default.handleOptions(options);
@@ -1245,7 +1318,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            optString = '&' + optString.slice(1);
 	        }
 	        //Remove the /rest/ part of the URI as our service will add it on its own
-	        var uri = this.collectionUri.slice(5);
+	        // let uri = this.collectionUri.slice(5);
+	        var uri = this._removeRestFromUri(this.collectionUri);
 	        return this.httpClient.get({
 	            uri: uri + optString
 	        }).then(function (res) {
@@ -1262,6 +1336,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return obj;
 	        });
 	    };
+	    CollectionService.prototype.callMethod = function (methodName, parameters) {
+	        //Two cases. If it's an entity set, just call the method
+	        //If not, call it with emMethod and subentityset parameters
+	        var uri = this._removeRestFromUri(this.collectionUri);
+	        if (this.isEntitySet) {
+	            uri += '/' + methodName;
+	        }
+	        else {
+	            var optString = util_1.default.handleOptions({
+	                method: 'subentityset',
+	                emMethod: methodName
+	            });
+	            uri += '&' + optString.slice(1);
+	        }
+	        return this.httpClient.post({
+	            uri: uri,
+	            data: parameters
+	        }).then(function (res) {
+	            var obj = JSON.parse(res.body);
+	            return obj.result || obj || null;
+	        });
+	    };
+	    CollectionService.prototype._removeRestFromUri = function (uri) {
+	        return uri.slice(5);
+	    };
 	    CollectionService.prototype._isEntitySetUri = function (_a) {
 	        var uri = _a.uri;
 	        return /^\/rest\/\w+\/\$entityset\/[A-Z0-9]+(\?.*)?$/i.test(uri);
@@ -1273,7 +1372,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1285,7 +1384,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1295,7 +1394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var media_service_1 = __webpack_require__(19);
+	var media_service_1 = __webpack_require__(20);
 	var MediaBusiness = (function (_super) {
 	    __extends(MediaBusiness, _super);
 	    function MediaBusiness(_a) {
@@ -1317,12 +1416,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.media.upload = this.upload.bind(this);
 	        this.media.delete = this.delete.bind(this);
 	    };
-	    MediaBusiness.prototype.upload = function (file, mimeType) {
+	    MediaBusiness.prototype.upload = function (file) {
 	        var _this = this;
 	        if (!this.entity._key) {
 	            throw new Error('Media.upload: entity must be saved before uploading a media');
 	        }
-	        return this.service.upload(file, mimeType).then(function (dbo) {
+	        return this.service.upload(file, file.type).then(function (dbo) {
 	            return dbo; //FIXME
 	        }).then(function () {
 	            //FIXME - crappy, force a refresh of the entity to get proper stamp and media uri
@@ -1346,7 +1445,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1403,7 +1502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1426,7 +1525,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1442,7 +1541,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1452,8 +1551,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var directory_service_1 = __webpack_require__(23);
-	var const_1 = __webpack_require__(17);
+	var directory_service_1 = __webpack_require__(24);
+	var const_1 = __webpack_require__(18);
 	var DirectoryBusiness = (function (_super) {
 	    __extends(DirectoryBusiness, _super);
 	    function DirectoryBusiness(_a) {
@@ -1505,7 +1604,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1576,7 +1675,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/// <reference path="./request.d.ts" />
@@ -1586,9 +1685,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var request = __webpack_require__(25);
-	var http_client_1 = __webpack_require__(26);
-	var http_response_1 = __webpack_require__(27);
+	var request = __webpack_require__(26);
+	var http_client_1 = __webpack_require__(27);
+	var http_response_1 = __webpack_require__(28);
 	var NodeHttpClient = (function (_super) {
 	    __extends(NodeHttpClient, _super);
 	    function NodeHttpClient(_a) {
@@ -1680,13 +1779,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = require("request");
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1814,7 +1913,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	"use strict";
