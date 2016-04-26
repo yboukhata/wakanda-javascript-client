@@ -1,2 +1,9 @@
-import WakandaClient from '../dist/wakanda-client';
-export default WakandaClient;
+export {
+  WakandaClient,
+  CatalogBaseService,
+  CollectionBaseService,
+  DataClassBaseService,
+  DirectoryBaseService,
+  EntityBaseService,
+  MediaBaseService
+} from '../dist/wakanda-client';

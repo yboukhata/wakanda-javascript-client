@@ -1,6 +1,4 @@
-/// <reference path="./request.d.ts" />
-
-import request = require('request');
+const request: any = require('request');
 
 import {HttpClient, GetRequestOption, PostRequestOption} from './http-client';
 import HttpResponse from './http-response';
