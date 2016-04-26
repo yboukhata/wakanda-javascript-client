@@ -1,61 +1,34 @@
 import AbstractService from './abstract-service';
 import {CurrentUserDBO} from '../../business/directory-business';
+import {DirectoryBaseService} from './base/directory-base-service';
 
 class DirectoryService extends AbstractService {
 
   login(username: string, password: string, duration: number): Promise<boolean> {
-    
-    return this.httpClient.post({
-      uri: '/$directory/login',
-      data: [username, password, duration]
-    }).then(() => {
-        return true;
-      });
+    return DirectoryBaseService.login({
+      httpClient: this.httpClient,
+      username,
+      password,
+      duration
+    });
   }
 
   logout(): Promise<boolean> {
-    return this.httpClient.get({
-      uri: '/$directory/logout'
-    }).then(res => {
-      let obj = JSON.parse(res.body);
-      if (obj.result && obj.result === true) {
-        return true;
-      }
-      else {
-        return <any>Promise.reject(new Error());
-      }
+    return DirectoryBaseService.logout({
+      httpClient: this.httpClient
     });
   }
 
   currentUser(): Promise<CurrentUserDBO> {
-    return this.httpClient.get({
-      uri: '/$directory/currentUser'
-    })
-      .then(res => {
-        let obj = JSON.parse(res.body);
-
-        if (obj.result && obj.result.ID) {
-          return obj.result;
-        }
-        else {
-          return Promise.reject(new Error());
-        }
-      });
+    return DirectoryBaseService.currentUser({
+      httpClient: this.httpClient
+    });
   }
 
   currentUserBelongsTo(group: string): Promise<boolean> {
-    return this.httpClient.post({
-      uri: '/$directory/currentUserBelongsTo',
-      data: [group]
-    }).then(res => {
-      let obj = JSON.parse(res.body);
-
-      if (obj && obj.result && obj.result === true) {
-        return true;
-      }
-      else {
-        return <any>Promise.reject(new Error());
-      }
+    return DirectoryBaseService.currentUserBelongsTo({
+      httpClient: this.httpClient,
+      group
     });
   }
 }

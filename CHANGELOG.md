@@ -1,5 +1,12 @@
 # Wakanda Javascript Client
 
+## v0.3.0 - Beta
+
+- [Refactoring] Split up data access layer into two layers of service: a "base" one that is totally stateless, another that can carry some information about the handled data
+- [Feature] Exposes the base services on built module
+- [Misc] Rework CommonJS exposed module
+- [Misc] Clean declaration file for TypeScript 
+
 ## v0.2.0 - Beta
 
 - [Feature] Support of server methods for collections

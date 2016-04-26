@@ -9,7 +9,6 @@ var wakandaApp = {
 
 gulp.task('serve', function() {
   connect.server({
-    root: ['.'],
     livereload: false,
     // Change this to '0.0.0.0' to access the server from outside.
     port: 1136,

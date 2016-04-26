@@ -110,13 +110,26 @@ directory.
 
 ## Example
 
+The CommonJS exported module (or global var for browser) exposes several classes, that's why we need
+to repeat `WakandaClient` when instantiating.
+
+### ES6/TypeScript
+
+You can also import exposed classes with `import` command.
+
+```javascript
+import {WakandaClient} from 'wakanda-client';
+
+let client = new WakandaClient();
+```
+
 ### Node.js
 
 Wakanda Server URI on `WakandaClient` is mandatory for node bundle.
 
 ```javascript
 var WakandaClient = require('wakanda-client');
-var wakClient = new WakandaClient('http://localhost:8081'); //Pass here Wakanda Server url
+var wakClient = new WakandaClient.WakandaClient('http://localhost:8081'); //Pass here Wakanda Server url
 console.log(wakClient.version()); //0.0.1
 ```
 
@@ -127,7 +140,7 @@ pass a server URI to `WakandaClient` constructor.
 ```javascript
 <script src="./wakanda-client.min.js"></script>
 <script>
-  var wakClient = new WakandaClient(); //It will reach server on /rest address, you can pass an URI if you want to reach a specific server
+  var wakClient = new WakandaClient.WakandaClient(); //It will reach server on /rest address, you can pass an URI if you want to reach a specific server
   console.log(wakClient.version()); //0.0.1
 </script>
 ```
