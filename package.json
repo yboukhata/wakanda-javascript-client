@@ -22,7 +22,8 @@
     "test-server:record": "node test/connect/server.js record & echo $! > testserver.pid",
     "test-server:init": "rm -rf test/connect/mocks && npm run test-server:record && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop",
     "codecov": "cat coverage/*/lcov.info | codecov",
-    "tsc": "node ./node_modules/typescript/bin/tsc"
+    "tsc": "node ./node_modules/typescript/bin/tsc",
+    "serve": "node ./node_modules/.bin/concurrently -r \"npm run webpack-watch\" \"node ./node_modules/.bin/gulp serve\""
   },
   "author": "Wakanda SAS",
   "license": "MIT",
@@ -35,6 +36,7 @@
     "chai": "^3.4.1",
     "chalk": "^1.1.1",
     "codecov.io": "^0.1.6",
+    "concurrently": "^2.0.0",
     "connect": "^3.4.0",
     "connect-prism": "mrblackus/connect-prism",
     "eslint": "^1.10.3",
@@ -58,8 +60,8 @@
     "phantomjs": "^1.9.19",
     "serve-static": "^1.10.2",
     "ts-loader": "^0.8.1",
-    "typescript": "^1.8.2",
-    "webpack": "^1.12.9"
+    "typescript": "^1.8.10",
+    "webpack": "^1.12.15"
   },
   "dependencies": {
     "core-js": "^2.1.2",

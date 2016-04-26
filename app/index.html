@@ -11,9 +11,8 @@
 
     <script type="text/javascript" src="../dist/wakanda-client.js"></script>
     <script type="text/javascript">
-      console.log(new Date());
-      var wakClient = new WakandaClient();
-      console.log(wakClient);
+      console.log(new Date(), WakandaClient);
+      var wakClient = new WakandaClient.WakandaClient();
       
       console.log('wakanda-client version ' + wakClient.version());
     </script>
