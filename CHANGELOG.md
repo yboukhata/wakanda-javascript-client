@@ -1,5 +1,9 @@
 # Wakanda Javascript Client
 
+## v0.3.1 - Beta
+
+- [Bugfix] Fix issue with missing dependencies on `package.json`
+
 ## v0.3.0 - Beta
 
 - [Refactoring] Split up data access layer into two layers of service: a "base" one that is totally stateless, another that can carry some information about the handled data
