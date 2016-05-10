@@ -2,17 +2,16 @@ import AbstractService from './abstract-service';
 import Entity from '../../presentation/entity';
 import Media from '../../presentation/media';
 import HttpResponse from '../http/http-response';
-import {EntityDBO} from '../../business/entity-business';
 import {MediaBaseService} from './base/media-base-service';
 
 class MediaService extends AbstractService {
-  
+
   private dataClassName: string;
   private entity: Entity;
   private isImage: boolean;
   private media: Media;
   private attributeName: string;
-  
+
   constructor({wakJSC, mediaBusiness, media, attributeName, dataClassBusiness}) {
     super({wakJSC});
 
@@ -23,7 +22,7 @@ class MediaService extends AbstractService {
     this.attributeName = attributeName;
   }
 
-  upload(file: any, mimeType: string): Promise<HttpResponse> {
+  public upload(file: any, mimeType: string): Promise<HttpResponse> {
     return MediaBaseService.upload({
       httpClient: this.httpClient,
       dataClassName: this.dataClassName,
@@ -34,7 +33,7 @@ class MediaService extends AbstractService {
     });
   }
 
-  delete(): Promise<HttpResponse> {
+  public delete(): Promise<HttpResponse> {
     return MediaBaseService.delete({
       httpClient: this.httpClient,
       dataClassName: this.dataClassName,

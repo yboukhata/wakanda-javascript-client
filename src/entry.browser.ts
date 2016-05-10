@@ -25,4 +25,4 @@ export {
   DirectoryBaseService,
   EntityBaseService,
   MediaBaseService
-}; 
+};

@@ -20,13 +20,13 @@ export interface Helper {
 }
 
 class WakandaClient {
-  
+
   public static HttpClient: typeof BrowserHttpClient|typeof NodeHttpClient;
-  
+
   public _httpClient: HttpClient;
   public directory: Directory;
   public helper: Helper;
-  
+
   constructor(host?: string) {
     this._httpClient = new WakandaClient.HttpClient({
       apiPrefix: (host || '') + '/rest'
