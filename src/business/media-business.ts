@@ -5,20 +5,20 @@ import Entity from '../presentation/entity';
 import DataClassBusiness from './dataclass-business';
 
 class MediaBusiness extends AbstractBusiness {
-    
+
   private media: Media;
   private entity: Entity;
   private dataClassBusiness: DataClassBusiness;
   private isImage: boolean;
   private service: MediaService;
-  
+
   constructor({wakJSC, media, dataClassBusiness, isImage, attributeName, entity}) {
     super({wakJSC});
 
     this.media = media;
     this.entity = entity;
     this.dataClassBusiness = dataClassBusiness;
-    this.isImage = isImage === true
+    this.isImage = isImage === true;
     this.service = new MediaService({
       wakJSC,
       mediaBusiness: this,
@@ -28,12 +28,12 @@ class MediaBusiness extends AbstractBusiness {
     });
   }
 
-  _decorateMedia() {
+  public _decorateMedia() {
     this.media.upload = this.upload.bind(this);
     this.media.delete = this.delete.bind(this);
   }
 
-  upload(file: any): Promise<Entity> {
+  public upload(file: any): Promise<Entity> {
 
     if (!this.entity._key) {
       throw new Error('Media.upload: entity must be saved before uploading a media');
@@ -47,7 +47,7 @@ class MediaBusiness extends AbstractBusiness {
     });
   }
 
-  delete(): Promise<Entity> {
+  public delete(): Promise<Entity> {
 
     if (!this.entity._key) {
       throw new Error('Media.upload: entity must be saved before deleting a media');

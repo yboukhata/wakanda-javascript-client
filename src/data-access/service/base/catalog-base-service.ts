@@ -1,11 +1,11 @@
 import HttpClient from '../../http/http-client';
-import {DataClassDBO} from '../../../business/catalog-business';
+import {IDataClassDBO} from '../../../business/catalog-business';
 
 export class CatalogBaseService {
-  
+
   public static get({httpClient, dataClasses}: {httpClient: HttpClient, dataClasses?: string|string[]}) {
     var strDataclasses = '/';
-    
+
     if (Array.isArray(dataClasses)) {
       strDataclasses += dataClasses.join();
     }
@@ -18,7 +18,7 @@ export class CatalogBaseService {
 
     return httpClient.get({uri: '/$catalog' + strDataclasses})
       .then(res => {
-        let catalog: DataClassDBO[] = [];
+        let catalog: IDataClassDBO[] = [];
         let rawObj = JSON.parse(res.body);
 
         for (let d of rawObj.dataClasses) {

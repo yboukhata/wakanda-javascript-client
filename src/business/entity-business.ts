@@ -7,21 +7,21 @@ import DataClassBusiness from './dataclass-business';
 import {QueryOption} from '../presentation/query-option';
 import {MethodAdapter} from './method-adapter';
 
-export interface EntityDBO {
+export interface IEntityDBO {
   __KEY?: string;
   __STAMP?: number;
   __deferred?: {uri: string, __KEY: string};
-  
+
   [key: string]: any;
 }
 
 class EntityBusiness extends AbstractBusiness {
-  
+
   private entity: Entity;
   private dataClass: DataClass;
   private dataClassBusiness: DataClassBusiness;
   private service: EntityService;
-  
+
   constructor({wakJSC, entity, dataClass, dataClassBusiness}) {
     super({wakJSC});
 
@@ -35,7 +35,7 @@ class EntityBusiness extends AbstractBusiness {
     });
   }
 
-  _decorateEntity() {
+  public _decorateEntity() {
     this.entity.save        = this.save.bind(this);
     this.entity.delete      = this.delete.bind(this);
     this.entity.fetch       = this.fetch.bind(this);
@@ -44,44 +44,44 @@ class EntityBusiness extends AbstractBusiness {
     this._addUserDefinedMethods();
   }
 
-  _addUserDefinedMethods() {
-    let _this_ = this;
+  private _addUserDefinedMethods() {
+    let self = this;
     this.dataClassBusiness.methods.entity.forEach(method => {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.entity[method] = function() {
         let params = Array.from(arguments);
-        return _this_.callMethod(method, params);
+        return self.callMethod(method, params);
       };
     });
   }
 
-  fetch(options?: QueryOption): Promise<Entity> {
+  public fetch(options?: QueryOption): Promise<Entity> {
     let opt = options || {};
-    
+
     if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
       opt.start !== undefined || opt.orderBy !== undefined) {
       throw new Error('Entity.fetch: options filter, params, pageSize, start and orderBy are not allowed');
     }
-    
+
     return this.dataClassBusiness.find(this.entity._key, options).then(fresherEntity => {
       this._refreshEntity({fresherEntity});
       return this.entity;
     });
   }
 
-  callMethod(methodName: string, parameters: any[]): Promise<any> {
+  public callMethod(methodName: string, parameters: any[]): Promise<any> {
     if (!this.entity._key) {
       throw new Error('Entity.' + methodName + ': can not be called on an unsaved entity');
     }
 
     return this.service.callMethod(methodName, parameters)
     .then(obj => {
-      
+
       return MethodAdapter.transform(obj, this.dataClassBusiness._dataClassBusinessMap);
     });
   }
 
-  delete(): Promise<void> {
+  public delete(): Promise<void> {
     if (!this.entity._key) {
       throw new Error('Entity.delete: can not delete unsaved entity');
     }
@@ -91,7 +91,7 @@ class EntityBusiness extends AbstractBusiness {
     });
   }
 
-  save(): Promise<Entity> {
+  public save(): Promise<Entity> {
     let data = this.prepareDataForSave();
 
     //If first-level related entities were already expanded, we will save the
@@ -108,24 +108,24 @@ class EntityBusiness extends AbstractBusiness {
       return this.entity;
     });
   }
-  
-  recompute(): Promise<Entity> {
+
+  public recompute(): Promise<Entity> {
     let data = this.prepareDataForSave();
-    
+
     return this.service.recompute(data)
       .then(dbo => {
         let fresherEntity = this.dataClassBusiness._presentationEntityFromDbo({
           dbo
         });
-        
+
         this._refreshEntity({fresherEntity});
-        
+
         return this.entity;
       });
   }
-  
-  private prepareDataForSave(): EntityDBO {
-    let data: EntityDBO = {};
+
+  private prepareDataForSave(): IEntityDBO {
+    let data: IEntityDBO = {};
     let entityIsNew = false;
 
     if (this.entity._key && this.entity._stamp) {
@@ -150,11 +150,11 @@ class EntityBusiness extends AbstractBusiness {
         }
       }
     }
-    
+
     return data;
   }
 
-  _refreshEntity({fresherEntity}: {fresherEntity: Entity}) {
+  private _refreshEntity({fresherEntity}: {fresherEntity: Entity}) {
     for (let prop in fresherEntity) {
       if (fresherEntity.hasOwnProperty(prop) && (typeof fresherEntity[prop] !== 'function')) {
         this.entity[prop] = fresherEntity[prop];
@@ -162,8 +162,8 @@ class EntityBusiness extends AbstractBusiness {
     }
   }
 
-  _getExpandString(): string {
-    var expand = '';
+  private _getExpandString(): string {
+    let expand = '';
     for (let attr of this.dataClass.attributes) {
       if (attr instanceof AttributeRelated || attr instanceof AttributeCollection) {
         if (this.entity[attr.name] instanceof Entity) {

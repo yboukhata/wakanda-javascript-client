@@ -1,9 +1,8 @@
 import AbstractService from './abstract-service';
-import Util from '../util';
 import {QueryOption} from '../../presentation/query-option';
 import {DataClass} from '../../presentation/dataclass';
-import {EntityDBO} from '../../business/entity-business';
-import {CollectionDBO} from '../../business/collection-business';
+import {IEntityDBO} from '../../business/entity-business';
+import {ICollectionDBO} from '../../business/collection-business';
 import {DataClassBaseService} from './base/dataclass-base-service';
 
 class DataClassService extends AbstractService {
@@ -16,7 +15,7 @@ class DataClassService extends AbstractService {
     this.dataClass = dataClass;
   }
 
-  find(id: string|number, options: QueryOption) {
+  public find(id: string|number, options: QueryOption): Promise<IEntityDBO> {
     return DataClassBaseService.find({
       httpClient: this.httpClient,
       key: id,
@@ -25,7 +24,7 @@ class DataClassService extends AbstractService {
     });
   }
 
-  query(options: QueryOption) {
+  public query(options: QueryOption): Promise<ICollectionDBO> {
     return DataClassBaseService.query({
       httpClient: this.httpClient,
       options,
@@ -33,7 +32,7 @@ class DataClassService extends AbstractService {
     });
   }
 
-  callMethod(methodName: string, parameters: any[]) {
+  public callMethod(methodName: string, parameters: any[]): Promise<any> {
     return DataClassBaseService.callMethod({
       httpClient: this.httpClient,
       dataClassName: this.dataClass.name,

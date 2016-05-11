@@ -1,33 +1,33 @@
 import AbstractBusiness from './abstract-business';
 import CollectionService from '../data-access/service/collection-service';
 import Const from '../const';
-import {EntityDBO} from './entity-business';
+import {IEntityDBO} from './entity-business';
 import Collection from '../presentation/collection';
 import {DataClass} from '../presentation/dataclass';
 import DataClassBusiness from './dataclass-business';
 import {QueryOption} from '../presentation/query-option';
 import {MethodAdapter} from './method-adapter';
 
-export interface CollectionDBO {
+export interface ICollectionDBO {
   __ENTITYSET: string;
   __COUNT: number;
   __FIRST: number;
   __SENT: number;
-  __ENTITIES: EntityDBO[];
+  __ENTITIES: IEntityDBO[];
   __deferred: {uri: string};
-  
+
   [key: string]: any;
 }
 
 class CollectionBusiness extends AbstractBusiness {
-  
+
   private collection: Collection;
   private dataClass: DataClass;
   private dataClassBusiness: DataClassBusiness;
   private service: CollectionService;
   private pageSize: number;
   private initialSelect: string;
-  
+
   constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri, pageSize, initialSelect}) {
     super({wakJSC});
 
@@ -44,7 +44,7 @@ class CollectionBusiness extends AbstractBusiness {
     this.initialSelect = initialSelect;
   }
 
-  _decorateCollection() {
+  public _decorateCollection() {
     this.collection.fetch = this.fetch.bind(this);
     this.collection.nextPage = this.nextPage.bind(this);
     this.collection.prevPage = this.prevPage.bind(this);
@@ -53,7 +53,7 @@ class CollectionBusiness extends AbstractBusiness {
     this._addUserDefinedMethods();
   }
 
-  fetch(options?: QueryOption): Promise<Collection> {
+  public fetch(options?: QueryOption): Promise<Collection> {
     let opt = options || {};
 
     if (opt.method && opt.method.length > 0) {
@@ -67,12 +67,12 @@ class CollectionBusiness extends AbstractBusiness {
     if (opt.select) {
       this.initialSelect = opt.select;
     }
-    
+
     this.pageSize = opt.pageSize;
 
-    return this.service.fetch(opt).then(collectionDbo => {
+    return this.service.fetch(opt).then(collectionDBO => {
       let fresherCollection = this.dataClassBusiness._presentationCollectionFromDbo({
-        dbo: collectionDbo,
+        dbo: collectionDBO,
         pageSize: this.pageSize
       });
 
@@ -81,7 +81,7 @@ class CollectionBusiness extends AbstractBusiness {
     });
   }
 
-  more(): Promise<Collection> {
+  public more(): Promise<Collection> {
 
     if (this.collection._deferred === true) {
       throw new Error('Collection.more: can not call more on a deferred collection');
@@ -110,7 +110,7 @@ class CollectionBusiness extends AbstractBusiness {
       });
   }
 
-  nextPage(): Promise<Collection> {
+  public nextPage(): Promise<Collection> {
 
     if (this.collection._deferred === true) {
       throw new Error('Collection.nextPage: can not call nextPage on a deferred collection');
@@ -128,7 +128,7 @@ class CollectionBusiness extends AbstractBusiness {
     return this.fetch(options);
   }
 
-  prevPage(): Promise<Collection> {
+  public prevPage(): Promise<Collection> {
 
     if (this.collection._deferred === true) {
       throw new Error('Collection.prevPage: can not call prevPage on a deferred collection');
@@ -146,29 +146,29 @@ class CollectionBusiness extends AbstractBusiness {
     return this.fetch(options);
   }
 
-  _addUserDefinedMethods() {
-    let _this_ = this;
+  private _addUserDefinedMethods() {
+    let self = this;
     this.dataClassBusiness.methods.collection.forEach(method => {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.collection[method] = function() {
         let params = Array.from(arguments);
-        return _this_.callMethod(method, params);
+        return self.callMethod(method, params);
       };
     });
   }
 
-  callMethod(methodName: string, parameters: any[]) {
+  public callMethod(methodName: string, parameters: any[]) {
     if (this.collection._deferred) {
       throw new Error('Collection.' + methodName + ': can not be called on a deferred collection');
     }
-    
+
     return this.service.callMethod(methodName, parameters)
       .then((obj: any) => {
         return MethodAdapter.transform(obj, this.dataClassBusiness._dataClassBusinessMap);
       });
   }
 
-  _refreshCollection({fresherCollection}) {
+  private _refreshCollection({fresherCollection}: {fresherCollection: Collection}) {
     for (let prop in fresherCollection) {
       if (Object.prototype.hasOwnProperty.call(fresherCollection, prop)) {
         if (typeof fresherCollection[prop] !== 'function') {

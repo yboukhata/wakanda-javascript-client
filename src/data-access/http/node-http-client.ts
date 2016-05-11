@@ -1,6 +1,6 @@
 const request: any = require('request');
 
-import {HttpClient, GetRequestOption, PostRequestOption} from './http-client';
+import {HttpClient, IGetRequestOption, IPostRequestOption} from './http-client';
 import HttpResponse from './http-response';
 
 class NodeHttpClient extends HttpClient {
@@ -10,7 +10,7 @@ class NodeHttpClient extends HttpClient {
 
   constructor({apiPrefix}) {
     super({apiPrefix});
-    
+
     this.request = request;
     this.cookieJar = this.request.jar();
   }
@@ -19,7 +19,7 @@ class NodeHttpClient extends HttpClient {
     this.cookieJar = this.request.jar();
   }
 
-  get({uri, params}: GetRequestOption): Promise<HttpResponse> {
+  get({uri, params}: IGetRequestOption): Promise<HttpResponse> {
     try {
       let res = super.get({uri, params});
       if (res !== null) {
@@ -34,7 +34,7 @@ class NodeHttpClient extends HttpClient {
     return super.responseGet(uri, result);
   }
 
-  _getWithoutInterceptor({uri, params}: GetRequestOption): Promise<HttpResponse> {
+  _getWithoutInterceptor({uri, params}: IGetRequestOption): Promise<HttpResponse> {
     let options = {
       url: this.prefix + uri,
       method: 'GET',
@@ -45,7 +45,7 @@ class NodeHttpClient extends HttpClient {
     return this._httpResponseAdaptor({requestOptions: options});
   }
 
-  post({uri, data, binary}: PostRequestOption): Promise<HttpResponse> {
+  post({uri, data, binary}: IPostRequestOption): Promise<HttpResponse> {
     try {
       let res = super.post({uri, data, binary});
       if (res !== null) {
