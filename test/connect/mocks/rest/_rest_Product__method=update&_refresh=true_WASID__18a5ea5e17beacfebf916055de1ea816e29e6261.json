@@ -3,9 +3,9 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__KEY": "1449",
+    "__KEY": "1021",
     "__STAMP": 0,
-    "uri": "/rest/Product(1449)",
+    "uri": "/rest/Product(1021)",
     "name": "Unnamed product",
     "myBoolean": true
   },

@@ -218,27 +218,27 @@ describe('Entity API', function () {
           expect(product.name === originalName);
         });
     });
-    
+
     it('should fail if called with invalid options', function () {
       return ds.Employee.query({pageSize: 1, filter: 'employer.ID > 0'}).then(function (c) {
         var employee = c.entities[0];
-        
+
         expect(function () {
           employee.employer.fetch({pageSize: 4});
         }).to.throw(Error);
-        
+
         expect(function () {
           employee.employer.fetch({filter: 'ID < 10'});
         }).to.throw(Error);
-        
+
         expect(function () {
           employee.employer.fetch({params: [2]});
         }).to.throw(Error);
-        
+
         expect(function () {
           employee.employer.fetch({orderBy: 'name'});
         }).to.throw(Error);
-        
+
         expect(function () {
           employee.employer.fetch({start: 0});
         }).to.throw(Error);
@@ -287,7 +287,7 @@ describe('Entity API', function () {
         employee.myEntityMethod()
       }).to.throw(Error);
     });
-    
+
     it('should transform result into an entity if needed', function () {
       return ds.Employee.query({pageSize: 1}).then(function (c) {
         return c.entities[0].returnSelf().then(function (e) {
@@ -295,7 +295,7 @@ describe('Entity API', function () {
         });
       });
     });
-    
+
     it('should transform result into a collection if needed', function () {
       return ds.Company.query({pageSize: 1}).then(function (c) {
         return c.entities[0].returnStaff().then(function (e) {
@@ -304,58 +304,58 @@ describe('Entity API', function () {
       });
     });
   });
-  
+
   describe('recompute method', function () {
-    
+
     it('should be defined', function () {
       var entity = ds.Product.create();
       expect(entity.recompute).to.be.a('function');
     });
-    
+
     it('should return a promise', function () {
       var entity = ds.Product.create();
       expect(entity.recompute()).to.be.a('promise');
     });
-    
+
     it('should edit the entity in place', function () {
       var entity = ds.Product.create();
       return entity.recompute().then(function (result) {
         expect(result).to.be.equal(entity);
       });
     });
-    
+
     it('should fire init event for a newly created entity', function () {
       var entity = ds.Product.create();
       return entity.recompute().then(function () {
         expect(entity.myBoolean).to.be.true;
       });
     });
-    
+
     it('should fire clientrefresh event for a newly created entity', function () {
       var entity = ds.Product.create();
       return entity.recompute().then(function () {
         expect(entity.name).to.be.equal('Unnamed product');
       });
     });
-    
+
     it('should fire clientrefresh event for an already saved entity', function () {
       return ds.Product.query({pageSize: 3})
         .then(function (collection) {
           var entity = collection.entities[0];
-          
+
           entity.name = null;
           return entity.recompute().then(function () {
             expect(entity.name).to.be.equal('Unnamed product');
           });
         });
     });
-    
+
     it('should not cause any trouble to saving after being called', function () {
       return ds.Product.query({pageSize: 3})
         .then(function (collection) {
           var entity = collection.entities[0];
           var oldStamp = entity._stamp;
-          
+
           entity.name = null;
           return entity.recompute().then(function () {
             return entity.save().then(function () {
@@ -366,4 +366,27 @@ describe('Entity API', function () {
         });
     });
   });
+
+  describe('boolean and numeric scalar fields', function () {
+    //Values like 0 and false, that can easily be lost on if (value) {} conditions
+    it('should be properly sent and retrieved with value comparable to null', function () {
+
+      var entity = ds.Product.create({
+        name: 'Exotic value',
+        myBoolean: false,
+        myNumber: 0
+      });
+
+      return entity.save()
+        .then(function () {
+
+          expect(entity.myNumber).to.be.a('number');
+          expect(entity.myNumber).to.be.equal(0);
+          expect(entity.myBoolean).to.be.a('boolean');
+          expect(entity.myBoolean).to.be.false;
+
+          return ds.Product.find(entity.ID)
+        })
+    })
+  })
 });
