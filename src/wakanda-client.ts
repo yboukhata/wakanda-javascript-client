@@ -70,7 +70,7 @@ class WakandaClient {
   }
 
   public version(): string {
-    return '0.2.0';
+    return '0.3.2';
   }
 }
 

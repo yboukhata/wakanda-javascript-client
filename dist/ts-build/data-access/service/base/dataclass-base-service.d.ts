@@ -1,7 +1,7 @@
 import HttpClient from '../../http/http-client';
 import { QueryOption } from '../../../presentation/query-option';
-import { EntityDBO } from '../../../business/entity-business';
-import { CollectionDBO } from '../../../business/collection-business';
+import { IEntityDBO } from '../../../business/entity-business';
+import { ICollectionDBO } from '../../../business/collection-business';
 export interface IFindParams {
     httpClient: HttpClient;
     key: number | string;
@@ -20,7 +20,7 @@ export interface ICallMethodParams {
     dataClassName: string;
 }
 export declare class DataClassBaseService {
-    static find({httpClient, key, options, dataClassName}: IFindParams): Promise<EntityDBO>;
-    static query({httpClient, options, dataClassName}: IQueryParams): Promise<CollectionDBO>;
+    static find({httpClient, key, options, dataClassName}: IFindParams): Promise<IEntityDBO>;
+    static query({httpClient, options, dataClassName}: IQueryParams): Promise<ICollectionDBO>;
     static callMethod({httpClient, methodName, parameters, dataClassName}: ICallMethodParams): Promise<any>;
 }

@@ -2,39 +2,34 @@ import AbstractBusiness from './abstract-business';
 import Entity from '../presentation/entity';
 import Collection from '../presentation/collection';
 import Media from '../presentation/media';
-import { CollectionDBO } from './collection-business';
+import { ICollectionDBO } from './collection-business';
+import { DataClass } from '../presentation/dataclass';
 import { QueryOption } from '../presentation/query-option';
-import { EntityDBO } from './entity-business';
+import { IEntityDBO } from './entity-business';
+import WakandaClient from '../wakanda-client';
+export interface IMethodsArray {
+    entity: string[];
+    collection: string[];
+    dataClass: string[];
+}
 declare class DataClassBusiness extends AbstractBusiness {
-    private dataClass;
-    methods: {
-        entity: string[];
-        collection: string[];
-        dataClass: string[];
-    };
-    private service;
+    dataClass: DataClass;
+    methods: IMethodsArray;
     _dataClassBusinessMap: Map<string, DataClassBusiness>;
+    private service;
     constructor({wakJSC, dataClass, methods}: {
-        wakJSC: any;
-        dataClass: any;
-        methods: any;
+        wakJSC: WakandaClient;
+        dataClass: DataClass;
+        methods: IMethodsArray;
     });
     _decorateDataClass(): void;
-    _addUserDefinedMethods(): void;
+    private _addUserDefinedMethods();
     callMethod(methodName: string, parameters: any[]): Promise<Entity | Collection | any>;
     find(id: string | number, options?: QueryOption): Promise<Entity>;
     query(options?: QueryOption): Promise<Collection>;
     create(pojo?: any): Entity;
-    _createEntity({key, deferred}: {
-        key: string;
-        deferred?: boolean;
-    }): Entity;
-    _createCollection({uri, deferred, pageSize, initialSelect}: {
-        uri: string;
-        deferred?: boolean;
-        pageSize?: number;
-        initialSelect?: string;
-    }): Collection;
+    private _createEntity({key, deferred});
+    private _createCollection({uri, deferred, pageSize, initialSelect});
     _createMedia({uri, isImage, attributeName, entity}: {
         uri: string;
         isImage: boolean;
@@ -42,10 +37,10 @@ declare class DataClassBusiness extends AbstractBusiness {
         entity: Entity;
     }): Media;
     _presentationEntityFromDbo({dbo}: {
-        dbo: EntityDBO;
+        dbo: IEntityDBO;
     }): Entity;
     _presentationCollectionFromDbo({dbo, pageSize, initialSelect}: {
-        dbo: CollectionDBO;
+        dbo: ICollectionDBO;
         pageSize?: number;
         initialSelect?: string;
     }): Collection;

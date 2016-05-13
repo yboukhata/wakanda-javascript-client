@@ -127,7 +127,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return catalogBusiness.get(dataClasses);
 	    };
 	    WakandaClient.prototype.version = function () {
-	        return '0.2.0';
+	        return '0.3.2';
 	    };
 	    return WakandaClient;
 	}());
@@ -504,12 +504,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    DataClassBusiness.prototype._addUserDefinedMethods = function () {
 	        var _this = this;
-	        var _this_ = this;
+	        var self = this;
 	        this.methods.dataClass.forEach(function (method) {
 	            //Voluntary don't use fat arrow notation to use arguments object without a bug
 	            _this.dataClass[method] = function () {
 	                var params = Array.from(arguments);
-	                return _this_.callMethod(method, params);
+	                return self.callMethod(method, params);
 	            };
 	        });
 	    };
@@ -639,7 +639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            for (var _i = 0, _b = this.dataClass.attributes; _i < _b.length; _i++) {
 	                var attr = _b[_i];
 	                var dboAttribute = dbo[attr.name];
-	                if (dboAttribute) {
+	                if (dboAttribute !== null && dboAttribute !== undefined) {
 	                    if (attr instanceof dataclass_1.AttributeRelated) {
 	                        //Kind of recursive call with a potententialy different instance of
 	                        //DataClassBusiness
@@ -655,7 +655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        });
 	                    }
 	                    else if (attr.type === 'image' || attr.type === 'blob') {
-	                        var uri;
+	                        var uri = void 0;
 	                        if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
 	                            uri = dboAttribute.__deferred.uri;
 	                        }
@@ -670,7 +670,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        });
 	                    }
 	                    else {
-	                        entity[attr.name] = dboAttribute || null;
+	                        entity[attr.name] = dboAttribute;
 	                    }
 	                }
 	                else {
@@ -767,12 +767,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EntityBusiness.prototype._addUserDefinedMethods = function () {
 	        var _this = this;
-	        var _this_ = this;
+	        var self = this;
 	        this.dataClassBusiness.methods.entity.forEach(function (method) {
 	            //Voluntary don't use fat arrow notation to use arguments object without a bug
 	            _this.entity[method] = function () {
 	                var params = Array.from(arguments);
-	                return _this_.callMethod(method, params);
+	                return self.callMethod(method, params);
 	            };
 	        });
 	    };
@@ -846,7 +846,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
 	            var attr = _a[_i];
-	            var objAttr = this.entity[attr.name] || null;
+	            var objAttr = this.entity[attr.name];
+	            if (objAttr === undefined) {
+	                objAttr = null;
+	            }
 	            if (attr instanceof dataclass_1.AttributeRelated) {
 	                data[attr.name] = objAttr ? objAttr._key : null;
 	            }
@@ -992,7 +995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EntityBaseService.delete = function (_a) {
 	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, entityKey = _a.entityKey;
-	        return httpClient.get({
+	        return httpClient.post({
 	            uri: '/' + dataClassName + '(' + entityKey + ')?$method=delete'
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
@@ -1101,8 +1104,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	var Entity = (function () {
 	    function Entity(_a) {
-	        var key = _a.key, deferred = _a.deferred, dataClass = _a.dataClass;
-	        this._key = key;
+	        var entityKey = _a.key, deferred = _a.deferred, dataClass = _a.dataClass;
+	        this._key = entityKey;
 	        this._deferred = deferred === true;
 	        Object.defineProperty(this, '_dataClass', {
 	            enumerable: false,
@@ -1307,9 +1310,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.initialSelect = opt.select;
 	        }
 	        this.pageSize = opt.pageSize;
-	        return this.service.fetch(opt).then(function (collectionDbo) {
+	        return this.service.fetch(opt).then(function (collectionDBO) {
 	            var fresherCollection = _this.dataClassBusiness._presentationCollectionFromDbo({
-	                dbo: collectionDbo,
+	                dbo: collectionDBO,
 	                pageSize: _this.pageSize
 	            });
 	            _this._refreshCollection({ fresherCollection: fresherCollection });
@@ -1368,12 +1371,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    CollectionBusiness.prototype._addUserDefinedMethods = function () {
 	        var _this = this;
-	        var _this_ = this;
+	        var self = this;
 	        this.dataClassBusiness.methods.collection.forEach(function (method) {
 	            //Voluntary don't use fat arrow notation to use arguments object without a bug
 	            _this.collection[method] = function () {
 	                var params = Array.from(arguments);
-	                return _this_.callMethod(method, params);
+	                return self.callMethod(method, params);
 	            };
 	        });
 	    };

@@ -1,15 +1,18 @@
 import AbstractService from './abstract-service';
-import { EntityDBO } from '../../business/entity-business';
+import Entity from '../../presentation/entity';
+import { DataClass } from '../../presentation/dataclass';
+import { IEntityDBO } from '../../business/entity-business';
+import WakandaClient from '../../wakanda-client';
 declare class EntityService extends AbstractService {
     private entity;
     private dataClass;
     constructor({wakJSC, entity, dataClass}: {
-        wakJSC: any;
-        entity: any;
-        dataClass: any;
+        wakJSC: WakandaClient;
+        entity: Entity;
+        dataClass: DataClass;
     });
-    save(data: EntityDBO, expand: string): Promise<EntityDBO>;
-    recompute(data: EntityDBO): Promise<EntityDBO>;
+    save(data: IEntityDBO, expand: string): Promise<IEntityDBO>;
+    recompute(data: IEntityDBO): Promise<IEntityDBO>;
     callMethod(methodName: string, parameters: any[]): Promise<any>;
     delete(): Promise<boolean>;
 }

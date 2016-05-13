@@ -1,15 +1,13 @@
-import { HttpClient, GetRequestOption, PostRequestOption } from './http-client';
+import { HttpClient, IGetRequestOption, IPostRequestOption } from './http-client';
 import HttpResponse from './http-response';
 declare class BrowserHttpClient extends HttpClient {
     private client;
     constructor({apiPrefix}: {
-        apiPrefix: any;
+        apiPrefix: string;
     });
-    get({uri, params}: GetRequestOption): Promise<HttpResponse>;
-    _getWithoutInterceptor({uri}: GetRequestOption): Promise<HttpResponse>;
-    post({uri, data, binary}: PostRequestOption): Promise<HttpResponse>;
-    _httpResponseAdaptor({request}: {
-        request: any;
-    }): Promise<HttpResponse>;
+    get({uri, params}: IGetRequestOption): Promise<HttpResponse>;
+    private _getWithoutInterceptor({uri});
+    post({uri, data, binary}: IPostRequestOption): Promise<HttpResponse>;
+    private _httpResponseAdaptor({request});
 }
 export default BrowserHttpClient;
