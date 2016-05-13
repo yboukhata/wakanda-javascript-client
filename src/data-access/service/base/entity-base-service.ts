@@ -77,7 +77,7 @@ export class EntityBaseService {
 
   public static delete({httpClient, dataClassName, entityKey}: IDeleteParams): Promise<boolean> {
 
-    return httpClient.get({
+    return httpClient.post({
       uri: '/' + dataClassName + '(' + entityKey + ')?$method=delete'
     }).then(res => {
       let obj = JSON.parse(res.body);

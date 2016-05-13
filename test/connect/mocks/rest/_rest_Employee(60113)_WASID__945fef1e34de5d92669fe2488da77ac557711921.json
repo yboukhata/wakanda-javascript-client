@@ -1,5 +1,5 @@
 {
-  "requestUrl": "/rest/Employee/oneEmployee",
+  "requestUrl": "/rest/Employee(60113)",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {

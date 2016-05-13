@@ -4,10 +4,9 @@
   "statusCode": 200,
   "data": {
     "__KEY": "1446",
-    "__STAMP": 119,
+    "__STAMP": 120,
     "uri": "/rest/Product(1446)",
-    "ID": 1446,
-    "myBoolean": true
+    "ID": 1446
   },
   "headers": {}
 }
