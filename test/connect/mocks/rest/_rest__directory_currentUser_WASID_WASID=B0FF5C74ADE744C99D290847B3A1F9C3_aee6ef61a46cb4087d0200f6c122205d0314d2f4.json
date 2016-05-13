@@ -1,9 +1,13 @@
 {
-  "requestUrl": "/rest/$directory/login",
+  "requestUrl": "/rest/$directory/currentUser",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "result": true
+    "result": {
+      "userName": "bar",
+      "fullName": "bar",
+      "ID": "836C1320BECC4870B06D60D65896E2D9"
+    }
   },
   "headers": {
     "set-cookie": [

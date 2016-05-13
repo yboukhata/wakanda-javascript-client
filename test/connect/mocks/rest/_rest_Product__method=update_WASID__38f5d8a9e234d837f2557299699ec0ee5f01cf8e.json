@@ -4,10 +4,10 @@
   "statusCode": 200,
   "data": {
     "__KEY": "1447",
-    "__STAMP": 190,
+    "__STAMP": 191,
     "uri": "/rest/Product(1447)",
     "ID": 1447,
-    "name": "FooProduct",
+    "name": "Unnamed product",
     "myBoolean": true,
     "spec": {
       "foo": "bar",

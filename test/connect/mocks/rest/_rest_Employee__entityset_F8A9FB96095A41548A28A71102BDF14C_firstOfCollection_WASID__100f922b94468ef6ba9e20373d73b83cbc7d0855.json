@@ -1,5 +1,5 @@
 {
-  "requestUrl": "/rest/Employee/oneEmployee",
+  "requestUrl": "/rest/Employee/$entityset/F8A9FB96095A41548A28A71102BDF14C/firstOfCollection",
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
