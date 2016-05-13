@@ -8,27 +8,32 @@ import Collection from '../presentation/collection';
 import {AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 import Media from '../presentation/media';
 import Const from '../const';
-import {CollectionDBO} from './collection-business';
+import {ICollectionDBO} from './collection-business';
 import {DataClass} from '../presentation/dataclass';
 import {QueryOption} from '../presentation/query-option';
-import {EntityDBO} from './entity-business';
+import {IEntityDBO} from './entity-business';
 import {MethodAdapter} from './method-adapter';
+import WakandaClient from '../wakanda-client';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
 let _dataClassBusinessMap = new Map<string, DataClassBusiness>();
 
+export interface IMethodsArray {
+  entity: string[];
+  collection: string[];
+  dataClass: string[];
+}
+
 class DataClassBusiness extends AbstractBusiness {
-  
-  private dataClass: DataClass;
-  public methods: {
-          entity: string[],
-          collection: string[],
-          dataClass: string[]
-  };
-  private service: DataClassService;
+
+  public dataClass: DataClass;
+  public methods: IMethodsArray;
   public _dataClassBusinessMap: Map<string, DataClassBusiness>;
-  
-  constructor({wakJSC, dataClass, methods}) {
+
+  private service: DataClassService;
+
+  constructor({wakJSC, dataClass, methods}:
+  {wakJSC: WakandaClient, dataClass: DataClass, methods: IMethodsArray}) {
     super({wakJSC});
 
     this.dataClass = dataClass;
@@ -42,7 +47,7 @@ class DataClassBusiness extends AbstractBusiness {
     this._dataClassBusinessMap = _dataClassBusinessMap;
   }
 
-  _decorateDataClass() {
+  public _decorateDataClass() {
     //Do not forget to bind(this) to have "this" pointing on business instance
     //instead of given dataclass instance
     this.dataClass.find    = this.find.bind(this);
@@ -52,28 +57,28 @@ class DataClassBusiness extends AbstractBusiness {
     this._addUserDefinedMethods();
   }
 
-  _addUserDefinedMethods() {
-    let _this_ = this;
-    
+  private _addUserDefinedMethods() {
+    let self = this;
+
     this.methods.dataClass.forEach(method => {
       //Voluntary don't use fat arrow notation to use arguments object without a bug
       this.dataClass[method] = function() {
         let params = Array.from(arguments);
-        return _this_.callMethod(method, params);
+        return self.callMethod(method, params);
       };
     });
   }
 
-  callMethod(methodName: string, parameters: any[]): Promise<Entity|Collection|any> {
+  public callMethod(methodName: string, parameters: any[]): Promise<Entity|Collection|any> {
     return this.service.callMethod(methodName, parameters)
       .then(obj => {
         return MethodAdapter.transform(obj, this._dataClassBusinessMap);
       });
   }
 
-  find(id: string|number, options?: QueryOption): Promise<Entity> {
+  public find(id: string|number, options?: QueryOption): Promise<Entity> {
     let opt = options || {};
-    
+
     if (opt.filter !== undefined || opt.params !== undefined || opt.pageSize !== undefined ||
       opt.start !== undefined || opt.orderBy !== undefined) {
       throw new Error('Dataclass.find: options filter, params, pageSize, start and orderBy are not allowed');
@@ -86,10 +91,10 @@ class DataClassBusiness extends AbstractBusiness {
     });
   }
 
-  query(options?: QueryOption): Promise<Collection> {
+  public query(options?: QueryOption): Promise<Collection> {
     let opt = options || {};
     let initialSelect = opt.select;
-    
+
     if (opt.method && opt.method.length > 0) {
       throw new Error('Dataclass.query: option method is not allowed');
     }
@@ -107,9 +112,9 @@ class DataClassBusiness extends AbstractBusiness {
     });
   }
 
-  create(pojo?: any): Entity {
-    var entityToAttach: any = {};
-    
+  public create(pojo?: any): Entity {
+    let entityToAttach: any = {};
+
     if (pojo) {
       for (let prop in pojo) {
         if (pojo[prop] instanceof Entity) {
@@ -132,7 +137,7 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _createEntity({key, deferred}: {key: string, deferred?: boolean}): Entity {
+  private _createEntity({key, deferred}: {key: string, deferred?: boolean}): Entity {
 
     let entity = new Entity({
       key,
@@ -150,8 +155,8 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _createCollection({uri, deferred, pageSize, initialSelect}
-    :{uri: string, deferred?: boolean, pageSize?: number, initialSelect?: string}): Collection {
+  private _createCollection({uri, deferred, pageSize, initialSelect}:
+    {uri: string, deferred?: boolean, pageSize?: number, initialSelect?: string}): Collection {
 
     let collection = new Collection({
         deferred: deferred,
@@ -171,9 +176,9 @@ class DataClassBusiness extends AbstractBusiness {
     return collection;
   }
 
-  _createMedia({uri, isImage, attributeName, entity}
-   :{uri: string, isImage: boolean, attributeName: string, entity: Entity}): Media {
-     
+  public _createMedia({uri, isImage, attributeName, entity}:
+   {uri: string, isImage: boolean, attributeName: string, entity: Entity}): Media {
+
     let media = new Media({uri});
     let business = new MediaBusiness({
       wakJSC: this.wakJSC,
@@ -189,8 +194,8 @@ class DataClassBusiness extends AbstractBusiness {
     return media;
   }
 
-  _presentationEntityFromDbo({dbo}: {dbo: EntityDBO}): Entity {
-    var entity: Entity;
+  public _presentationEntityFromDbo({dbo}: {dbo: IEntityDBO}): Entity {
+    let entity: Entity;
 
     if (!dbo) {
       entity = null;
@@ -227,8 +232,8 @@ class DataClassBusiness extends AbstractBusiness {
             });
           }
           else if (attr.type === 'image' || attr.type === 'blob') {
-            var uri: string;
-            
+            let uri: string;
+
             if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
               uri = dboAttribute.__deferred.uri;
             }
@@ -267,10 +272,10 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  _presentationCollectionFromDbo({dbo, pageSize, initialSelect}:
-    {dbo: CollectionDBO, pageSize?: number, initialSelect?: string}): Collection {
-      
-    var collection: Collection;
+  public _presentationCollectionFromDbo({dbo, pageSize, initialSelect}:
+    {dbo: ICollectionDBO, pageSize?: number, initialSelect?: string}): Collection {
+
+    let collection: Collection;
 
     if (!dbo) {
       collection = null;

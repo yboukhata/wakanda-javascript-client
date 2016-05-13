@@ -1,7 +1,7 @@
 import DataClassBusiness from './dataclass-business';
 
 export class MethodAdapter {
-  
+
   public static transform(object: any, dcBusinessMap: Map<string, DataClassBusiness>): any {
     if (object && object.__entityModel) {
       let business = dcBusinessMap.get(object.__entityModel);

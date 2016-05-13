@@ -1,10 +1,10 @@
 import AbstractService from './abstract-service';
-import {CurrentUserDBO} from '../../business/directory-business';
+import {ICurrentUserDBO} from '../../business/directory-business';
 import {DirectoryBaseService} from './base/directory-base-service';
 
 class DirectoryService extends AbstractService {
 
-  login(username: string, password: string, duration: number): Promise<boolean> {
+  public login(username: string, password: string, duration: number): Promise<boolean> {
     return DirectoryBaseService.login({
       httpClient: this.httpClient,
       username,
@@ -13,19 +13,19 @@ class DirectoryService extends AbstractService {
     });
   }
 
-  logout(): Promise<boolean> {
+  public logout(): Promise<boolean> {
     return DirectoryBaseService.logout({
       httpClient: this.httpClient
     });
   }
 
-  currentUser(): Promise<CurrentUserDBO> {
+  public currentUser(): Promise<ICurrentUserDBO> {
     return DirectoryBaseService.currentUser({
       httpClient: this.httpClient
     });
   }
 
-  currentUserBelongsTo(group: string): Promise<boolean> {
+  public currentUserBelongsTo(group: string): Promise<boolean> {
     return DirectoryBaseService.currentUserBelongsTo({
       httpClient: this.httpClient,
       group

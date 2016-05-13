@@ -1,7 +1,7 @@
 import HttpClient from '../../http/http-client';
 import {QueryOption} from '../../../presentation/query-option';
-import {EntityDBO} from '../../../business/entity-business';
-import {CollectionDBO} from '../../../business/collection-business';
+import {IEntityDBO} from '../../../business/entity-business';
+import {ICollectionDBO} from '../../../business/collection-business';
 import Util from '../../util';
 
 export interface IFindParams {
@@ -25,9 +25,9 @@ export interface ICallMethodParams {
 }
 
 export class DataClassBaseService {
-  
+
   public static find({httpClient, key, options, dataClassName}: IFindParams) {
-    
+
     if (typeof key !== 'string' && typeof key !== 'number') {
       throw new Error('DataClass.find: Invalid id type');
     }
@@ -43,12 +43,12 @@ export class DataClassBaseService {
 
         Util.removeRestInfoFromEntity(entity);
 
-        return entity as EntityDBO;
+        return entity as IEntityDBO;
       });
   }
-  
+
   public static query({httpClient, options, dataClassName}: IQueryParams) {
-    
+
     options.method = 'entityset';
 
     let optString = Util.handleOptions(options);
@@ -63,12 +63,12 @@ export class DataClassBaseService {
         Util.removeRestInfoFromEntity(entity);
       }
 
-      return collection as CollectionDBO;
+      return collection as ICollectionDBO;
     });
   }
-  
+
   public static callMethod({httpClient, methodName, parameters, dataClassName}: ICallMethodParams) {
-    
+
     return httpClient.post({
       uri: '/' + dataClassName + '/' + methodName,
       data: parameters

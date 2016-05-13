@@ -21,6 +21,12 @@ var baseConfig = {
     }
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.ts$/,
+        loader: 'tslint'
+      }
+    ],
     loaders: [{
       test: /\.ts$/,
       exclude: [
@@ -42,6 +48,10 @@ var baseConfig = {
       test: /\.json$/,
       loader: 'json-loader'
     }]
+  },
+  tslint: {
+    emitErrors: false,
+    failOnHint: false
   },
   node: {
     fs: 'empty',

@@ -4,7 +4,7 @@ import Catalog from '../presentation/catalog';
 import {DataClass, Attribute, AttributeRelated, AttributeCollection} from '../presentation/dataclass';
 import DataClassBusiness from './dataclass-business';
 
-export interface DataClassDBO {
+export interface IDataClassDBO {
   name: string;
   collectionName: string;
   attributes: {
@@ -20,10 +20,10 @@ export interface DataClassDBO {
 }
 
 class CatalogBusiness extends AbstractBusiness {
-  
+
   private service: CatalogService;
   private seenDataClasses: string[];
-  
+
   constructor(obj: any) {
     super(obj);
 
@@ -39,17 +39,17 @@ class CatalogBusiness extends AbstractBusiness {
   }
 
   public get(dataClasses?: string[]): Promise<Catalog> {
-    
+
     this.seenDataClasses = [];
-    
-    return this.service.get(dataClasses).then((dataClassDBOArray: DataClassDBO[]) => {
+
+    return this.service.get(dataClasses).then((dataClassDBOArray: IDataClassDBO[]) => {
 
       let dcArray: DataClass[] = [];
 
       for (let dcDBO of dataClassDBOArray) {
         let attributes: Attribute[] = [];
 
-        for(let attr of dcDBO.attributes) {
+        for (let attr of dcDBO.attributes) {
           switch (attr.kind) {
             case 'relatedEntity':
               attributes.push(new AttributeRelated({
@@ -95,7 +95,7 @@ class CatalogBusiness extends AbstractBusiness {
         };
 
         for (let method of dcDBO.methods) {
-          switch(method.applyTo) {
+          switch (method.applyTo) {
             case 'entity':
               methods.entity.push(method.name);
               break;
@@ -127,11 +127,11 @@ class CatalogBusiness extends AbstractBusiness {
 
         dcArray.push(dataClass);
       }
-      
+
       let catalog = new Catalog({
         dataClasses: dcArray
       });
-      
+
       //Check if we have all needed dataClasses on the catalog
       for (let dcName of this.seenDataClasses) {
         if (!catalog[dcName]) {
