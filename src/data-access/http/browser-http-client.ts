@@ -7,7 +7,7 @@ class BrowserHttpClient extends HttpClient {
 
   private client: any;
 
-  constructor({apiPrefix}) {
+  constructor({apiPrefix}: {apiPrefix: string}) {
     super({apiPrefix});
     this.client = new AureliaHttpClient();
   }
@@ -55,7 +55,7 @@ class BrowserHttpClient extends HttpClient {
     return super.responsePost(uri, result);
   }
 
-  private _httpResponseAdaptor({request}): Promise<HttpResponse> {
+  private _httpResponseAdaptor({request}: {request: any}): Promise<HttpResponse> {
     return request.then((res: any) => {
       return new HttpResponse({
         statusCode: res.statusCode,

@@ -3,16 +3,19 @@ import MediaService from '../data-access/service/media-service';
 import Media from '../presentation/media';
 import Entity from '../presentation/entity';
 import DataClassBusiness from './dataclass-business';
+import WakandaClient from '../wakanda-client';
 
 class MediaBusiness extends AbstractBusiness {
 
+  public entity: Entity;
+  public isImage: boolean;
+
   private media: Media;
-  private entity: Entity;
   private dataClassBusiness: DataClassBusiness;
-  private isImage: boolean;
   private service: MediaService;
 
-  constructor({wakJSC, media, dataClassBusiness, isImage, attributeName, entity}) {
+  constructor({wakJSC, media, dataClassBusiness, isImage, attributeName, entity}:
+  {wakJSC: WakandaClient, media: Media, dataClassBusiness: DataClassBusiness, isImage: boolean, attributeName: string, entity: Entity}) {
     super({wakJSC});
 
     this.media = media;

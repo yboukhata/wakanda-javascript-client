@@ -4,6 +4,7 @@ import {DataClass} from '../../presentation/dataclass';
 import {QueryOption} from '../../presentation/query-option';
 import {ICollectionDBO} from '../../business/collection-business';
 import {CollectionBaseService, isEntitySetUri} from './base/collection-base-service';
+import WakandaClient from '../../wakanda-client';
 
 class CollectionService extends AbstractService {
 
@@ -12,7 +13,8 @@ class CollectionService extends AbstractService {
   private collectionUri: string;
   private isEntitySet: boolean;
 
-  constructor({wakJSC, collection, dataClass, collectionUri}) {
+  constructor({wakJSC, collection, dataClass, collectionUri}:
+    {wakJSC: WakandaClient, collection: Collection, dataClass: DataClass, collectionUri: string}) {
     super({wakJSC});
 
     this.collection = collection;

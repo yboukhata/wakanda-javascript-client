@@ -13,22 +13,27 @@ import {DataClass} from '../presentation/dataclass';
 import {QueryOption} from '../presentation/query-option';
 import {IEntityDBO} from './entity-business';
 import {MethodAdapter} from './method-adapter';
+import WakandaClient from '../wakanda-client';
 
 //This map stores all DataClassBusiness instances of existing dataClasses
 let _dataClassBusinessMap = new Map<string, DataClassBusiness>();
 
+export interface IMethodsArray {
+  entity: string[];
+  collection: string[];
+  dataClass: string[];
+}
+
 class DataClassBusiness extends AbstractBusiness {
 
-  private dataClass: DataClass;
-  public methods: {
-          entity: string[],
-          collection: string[],
-          dataClass: string[]
-  };
-  private service: DataClassService;
+  public dataClass: DataClass;
+  public methods: IMethodsArray;
   public _dataClassBusinessMap: Map<string, DataClassBusiness>;
 
-  constructor({wakJSC, dataClass, methods}) {
+  private service: DataClassService;
+
+  constructor({wakJSC, dataClass, methods}:
+  {wakJSC: WakandaClient, dataClass: DataClass, methods: IMethodsArray}) {
     super({wakJSC});
 
     this.dataClass = dataClass;

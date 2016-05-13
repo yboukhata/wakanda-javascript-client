@@ -1,8 +1,11 @@
+import WakandaClient from '../../wakanda-client';
 import AbstractService from './abstract-service';
 import Entity from '../../presentation/entity';
 import Media from '../../presentation/media';
 import HttpResponse from '../http/http-response';
 import {MediaBaseService} from './base/media-base-service';
+import MediaBusiness from '../../business/media-business';
+import DataClassBusiness from '../../business/dataclass-business';
 
 class MediaService extends AbstractService {
 
@@ -12,7 +15,9 @@ class MediaService extends AbstractService {
   private media: Media;
   private attributeName: string;
 
-  constructor({wakJSC, mediaBusiness, media, attributeName, dataClassBusiness}) {
+  constructor({wakJSC, mediaBusiness, media, attributeName, dataClassBusiness}:
+    {wakJSC: WakandaClient, mediaBusiness: MediaBusiness, media: Media, attributeName: string, dataClassBusiness: DataClassBusiness}) {
+
     super({wakJSC});
 
     this.dataClassName = dataClassBusiness.dataClass.name;

@@ -4,7 +4,7 @@ import {IDataClassDBO} from '../../../business/catalog-business';
 export class CatalogBaseService {
 
   public static get({httpClient, dataClasses}: {httpClient: HttpClient, dataClasses?: string|string[]}) {
-    var strDataclasses = '/';
+    let strDataclasses = '/';
 
     if (Array.isArray(dataClasses)) {
       strDataclasses += dataClasses.join();

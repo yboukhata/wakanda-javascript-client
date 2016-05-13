@@ -49,7 +49,7 @@ class CatalogBusiness extends AbstractBusiness {
       for (let dcDBO of dataClassDBOArray) {
         let attributes: Attribute[] = [];
 
-        for(let attr of dcDBO.attributes) {
+        for (let attr of dcDBO.attributes) {
           switch (attr.kind) {
             case 'relatedEntity':
               attributes.push(new AttributeRelated({
@@ -95,7 +95,7 @@ class CatalogBusiness extends AbstractBusiness {
         };
 
         for (let method of dcDBO.methods) {
-          switch(method.applyTo) {
+          switch (method.applyTo) {
             case 'entity':
               methods.entity.push(method.name);
               break;

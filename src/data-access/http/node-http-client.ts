@@ -8,7 +8,7 @@ class NodeHttpClient extends HttpClient {
   private request: any;
   private cookieJar: any;
 
-  constructor({apiPrefix}) {
+  constructor({apiPrefix}: {apiPrefix: string}) {
     super({apiPrefix});
 
     this.request = request;

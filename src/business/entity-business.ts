@@ -6,6 +6,7 @@ import {DataClass} from '../presentation/dataclass';
 import DataClassBusiness from './dataclass-business';
 import {QueryOption} from '../presentation/query-option';
 import {MethodAdapter} from './method-adapter';
+import WakandaClient from '../wakanda-client';
 
 export interface IEntityDBO {
   __KEY?: string;
@@ -22,7 +23,8 @@ class EntityBusiness extends AbstractBusiness {
   private dataClassBusiness: DataClassBusiness;
   private service: EntityService;
 
-  constructor({wakJSC, entity, dataClass, dataClassBusiness}) {
+  constructor({wakJSC, entity, dataClass, dataClassBusiness}:
+  {wakJSC: WakandaClient, entity: Entity, dataClass: DataClass, dataClassBusiness: DataClassBusiness}) {
     super({wakJSC});
 
     this.entity = entity;

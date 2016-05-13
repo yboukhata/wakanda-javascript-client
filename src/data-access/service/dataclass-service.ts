@@ -4,12 +4,13 @@ import {DataClass} from '../../presentation/dataclass';
 import {IEntityDBO} from '../../business/entity-business';
 import {ICollectionDBO} from '../../business/collection-business';
 import {DataClassBaseService} from './base/dataclass-base-service';
+import WakandaClient from '../../wakanda-client';
 
 class DataClassService extends AbstractService {
 
   private dataClass: DataClass;
 
-  constructor({wakJSC, dataClass}) {
+  constructor({wakJSC, dataClass}: {wakJSC: WakandaClient, dataClass: DataClass}) {
     super({wakJSC});
 
     this.dataClass = dataClass;

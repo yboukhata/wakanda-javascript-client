@@ -37,7 +37,6 @@
       "static-before-instance",
       "variables-before-functions"
     ],
-    "no-angle-bracket-type-assertion": true,
     "no-any": false,
     "no-arg": true,
     "no-bitwise": true,
@@ -113,7 +112,6 @@
     "use-isnan": true,
     "variable-name": [
       true,
-      "check-format",
       "allow-leading-underscore",
       "ban-keywords"
     ],

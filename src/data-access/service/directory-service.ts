@@ -1,5 +1,5 @@
 import AbstractService from './abstract-service';
-import {CurrentUserDBO} from '../../business/directory-business';
+import {ICurrentUserDBO} from '../../business/directory-business';
 import {DirectoryBaseService} from './base/directory-base-service';
 
 class DirectoryService extends AbstractService {
@@ -19,7 +19,7 @@ class DirectoryService extends AbstractService {
     });
   }
 
-  public currentUser(): Promise<CurrentUserDBO> {
+  public currentUser(): Promise<ICurrentUserDBO> {
     return DirectoryBaseService.currentUser({
       httpClient: this.httpClient
     });

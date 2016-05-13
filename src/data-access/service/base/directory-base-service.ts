@@ -1,5 +1,5 @@
 import HttpClient from '../../http/http-client';
-import {CurrentUserDBO} from '../../../business/directory-business';
+import {ICurrentUserDBO} from '../../../business/directory-business';
 
 export interface ILoginParams {
   httpClient: HttpClient;
@@ -14,9 +14,10 @@ export interface ICurrentUserBelongsToParams {
 }
 
 export class DirectoryBaseService {
-  
-  public static login({httpClient, username, password, duration}): Promise<boolean> {
-    
+
+  public static login({httpClient, username, password, duration}:
+  {httpClient: HttpClient, username: string, password: string, duration?: number}): Promise<boolean> {
+
     return httpClient.post({
       uri: '/$directory/login',
       data: [username, password, duration]
@@ -39,7 +40,7 @@ export class DirectoryBaseService {
     });
   }
 
-  public static currentUser({httpClient}: {httpClient: HttpClient}): Promise<CurrentUserDBO> {
+  public static currentUser({httpClient}: {httpClient: HttpClient}): Promise<ICurrentUserDBO> {
     return httpClient.get({
       uri: '/$directory/currentUser'
     })

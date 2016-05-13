@@ -7,6 +7,7 @@ import {DataClass} from '../presentation/dataclass';
 import DataClassBusiness from './dataclass-business';
 import {QueryOption} from '../presentation/query-option';
 import {MethodAdapter} from './method-adapter';
+import WakandaClient from '../wakanda-client';
 
 export interface ICollectionDBO {
   __ENTITYSET: string;
@@ -19,6 +20,16 @@ export interface ICollectionDBO {
   [key: string]: any;
 }
 
+export interface ICollectionBusinessConstructor {
+  wakJSC: WakandaClient;
+  dataClass: DataClass;
+  collection: Collection;
+  dataClassBusiness: DataClassBusiness;
+  collectionUri: string;
+  pageSize: number;
+  initialSelect: string;
+}
+
 class CollectionBusiness extends AbstractBusiness {
 
   private collection: Collection;
@@ -28,7 +39,7 @@ class CollectionBusiness extends AbstractBusiness {
   private pageSize: number;
   private initialSelect: string;
 
-  constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri, pageSize, initialSelect}) {
+  constructor({wakJSC, dataClass, collection, dataClassBusiness, collectionUri, pageSize, initialSelect}: ICollectionBusinessConstructor) {
     super({wakJSC});
 
     this.collection = collection;

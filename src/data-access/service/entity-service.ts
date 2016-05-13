@@ -3,13 +3,15 @@ import Entity from '../../presentation/entity';
 import {DataClass} from '../../presentation/dataclass';
 import {IEntityDBO} from '../../business/entity-business';
 import {EntityBaseService} from './base/entity-base-service';
+import WakandaClient from '../../wakanda-client';
 
 class EntityService extends AbstractService {
 
   private entity: Entity;
   private dataClass: DataClass;
 
-  constructor({wakJSC, entity, dataClass}) {
+  constructor({wakJSC, entity, dataClass}:
+  {wakJSC: WakandaClient, entity: Entity, dataClass: DataClass}) {
     super({wakJSC});
 
     this.entity = entity;
