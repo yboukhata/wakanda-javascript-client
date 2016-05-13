@@ -216,7 +216,7 @@ class DataClassBusiness extends AbstractBusiness {
 
         let dboAttribute = dbo[attr.name];
 
-        if (dboAttribute) {
+        if (dboAttribute !== null && dboAttribute !== undefined) {
           if (attr instanceof AttributeRelated) {
             //Kind of recursive call with a potententialy different instance of
             //DataClassBusiness
@@ -248,7 +248,7 @@ class DataClassBusiness extends AbstractBusiness {
             });
           }
           else {
-            entity[attr.name] = dboAttribute || null;
+            entity[attr.name] = dboAttribute;
           }
         }
         else {
