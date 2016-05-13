@@ -3,16 +3,16 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Product/$entityset/2890B8CBE6F64C8D95D9C7193965A1C2",
+    "__ENTITYSET": "/rest/Product/$entityset/207A699D8C58433EACEEDFA10952F7AD",
     "__entityModel": "Product",
     "__COUNT": 26,
     "__SENT": 3,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "1447",
-        "__STAMP": 190,
-        "ID": 1447,
+        "__KEY": "1020",
+        "__STAMP": 81,
+        "ID": 1020,
         "name": "FooProduct",
         "myBoolean": true,
         "born": null,
@@ -23,22 +23,24 @@
             "baz": "taz"
           }
         },
-        "photo": null
+        "photo": null,
+        "myNumber": null
       },
       {
-        "__KEY": "1445",
-        "__STAMP": 119,
-        "ID": 1445,
+        "__KEY": "1018",
+        "__STAMP": 73,
+        "ID": 1018,
         "name": null,
         "myBoolean": true,
         "born": null,
         "spec": null,
-        "photo": null
+        "photo": null,
+        "myNumber": null
       },
       {
-        "__KEY": "1444",
-        "__STAMP": 119,
-        "ID": 1444,
+        "__KEY": "1017",
+        "__STAMP": 93,
+        "ID": 1017,
         "name": "watermelon true",
         "myBoolean": null,
         "born": null,
@@ -59,7 +61,8 @@
             "tata"
           ]
         },
-        "photo": null
+        "photo": null,
+        "myNumber": null
       }
     ]
   },

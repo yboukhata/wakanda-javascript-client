@@ -139,7 +139,11 @@ class EntityBusiness extends AbstractBusiness {
     }
 
     for (let attr of this.dataClass.attributes) {
-      let objAttr = this.entity[attr.name] || null;
+      let objAttr = this.entity[attr.name];
+
+      if (objAttr === undefined) {
+        objAttr = null;
+      }
 
       if (attr instanceof AttributeRelated) {
         data[attr.name] = objAttr ? objAttr._key : null;
