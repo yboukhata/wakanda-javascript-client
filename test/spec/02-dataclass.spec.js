@@ -73,24 +73,24 @@ describe('Dataclass API', function() {
         expect(employee.employer.staff.entities[0].firstName).to.be.a('string');
       });
     });
-    
+
     it('should throw an error if called with incorrect options', function () {
       expect(function () {
         ds.Company.find(1, {pageSize: 4});
       }).to.throw(Error);
-      
+
       expect(function () {
         ds.Company.find(1, {filter: 'ID < 10'});
       }).to.throw(Error);
-      
+
       expect(function () {
         ds.Company.find(1, {params: [2]});
       }).to.throw(Error);
-      
+
       expect(function () {
         ds.Company.find(1, {orderBy: 'name'});
       }).to.throw(Error);
-      
+
       expect(function () {
         ds.Company.find(1, {start: 0});
       }).to.throw(Error);
@@ -204,11 +204,23 @@ describe('Dataclass API', function() {
         }
       });
     });
-    
+
     it('should fail if called with a method options', function () {
       expect(function () {
         ds.Company.query({method: 'entityset'});
       }).to.throw(Error);
+    });
+
+    it('should be able to handle Date object on params option', function () {
+
+      var dateStr = "2016-05-16T13:00:00.447Z";
+      var date = new Date(dateStr);
+
+
+      return ds.Product.query({filter: 'born < :1', params: [date]}).then(function (collection) {
+        expect(collection).to.be.an('object');
+        expect(collection.entities).to.be.an('array');
+      });
     });
   });
 
@@ -281,13 +293,13 @@ describe('Dataclass API', function() {
         expect(result).to.be.equal("This is a call to my dataClass method (Employee) with the following arguments : [\"foo\",\"bar\"]");
       });
     });
-    
+
     it('should transform result into an entity if needed', function () {
       return ds.Employee.oneEmployee().then(function (e) {
         expect(wakClient.helper.isEntity(e)).to.be.true;
       });
     });
-    
+
     it('should transform result into a collection if needed', function () {
       return ds.Employee.lotsOfEmployees().then(function (e) {
         expect(wakClient.helper.isCollection(e)).to.be.true;

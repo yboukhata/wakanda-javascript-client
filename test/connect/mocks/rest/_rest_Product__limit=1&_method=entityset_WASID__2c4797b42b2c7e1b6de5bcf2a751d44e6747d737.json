@@ -3,16 +3,16 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Product/$entityset/BAD6BB3895CF4164A04AA21759C22D8D",
+    "__ENTITYSET": "/rest/Product/$entityset/3D4AFA3FF5944CEC85BFBBD61B0CE350",
     "__entityModel": "Product",
     "__COUNT": 26,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "1019",
-        "__STAMP": 110,
-        "ID": 1019,
+        "__KEY": "1077",
+        "__STAMP": 97,
+        "ID": 1077,
         "name": null,
         "myBoolean": true,
         "born": null,

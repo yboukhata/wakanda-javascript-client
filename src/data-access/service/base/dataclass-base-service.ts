@@ -51,6 +51,10 @@ export class DataClassBaseService {
 
     options.method = 'entityset';
 
+    if (Array.isArray(options.params)) {
+      options.params = this._sanitizeOptionParams(options.params);
+    }
+
     let optString = Util.handleOptions(options);
 
     return httpClient.get({
@@ -75,6 +79,17 @@ export class DataClassBaseService {
     }).then(res => {
       let obj = JSON.parse(res.body);
       return obj.result || obj || null;
+    });
+  }
+
+  private static _sanitizeOptionParams(params: any[]): any[] {
+    return params.map(element => {
+      if (element instanceof Date) {
+        return element.toISOString();
+      }
+      else {
+        return element;
+      }
     });
   }
 }
