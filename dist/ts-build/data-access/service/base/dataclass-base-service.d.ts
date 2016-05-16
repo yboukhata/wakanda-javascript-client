@@ -23,4 +23,5 @@ export declare class DataClassBaseService {
     static find({httpClient, key, options, dataClassName}: IFindParams): Promise<IEntityDBO>;
     static query({httpClient, options, dataClassName}: IQueryParams): Promise<ICollectionDBO>;
     static callMethod({httpClient, methodName, parameters, dataClassName}: ICallMethodParams): Promise<any>;
+    private static _sanitizeOptionParams(params);
 }

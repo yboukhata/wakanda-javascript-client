@@ -2778,6 +2778,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    DataClassBaseService.query = function (_a) {
 	        var httpClient = _a.httpClient, options = _a.options, dataClassName = _a.dataClassName;
 	        options.method = 'entityset';
+	        if (Array.isArray(options.params)) {
+	            options.params = this._sanitizeOptionParams(options.params);
+	        }
 	        var optString = util_1.default.handleOptions(options);
 	        return httpClient.get({
 	            uri: '/' + dataClassName + optString
@@ -2799,6 +2802,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
 	            return obj.result || obj || null;
+	        });
+	    };
+	    DataClassBaseService._sanitizeOptionParams = function (params) {
+	        return params.map(function (element) {
+	            if (element instanceof Date) {
+	                return element.toISOString();
+	            }
+	            else {
+	                return element;
+	            }
 	        });
 	    };
 	    return DataClassBaseService;
