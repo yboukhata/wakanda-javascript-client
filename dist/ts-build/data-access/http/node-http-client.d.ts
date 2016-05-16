@@ -8,10 +8,8 @@ declare class NodeHttpClient extends HttpClient {
     });
     _clearCookie(): void;
     get({uri, params}: IGetRequestOption): Promise<HttpResponse>;
-    _getWithoutInterceptor({uri, params}: IGetRequestOption): Promise<HttpResponse>;
+    private _getWithoutInterceptor({uri, params});
     post({uri, data, binary}: IPostRequestOption): Promise<HttpResponse>;
-    _httpResponseAdaptor({requestOptions}: {
-        requestOptions: any;
-    }): Promise<HttpResponse>;
+    private _httpResponseAdaptor({requestOptions});
 }
 export default NodeHttpClient;

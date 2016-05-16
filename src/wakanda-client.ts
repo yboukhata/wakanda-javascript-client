@@ -7,6 +7,8 @@ import Catalog from './presentation/catalog';
 import BrowserHttpClient from './data-access/http/browser-http-client';
 import NodeHttpClient from './data-access/http/node-http-client';
 
+const packageOptions: any = require('../package.json');
+
 export interface IDirectory {
   login(username: string, password: string, duration?: number): Promise<boolean>;
   logout(): Promise<boolean>;
@@ -70,7 +72,7 @@ class WakandaClient {
   }
 
   public version(): string {
-    return '0.3.2';
+    return packageOptions.version;
   }
 }
 

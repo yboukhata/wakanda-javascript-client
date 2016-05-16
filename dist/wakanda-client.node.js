@@ -7,7 +7,7 @@
 		exports["WakandaClient"] = factory(require("request"));
 	else
 		root["WakandaClient"] = factory(root["request"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_32__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_33__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -64,7 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	var wakanda_client_1 = __webpack_require__(2);
 	exports.WakandaClient = wakanda_client_1.default;
-	var node_http_client_1 = __webpack_require__(31);
+	var node_http_client_1 = __webpack_require__(32);
 	var catalog_base_service_1 = __webpack_require__(7);
 	exports.CatalogBaseService = catalog_base_service_1.CatalogBaseService;
 	var collection_base_service_1 = __webpack_require__(21);
@@ -89,6 +89,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var directory_business_1 = __webpack_require__(28);
 	var entity_1 = __webpack_require__(15);
 	var collection_1 = __webpack_require__(26);
+	var packageOptions = __webpack_require__(31);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -127,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return catalogBusiness.get(dataClasses);
 	    };
 	    WakandaClient.prototype.version = function () {
-	        return '0.3.2';
+	        return packageOptions.version;
 	    };
 	    return WakandaClient;
 	}());
@@ -1913,6 +1914,83 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 31 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"name": "wakanda-client",
+		"main": "dist/wakanda-client.node.js",
+		"version": "0.3.2",
+		"description": "Wakanda Client allows you to easily interact with Wakanda Server on a JavaScript (browser or node) environment",
+		"typings": "dist/wakanda-client.d.ts",
+		"browser": "dist/wakanda-client.min.js",
+		"repository": "wakanda/wakanda-javascript-client",
+		"scripts": {
+			"webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
+			"webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
+			"webpack-build:ci": "node ./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.ci.js",
+			"webpack-build:prod": "node ./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.prod.js",
+			"test:karma:single": "node ./node_modules/karma/bin/karma start",
+			"test:karma:full": "npm run webpack-build && npm run test:karma:single",
+			"test:node:single": "http_proxy=\"\" node ./node_modules/mocha/bin/mocha test/bootstrap.js test/spec/**/*.spec.js",
+			"test:node:full": "npm run webpack-build && npm run test:node:single",
+			"test-single": "./test.sh single",
+			"test": "./test.sh",
+			"test-server:start": "node test/connect/server.js & echo $! > testserver.pid && sleep 1",
+			"test-server:stop": "kill `cat testserver.pid` && rm testserver.pid",
+			"test-server:record": "node test/connect/server.js record & echo $! > testserver.pid",
+			"test-server:init": "rm -rf test/connect/mocks && npm run test-server:record && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop",
+			"codecov": "cat coverage/*/lcov.info | codecov",
+			"tsc": "node ./node_modules/typescript/bin/tsc",
+			"serve": "node ./node_modules/.bin/concurrently -r \"npm run webpack-watch\" \"node ./node_modules/.bin/gulp serve\""
+		},
+		"author": "Wakanda SAS",
+		"license": "MIT",
+		"devDependencies": {
+			"babel-core": "^6.3.17",
+			"babel-loader": "^6.2.0",
+			"babel-polyfill": "^6.3.14",
+			"babel-preset-es2015": "^6.3.13",
+			"body-parser": "^1.14.2",
+			"chai": "^3.4.1",
+			"chalk": "^1.1.1",
+			"codecov.io": "^0.1.6",
+			"concurrently": "^2.0.0",
+			"connect": "^3.4.0",
+			"connect-prism": "mrblackus/connect-prism",
+			"eslint": "^1.10.3",
+			"eslint-loader": "^1.2.0",
+			"express": "^4.13.3",
+			"grunt": "^0.4.5",
+			"gulp": "^3.9.0",
+			"gulp-connect": "^2.2.0",
+			"http-proxy-middleware": "^0.9.0",
+			"isparta": "^4.0.0",
+			"isparta-loader": "^2.0.0",
+			"json-loader": "^0.5.4",
+			"karma": "^0.13.15",
+			"karma-chai": "^0.1.0",
+			"karma-coverage": "^0.5.3",
+			"karma-mocha": "^0.2.1",
+			"karma-phantomjs-launcher": "^0.2.1",
+			"karma-verbose-reporter": "0.0.3",
+			"mocha": "^2.3.4",
+			"path": "^0.12.7",
+			"phantomjs": "^1.9.19",
+			"serve-static": "^1.10.2",
+			"ts-loader": "^0.8.1",
+			"tslint": "^3.9.0",
+			"tslint-loader": "^2.1.4",
+			"typescript": "^1.8.10",
+			"webpack": "^1.12.15"
+		},
+		"dependencies": {
+			"core-js": "^2.1.2",
+			"request": "^2.67.0"
+		}
+	};
+
+/***/ },
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1921,9 +1999,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var request = __webpack_require__(32);
-	var http_client_1 = __webpack_require__(33);
-	var http_response_1 = __webpack_require__(34);
+	var request = __webpack_require__(33);
+	var http_client_1 = __webpack_require__(34);
+	var http_response_1 = __webpack_require__(35);
 	var NodeHttpClient = (function (_super) {
 	    __extends(NodeHttpClient, _super);
 	    function NodeHttpClient(_a) {
@@ -2015,13 +2093,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = require("request");
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2149,7 +2227,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	"use strict";

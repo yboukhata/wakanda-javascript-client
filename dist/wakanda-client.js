@@ -69,7 +69,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(81);
 	var wakanda_client_1 = __webpack_require__(86);
 	exports.WakandaClient = wakanda_client_1.default;
-	var browser_http_client_1 = __webpack_require__(115);
+	var browser_http_client_1 = __webpack_require__(116);
 	var catalog_base_service_1 = __webpack_require__(91);
 	exports.CatalogBaseService = catalog_base_service_1.CatalogBaseService;
 	var collection_base_service_1 = __webpack_require__(105);
@@ -2108,6 +2108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var directory_business_1 = __webpack_require__(112);
 	var entity_1 = __webpack_require__(99);
 	var collection_1 = __webpack_require__(110);
+	var packageOptions = __webpack_require__(115);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -2146,7 +2147,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return catalogBusiness.get(dataClasses);
 	    };
 	    WakandaClient.prototype.version = function () {
-	        return '0.3.2';
+	        return packageOptions.version;
 	    };
 	    return WakandaClient;
 	}());
@@ -3932,6 +3933,83 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 115 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"name": "wakanda-client",
+		"main": "dist/wakanda-client.node.js",
+		"version": "0.3.2",
+		"description": "Wakanda Client allows you to easily interact with Wakanda Server on a JavaScript (browser or node) environment",
+		"typings": "dist/wakanda-client.d.ts",
+		"browser": "dist/wakanda-client.min.js",
+		"repository": "wakanda/wakanda-javascript-client",
+		"scripts": {
+			"webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
+			"webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
+			"webpack-build:ci": "node ./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.ci.js",
+			"webpack-build:prod": "node ./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.prod.js",
+			"test:karma:single": "node ./node_modules/karma/bin/karma start",
+			"test:karma:full": "npm run webpack-build && npm run test:karma:single",
+			"test:node:single": "http_proxy=\"\" node ./node_modules/mocha/bin/mocha test/bootstrap.js test/spec/**/*.spec.js",
+			"test:node:full": "npm run webpack-build && npm run test:node:single",
+			"test-single": "./test.sh single",
+			"test": "./test.sh",
+			"test-server:start": "node test/connect/server.js & echo $! > testserver.pid && sleep 1",
+			"test-server:stop": "kill `cat testserver.pid` && rm testserver.pid",
+			"test-server:record": "node test/connect/server.js record & echo $! > testserver.pid",
+			"test-server:init": "rm -rf test/connect/mocks && npm run test-server:record && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop",
+			"codecov": "cat coverage/*/lcov.info | codecov",
+			"tsc": "node ./node_modules/typescript/bin/tsc",
+			"serve": "node ./node_modules/.bin/concurrently -r \"npm run webpack-watch\" \"node ./node_modules/.bin/gulp serve\""
+		},
+		"author": "Wakanda SAS",
+		"license": "MIT",
+		"devDependencies": {
+			"babel-core": "^6.3.17",
+			"babel-loader": "^6.2.0",
+			"babel-polyfill": "^6.3.14",
+			"babel-preset-es2015": "^6.3.13",
+			"body-parser": "^1.14.2",
+			"chai": "^3.4.1",
+			"chalk": "^1.1.1",
+			"codecov.io": "^0.1.6",
+			"concurrently": "^2.0.0",
+			"connect": "^3.4.0",
+			"connect-prism": "mrblackus/connect-prism",
+			"eslint": "^1.10.3",
+			"eslint-loader": "^1.2.0",
+			"express": "^4.13.3",
+			"grunt": "^0.4.5",
+			"gulp": "^3.9.0",
+			"gulp-connect": "^2.2.0",
+			"http-proxy-middleware": "^0.9.0",
+			"isparta": "^4.0.0",
+			"isparta-loader": "^2.0.0",
+			"json-loader": "^0.5.4",
+			"karma": "^0.13.15",
+			"karma-chai": "^0.1.0",
+			"karma-coverage": "^0.5.3",
+			"karma-mocha": "^0.2.1",
+			"karma-phantomjs-launcher": "^0.2.1",
+			"karma-verbose-reporter": "0.0.3",
+			"mocha": "^2.3.4",
+			"path": "^0.12.7",
+			"phantomjs": "^1.9.19",
+			"serve-static": "^1.10.2",
+			"ts-loader": "^0.8.1",
+			"tslint": "^3.9.0",
+			"tslint-loader": "^2.1.4",
+			"typescript": "^1.8.10",
+			"webpack": "^1.12.15"
+		},
+		"dependencies": {
+			"core-js": "^2.1.2",
+			"request": "^2.67.0"
+		}
+	};
+
+/***/ },
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3940,9 +4018,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var http_client_1 = __webpack_require__(116);
-	var http_response_1 = __webpack_require__(117);
-	var AureliaHttpClient = __webpack_require__(118).HttpClient;
+	var http_client_1 = __webpack_require__(117);
+	var http_response_1 = __webpack_require__(118);
+	var AureliaHttpClient = __webpack_require__(119).HttpClient;
 	var BrowserHttpClient = (function (_super) {
 	    __extends(BrowserHttpClient, _super);
 	    function BrowserHttpClient(_a) {
@@ -4006,7 +4084,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 116 */
+/* 117 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4134,7 +4212,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 117 */
+/* 118 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4152,7 +4230,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 118 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4161,7 +4239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _httpClient = __webpack_require__(119);
+	var _httpClient = __webpack_require__(120);
 	
 	Object.defineProperty(exports, 'HttpClient', {
 	  enumerable: true,
@@ -4170,7 +4248,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _httpRequestMessage = __webpack_require__(123);
+	var _httpRequestMessage = __webpack_require__(124);
 	
 	Object.defineProperty(exports, 'HttpRequestMessage', {
 	  enumerable: true,
@@ -4179,7 +4257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _httpResponseMessage = __webpack_require__(125);
+	var _httpResponseMessage = __webpack_require__(126);
 	
 	Object.defineProperty(exports, 'HttpResponseMessage', {
 	  enumerable: true,
@@ -4188,7 +4266,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _jsonpRequestMessage = __webpack_require__(127);
+	var _jsonpRequestMessage = __webpack_require__(128);
 	
 	Object.defineProperty(exports, 'JSONPRequestMessage', {
 	  enumerable: true,
@@ -4197,7 +4275,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _headers = __webpack_require__(120);
+	var _headers = __webpack_require__(121);
 	
 	Object.defineProperty(exports, 'Headers', {
 	  enumerable: true,
@@ -4206,7 +4284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _requestBuilder = __webpack_require__(121);
+	var _requestBuilder = __webpack_require__(122);
 	
 	Object.defineProperty(exports, 'RequestBuilder', {
 	  enumerable: true,
@@ -4216,7 +4294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4228,13 +4306,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.HttpClient = undefined;
 	
-	var _headers = __webpack_require__(120);
+	var _headers = __webpack_require__(121);
 	
-	var _requestBuilder = __webpack_require__(121);
+	var _requestBuilder = __webpack_require__(122);
 	
-	var _httpRequestMessage = __webpack_require__(123);
+	var _httpRequestMessage = __webpack_require__(124);
 	
-	var _jsonpRequestMessage = __webpack_require__(127);
+	var _jsonpRequestMessage = __webpack_require__(128);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4483,7 +4561,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4567,7 +4645,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4579,11 +4657,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.RequestBuilder = undefined;
 	
-	var _aureliaPath = __webpack_require__(122);
+	var _aureliaPath = __webpack_require__(123);
 	
-	var _httpRequestMessage = __webpack_require__(123);
+	var _httpRequestMessage = __webpack_require__(124);
 	
-	var _jsonpRequestMessage = __webpack_require__(127);
+	var _jsonpRequestMessage = __webpack_require__(128);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4760,7 +4838,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 122 */
+/* 123 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4920,7 +4998,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 123 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4931,11 +5009,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.HttpRequestMessage = undefined;
 	exports.createHttpRequestMessageProcessor = createHttpRequestMessageProcessor;
 	
-	var _headers = __webpack_require__(120);
+	var _headers = __webpack_require__(121);
 	
-	var _requestMessageProcessor = __webpack_require__(124);
+	var _requestMessageProcessor = __webpack_require__(125);
 	
-	var _transformers = __webpack_require__(126);
+	var _transformers = __webpack_require__(127);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4954,7 +5032,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 124 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4966,9 +5044,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.RequestMessageProcessor = undefined;
 	
-	var _httpResponseMessage = __webpack_require__(125);
+	var _httpResponseMessage = __webpack_require__(126);
 	
-	var _aureliaPath = __webpack_require__(122);
+	var _aureliaPath = __webpack_require__(123);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -5060,7 +5138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 125 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5072,7 +5150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.HttpResponseMessage = undefined;
 	
-	var _headers = __webpack_require__(120);
+	var _headers = __webpack_require__(121);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -5130,7 +5208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 126 */
+/* 127 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -5212,7 +5290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 127 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5225,11 +5303,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.JSONPRequestMessage = undefined;
 	exports.createJSONPRequestMessageProcessor = createJSONPRequestMessageProcessor;
 	
-	var _headers = __webpack_require__(120);
+	var _headers = __webpack_require__(121);
 	
-	var _requestMessageProcessor = __webpack_require__(124);
+	var _requestMessageProcessor = __webpack_require__(125);
 	
-	var _transformers = __webpack_require__(126);
+	var _transformers = __webpack_require__(127);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
