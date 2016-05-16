@@ -5,6 +5,7 @@
 - [Bugfix] Fix issue with numeric and boolean values `false` and `0` that could be ignored during REST API communication
 - [Security] Entity deletion request are now sent with `POST` HTTP verb to comply with REST API change
 - [Misc] Add tsling, edit consequently sources to fix all linting issues
+- [Misc] Bind `WakandaClient.version()` method to the version on `package.json`
 
 ## v0.3.1 - Beta
 
