@@ -1,4 +1,5 @@
 import Entity from './entity';
+import { DataClass } from './dataclass';
 import { QueryOption } from './query-option';
 declare class Collection {
     entities: Entity[];
@@ -14,8 +15,8 @@ declare class Collection {
     prevPage: () => Promise<Collection>;
     more: () => Promise<Collection>;
     constructor({deferred, dataClass}: {
-        deferred: any;
-        dataClass: any;
+        deferred: boolean;
+        dataClass: DataClass;
     });
 }
 export default Collection;

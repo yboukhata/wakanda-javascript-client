@@ -1,27 +1,27 @@
 import HttpResponse from './http-response';
 
-export interface RequestOption {
+export interface IRequestOption {
   uri: string;
 }
 
-export interface GetRequestOption extends RequestOption {
+export interface IGetRequestOption extends IRequestOption {
   params?: any;
 }
 
-export interface PostRequestOption extends RequestOption {
+export interface IPostRequestOption extends IRequestOption {
   data?: any;
   binary?: boolean;
 }
 
-export type RequestInterceptor<T extends RequestOption> = (options: T) => any;
+export type RequestInterceptor<T extends IRequestOption> = (options: T) => any;
 export type ResponseInterceptor = (requestUri: string, promise: Promise<HttpResponse>) => Promise<HttpResponse>;
 
 export abstract class HttpClient {
 
   public prefix: string;
-  
-  private _getRequestInterceptors: RequestInterceptor<GetRequestOption>[];
-  private _postRequestInterceptors: RequestInterceptor<PostRequestOption>[];
+
+  private _getRequestInterceptors: RequestInterceptor<IGetRequestOption>[];
+  private _postRequestInterceptors: RequestInterceptor<IPostRequestOption>[];
   private _getResponseInterceptors: ResponseInterceptor[];
   private _postResponseInterceptors: ResponseInterceptor[];
 
@@ -34,7 +34,7 @@ export abstract class HttpClient {
     this._postResponseInterceptors = [];
   }
 
-  public get(options: GetRequestOption): Promise<HttpResponse> {
+  public get(options: IGetRequestOption): Promise<HttpResponse> {
     for (let i = 0; i < this._getRequestInterceptors.length; i++) {
       let interceptor = this._getRequestInterceptors[i];
       let res = interceptor(options);
@@ -47,7 +47,7 @@ export abstract class HttpClient {
     return null;
   }
 
-  public post(options: PostRequestOption): Promise<HttpResponse> {
+  public post(options: IPostRequestOption): Promise<HttpResponse> {
     for (let i = 0; i < this._postRequestInterceptors.length; i++) {
       let interceptor = this._postRequestInterceptors[i];
       let res = interceptor(options);
@@ -59,37 +59,37 @@ export abstract class HttpClient {
 
     return null;
   }
-  
+
   /**
    * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
    */
-  protected responseGet(requestUri:string, promise: Promise<HttpResponse>): Promise<HttpResponse> {
+  protected responseGet(requestUri: string, promise: Promise<HttpResponse>): Promise<HttpResponse> {
     //Execute response interceptors
 
-    for(let interceptor of this._getResponseInterceptors) {
+    for (let interceptor of this._getResponseInterceptors) {
       let res = interceptor(requestUri, promise);
-      
+
       if (res) {
         return res;
       }
     }
-    
+
     return promise;
   }
-  
+
   /**
    * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
    */
   protected responsePost(requestUri: string, promise: Promise<HttpResponse>): Promise<HttpResponse> {
     //Execute response interceptors
-    for(let interceptor of this._postResponseInterceptors) {
+    for (let interceptor of this._postResponseInterceptors) {
       let res = interceptor(requestUri, promise);
-      
+
       if (res) {
         return res;
       }
     }
-    
+
     return promise;
   }
 
@@ -98,7 +98,7 @@ export abstract class HttpClient {
    * @param {function} callback - The interceptor function to execute before HTTP request. If it returns something different than null, the underlying HTTP request won't be executed
    * @returns {null|object} Returns null or an object, if an object is returned, the underlying HTTP request won't be executed
    */
-  public registerRequestInterceptor(type: string|string[], callback: RequestInterceptor<RequestOption>) {
+  public registerRequestInterceptor(type: string|string[], callback: RequestInterceptor<IRequestOption>) {
 
     let interceptorType = this._interceptorTypeToArray(type);
 
@@ -106,21 +106,21 @@ export abstract class HttpClient {
       if (t === 'get') {
         this._getRequestInterceptors.push(callback);
       }
-      else if(t === 'post') {
+      else if (t === 'post') {
         this._postRequestInterceptors.push(callback);
       }
     });
   }
-  
+
   public registerResponseInterceptor(type: string|string[], callback: ResponseInterceptor) {
-    
+
     let interceptorType = this._interceptorTypeToArray(type);
 
     interceptorType.forEach(t => {
       if (t === 'get') {
         this._getResponseInterceptors.push(callback);
       }
-      else if(t === 'post') {
+      else if (t === 'post') {
         this._postResponseInterceptors.push(callback);
       }
     });

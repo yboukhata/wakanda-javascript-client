@@ -10,17 +10,19 @@ class Collection {
   public _first: number;
   public _sent: number;
   public _pageSize: number;
-  
+
   [key: string]: any;
-  
+
+  /* tslint:disable */
   private _dataClass: DataClass;
-  
+  /* tslint:enable */
+
   public fetch: (options?: QueryOption) => Promise<Collection>;
   public nextPage: () => Promise<Collection>;
   public prevPage: () => Promise<Collection>;
   public more: () => Promise<Collection>;
-  
-  constructor({deferred, dataClass}) {
+
+  constructor({deferred, dataClass}: {deferred: boolean, dataClass: DataClass}) {
     this.entities = [];
     this._deferred = deferred === true;
 

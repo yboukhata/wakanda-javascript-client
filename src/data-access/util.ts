@@ -1,7 +1,7 @@
 import {QueryOption} from '../presentation/query-option';
 
 class Util {
-  static handleOptions(options: QueryOption) {
+  public static handleOptions(options: QueryOption) {
 
     if (!options) {
       return '';
@@ -18,7 +18,7 @@ class Util {
       emMethod
     } = options;
 
-    var ret = '?';
+    let ret = '?';
 
     if (select) {
       ret += '&$expand=' + select;
@@ -38,11 +38,11 @@ class Util {
       }
 
       if (params.length > 0) {
-        var p = '[';
+        let p = '[';
 
         for (let elt of params) {
           if (typeof elt === 'string') {
-            p += '\"' + elt + '\",'
+            p += '\"' + elt + '\",';
           }
           else {
             p += elt + ',';
@@ -72,9 +72,9 @@ class Util {
     }
 
     if (method) {
-      ret += '&$method=' + method
+      ret += '&$method=' + method;
     }
-    
+
     if (emMethod) {
       ret += '&$emMethod=' + emMethod;
     }
@@ -86,11 +86,11 @@ class Util {
     return ret === '?' ? '' : ret;
   }
 
-  static isInteger(n: any): boolean {
+  public static isInteger(n: any): boolean {
     return typeof n === 'number' && !isNaN(n) && (n % 1) === 0;
   }
 
-  static removeRestInfoFromEntity(entity: any): void {
+  public static removeRestInfoFromEntity(entity: any): void {
     for (let prop in entity) {
       if (Object.prototype.hasOwnProperty.call(entity, prop)) {
         let p = entity[prop];

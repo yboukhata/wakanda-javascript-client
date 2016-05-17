@@ -1,5 +1,13 @@
 # Wakanda Javascript Client
 
+## v0.3.2 - Beta
+
+- [Bugfix] Fix issue with numeric and boolean values `false` and `0` that could be ignored during REST API communication
+- [Bugfix] Correct issue with `Date` objects used on `query()` options
+- [Security] Entity deletion request are now sent with `POST` HTTP verb to comply with REST API change
+- [Misc] Add tslint, edit consequently sources to fix all linting issues
+- [Misc] Bind `WakandaClient.version()` method to the version on `package.json`
+
 ## v0.3.1 - Beta
 
 - [Bugfix] Fix issue with missing dependencies on `package.json`
@@ -9,7 +17,7 @@
 - [Refactoring] Split up data access layer into two layers of service: a "base" one that is totally stateless, another that can carry some information about the handled data
 - [Feature] Exposes the base services on built module
 - [Misc] Rework CommonJS exposed module
-- [Misc] Clean declaration file for TypeScript 
+- [Misc] Clean declaration file for TypeScript
 
 ## v0.2.0 - Beta
 

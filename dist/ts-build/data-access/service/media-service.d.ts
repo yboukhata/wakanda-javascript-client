@@ -1,5 +1,9 @@
+import WakandaClient from '../../wakanda-client';
 import AbstractService from './abstract-service';
+import Media from '../../presentation/media';
 import HttpResponse from '../http/http-response';
+import MediaBusiness from '../../business/media-business';
+import DataClassBusiness from '../../business/dataclass-business';
 declare class MediaService extends AbstractService {
     private dataClassName;
     private entity;
@@ -7,11 +11,11 @@ declare class MediaService extends AbstractService {
     private media;
     private attributeName;
     constructor({wakJSC, mediaBusiness, media, attributeName, dataClassBusiness}: {
-        wakJSC: any;
-        mediaBusiness: any;
-        media: any;
-        attributeName: any;
-        dataClassBusiness: any;
+        wakJSC: WakandaClient;
+        mediaBusiness: MediaBusiness;
+        media: Media;
+        attributeName: string;
+        dataClassBusiness: DataClassBusiness;
     });
     upload(file: any, mimeType: string): Promise<HttpResponse>;
     delete(): Promise<HttpResponse>;

@@ -3,21 +3,22 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Product/$entityset/9D6ED65306914E74B96F79C078838ED9",
+    "__ENTITYSET": "/rest/Product/$entityset/3D4AFA3FF5944CEC85BFBBD61B0CE350",
     "__entityModel": "Product",
     "__COUNT": 26,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "839",
-        "__STAMP": 105,
-        "ID": 839,
+        "__KEY": "1077",
+        "__STAMP": 97,
+        "ID": 1077,
         "name": null,
         "myBoolean": true,
         "born": null,
         "spec": null,
-        "photo": null
+        "photo": null,
+        "myNumber": null
       }
     ]
   },

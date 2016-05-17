@@ -1,6 +1,6 @@
 import HttpClient from '../../http/http-client';
 import {QueryOption} from '../../../presentation/query-option';
-import {CollectionDBO} from '../../../business/collection-business';
+import {ICollectionDBO} from '../../../business/collection-business';
 import Util from '../../util';
 
 export interface IBaseParams {
@@ -13,24 +13,24 @@ export interface IFetchParams extends IBaseParams {
   options: QueryOption;
 }
 
-export interface ICallMethod extends IBaseParams {
+export interface ICallMethodParams extends IBaseParams {
   methodName: string;
   parameters: any[];
 }
 
 export class CollectionBaseService {
-  
+
   public static fetch({httpClient, collectionUri, isEntitySet, options}: IFetchParams) {
-    
+
     if (!isEntitySet) {
-      if(options.select && options.select.length > 0) {
+      if (options.select && options.select.length > 0) {
         throw new Error('Collection.fetch: option select is not allowed when collection is deferred');
       }
     }
 
     options.method = 'subentityset';
 
-    var optString = Util.handleOptions(options);
+    let optString = Util.handleOptions(options);
 
     //Remove the first ? on optString if it's not an entitySet (because there is also
     //?$expand=... on collectionUri), and add a &
@@ -53,15 +53,15 @@ export class CollectionBaseService {
         Util.removeRestInfoFromEntity(entity);
       }
 
-      return obj as CollectionDBO;
+      return obj as ICollectionDBO;
     });
   }
-  
-  public static callMethod({httpClient, collectionUri, isEntitySet, methodName, parameters}) {
+
+  public static callMethod({httpClient, collectionUri, isEntitySet, methodName, parameters}: ICallMethodParams) {
     //Two cases. If it's an entity set, just call the method
     //If not, call it with emMethod and subentityset parameters
     let uri = this._removeRestFromUri(collectionUri);
-    
+
     if (isEntitySet) {
       uri += '/' + methodName;
     }
@@ -70,10 +70,10 @@ export class CollectionBaseService {
         method: 'subentityset',
         emMethod: methodName
       });
-      
+
       uri += '&' + optString.slice(1);
     }
-    
+
     return httpClient.post({
         uri,
         data: parameters
@@ -82,12 +82,12 @@ export class CollectionBaseService {
         return obj.result || obj || null;
       });
   }
-  
+
   private static _removeRestFromUri(uri: string) {
     return uri.slice(5);
   }
 }
 
-export function isEntitySetUri(uri: string) {
+export function isEntitySetUri(uri: string): boolean {
   return /^\/rest\/\w+\/\$entityset\/[A-Z0-9]+(\?.*)?$/i.test(uri);
 }

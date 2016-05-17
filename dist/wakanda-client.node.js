@@ -7,7 +7,7 @@
 		exports["WakandaClient"] = factory(require("request"));
 	else
 		root["WakandaClient"] = factory(root["request"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_32__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_33__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -64,7 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	var wakanda_client_1 = __webpack_require__(2);
 	exports.WakandaClient = wakanda_client_1.default;
-	var node_http_client_1 = __webpack_require__(31);
+	var node_http_client_1 = __webpack_require__(32);
 	var catalog_base_service_1 = __webpack_require__(7);
 	exports.CatalogBaseService = catalog_base_service_1.CatalogBaseService;
 	var collection_base_service_1 = __webpack_require__(21);
@@ -89,6 +89,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var directory_business_1 = __webpack_require__(28);
 	var entity_1 = __webpack_require__(15);
 	var collection_1 = __webpack_require__(26);
+	var packageOptions = __webpack_require__(31);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -127,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return catalogBusiness.get(dataClasses);
 	    };
 	    WakandaClient.prototype.version = function () {
-	        return '0.2.0';
+	        return packageOptions.version;
 	    };
 	    return WakandaClient;
 	}());
@@ -504,12 +505,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    DataClassBusiness.prototype._addUserDefinedMethods = function () {
 	        var _this = this;
-	        var _this_ = this;
+	        var self = this;
 	        this.methods.dataClass.forEach(function (method) {
 	            //Voluntary don't use fat arrow notation to use arguments object without a bug
 	            _this.dataClass[method] = function () {
 	                var params = Array.from(arguments);
-	                return _this_.callMethod(method, params);
+	                return self.callMethod(method, params);
 	            };
 	        });
 	    };
@@ -639,7 +640,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            for (var _i = 0, _b = this.dataClass.attributes; _i < _b.length; _i++) {
 	                var attr = _b[_i];
 	                var dboAttribute = dbo[attr.name];
-	                if (dboAttribute) {
+	                if (dboAttribute !== null && dboAttribute !== undefined) {
 	                    if (attr instanceof dataclass_1.AttributeRelated) {
 	                        //Kind of recursive call with a potententialy different instance of
 	                        //DataClassBusiness
@@ -655,7 +656,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        });
 	                    }
 	                    else if (attr.type === 'image' || attr.type === 'blob') {
-	                        var uri;
+	                        var uri = void 0;
 	                        if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
 	                            uri = dboAttribute.__deferred.uri;
 	                        }
@@ -670,7 +671,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        });
 	                    }
 	                    else {
-	                        entity[attr.name] = dboAttribute || null;
+	                        entity[attr.name] = dboAttribute;
 	                    }
 	                }
 	                else {
@@ -767,12 +768,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EntityBusiness.prototype._addUserDefinedMethods = function () {
 	        var _this = this;
-	        var _this_ = this;
+	        var self = this;
 	        this.dataClassBusiness.methods.entity.forEach(function (method) {
 	            //Voluntary don't use fat arrow notation to use arguments object without a bug
 	            _this.entity[method] = function () {
 	                var params = Array.from(arguments);
-	                return _this_.callMethod(method, params);
+	                return self.callMethod(method, params);
 	            };
 	        });
 	    };
@@ -846,7 +847,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
 	            var attr = _a[_i];
-	            var objAttr = this.entity[attr.name] || null;
+	            var objAttr = this.entity[attr.name];
+	            if (objAttr === undefined) {
+	                objAttr = null;
+	            }
 	            if (attr instanceof dataclass_1.AttributeRelated) {
 	                data[attr.name] = objAttr ? objAttr._key : null;
 	            }
@@ -992,7 +996,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    EntityBaseService.delete = function (_a) {
 	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, entityKey = _a.entityKey;
-	        return httpClient.get({
+	        return httpClient.post({
 	            uri: '/' + dataClassName + '(' + entityKey + ')?$method=delete'
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
@@ -1101,8 +1105,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	var Entity = (function () {
 	    function Entity(_a) {
-	        var key = _a.key, deferred = _a.deferred, dataClass = _a.dataClass;
-	        this._key = key;
+	        var entityKey = _a.key, deferred = _a.deferred, dataClass = _a.dataClass;
+	        this._key = entityKey;
 	        this._deferred = deferred === true;
 	        Object.defineProperty(this, '_dataClass', {
 	            enumerable: false,
@@ -1228,6 +1232,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    DataClassBaseService.query = function (_a) {
 	        var httpClient = _a.httpClient, options = _a.options, dataClassName = _a.dataClassName;
 	        options.method = 'entityset';
+	        if (Array.isArray(options.params)) {
+	            options.params = this._sanitizeOptionParams(options.params);
+	        }
 	        var optString = util_1.default.handleOptions(options);
 	        return httpClient.get({
 	            uri: '/' + dataClassName + optString
@@ -1249,6 +1256,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
 	            return obj.result || obj || null;
+	        });
+	    };
+	    DataClassBaseService._sanitizeOptionParams = function (params) {
+	        return params.map(function (element) {
+	            if (element instanceof Date) {
+	                return element.toISOString();
+	            }
+	            else {
+	                return element;
+	            }
 	        });
 	    };
 	    return DataClassBaseService;
@@ -1307,9 +1324,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.initialSelect = opt.select;
 	        }
 	        this.pageSize = opt.pageSize;
-	        return this.service.fetch(opt).then(function (collectionDbo) {
+	        return this.service.fetch(opt).then(function (collectionDBO) {
 	            var fresherCollection = _this.dataClassBusiness._presentationCollectionFromDbo({
-	                dbo: collectionDbo,
+	                dbo: collectionDBO,
 	                pageSize: _this.pageSize
 	            });
 	            _this._refreshCollection({ fresherCollection: fresherCollection });
@@ -1368,12 +1385,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    CollectionBusiness.prototype._addUserDefinedMethods = function () {
 	        var _this = this;
-	        var _this_ = this;
+	        var self = this;
 	        this.dataClassBusiness.methods.collection.forEach(function (method) {
 	            //Voluntary don't use fat arrow notation to use arguments object without a bug
 	            _this.collection[method] = function () {
 	                var params = Array.from(arguments);
-	                return _this_.callMethod(method, params);
+	                return self.callMethod(method, params);
 	            };
 	        });
 	    };
@@ -1910,6 +1927,83 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 31 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"name": "wakanda-client",
+		"main": "dist/wakanda-client.node.js",
+		"version": "0.3.2",
+		"description": "Wakanda Client allows you to easily interact with Wakanda Server on a JavaScript (browser or node) environment",
+		"typings": "dist/wakanda-client.d.ts",
+		"browser": "dist/wakanda-client.min.js",
+		"repository": "wakanda/wakanda-javascript-client",
+		"scripts": {
+			"webpack-watch": "node ./node_modules/webpack/bin/webpack.js --progress --colors --watch",
+			"webpack-build": "node ./node_modules/webpack/bin/webpack.js --progress --colors",
+			"webpack-build:ci": "node ./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.ci.js",
+			"webpack-build:prod": "node ./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.prod.js",
+			"test:karma:single": "node ./node_modules/karma/bin/karma start",
+			"test:karma:full": "npm run webpack-build && npm run test:karma:single",
+			"test:node:single": "http_proxy=\"\" node ./node_modules/mocha/bin/mocha test/bootstrap.js test/spec/**/*.spec.js",
+			"test:node:full": "npm run webpack-build && npm run test:node:single",
+			"test-single": "./test.sh single",
+			"test": "./test.sh",
+			"test-server:start": "node test/connect/server.js & echo $! > testserver.pid && sleep 1",
+			"test-server:stop": "kill `cat testserver.pid` && rm testserver.pid",
+			"test-server:record": "node test/connect/server.js record & echo $! > testserver.pid",
+			"test-server:init": "rm -rf test/connect/mocks && npm run test-server:record && npm run webpack-build && npm run test:node:single && npm run test:karma:single && npm run test-server:stop",
+			"codecov": "cat coverage/*/lcov.info | codecov",
+			"tsc": "node ./node_modules/typescript/bin/tsc",
+			"serve": "node ./node_modules/.bin/concurrently -r \"npm run webpack-watch\" \"node ./node_modules/.bin/gulp serve\""
+		},
+		"author": "Wakanda SAS",
+		"license": "MIT",
+		"devDependencies": {
+			"babel-core": "^6.3.17",
+			"babel-loader": "^6.2.0",
+			"babel-polyfill": "^6.3.14",
+			"babel-preset-es2015": "^6.3.13",
+			"body-parser": "^1.14.2",
+			"chai": "^3.4.1",
+			"chalk": "^1.1.1",
+			"codecov.io": "^0.1.6",
+			"concurrently": "^2.0.0",
+			"connect": "^3.4.0",
+			"connect-prism": "mrblackus/connect-prism",
+			"eslint": "^1.10.3",
+			"eslint-loader": "^1.2.0",
+			"express": "^4.13.3",
+			"grunt": "^0.4.5",
+			"gulp": "^3.9.0",
+			"gulp-connect": "^2.2.0",
+			"http-proxy-middleware": "^0.9.0",
+			"isparta": "^4.0.0",
+			"isparta-loader": "^2.0.0",
+			"json-loader": "^0.5.4",
+			"karma": "^0.13.15",
+			"karma-chai": "^0.1.0",
+			"karma-coverage": "^0.5.3",
+			"karma-mocha": "^0.2.1",
+			"karma-phantomjs-launcher": "^0.2.1",
+			"karma-verbose-reporter": "0.0.3",
+			"mocha": "^2.3.4",
+			"path": "^0.12.7",
+			"phantomjs": "^1.9.19",
+			"serve-static": "^1.10.2",
+			"ts-loader": "^0.8.1",
+			"tslint": "^3.9.0",
+			"tslint-loader": "^2.1.4",
+			"typescript": "^1.8.10",
+			"webpack": "^1.12.15"
+		},
+		"dependencies": {
+			"core-js": "^2.1.2",
+			"request": "^2.67.0"
+		}
+	};
+
+/***/ },
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1918,9 +2012,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var request = __webpack_require__(32);
-	var http_client_1 = __webpack_require__(33);
-	var http_response_1 = __webpack_require__(34);
+	var request = __webpack_require__(33);
+	var http_client_1 = __webpack_require__(34);
+	var http_response_1 = __webpack_require__(35);
 	var NodeHttpClient = (function (_super) {
 	    __extends(NodeHttpClient, _super);
 	    function NodeHttpClient(_a) {
@@ -2012,13 +2106,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = require("request");
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2146,7 +2240,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	"use strict";

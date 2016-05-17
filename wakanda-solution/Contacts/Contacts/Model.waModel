@@ -31,8 +31,8 @@
 					"isOpen": "true",
 					"pathVisible": true,
 					"position": {
-						"X": 747,
-						"Y": 35
+						"X": 863,
+						"Y": 55
 					}
 				}
 			}
@@ -314,6 +314,12 @@
 					"kind": "storage",
 					"scope": "public",
 					"type": "image"
+				},
+				{
+					"name": "myNumber",
+					"scope": "public",
+					"type": "number",
+					"kind": "storage"
 				}
 			],
 			"events": [
@@ -352,5 +358,6 @@
 				}
 			]
 		}
-	]
+	],
+	"type": []
 }

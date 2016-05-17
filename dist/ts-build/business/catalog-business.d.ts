@@ -1,6 +1,6 @@
 import AbstractBusiness from './abstract-business';
 import Catalog from '../presentation/catalog';
-export interface DataClassDBO {
+export interface IDataClassDBO {
     name: string;
     collectionName: string;
     attributes: {

@@ -1,24 +1,25 @@
+import WakandaClient from '../wakanda-client';
 import AbstractBusiness from './abstract-business';
 import DirectoryService from '../data-access/service/directory-service';
 import Const from '../const';
 
-export interface CurrentUserDBO {
+export interface ICurrentUserDBO {
   userName: string;
   fullName: string;
   ID: string|number;
 }
 
 class DirectoryBusiness extends AbstractBusiness {
-  
+
   private service: DirectoryService;
-  
-  constructor({wakJSC}) {
+
+  constructor({wakJSC}: {wakJSC: WakandaClient}) {
     super({wakJSC});
 
     this.service = new DirectoryService({wakJSC});
   }
 
-  login(username: string, password: string, duration?: number): Promise<boolean> {
+  public login(username: string, password: string, duration?: number): Promise<boolean> {
 
     let durationTime = duration || Const.DEFAULT_SESSION_DURATION;
 
@@ -32,24 +33,24 @@ class DirectoryBusiness extends AbstractBusiness {
       });
   }
 
-  logout(): Promise<boolean> {
+  public logout(): Promise<boolean> {
     return this.service.logout()
       .catch(() => {
         return Promise.reject(new Error('Directory.logout: logout failed'));
       });
   }
 
-  currentUser(): Promise<CurrentUserDBO> {
+  public currentUser(): Promise<ICurrentUserDBO> {
     return this.service.currentUser()
       .then(dbo => {
         return dbo;
       })
       .catch(() => {
-        return Promise.reject(new Error('Directory.currentUser: user is not logged in'))
+        return Promise.reject(new Error('Directory.currentUser: user is not logged in'));
       });
   }
 
-  currentUserBelongsTo(group: string): Promise<boolean> {
+  public currentUserBelongsTo(group: string): Promise<boolean> {
 
     if (!(typeof group === 'string')) {
       throw new Error('Directory.currentUserBelongsTo: group must be a string');

@@ -1,6 +1,6 @@
 const request: any = require('request');
 
-import {HttpClient, GetRequestOption, PostRequestOption} from './http-client';
+import {HttpClient, IGetRequestOption, IPostRequestOption} from './http-client';
 import HttpResponse from './http-response';
 
 class NodeHttpClient extends HttpClient {
@@ -8,18 +8,18 @@ class NodeHttpClient extends HttpClient {
   private request: any;
   private cookieJar: any;
 
-  constructor({apiPrefix}) {
+  constructor({apiPrefix}: {apiPrefix: string}) {
     super({apiPrefix});
-    
+
     this.request = request;
     this.cookieJar = this.request.jar();
   }
 
-  _clearCookie(): void {
+  public _clearCookie(): void {
     this.cookieJar = this.request.jar();
   }
 
-  get({uri, params}: GetRequestOption): Promise<HttpResponse> {
+  public get({uri, params}: IGetRequestOption): Promise<HttpResponse> {
     try {
       let res = super.get({uri, params});
       if (res !== null) {
@@ -34,7 +34,7 @@ class NodeHttpClient extends HttpClient {
     return super.responseGet(uri, result);
   }
 
-  _getWithoutInterceptor({uri, params}: GetRequestOption): Promise<HttpResponse> {
+  private _getWithoutInterceptor({uri, params}: IGetRequestOption): Promise<HttpResponse> {
     let options = {
       url: this.prefix + uri,
       method: 'GET',
@@ -45,7 +45,7 @@ class NodeHttpClient extends HttpClient {
     return this._httpResponseAdaptor({requestOptions: options});
   }
 
-  post({uri, data, binary}: PostRequestOption): Promise<HttpResponse> {
+  public post({uri, data, binary}: IPostRequestOption): Promise<HttpResponse> {
     try {
       let res = super.post({uri, data, binary});
       if (res !== null) {
@@ -71,7 +71,7 @@ class NodeHttpClient extends HttpClient {
         options.form = JSON.stringify(data);
       }
     }
-    catch(e) {
+    catch (e) {
       return <any>Promise.reject(e);
     }
 
@@ -79,7 +79,7 @@ class NodeHttpClient extends HttpClient {
     return super.responsePost(uri, result);
   }
 
-  _httpResponseAdaptor({requestOptions}): Promise<HttpResponse> {
+  private _httpResponseAdaptor({requestOptions}: any): Promise<HttpResponse> {
     return new Promise((resolve, reject) => {
       this.request(requestOptions, (error: any, response: any, body: string) => {
         if (error || response.statusCode >= 400) {

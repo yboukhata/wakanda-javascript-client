@@ -3,22 +3,25 @@ import MediaService from '../data-access/service/media-service';
 import Media from '../presentation/media';
 import Entity from '../presentation/entity';
 import DataClassBusiness from './dataclass-business';
+import WakandaClient from '../wakanda-client';
 
 class MediaBusiness extends AbstractBusiness {
-    
+
+  public entity: Entity;
+  public isImage: boolean;
+
   private media: Media;
-  private entity: Entity;
   private dataClassBusiness: DataClassBusiness;
-  private isImage: boolean;
   private service: MediaService;
-  
-  constructor({wakJSC, media, dataClassBusiness, isImage, attributeName, entity}) {
+
+  constructor({wakJSC, media, dataClassBusiness, isImage, attributeName, entity}:
+  {wakJSC: WakandaClient, media: Media, dataClassBusiness: DataClassBusiness, isImage: boolean, attributeName: string, entity: Entity}) {
     super({wakJSC});
 
     this.media = media;
     this.entity = entity;
     this.dataClassBusiness = dataClassBusiness;
-    this.isImage = isImage === true
+    this.isImage = isImage === true;
     this.service = new MediaService({
       wakJSC,
       mediaBusiness: this,
@@ -28,12 +31,12 @@ class MediaBusiness extends AbstractBusiness {
     });
   }
 
-  _decorateMedia() {
+  public _decorateMedia() {
     this.media.upload = this.upload.bind(this);
     this.media.delete = this.delete.bind(this);
   }
 
-  upload(file: any): Promise<Entity> {
+  public upload(file: any): Promise<Entity> {
 
     if (!this.entity._key) {
       throw new Error('Media.upload: entity must be saved before uploading a media');
@@ -47,7 +50,7 @@ class MediaBusiness extends AbstractBusiness {
     });
   }
 
-  delete(): Promise<Entity> {
+  public delete(): Promise<Entity> {
 
     if (!this.entity._key) {
       throw new Error('Media.upload: entity must be saved before deleting a media');

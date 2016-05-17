@@ -1,17 +1,15 @@
-import { HttpClient, GetRequestOption, PostRequestOption } from './http-client';
+import { HttpClient, IGetRequestOption, IPostRequestOption } from './http-client';
 import HttpResponse from './http-response';
 declare class NodeHttpClient extends HttpClient {
     private request;
     private cookieJar;
     constructor({apiPrefix}: {
-        apiPrefix: any;
+        apiPrefix: string;
     });
     _clearCookie(): void;
-    get({uri, params}: GetRequestOption): Promise<HttpResponse>;
-    _getWithoutInterceptor({uri, params}: GetRequestOption): Promise<HttpResponse>;
-    post({uri, data, binary}: PostRequestOption): Promise<HttpResponse>;
-    _httpResponseAdaptor({requestOptions}: {
-        requestOptions: any;
-    }): Promise<HttpResponse>;
+    get({uri, params}: IGetRequestOption): Promise<HttpResponse>;
+    private _getWithoutInterceptor({uri, params});
+    post({uri, data, binary}: IPostRequestOption): Promise<HttpResponse>;
+    private _httpResponseAdaptor({requestOptions});
 }
 export default NodeHttpClient;

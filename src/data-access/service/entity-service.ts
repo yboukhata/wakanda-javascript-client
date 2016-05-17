@@ -1,23 +1,24 @@
 import AbstractService from './abstract-service';
-import Util from '../util';
 import Entity from '../../presentation/entity';
 import {DataClass} from '../../presentation/dataclass';
-import {EntityDBO} from '../../business/entity-business';
+import {IEntityDBO} from '../../business/entity-business';
 import {EntityBaseService} from './base/entity-base-service';
+import WakandaClient from '../../wakanda-client';
 
 class EntityService extends AbstractService {
-  
+
   private entity: Entity;
   private dataClass: DataClass;
-  
-  constructor({wakJSC, entity, dataClass}) {
+
+  constructor({wakJSC, entity, dataClass}:
+  {wakJSC: WakandaClient, entity: Entity, dataClass: DataClass}) {
     super({wakJSC});
 
     this.entity = entity;
     this.dataClass = dataClass;
   }
 
-  save(data: EntityDBO, expand: string) {
+  public save(data: IEntityDBO, expand: string) {
     return EntityBaseService.save({
       httpClient: this.httpClient,
       dataClassName: this.dataClass.name,
@@ -25,8 +26,8 @@ class EntityService extends AbstractService {
       data
     });
   }
-  
-  recompute(data: EntityDBO) {
+
+  public recompute(data: IEntityDBO) {
    return EntityBaseService.recompute({
       httpClient: this.httpClient,
       dataClassName: this.dataClass.name,
@@ -34,7 +35,7 @@ class EntityService extends AbstractService {
     });
   }
 
-  callMethod(methodName: string, parameters: any[]) {
+  public callMethod(methodName: string, parameters: any[]) {
     return EntityBaseService.callMethod({
       httpClient: this.httpClient,
       dataClassName: this.dataClass.name,
@@ -44,7 +45,7 @@ class EntityService extends AbstractService {
     });
   }
 
-  delete() {
+  public delete() {
     return EntityBaseService.delete({
       httpClient: this.httpClient,
       dataClassName: this.dataClass.name,

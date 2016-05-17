@@ -7,26 +7,28 @@ import Catalog from './presentation/catalog';
 import BrowserHttpClient from './data-access/http/browser-http-client';
 import NodeHttpClient from './data-access/http/node-http-client';
 
-export interface Directory {
+const packageOptions: any = require('../package.json');
+
+export interface IDirectory {
   login(username: string, password: string, duration?: number): Promise<boolean>;
   logout(): Promise<boolean>;
   currentUser(): Promise<any>;
   currentUserBelongsTo(groupName: string): Promise<boolean>;
 }
 
-export interface Helper {
+export interface IHelper {
   isEntity(object: any): boolean;
   isCollection(object: any): boolean;
 }
 
 class WakandaClient {
-  
+
   public static HttpClient: typeof BrowserHttpClient|typeof NodeHttpClient;
-  
+
   public _httpClient: HttpClient;
-  public directory: Directory;
-  public helper: Helper;
-  
+  public directory: IDirectory;
+  public helper: IHelper;
+
   constructor(host?: string) {
     this._httpClient = new WakandaClient.HttpClient({
       apiPrefix: (host || '') + '/rest'
@@ -61,7 +63,7 @@ class WakandaClient {
     };
   }
 
-  getCatalog(dataClasses?: string[]): Promise<Catalog> {
+  public getCatalog(dataClasses?: string[]): Promise<Catalog> {
     let catalogBusiness = new CatalogBusiness({
       wakJSC: this
     });
@@ -69,8 +71,8 @@ class WakandaClient {
     return catalogBusiness.get(dataClasses);
   }
 
-  version(): string {
-    return '0.2.0';
+  public version(): string {
+    return packageOptions.version;
   }
 }
 

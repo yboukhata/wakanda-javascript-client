@@ -1,15 +1,15 @@
 import HttpResponse from './http-response';
-export interface RequestOption {
+export interface IRequestOption {
     uri: string;
 }
-export interface GetRequestOption extends RequestOption {
+export interface IGetRequestOption extends IRequestOption {
     params?: any;
 }
-export interface PostRequestOption extends RequestOption {
+export interface IPostRequestOption extends IRequestOption {
     data?: any;
     binary?: boolean;
 }
-export declare type RequestInterceptor<T extends RequestOption> = (options: T) => any;
+export declare type RequestInterceptor<T extends IRequestOption> = (options: T) => any;
 export declare type ResponseInterceptor = (requestUri: string, promise: Promise<HttpResponse>) => Promise<HttpResponse>;
 export declare abstract class HttpClient {
     prefix: string;
@@ -20,8 +20,8 @@ export declare abstract class HttpClient {
     constructor({apiPrefix}: {
         apiPrefix: string;
     });
-    get(options: GetRequestOption): Promise<HttpResponse>;
-    post(options: PostRequestOption): Promise<HttpResponse>;
+    get(options: IGetRequestOption): Promise<HttpResponse>;
+    post(options: IPostRequestOption): Promise<HttpResponse>;
     /**
      * @return {Promise} Returns either the underlying HTTP request result, or the promise returned by the interceptor if any
      */
@@ -35,7 +35,7 @@ export declare abstract class HttpClient {
      * @param {function} callback - The interceptor function to execute before HTTP request. If it returns something different than null, the underlying HTTP request won't be executed
      * @returns {null|object} Returns null or an object, if an object is returned, the underlying HTTP request won't be executed
      */
-    registerRequestInterceptor(type: string | string[], callback: RequestInterceptor<RequestOption>): void;
+    registerRequestInterceptor(type: string | string[], callback: RequestInterceptor<IRequestOption>): void;
     registerResponseInterceptor(type: string | string[], callback: ResponseInterceptor): void;
     private _interceptorTypeToArray(type);
     private _isValidInterceptorType(type);
