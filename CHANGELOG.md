@@ -1,5 +1,9 @@
 # Wakanda Javascript Client
 
+## v0.3.3 - Beta
+
+- [Bugfix] Fix an issue with `login()` method that could fail when CORS was enabled on Wakanda Server
+
 ## v0.3.2 - Beta
 
 - [Bugfix] Fix issue with numeric and boolean values `false` and `0` that could be ignored during REST API communication
