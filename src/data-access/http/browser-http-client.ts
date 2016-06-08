@@ -30,6 +30,7 @@ class BrowserHttpClient extends HttpClient {
   private _getWithoutInterceptor({uri}: IGetRequestOption): Promise<HttpResponse> {
     let request = this.client.createRequest(this.prefix + uri)
       .asGet()
+      .withCredentials(true)
       .send();
 
     return this._httpResponseAdaptor({request});
@@ -49,6 +50,7 @@ class BrowserHttpClient extends HttpClient {
     let request = this.client.createRequest(this.prefix + uri)
       .asPost()
       .withContent(data)
+      .withCredentials(true)
       .send();
 
     let result = this._httpResponseAdaptor({request});
