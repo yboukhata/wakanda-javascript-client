@@ -1,5 +1,9 @@
 # Wakanda Javascript Client
 
+## v0.3.4 - Beta
+
+- [Bugfix] Fix issue No CustomEvent polyfill in WakandaClient causing bug in IE9
+
 ## v0.3.3 - Beta
 
 - [Bugfix] Fix an issue with `login()` method that could fail when CORS was enabled on Wakanda Server
