@@ -348,36 +348,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .then(function (res) {
 	            var catalog = [];
 	            var rawObj = JSON.parse(res.body);
-	            for (var _i = 0, _a = rawObj.dataClasses; _i < _a.length; _i++) {
-	                var d = _a[_i];
-	                var attributes = [];
-	                if (d.attributes) {
-	                    for (var _b = 0, _c = d.attributes; _b < _c.length; _b++) {
-	                        var attr = _c[_b];
-	                        attributes.push({
-	                            name: attr.name,
-	                            kind: attr.kind,
-	                            type: attr.type,
-	                            readOnly: attr.readOnly
-	                        });
+	            if (rawObj.dataClasses) {
+	                for (var _i = 0, _a = rawObj.dataClasses; _i < _a.length; _i++) {
+	                    var d = _a[_i];
+	                    var attributes = [];
+	                    if (d.attributes) {
+	                        for (var _b = 0, _c = d.attributes; _b < _c.length; _b++) {
+	                            var attr = _c[_b];
+	                            attributes.push({
+	                                name: attr.name,
+	                                kind: attr.kind,
+	                                type: attr.type,
+	                                readOnly: attr.readOnly
+	                            });
+	                        }
 	                    }
-	                }
-	                var methods = [];
-	                if (d.methods) {
-	                    for (var _d = 0, _e = d.methods; _d < _e.length; _d++) {
-	                        var m = _e[_d];
-	                        methods.push({
-	                            name: m.name,
-	                            applyTo: m.applyTo
-	                        });
+	                    var methods = [];
+	                    if (d.methods) {
+	                        for (var _d = 0, _e = d.methods; _d < _e.length; _d++) {
+	                            var m = _e[_d];
+	                            methods.push({
+	                                name: m.name,
+	                                applyTo: m.applyTo
+	                            });
+	                        }
 	                    }
+	                    catalog.push({
+	                        name: d.name,
+	                        collectionName: d.collectionName,
+	                        attributes: attributes,
+	                        methods: methods
+	                    });
 	                }
-	                catalog.push({
-	                    name: d.name,
-	                    collectionName: d.collectionName,
-	                    attributes: attributes,
-	                    methods: methods
-	                });
 	            }
 	            return catalog;
 	        });
@@ -1932,7 +1934,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = {
 		"name": "wakanda-client",
 		"main": "dist/wakanda-client.node.js",
-		"version": "0.3.4",
+		"version": "0.3.5",
 		"description": "Wakanda Client allows you to easily interact with Wakanda Server on a JavaScript (browser or node) environment",
 		"typings": "dist/wakanda-client.d.ts",
 		"browser": "dist/wakanda-client.min.js",
