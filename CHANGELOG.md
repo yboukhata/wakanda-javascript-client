@@ -1,5 +1,9 @@
 # Wakanda Javascript Client
 
+## v0.3.5 - Beta
+
+- [Bugfix] Fix issue while calling `getCatalog()` with an empty data model
+
 ## v0.3.4 - Beta
 
 - [Bugfix] Fix issue No CustomEvent polyfill in WakandaClient causing bug in IE9
