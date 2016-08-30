@@ -1,5 +1,9 @@
 # Wakanda Javascript Client
 
+## v0.3.6 - Beta
+
+- [Bugfix] Fix bug getting related entities DataClass name
+
 ## v0.3.5 - Beta
 
 - [Bugfix] Fix issue while calling `getCatalog()` with an empty data model
