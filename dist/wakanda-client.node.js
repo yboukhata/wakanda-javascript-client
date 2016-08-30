@@ -172,8 +172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            for (var _i = 0, dataClassDBOArray_1 = dataClassDBOArray; _i < dataClassDBOArray_1.length; _i++) {
 	                var dcDBO = dataClassDBOArray_1[_i];
 	                var attributes = [];
-	                for (var _a = 0, _b = dcDBO.attributes; _a < _b.length; _a++) {
-	                    var attr = _b[_a];
+	                var _loop_1 = function(attr) {
 	                    switch (attr.kind) {
 	                        case 'relatedEntity':
 	                            attributes.push(new dataclass_1.AttributeRelated({
@@ -195,10 +194,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            }));
 	                            break;
 	                        case 'relatedEntities':
+	                            var entityType_1;
+	                            dataClassDBOArray.some(function (_dataClass) {
+	                                if (_dataClass.collectionName === attr.type) {
+	                                    entityType_1 = _dataClass.name;
+	                                    return true;
+	                                }
+	                            });
 	                            var attrCollection = new dataclass_1.AttributeCollection({
 	                                name: attr.name,
 	                                type: attr.type,
-	                                kind: attr.kind
+	                                kind: attr.kind,
+	                                entityType: entityType_1
 	                            });
 	                            attributes.push(attrCollection);
 	                            _this.needDataClass(attrCollection.entityType);
@@ -206,6 +213,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        default:
 	                            throw new Error('[WakandaClient] Unhandled ' + attr.kind + ' attribute type');
 	                    }
+	                };
+	                for (var _a = 0, _b = dcDBO.attributes; _a < _b.length; _a++) {
+	                    var attr = _b[_a];
+	                    _loop_1(attr);
 	                }
 	                var methods = {
 	                    entity: [],
@@ -451,9 +462,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var AttributeCollection = (function (_super) {
 	    __extends(AttributeCollection, _super);
 	    function AttributeCollection(_a) {
-	        var name = _a.name, type = _a.type, readOnly = _a.readOnly, kind = _a.kind;
+	        var name = _a.name, type = _a.type, readOnly = _a.readOnly, kind = _a.kind, entityType = _a.entityType;
 	        _super.call(this, { name: name, type: type, readOnly: readOnly, kind: kind });
-	        this.entityType = type.substring(0, type.length - 10);
+	        this.entityType = entityType;
 	    }
 	    return AttributeCollection;
 	}(Attribute));
@@ -1934,7 +1945,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = {
 		"name": "wakanda-client",
 		"main": "dist/wakanda-client.node.js",
-		"version": "0.3.5",
+		"version": "0.3.6",
 		"description": "Wakanda Client allows you to easily interact with Wakanda Server on a JavaScript (browser or node) environment",
 		"typings": "dist/wakanda-client.d.ts",
 		"browser": "dist/wakanda-client.min.js",
