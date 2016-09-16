@@ -119,6 +119,30 @@ describe('Entity API', function () {
           expect(employee.employer).to.be.null;
         });
     });
+
+    it('should successfuly update an object attribute', function () {
+      return ds.Product.query({ pageSize: 1, start: 5 })
+        .then(function (products) {
+          return products.entities[0];
+        })
+        .then(function (product) {
+          product.spec = { foo: 'bar' };
+          return product.save()
+            .then(function () {
+              product.spec.baz = 1136;
+              return product.save().then(function () {
+                return ds.Product.find(product.ID).then(function (_product) {
+                  expect(product.spec).to.be.an('object');
+                  expect(JSON.stringify(product.spec)).to.be.equal(JSON.stringify({ foo: 'bar', baz: 1136 }));
+
+                  expect(_product.spec).to.be.an('object');
+                  expect(JSON.stringify(_product.spec)).to.be.equal(JSON.stringify({ foo: 'bar', baz: 1136 }));
+                });
+              });
+            });
+        });
+    });
+
     it('should not expand "not expanded" related entity attributes on update', function() {
       return ds.Employee.query({ pageSize: 1, start: 10 })
         .then(function (employees) {
