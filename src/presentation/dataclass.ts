@@ -40,14 +40,16 @@ export class Attribute {
   public type: string;
   public readOnly: boolean;
   public kind: string;
+  public simpleDate: boolean;
 
-  constructor({name, type, readOnly, kind}:
-   {name: string, type: string, readOnly?: boolean, kind: string}) {
+  constructor({name, type, readOnly, kind, simpleDate}:
+   {name: string, type: string, readOnly?: boolean, kind: string, simpleDate?: boolean}) {
 
     this.name = name;
     this.type = type;
     this.readOnly = readOnly === true;
     this.kind = kind;
+    this.simpleDate = simpleDate;
   }
 }
 

@@ -14,6 +14,8 @@ import {QueryOption} from '../presentation/query-option';
 import {IEntityDBO} from './entity-business';
 import {MethodAdapter} from './method-adapter';
 import WakandaClient from '../wakanda-client';
+import Util from './util';
+
 
 //This map stores all DataClassBusiness instances of existing dataClasses
 let _dataClassBusinessMap = new Map<string, DataClassBusiness>();
@@ -237,6 +239,13 @@ class DataClassBusiness extends AbstractBusiness {
               attributeName: attr.name,
               entity
             });
+          }
+          else if (attr.type === 'date') {
+            if(! dboAttribute) {
+              entity[attr.name] = null;
+            } else {
+              entity[attr.name] = attr.simpleDate ? Util.wakParseSimpleDate(dboAttribute) : new Date(dboAttribute);
+            }
           }
           else {
             entity[attr.name] = dboAttribute;

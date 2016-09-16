@@ -8,6 +8,8 @@ import {QueryOption} from '../presentation/query-option';
 import {MethodAdapter} from './method-adapter';
 import WakandaClient from '../wakanda-client';
 import Media from '../presentation/media';
+import Util from './util';
+
 
 export interface IEntityDBO {
   __KEY?: string;
@@ -69,6 +71,13 @@ class EntityBusiness extends AbstractBusiness {
             break;
           case 'object':
             data[attr.name] = JSON.stringify(objAttr);
+            break;
+          case 'date':
+            if(! objAttr) {
+              data[attr.name] = null;
+            } else {
+              data[attr.name] = attr.simpleDate ? Util.wakToStringSimpleDate(objAttr) : objAttr.toJSON();
+            }
             break;
           default:
             data[attr.name] = objAttr;
@@ -182,7 +191,17 @@ class EntityBusiness extends AbstractBusiness {
       if (attr instanceof AttributeRelated) {
         data[attr.name] = objAttr ? objAttr._key : null;
       }
-      else if (!(attr instanceof AttributeCollection) && !attr.readOnly) {
+      else if (attr.readOnly) {
+        continue;
+      }
+      else if (attr.type === 'date') {
+        if (! objAttr) {
+          data[attr.name] = objAttr;
+        } else {
+          data[attr.name] = attr.simpleDate ? Util.wakToStringSimpleDate(objAttr) : objAttr.toJSON();
+        }
+      }
+      else if (!(attr instanceof AttributeCollection)) {
         //Don't send null value for a newly created attribute (to don't override value eventually set on init event)
         //except for ID (which is null), because if an empty object is send, save is ignored
         if (!entityIsNew || objAttr !== null || attr.name === 'ID') {
