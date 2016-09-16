@@ -7,6 +7,7 @@ import DataClassBusiness from './dataclass-business';
 import {QueryOption} from '../presentation/query-option';
 import {MethodAdapter} from './method-adapter';
 import WakandaClient from '../wakanda-client';
+import Media from '../presentation/media';
 
 export interface IEntityDBO {
   __KEY?: string;
@@ -163,7 +164,11 @@ class EntityBusiness extends AbstractBusiness {
   private _refreshEntity({fresherEntity}: {fresherEntity: Entity}) {
     for (let prop in fresherEntity) {
       if (fresherEntity.hasOwnProperty(prop) && (typeof fresherEntity[prop] !== 'function')) {
-        this.entity[prop] = fresherEntity[prop];
+        if (fresherEntity[prop] instanceof Media) {
+          this.entity[prop].uri = fresherEntity[prop].uri;
+        } else {
+          this.entity[prop] = fresherEntity[prop];
+        }
       }
     }
   }
