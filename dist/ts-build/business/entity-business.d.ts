@@ -18,6 +18,7 @@ declare class EntityBusiness extends AbstractBusiness {
     private dataClass;
     private dataClassBusiness;
     private service;
+    private _oldEntityValues;
     constructor({wakJSC, entity, dataClass, dataClassBusiness}: {
         wakJSC: WakandaClient;
         entity: Entity;
@@ -25,6 +26,7 @@ declare class EntityBusiness extends AbstractBusiness {
         dataClassBusiness: DataClassBusiness;
     });
     _decorateEntity(): void;
+    _flashEntityValues(): void;
     private _addUserDefinedMethods();
     fetch(options?: QueryOption): Promise<Entity>;
     callMethod(methodName: string, parameters: any[]): Promise<any>;

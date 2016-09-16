@@ -1,0 +1,13 @@
+{
+  "requestUrl": "/rest/Product?$method=update",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__KEY": "4453",
+    "__STAMP": 521,
+    "uri": "/rest/Product(4453)",
+    "ID": 4453,
+    "myBoolean": true
+  },
+  "headers": {}
+}

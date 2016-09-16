@@ -64,6 +64,21 @@
             "kind": "storage",
             "scope": "public",
             "type": "image"
+          },
+          {
+            "name": "birthDate",
+            "kind": "storage",
+            "matchColumn": "born",
+            "scope": "public",
+            "type": "date",
+            "simpleDate": false
+          },
+          {
+            "name": "hiringDate",
+            "kind": "storage",
+            "scope": "public",
+            "type": "date",
+            "simpleDate": true
           }
         ],
         "methods": [

@@ -30,11 +30,13 @@ export declare class Attribute {
     type: string;
     readOnly: boolean;
     kind: string;
-    constructor({name, type, readOnly, kind}: {
+    simpleDate: boolean;
+    constructor({name, type, readOnly, kind, simpleDate}: {
         name: string;
         type: string;
         readOnly?: boolean;
         kind: string;
+        simpleDate?: boolean;
     });
 }
 export declare class AttributeRelated extends Attribute {

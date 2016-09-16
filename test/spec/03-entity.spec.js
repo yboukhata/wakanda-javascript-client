@@ -119,6 +119,74 @@ describe('Entity API', function () {
           expect(employee.employer).to.be.null;
         });
     });
+
+    it('should successfuly update an object attribute', function () {
+      return ds.Product.query({ pageSize: 1, start: 5 })
+        .then(function (products) {
+          return products.entities[0];
+        })
+        .then(function (product) {
+          product.spec = { foo: 'bar' };
+          return product.save()
+            .then(function () {
+              product.spec.baz = 1136;
+              return product.save().then(function () {
+                return ds.Product.find(product.ID).then(function (_product) {
+                  expect(product.spec).to.be.an('object');
+                  expect(JSON.stringify(product.spec)).to.be.equal(JSON.stringify({ foo: 'bar', baz: 1136 }));
+
+                  expect(_product.spec).to.be.an('object');
+                  expect(JSON.stringify(_product.spec)).to.be.equal(JSON.stringify({ foo: 'bar', baz: 1136 }));
+                });
+              });
+            });
+        });
+    });
+
+    it('should not expand "not expanded" related entity attributes on update', function() {
+      return ds.Employee.query({ pageSize: 1, start: 10 })
+        .then(function (employees) {
+          return employees.entities[0];
+        })
+        .then(function (employee) {
+          employee.firstName = 'Arnaud';
+          return employee.save()
+            .then(function () {
+              expect(employee.employer._deferred).to.be.true;
+              expect(employee.employer.name).to.be.undefined;
+            });
+        });
+    });
+
+    it('should expand "expanded" related entity attributes on update', function() {
+      return ds.Employee.query({ pageSize: 1, start: 10, select: 'employer' })
+        .then(function (employees) {
+          return employees.entities[0];
+        })
+        .then(function (employee) {
+          employee.firstName = 'Arnaud';
+          return employee.save()
+            .then(function () {
+              expect(employee.employer._deferred).to.be.false;
+              expect(employee.employer.name).to.be.equal('Earth Sable Andloging');
+            });
+        });
+    });
+
+    it('should update only changed attributes', function() {
+      return ds.Employee.query({ pageSize: 1, start: 12 })
+        .then(function (employees) {
+          return employees.entities[0];
+        })
+        .then(function (employee) {
+          var oldStamp = employee._stamp;
+          return employee.save()
+            .then(function () {
+              expect(employee._stamp).to.be.equal(oldStamp);
+            });
+        });
+    });
+
   });
 
   describe('delete method', function () {
@@ -242,7 +310,7 @@ describe('Entity API', function () {
         expect(function () {
           employee.employer.fetch({start: 0});
         }).to.throw(Error);
-      })
+      });
     });
   });
 
@@ -385,8 +453,67 @@ describe('Entity API', function () {
           expect(entity.myBoolean).to.be.a('boolean');
           expect(entity.myBoolean).to.be.false;
 
-          return ds.Product.find(entity.ID)
+          return ds.Product.find(entity.ID);
+        });
+    });
+  });
+
+  describe('date attribute field', function() {
+    it('should be a Date object', function () {
+      return ds.Employee.query({ pageSize: 1, filter: 'birthDate != null' })
+        .then(function (collection) {
+          return collection.entities[0];
         })
-    })
-  })
+        .then(function (employee) {
+          expect(employee.birthDate).to.be.a('Date');
+        });
+    });
+
+    it('should be null if no date', function () {
+      return ds.Employee.query({ pageSize: 1, filter: 'birthDate = null' })
+        .then(function (collection) {
+          return collection.entities[0];
+        })
+        .then(function (employee) {
+          expect(employee.birthDate).to.be.null;
+        });
+    });
+
+    it('should update date attribute', function () {
+      return ds.Employee.query({ pageSize: 10 })
+        .then(function (collection) {
+          return collection.entities[1];
+        })
+        .then(function (employee) {
+          var date = new Date('1985-09-16T07:04:11.192Z');
+          employee.birthDate = date;
+          return employee.save()
+            .then(function () {
+              expect(employee.birthDate.toJSON()).to.be.equal(date.toJSON());
+            });
+        });
+    });
+  });
+
+  describe('simple date attribute field', function() {
+    it('should be a Date object', function () {
+      return ds.Employee.query({ pageSize: 1, filter: 'hiringDate != null' })
+        .then(function (collection) {
+          return collection.entities[0];
+        })
+        .then(function (employee) {
+          expect(employee.hiringDate).to.be.a('Date');
+        });
+    });
+
+    it('should be null if no date', function () {
+      return ds.Employee.query({ pageSize: 1, filter: 'hiringDate = null' })
+        .then(function (collection) {
+          return collection.entities[0];
+        })
+        .then(function (employee) {
+          expect(employee.hiringDate).to.be.null;
+        });
+    });
+  });
 });
