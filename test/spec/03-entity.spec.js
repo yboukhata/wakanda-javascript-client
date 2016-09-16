@@ -429,8 +429,67 @@ describe('Entity API', function () {
           expect(entity.myBoolean).to.be.a('boolean');
           expect(entity.myBoolean).to.be.false;
 
-          return ds.Product.find(entity.ID)
+          return ds.Product.find(entity.ID);
+        });
+    });
+  });
+
+  describe('date attribute field', function() {
+    it('should be a Date object', function () {
+      return ds.Employee.query({ pageSize: 1, filter: 'birthDate != null' })
+        .then(function (collection) {
+          return collection.entities[0];
         })
-    })
-  })
+        .then(function (employee) {
+          expect(employee.birthDate).to.be.a('Date');
+        });
+    });
+
+    it('should be null if no date', function () {
+      return ds.Employee.query({ pageSize: 1, filter: 'birthDate = null' })
+        .then(function (collection) {
+          return collection.entities[0];
+        })
+        .then(function (employee) {
+          expect(employee.birthDate).to.be.null;
+        });
+    });
+
+    it('should update date attribute', function () {
+      return ds.Employee.query({ pageSize: 10 })
+        .then(function (collection) {
+          return collection.entities[1];
+        })
+        .then(function (employee) {
+          var date = new Date('1985-09-16T07:04:11.192Z');
+          employee.birthDate = date;
+          return employee.save()
+            .then(function () {
+              expect(employee.birthDate.toJSON()).to.be.equal(date.toJSON());
+            });
+        });
+    });
+  });
+
+  describe('simple date attribute field', function() {
+    it('should be a Date object', function () {
+      return ds.Employee.query({ pageSize: 1, filter: 'hiringDate != null' })
+        .then(function (collection) {
+          return collection.entities[0];
+        })
+        .then(function (employee) {
+          expect(employee.hiringDate).to.be.a('Date');
+        });
+    });
+
+    it('should be null if no date', function () {
+      return ds.Employee.query({ pageSize: 1, filter: 'hiringDate = null' })
+        .then(function (collection) {
+          return collection.entities[0];
+        })
+        .then(function (employee) {
+          expect(employee.hiringDate).to.be.null;
+        });
+    });
+  });
 });
