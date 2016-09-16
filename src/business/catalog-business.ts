@@ -11,7 +11,8 @@ export interface IDataClassDBO {
     name: string,
     type: string,
     kind: string,
-    readOnly: boolean
+    readOnly: boolean,
+    simpleDate: boolean
   }[];
   methods: {
     name: string,
@@ -63,11 +64,13 @@ class CatalogBusiness extends AbstractBusiness {
             case 'calculated':
             case 'alias':
               let readOnly = attr.readOnly || (attr.type === 'image' || attr.type === 'blob');
+              let simpleDate = attr.simpleDate !== undefined ? attr.simpleDate : undefined;
               attributes.push(new Attribute({
                 name: attr.name,
                 type: attr.type,
                 readOnly,
-                kind: attr.kind
+                kind: attr.kind,
+                simpleDate: simpleDate
               }));
               break;
             case 'relatedEntities':

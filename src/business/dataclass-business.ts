@@ -14,6 +14,8 @@ import {QueryOption} from '../presentation/query-option';
 import {IEntityDBO} from './entity-business';
 import {MethodAdapter} from './method-adapter';
 import WakandaClient from '../wakanda-client';
+import Util from './util';
+
 
 //This map stores all DataClassBusiness instances of existing dataClasses
 let _dataClassBusinessMap = new Map<string, DataClassBusiness>();
@@ -137,7 +139,7 @@ class DataClassBusiness extends AbstractBusiness {
     return entity;
   }
 
-  private _createEntity({key, deferred}: {key: string, deferred?: boolean}): Entity {
+  private _createEntity({key, deferred, dbo}: {key: string, deferred?: boolean, dbo?: IEntityDBO}): Entity {
 
     let entity = new Entity({
       key,
@@ -152,6 +154,13 @@ class DataClassBusiness extends AbstractBusiness {
     });
     business._decorateEntity();
 
+    if(! deferred) {
+      this._populateEntityDataFromDbo({
+        dbo: dbo,
+        entity: entity
+      });
+      business._flashEntityValues();
+    }
     return entity;
   }
 
@@ -194,24 +203,8 @@ class DataClassBusiness extends AbstractBusiness {
     return media;
   }
 
-  public _presentationEntityFromDbo({dbo}: {dbo: IEntityDBO}): Entity {
-    let entity: Entity;
-
-    if (!dbo) {
-      entity = null;
-    }
-    if (dbo.__deferred) {
-      entity = this._createEntity({
-        key: dbo.__deferred.__KEY,
-        deferred: true
-      });
-    }
-    else {
-      entity = this._createEntity({
-        key: dbo.__KEY
-      });
+  private _populateEntityDataFromDbo({dbo, entity}: {dbo: IEntityDBO, entity: Entity}): Entity {
       entity._stamp = dbo.__STAMP;
-
       for (let attr of this.dataClass.attributes) {
 
         let dboAttribute = dbo[attr.name];
@@ -247,6 +240,13 @@ class DataClassBusiness extends AbstractBusiness {
               entity
             });
           }
+          else if (attr.type === 'date') {
+            if(! dboAttribute) {
+              entity[attr.name] = null;
+            } else {
+              entity[attr.name] = attr.simpleDate ? Util.wakParseSimpleDate(dboAttribute) : new Date(dboAttribute);
+            }
+          }
           else {
             entity[attr.name] = dboAttribute;
           }
@@ -267,6 +267,26 @@ class DataClassBusiness extends AbstractBusiness {
           }
         }
       }
+    return entity;
+  }
+
+  public _presentationEntityFromDbo({dbo}: {dbo: IEntityDBO}): Entity {
+    let entity: Entity;
+
+    if (!dbo) {
+      entity = null;
+    }
+    if (dbo.__deferred) {
+      entity = this._createEntity({
+        key: dbo.__deferred.__KEY,
+        deferred: true
+      });
+    }
+    else {
+      entity = this._createEntity({
+        key: dbo.__KEY,
+        dbo: dbo
+      });
     }
 
     return entity;

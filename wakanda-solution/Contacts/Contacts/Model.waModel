@@ -40,7 +40,7 @@
 		"model": {
 			"scriptMode": "manual",
 			"workspaceLeft": 0,
-			"workspaceTop": 0,
+			"workspaceTop": 100,
 			"lastScriptLocation": {
 				"Product": {
 					"method": "Product/Product-methods.js",
@@ -200,6 +200,20 @@
 					"kind": "storage",
 					"scope": "public",
 					"type": "image"
+				},
+				{
+					"name": "birthDate",
+					"scope": "public",
+					"type": "date",
+					"kind": "storage",
+					"matchColumn": "born"
+				},
+				{
+					"name": "hiringDate",
+					"scope": "public",
+					"type": "date",
+					"kind": "storage",
+					"simpleDate": true
 				}
 			],
 			"methods": [
@@ -317,9 +331,9 @@
 				},
 				{
 					"name": "myNumber",
+					"kind": "storage",
 					"scope": "public",
-					"type": "number",
-					"kind": "storage"
+					"type": "number"
 				}
 			],
 			"events": [

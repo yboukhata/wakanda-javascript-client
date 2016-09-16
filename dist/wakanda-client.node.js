@@ -7,7 +7,7 @@
 		exports["WakandaClient"] = factory(require("request"));
 	else
 		root["WakandaClient"] = factory(root["request"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_33__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_34__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -64,18 +64,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	var wakanda_client_1 = __webpack_require__(2);
 	exports.WakandaClient = wakanda_client_1.default;
-	var node_http_client_1 = __webpack_require__(32);
+	var node_http_client_1 = __webpack_require__(33);
 	var catalog_base_service_1 = __webpack_require__(7);
 	exports.CatalogBaseService = catalog_base_service_1.CatalogBaseService;
-	var collection_base_service_1 = __webpack_require__(21);
+	var collection_base_service_1 = __webpack_require__(23);
 	exports.CollectionBaseService = collection_base_service_1.CollectionBaseService;
-	var dataclass_base_service_1 = __webpack_require__(18);
+	var dataclass_base_service_1 = __webpack_require__(20);
 	exports.DataClassBaseService = dataclass_base_service_1.DataClassBaseService;
-	var directory_base_service_1 = __webpack_require__(30);
+	var directory_base_service_1 = __webpack_require__(31);
 	exports.DirectoryBaseService = directory_base_service_1.DirectoryBaseService;
 	var entity_base_service_1 = __webpack_require__(13);
 	exports.EntityBaseService = entity_base_service_1.EntityBaseService;
-	var media_base_service_1 = __webpack_require__(25);
+	var media_base_service_1 = __webpack_require__(27);
 	exports.MediaBaseService = media_base_service_1.MediaBaseService;
 	wakanda_client_1.default.HttpClient = node_http_client_1.default;
 
@@ -86,10 +86,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var catalog_business_1 = __webpack_require__(3);
-	var directory_business_1 = __webpack_require__(28);
+	var directory_business_1 = __webpack_require__(29);
 	var entity_1 = __webpack_require__(15);
-	var collection_1 = __webpack_require__(26);
-	var packageOptions = __webpack_require__(31);
+	var collection_1 = __webpack_require__(28);
+	var packageOptions = __webpack_require__(32);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -186,11 +186,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        case 'calculated':
 	                        case 'alias':
 	                            var readOnly = attr.readOnly || (attr.type === 'image' || attr.type === 'blob');
+	                            var simpleDate = attr.simpleDate !== undefined ? attr.simpleDate : undefined;
 	                            attributes.push(new dataclass_1.Attribute({
 	                                name: attr.name,
 	                                type: attr.type,
 	                                readOnly: readOnly,
-	                                kind: attr.kind
+	                                kind: attr.kind,
+	                                simpleDate: simpleDate
 	                            }));
 	                            break;
 	                        case 'relatedEntities':
@@ -370,7 +372,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                name: attr.name,
 	                                kind: attr.kind,
 	                                type: attr.type,
-	                                readOnly: attr.readOnly
+	                                readOnly: attr.readOnly,
+	                                simpleDate: attr.simpleDate === undefined ? undefined : attr.simpleDate
 	                            });
 	                        }
 	                    }
@@ -442,11 +445,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.DataClass = DataClass;
 	var Attribute = (function () {
 	    function Attribute(_a) {
-	        var name = _a.name, type = _a.type, readOnly = _a.readOnly, kind = _a.kind;
+	        var name = _a.name, type = _a.type, readOnly = _a.readOnly, kind = _a.kind, simpleDate = _a.simpleDate;
 	        this.name = name;
 	        this.type = type;
 	        this.readOnly = readOnly === true;
 	        this.kind = kind;
+	        this.simpleDate = simpleDate;
 	    }
 	    return Attribute;
 	}());
@@ -483,15 +487,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var abstract_business_1 = __webpack_require__(4);
 	var entity_business_1 = __webpack_require__(11);
-	var dataclass_service_1 = __webpack_require__(17);
-	var collection_business_1 = __webpack_require__(19);
-	var media_business_1 = __webpack_require__(23);
+	var dataclass_service_1 = __webpack_require__(19);
+	var collection_business_1 = __webpack_require__(21);
+	var media_business_1 = __webpack_require__(25);
 	var entity_1 = __webpack_require__(15);
-	var collection_1 = __webpack_require__(26);
+	var collection_1 = __webpack_require__(28);
 	var dataclass_1 = __webpack_require__(9);
-	var media_1 = __webpack_require__(27);
-	var const_1 = __webpack_require__(22);
+	var media_1 = __webpack_require__(17);
+	var const_1 = __webpack_require__(24);
 	var method_adapter_1 = __webpack_require__(16);
+	var util_1 = __webpack_require__(18);
 	//This map stores all DataClassBusiness instances of existing dataClasses
 	var _dataClassBusinessMap = new Map();
 	var DataClassBusiness = (function (_super) {
@@ -586,7 +591,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return entity;
 	    };
 	    DataClassBusiness.prototype._createEntity = function (_a) {
-	        var key = _a.key, deferred = _a.deferred;
+	        var key = _a.key, deferred = _a.deferred, dbo = _a.dbo;
 	        var entity = new entity_1.default({
 	            key: key,
 	            deferred: deferred,
@@ -599,6 +604,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            dataClassBusiness: this
 	        });
 	        business._decorateEntity();
+	        if (!deferred) {
+	            this._populateEntityDataFromDbo({
+	                dbo: dbo,
+	                entity: entity
+	            });
+	            business._flashEntityValues();
+	        }
 	        return entity;
 	    };
 	    DataClassBusiness.prototype._createCollection = function (_a) {
@@ -633,6 +645,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	        business._decorateMedia();
 	        return media;
 	    };
+	    DataClassBusiness.prototype._populateEntityDataFromDbo = function (_a) {
+	        var dbo = _a.dbo, entity = _a.entity;
+	        entity._stamp = dbo.__STAMP;
+	        for (var _i = 0, _b = this.dataClass.attributes; _i < _b.length; _i++) {
+	            var attr = _b[_i];
+	            var dboAttribute = dbo[attr.name];
+	            if (dboAttribute !== null && dboAttribute !== undefined) {
+	                if (attr instanceof dataclass_1.AttributeRelated) {
+	                    //Kind of recursive call with a potententialy different instance of
+	                    //DataClassBusiness
+	                    var business = _dataClassBusinessMap.get(attr.type);
+	                    entity[attr.name] = business._presentationEntityFromDbo({
+	                        dbo: dboAttribute
+	                    });
+	                }
+	                else if (attr instanceof dataclass_1.AttributeCollection) {
+	                    var business = _dataClassBusinessMap.get(attr.entityType);
+	                    entity[attr.name] = business._presentationCollectionFromDbo({
+	                        dbo: dboAttribute
+	                    });
+	                }
+	                else if (attr.type === 'image' || attr.type === 'blob') {
+	                    var uri = void 0;
+	                    if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
+	                        uri = dboAttribute.__deferred.uri;
+	                    }
+	                    else {
+	                        uri = null;
+	                    }
+	                    entity[attr.name] = this._createMedia({
+	                        uri: uri,
+	                        isImage: attr.type === 'image',
+	                        attributeName: attr.name,
+	                        entity: entity
+	                    });
+	                }
+	                else if (attr.type === 'date') {
+	                    if (!dboAttribute) {
+	                        entity[attr.name] = null;
+	                    }
+	                    else {
+	                        entity[attr.name] = attr.simpleDate ? util_1.default.wakParseSimpleDate(dboAttribute) : new Date(dboAttribute);
+	                    }
+	                }
+	                else {
+	                    entity[attr.name] = dboAttribute;
+	                }
+	            }
+	            else {
+	                //Even if the property is null, we need a media for this kind of attributes
+	                //to handle the upload part
+	                if (attr.type === 'image' || attr.type === 'blob') {
+	                    entity[attr.name] = this._createMedia({
+	                        uri: null,
+	                        isImage: attr.type === 'image',
+	                        attributeName: attr.name,
+	                        entity: entity
+	                    });
+	                }
+	                else {
+	                    entity[attr.name] = null;
+	                }
+	            }
+	        }
+	        return entity;
+	    };
 	    DataClassBusiness.prototype._presentationEntityFromDbo = function (_a) {
 	        var dbo = _a.dbo;
 	        var entity;
@@ -647,62 +725,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        else {
 	            entity = this._createEntity({
-	                key: dbo.__KEY
+	                key: dbo.__KEY,
+	                dbo: dbo
 	            });
-	            entity._stamp = dbo.__STAMP;
-	            for (var _i = 0, _b = this.dataClass.attributes; _i < _b.length; _i++) {
-	                var attr = _b[_i];
-	                var dboAttribute = dbo[attr.name];
-	                if (dboAttribute !== null && dboAttribute !== undefined) {
-	                    if (attr instanceof dataclass_1.AttributeRelated) {
-	                        //Kind of recursive call with a potententialy different instance of
-	                        //DataClassBusiness
-	                        var business = _dataClassBusinessMap.get(attr.type);
-	                        entity[attr.name] = business._presentationEntityFromDbo({
-	                            dbo: dboAttribute
-	                        });
-	                    }
-	                    else if (attr instanceof dataclass_1.AttributeCollection) {
-	                        var business = _dataClassBusinessMap.get(attr.entityType);
-	                        entity[attr.name] = business._presentationCollectionFromDbo({
-	                            dbo: dboAttribute
-	                        });
-	                    }
-	                    else if (attr.type === 'image' || attr.type === 'blob') {
-	                        var uri = void 0;
-	                        if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
-	                            uri = dboAttribute.__deferred.uri;
-	                        }
-	                        else {
-	                            uri = null;
-	                        }
-	                        entity[attr.name] = this._createMedia({
-	                            uri: uri,
-	                            isImage: attr.type === 'image',
-	                            attributeName: attr.name,
-	                            entity: entity
-	                        });
-	                    }
-	                    else {
-	                        entity[attr.name] = dboAttribute;
-	                    }
-	                }
-	                else {
-	                    //Even if the property is null, we need a media for this kind of attributes
-	                    //to handle the upload part
-	                    if (attr.type === 'image' || attr.type === 'blob') {
-	                        entity[attr.name] = this._createMedia({
-	                            uri: null,
-	                            isImage: attr.type === 'image',
-	                            attributeName: attr.name,
-	                            entity: entity
-	                        });
-	                    }
-	                    else {
-	                        entity[attr.name] = null;
-	                    }
-	                }
-	            }
 	        }
 	        return entity;
 	    };
@@ -758,6 +783,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dataclass_1 = __webpack_require__(9);
 	var entity_1 = __webpack_require__(15);
 	var method_adapter_1 = __webpack_require__(16);
+	var media_1 = __webpack_require__(17);
+	var util_1 = __webpack_require__(18);
 	var EntityBusiness = (function (_super) {
 	    __extends(EntityBusiness, _super);
 	    function EntityBusiness(_a) {
@@ -779,6 +806,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.entity.recompute = this.recompute.bind(this);
 	        this._addUserDefinedMethods();
 	    };
+	    EntityBusiness.prototype._flashEntityValues = function () {
+	        var data = {};
+	        var entity = this.entity;
+	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
+	            var attr = _a[_i];
+	            var objAttr = entity[attr.name];
+	            if (attr instanceof dataclass_1.AttributeCollection) {
+	                continue;
+	            }
+	            if (attr instanceof dataclass_1.AttributeRelated) {
+	                data[attr.name] = objAttr ? objAttr._key : null;
+	            }
+	            else {
+	                switch (attr.type) {
+	                    case 'image':
+	                    case 'blob':
+	                        data[attr.name] = { uri: objAttr.uri };
+	                        break;
+	                    case 'object':
+	                        data[attr.name] = JSON.stringify(objAttr);
+	                        break;
+	                    case 'date':
+	                        if (!objAttr) {
+	                            data[attr.name] = null;
+	                        }
+	                        else {
+	                            data[attr.name] = attr.simpleDate ? util_1.default.wakToStringSimpleDate(objAttr) : objAttr.toJSON();
+	                        }
+	                        break;
+	                    default:
+	                        data[attr.name] = objAttr;
+	                }
+	            }
+	        }
+	        this._oldEntityValues = data;
+	    };
 	    EntityBusiness.prototype._addUserDefinedMethods = function () {
 	        var _this = this;
 	        var self = this;
@@ -799,6 +862,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return this.dataClassBusiness.find(this.entity._key, options).then(function (fresherEntity) {
 	            _this._refreshEntity({ fresherEntity: fresherEntity });
+	            _this._flashEntityValues();
 	            return _this.entity;
 	        });
 	    };
@@ -833,6 +897,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                dbo: entityDbo
 	            });
 	            _this._refreshEntity({ fresherEntity: fresherEntity });
+	            _this._flashEntityValues();
 	            return _this.entity;
 	        });
 	    };
@@ -867,11 +932,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (attr instanceof dataclass_1.AttributeRelated) {
 	                data[attr.name] = objAttr ? objAttr._key : null;
 	            }
-	            else if (!(attr instanceof dataclass_1.AttributeCollection) && !attr.readOnly) {
+	            else if (attr.readOnly) {
+	                continue;
+	            }
+	            else if (attr.type === 'date') {
+	                if (!objAttr) {
+	                    data[attr.name] = objAttr;
+	                }
+	                else {
+	                    data[attr.name] = attr.simpleDate ? util_1.default.wakToStringSimpleDate(objAttr) : objAttr.toJSON();
+	                }
+	            }
+	            else if (!(attr instanceof dataclass_1.AttributeCollection)) {
 	                //Don't send null value for a newly created attribute (to don't override value eventually set on init event)
 	                //except for ID (which is null), because if an empty object is send, save is ignored
 	                if (!entityIsNew || objAttr !== null || attr.name === 'ID') {
 	                    data[attr.name] = objAttr;
+	                }
+	            }
+	        }
+	        if (!entityIsNew) {
+	            var oldData = this._oldEntityValues || {};
+	            for (var _b = 0, _c = this.dataClass.attributes; _b < _c.length; _b++) {
+	                var attr = _c[_b];
+	                if (data[attr.name] === undefined || attr.name === 'ID') {
+	                    continue;
+	                }
+	                switch (attr.type) {
+	                    case 'image':
+	                    case 'blob':
+	                        if (data[attr.name].uri === oldData[attr.name].uri) {
+	                            delete data[attr.name];
+	                        }
+	                        break;
+	                    case 'object':
+	                        if (JSON.stringify(data[attr.name]) === oldData[attr.name]) {
+	                            delete data[attr.name];
+	                        }
+	                        break;
+	                    default:
+	                        if (data[attr.name] === oldData[attr.name]) {
+	                            delete data[attr.name];
+	                        }
 	                }
 	            }
 	        }
@@ -881,7 +983,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var fresherEntity = _a.fresherEntity;
 	        for (var prop in fresherEntity) {
 	            if (fresherEntity.hasOwnProperty(prop) && (typeof fresherEntity[prop] !== 'function')) {
-	                this.entity[prop] = fresherEntity[prop];
+	                if (fresherEntity[prop] instanceof media_1.default) {
+	                    this.entity[prop].uri = fresherEntity[prop].uri;
+	                }
+	                else {
+	                    this.entity[prop] = fresherEntity[prop];
+	                }
 	            }
 	        }
 	    };
@@ -890,7 +997,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
 	            var attr = _a[_i];
 	            if (attr instanceof dataclass_1.AttributeRelated || attr instanceof dataclass_1.AttributeCollection) {
-	                if (this.entity[attr.name] instanceof entity_1.default) {
+	                if (this.entity[attr.name] instanceof entity_1.default && !this.entity[attr.name]._deferred) {
 	                    expand += attr.name + ',';
 	                }
 	            }
@@ -1171,6 +1278,58 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 17 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var Media = (function () {
+	    function Media(_a) {
+	        var uri = _a.uri;
+	        this.uri = uri;
+	    }
+	    return Media;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Media;
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var Util = (function () {
+	    function Util() {
+	    }
+	    Util.wakParseSimpleDate = function (stringDate) {
+	        // In wakanda, simple date is a date with only year, month and hour
+	        // in this format : DD!MM!YYYY
+	        if (!stringDate) {
+	            return null;
+	        }
+	        var arr = stringDate.split('!');
+	        if (arr.length !== 3) {
+	            // return null or throw an error, simple date format is ko
+	            return null;
+	        }
+	        var date = new Date(Date.UTC(parseInt(arr[2]), parseInt(arr[1]) - 1, parseInt(arr[0])));
+	        return date;
+	    };
+	    Util.wakToStringSimpleDate = function (date) {
+	        var wakSimpleDate;
+	        if (!(date instanceof Date)) {
+	            return null;
+	        }
+	        wakSimpleDate = date.getUTCDate() + '!' + (date.getUTCMonth() + 1) + '!' + date.getUTCFullYear();
+	        return wakSimpleDate;
+	    };
+	    return Util;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Util;
+
+
+/***/ },
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1180,7 +1339,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var dataclass_base_service_1 = __webpack_require__(18);
+	var dataclass_base_service_1 = __webpack_require__(20);
 	var DataClassService = (function (_super) {
 	    __extends(DataClassService, _super);
 	    function DataClassService(_a) {
@@ -1218,7 +1377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1287,7 +1446,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1297,8 +1456,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var collection_service_1 = __webpack_require__(20);
-	var const_1 = __webpack_require__(22);
+	var collection_service_1 = __webpack_require__(22);
+	var const_1 = __webpack_require__(24);
 	var method_adapter_1 = __webpack_require__(16);
 	var CollectionBusiness = (function (_super) {
 	    __extends(CollectionBusiness, _super);
@@ -1434,7 +1593,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1444,7 +1603,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var collection_base_service_1 = __webpack_require__(21);
+	var collection_base_service_1 = __webpack_require__(23);
 	var CollectionService = (function (_super) {
 	    __extends(CollectionService, _super);
 	    function CollectionService(_a) {
@@ -1487,7 +1646,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1560,7 +1719,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1572,7 +1731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1582,7 +1741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var media_service_1 = __webpack_require__(24);
+	var media_service_1 = __webpack_require__(26);
 	var MediaBusiness = (function (_super) {
 	    __extends(MediaBusiness, _super);
 	    function MediaBusiness(_a) {
@@ -1633,7 +1792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1643,7 +1802,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var media_base_service_1 = __webpack_require__(25);
+	var media_base_service_1 = __webpack_require__(27);
 	var MediaService = (function (_super) {
 	    __extends(MediaService, _super);
 	    function MediaService(_a) {
@@ -1681,7 +1840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1724,7 +1883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1747,23 +1906,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var Media = (function () {
-	    function Media(_a) {
-	        var uri = _a.uri;
-	        this.uri = uri;
-	    }
-	    return Media;
-	}());
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Media;
-
-
-/***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1773,8 +1916,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(4);
-	var directory_service_1 = __webpack_require__(29);
-	var const_1 = __webpack_require__(22);
+	var directory_service_1 = __webpack_require__(30);
+	var const_1 = __webpack_require__(24);
 	var DirectoryBusiness = (function (_super) {
 	    __extends(DirectoryBusiness, _super);
 	    function DirectoryBusiness(_a) {
@@ -1826,7 +1969,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1836,7 +1979,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(6);
-	var directory_base_service_1 = __webpack_require__(30);
+	var directory_base_service_1 = __webpack_require__(31);
 	var DirectoryService = (function (_super) {
 	    __extends(DirectoryService, _super);
 	    function DirectoryService() {
@@ -1873,7 +2016,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1939,7 +2082,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2016,7 +2159,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2025,9 +2168,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var request = __webpack_require__(33);
-	var http_client_1 = __webpack_require__(34);
-	var http_response_1 = __webpack_require__(35);
+	var request = __webpack_require__(34);
+	var http_client_1 = __webpack_require__(35);
+	var http_response_1 = __webpack_require__(36);
 	var NodeHttpClient = (function (_super) {
 	    __extends(NodeHttpClient, _super);
 	    function NodeHttpClient(_a) {
@@ -2119,13 +2262,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	module.exports = require("request");
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2253,7 +2396,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 	"use strict";

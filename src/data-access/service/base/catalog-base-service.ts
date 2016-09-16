@@ -31,7 +31,8 @@ export class CatalogBaseService {
                   name: attr.name,
                   kind: attr.kind,
                   type: attr.type,
-                  readOnly: attr.readOnly
+                  readOnly: attr.readOnly,
+                  simpleDate: attr.simpleDate === undefined ? undefined : attr.simpleDate
                 });
               }
             }

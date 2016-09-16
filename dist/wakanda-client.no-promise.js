@@ -69,18 +69,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	__webpack_require__(82);
 	var wakanda_client_1 = __webpack_require__(83);
 	exports.WakandaClient = wakanda_client_1.default;
-	var browser_http_client_1 = __webpack_require__(113);
+	var browser_http_client_1 = __webpack_require__(114);
 	var catalog_base_service_1 = __webpack_require__(88);
 	exports.CatalogBaseService = catalog_base_service_1.CatalogBaseService;
-	var collection_base_service_1 = __webpack_require__(102);
+	var collection_base_service_1 = __webpack_require__(104);
 	exports.CollectionBaseService = collection_base_service_1.CollectionBaseService;
-	var dataclass_base_service_1 = __webpack_require__(99);
+	var dataclass_base_service_1 = __webpack_require__(101);
 	exports.DataClassBaseService = dataclass_base_service_1.DataClassBaseService;
-	var directory_base_service_1 = __webpack_require__(111);
+	var directory_base_service_1 = __webpack_require__(112);
 	exports.DirectoryBaseService = directory_base_service_1.DirectoryBaseService;
 	var entity_base_service_1 = __webpack_require__(94);
 	exports.EntityBaseService = entity_base_service_1.EntityBaseService;
-	var media_base_service_1 = __webpack_require__(106);
+	var media_base_service_1 = __webpack_require__(108);
 	exports.MediaBaseService = media_base_service_1.MediaBaseService;
 	wakanda_client_1.default.HttpClient = browser_http_client_1.default;
 
@@ -1688,10 +1688,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	var catalog_business_1 = __webpack_require__(84);
-	var directory_business_1 = __webpack_require__(109);
+	var directory_business_1 = __webpack_require__(110);
 	var entity_1 = __webpack_require__(96);
-	var collection_1 = __webpack_require__(107);
-	var packageOptions = __webpack_require__(112);
+	var collection_1 = __webpack_require__(109);
+	var packageOptions = __webpack_require__(113);
 	var WakandaClient = (function () {
 	    function WakandaClient(host) {
 	        this._httpClient = new WakandaClient.HttpClient({
@@ -1788,11 +1788,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        case 'calculated':
 	                        case 'alias':
 	                            var readOnly = attr.readOnly || (attr.type === 'image' || attr.type === 'blob');
+	                            var simpleDate = attr.simpleDate !== undefined ? attr.simpleDate : undefined;
 	                            attributes.push(new dataclass_1.Attribute({
 	                                name: attr.name,
 	                                type: attr.type,
 	                                readOnly: readOnly,
-	                                kind: attr.kind
+	                                kind: attr.kind,
+	                                simpleDate: simpleDate
 	                            }));
 	                            break;
 	                        case 'relatedEntities':
@@ -1972,7 +1974,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                name: attr.name,
 	                                kind: attr.kind,
 	                                type: attr.type,
-	                                readOnly: attr.readOnly
+	                                readOnly: attr.readOnly,
+	                                simpleDate: attr.simpleDate === undefined ? undefined : attr.simpleDate
 	                            });
 	                        }
 	                    }
@@ -2044,11 +2047,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.DataClass = DataClass;
 	var Attribute = (function () {
 	    function Attribute(_a) {
-	        var name = _a.name, type = _a.type, readOnly = _a.readOnly, kind = _a.kind;
+	        var name = _a.name, type = _a.type, readOnly = _a.readOnly, kind = _a.kind, simpleDate = _a.simpleDate;
 	        this.name = name;
 	        this.type = type;
 	        this.readOnly = readOnly === true;
 	        this.kind = kind;
+	        this.simpleDate = simpleDate;
 	    }
 	    return Attribute;
 	}());
@@ -2085,15 +2089,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var abstract_business_1 = __webpack_require__(85);
 	var entity_business_1 = __webpack_require__(92);
-	var dataclass_service_1 = __webpack_require__(98);
-	var collection_business_1 = __webpack_require__(100);
-	var media_business_1 = __webpack_require__(104);
+	var dataclass_service_1 = __webpack_require__(100);
+	var collection_business_1 = __webpack_require__(102);
+	var media_business_1 = __webpack_require__(106);
 	var entity_1 = __webpack_require__(96);
-	var collection_1 = __webpack_require__(107);
+	var collection_1 = __webpack_require__(109);
 	var dataclass_1 = __webpack_require__(90);
-	var media_1 = __webpack_require__(108);
-	var const_1 = __webpack_require__(103);
+	var media_1 = __webpack_require__(98);
+	var const_1 = __webpack_require__(105);
 	var method_adapter_1 = __webpack_require__(97);
+	var util_1 = __webpack_require__(99);
 	//This map stores all DataClassBusiness instances of existing dataClasses
 	var _dataClassBusinessMap = new Map();
 	var DataClassBusiness = (function (_super) {
@@ -2188,7 +2193,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return entity;
 	    };
 	    DataClassBusiness.prototype._createEntity = function (_a) {
-	        var key = _a.key, deferred = _a.deferred;
+	        var key = _a.key, deferred = _a.deferred, dbo = _a.dbo;
 	        var entity = new entity_1.default({
 	            key: key,
 	            deferred: deferred,
@@ -2201,6 +2206,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            dataClassBusiness: this
 	        });
 	        business._decorateEntity();
+	        if (!deferred) {
+	            this._populateEntityDataFromDbo({
+	                dbo: dbo,
+	                entity: entity
+	            });
+	            business._flashEntityValues();
+	        }
 	        return entity;
 	    };
 	    DataClassBusiness.prototype._createCollection = function (_a) {
@@ -2235,6 +2247,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	        business._decorateMedia();
 	        return media;
 	    };
+	    DataClassBusiness.prototype._populateEntityDataFromDbo = function (_a) {
+	        var dbo = _a.dbo, entity = _a.entity;
+	        entity._stamp = dbo.__STAMP;
+	        for (var _i = 0, _b = this.dataClass.attributes; _i < _b.length; _i++) {
+	            var attr = _b[_i];
+	            var dboAttribute = dbo[attr.name];
+	            if (dboAttribute !== null && dboAttribute !== undefined) {
+	                if (attr instanceof dataclass_1.AttributeRelated) {
+	                    //Kind of recursive call with a potententialy different instance of
+	                    //DataClassBusiness
+	                    var business = _dataClassBusinessMap.get(attr.type);
+	                    entity[attr.name] = business._presentationEntityFromDbo({
+	                        dbo: dboAttribute
+	                    });
+	                }
+	                else if (attr instanceof dataclass_1.AttributeCollection) {
+	                    var business = _dataClassBusinessMap.get(attr.entityType);
+	                    entity[attr.name] = business._presentationCollectionFromDbo({
+	                        dbo: dboAttribute
+	                    });
+	                }
+	                else if (attr.type === 'image' || attr.type === 'blob') {
+	                    var uri = void 0;
+	                    if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
+	                        uri = dboAttribute.__deferred.uri;
+	                    }
+	                    else {
+	                        uri = null;
+	                    }
+	                    entity[attr.name] = this._createMedia({
+	                        uri: uri,
+	                        isImage: attr.type === 'image',
+	                        attributeName: attr.name,
+	                        entity: entity
+	                    });
+	                }
+	                else if (attr.type === 'date') {
+	                    if (!dboAttribute) {
+	                        entity[attr.name] = null;
+	                    }
+	                    else {
+	                        entity[attr.name] = attr.simpleDate ? util_1.default.wakParseSimpleDate(dboAttribute) : new Date(dboAttribute);
+	                    }
+	                }
+	                else {
+	                    entity[attr.name] = dboAttribute;
+	                }
+	            }
+	            else {
+	                //Even if the property is null, we need a media for this kind of attributes
+	                //to handle the upload part
+	                if (attr.type === 'image' || attr.type === 'blob') {
+	                    entity[attr.name] = this._createMedia({
+	                        uri: null,
+	                        isImage: attr.type === 'image',
+	                        attributeName: attr.name,
+	                        entity: entity
+	                    });
+	                }
+	                else {
+	                    entity[attr.name] = null;
+	                }
+	            }
+	        }
+	        return entity;
+	    };
 	    DataClassBusiness.prototype._presentationEntityFromDbo = function (_a) {
 	        var dbo = _a.dbo;
 	        var entity;
@@ -2249,62 +2327,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        else {
 	            entity = this._createEntity({
-	                key: dbo.__KEY
+	                key: dbo.__KEY,
+	                dbo: dbo
 	            });
-	            entity._stamp = dbo.__STAMP;
-	            for (var _i = 0, _b = this.dataClass.attributes; _i < _b.length; _i++) {
-	                var attr = _b[_i];
-	                var dboAttribute = dbo[attr.name];
-	                if (dboAttribute !== null && dboAttribute !== undefined) {
-	                    if (attr instanceof dataclass_1.AttributeRelated) {
-	                        //Kind of recursive call with a potententialy different instance of
-	                        //DataClassBusiness
-	                        var business = _dataClassBusinessMap.get(attr.type);
-	                        entity[attr.name] = business._presentationEntityFromDbo({
-	                            dbo: dboAttribute
-	                        });
-	                    }
-	                    else if (attr instanceof dataclass_1.AttributeCollection) {
-	                        var business = _dataClassBusinessMap.get(attr.entityType);
-	                        entity[attr.name] = business._presentationCollectionFromDbo({
-	                            dbo: dboAttribute
-	                        });
-	                    }
-	                    else if (attr.type === 'image' || attr.type === 'blob') {
-	                        var uri = void 0;
-	                        if (dboAttribute && dboAttribute.__deferred && dboAttribute.__deferred.uri) {
-	                            uri = dboAttribute.__deferred.uri;
-	                        }
-	                        else {
-	                            uri = null;
-	                        }
-	                        entity[attr.name] = this._createMedia({
-	                            uri: uri,
-	                            isImage: attr.type === 'image',
-	                            attributeName: attr.name,
-	                            entity: entity
-	                        });
-	                    }
-	                    else {
-	                        entity[attr.name] = dboAttribute;
-	                    }
-	                }
-	                else {
-	                    //Even if the property is null, we need a media for this kind of attributes
-	                    //to handle the upload part
-	                    if (attr.type === 'image' || attr.type === 'blob') {
-	                        entity[attr.name] = this._createMedia({
-	                            uri: null,
-	                            isImage: attr.type === 'image',
-	                            attributeName: attr.name,
-	                            entity: entity
-	                        });
-	                    }
-	                    else {
-	                        entity[attr.name] = null;
-	                    }
-	                }
-	            }
 	        }
 	        return entity;
 	    };
@@ -2360,6 +2385,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dataclass_1 = __webpack_require__(90);
 	var entity_1 = __webpack_require__(96);
 	var method_adapter_1 = __webpack_require__(97);
+	var media_1 = __webpack_require__(98);
+	var util_1 = __webpack_require__(99);
 	var EntityBusiness = (function (_super) {
 	    __extends(EntityBusiness, _super);
 	    function EntityBusiness(_a) {
@@ -2381,6 +2408,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.entity.recompute = this.recompute.bind(this);
 	        this._addUserDefinedMethods();
 	    };
+	    EntityBusiness.prototype._flashEntityValues = function () {
+	        var data = {};
+	        var entity = this.entity;
+	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
+	            var attr = _a[_i];
+	            var objAttr = entity[attr.name];
+	            if (attr instanceof dataclass_1.AttributeCollection) {
+	                continue;
+	            }
+	            if (attr instanceof dataclass_1.AttributeRelated) {
+	                data[attr.name] = objAttr ? objAttr._key : null;
+	            }
+	            else {
+	                switch (attr.type) {
+	                    case 'image':
+	                    case 'blob':
+	                        data[attr.name] = { uri: objAttr.uri };
+	                        break;
+	                    case 'object':
+	                        data[attr.name] = JSON.stringify(objAttr);
+	                        break;
+	                    case 'date':
+	                        if (!objAttr) {
+	                            data[attr.name] = null;
+	                        }
+	                        else {
+	                            data[attr.name] = attr.simpleDate ? util_1.default.wakToStringSimpleDate(objAttr) : objAttr.toJSON();
+	                        }
+	                        break;
+	                    default:
+	                        data[attr.name] = objAttr;
+	                }
+	            }
+	        }
+	        this._oldEntityValues = data;
+	    };
 	    EntityBusiness.prototype._addUserDefinedMethods = function () {
 	        var _this = this;
 	        var self = this;
@@ -2401,6 +2464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        return this.dataClassBusiness.find(this.entity._key, options).then(function (fresherEntity) {
 	            _this._refreshEntity({ fresherEntity: fresherEntity });
+	            _this._flashEntityValues();
 	            return _this.entity;
 	        });
 	    };
@@ -2435,6 +2499,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                dbo: entityDbo
 	            });
 	            _this._refreshEntity({ fresherEntity: fresherEntity });
+	            _this._flashEntityValues();
 	            return _this.entity;
 	        });
 	    };
@@ -2469,11 +2534,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (attr instanceof dataclass_1.AttributeRelated) {
 	                data[attr.name] = objAttr ? objAttr._key : null;
 	            }
-	            else if (!(attr instanceof dataclass_1.AttributeCollection) && !attr.readOnly) {
+	            else if (attr.readOnly) {
+	                continue;
+	            }
+	            else if (attr.type === 'date') {
+	                if (!objAttr) {
+	                    data[attr.name] = objAttr;
+	                }
+	                else {
+	                    data[attr.name] = attr.simpleDate ? util_1.default.wakToStringSimpleDate(objAttr) : objAttr.toJSON();
+	                }
+	            }
+	            else if (!(attr instanceof dataclass_1.AttributeCollection)) {
 	                //Don't send null value for a newly created attribute (to don't override value eventually set on init event)
 	                //except for ID (which is null), because if an empty object is send, save is ignored
 	                if (!entityIsNew || objAttr !== null || attr.name === 'ID') {
 	                    data[attr.name] = objAttr;
+	                }
+	            }
+	        }
+	        if (!entityIsNew) {
+	            var oldData = this._oldEntityValues || {};
+	            for (var _b = 0, _c = this.dataClass.attributes; _b < _c.length; _b++) {
+	                var attr = _c[_b];
+	                if (data[attr.name] === undefined || attr.name === 'ID') {
+	                    continue;
+	                }
+	                switch (attr.type) {
+	                    case 'image':
+	                    case 'blob':
+	                        if (data[attr.name].uri === oldData[attr.name].uri) {
+	                            delete data[attr.name];
+	                        }
+	                        break;
+	                    case 'object':
+	                        if (JSON.stringify(data[attr.name]) === oldData[attr.name]) {
+	                            delete data[attr.name];
+	                        }
+	                        break;
+	                    default:
+	                        if (data[attr.name] === oldData[attr.name]) {
+	                            delete data[attr.name];
+	                        }
 	                }
 	            }
 	        }
@@ -2483,7 +2585,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var fresherEntity = _a.fresherEntity;
 	        for (var prop in fresherEntity) {
 	            if (fresherEntity.hasOwnProperty(prop) && (typeof fresherEntity[prop] !== 'function')) {
-	                this.entity[prop] = fresherEntity[prop];
+	                if (fresherEntity[prop] instanceof media_1.default) {
+	                    this.entity[prop].uri = fresherEntity[prop].uri;
+	                }
+	                else {
+	                    this.entity[prop] = fresherEntity[prop];
+	                }
 	            }
 	        }
 	    };
@@ -2492,7 +2599,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var _i = 0, _a = this.dataClass.attributes; _i < _a.length; _i++) {
 	            var attr = _a[_i];
 	            if (attr instanceof dataclass_1.AttributeRelated || attr instanceof dataclass_1.AttributeCollection) {
-	                if (this.entity[attr.name] instanceof entity_1.default) {
+	                if (this.entity[attr.name] instanceof entity_1.default && !this.entity[attr.name]._deferred) {
 	                    expand += attr.name + ',';
 	                }
 	            }
@@ -2773,6 +2880,58 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 98 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var Media = (function () {
+	    function Media(_a) {
+	        var uri = _a.uri;
+	        this.uri = uri;
+	    }
+	    return Media;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Media;
+
+
+/***/ },
+/* 99 */
+/***/ function(module, exports) {
+
+	"use strict";
+	var Util = (function () {
+	    function Util() {
+	    }
+	    Util.wakParseSimpleDate = function (stringDate) {
+	        // In wakanda, simple date is a date with only year, month and hour
+	        // in this format : DD!MM!YYYY
+	        if (!stringDate) {
+	            return null;
+	        }
+	        var arr = stringDate.split('!');
+	        if (arr.length !== 3) {
+	            // return null or throw an error, simple date format is ko
+	            return null;
+	        }
+	        var date = new Date(Date.UTC(parseInt(arr[2]), parseInt(arr[1]) - 1, parseInt(arr[0])));
+	        return date;
+	    };
+	    Util.wakToStringSimpleDate = function (date) {
+	        var wakSimpleDate;
+	        if (!(date instanceof Date)) {
+	            return null;
+	        }
+	        wakSimpleDate = date.getUTCDate() + '!' + (date.getUTCMonth() + 1) + '!' + date.getUTCFullYear();
+	        return wakSimpleDate;
+	    };
+	    return Util;
+	}());
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = Util;
+
+
+/***/ },
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2782,7 +2941,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(87);
-	var dataclass_base_service_1 = __webpack_require__(99);
+	var dataclass_base_service_1 = __webpack_require__(101);
 	var DataClassService = (function (_super) {
 	    __extends(DataClassService, _super);
 	    function DataClassService(_a) {
@@ -2820,7 +2979,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 99 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2889,7 +3048,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 100 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2899,8 +3058,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(85);
-	var collection_service_1 = __webpack_require__(101);
-	var const_1 = __webpack_require__(103);
+	var collection_service_1 = __webpack_require__(103);
+	var const_1 = __webpack_require__(105);
 	var method_adapter_1 = __webpack_require__(97);
 	var CollectionBusiness = (function (_super) {
 	    __extends(CollectionBusiness, _super);
@@ -3036,7 +3195,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 101 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3046,7 +3205,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(87);
-	var collection_base_service_1 = __webpack_require__(102);
+	var collection_base_service_1 = __webpack_require__(104);
 	var CollectionService = (function (_super) {
 	    __extends(CollectionService, _super);
 	    function CollectionService(_a) {
@@ -3089,7 +3248,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 102 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3162,7 +3321,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 103 */
+/* 105 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3174,7 +3333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 104 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3184,7 +3343,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(85);
-	var media_service_1 = __webpack_require__(105);
+	var media_service_1 = __webpack_require__(107);
 	var MediaBusiness = (function (_super) {
 	    __extends(MediaBusiness, _super);
 	    function MediaBusiness(_a) {
@@ -3235,7 +3394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 105 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3245,7 +3404,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(87);
-	var media_base_service_1 = __webpack_require__(106);
+	var media_base_service_1 = __webpack_require__(108);
 	var MediaService = (function (_super) {
 	    __extends(MediaService, _super);
 	    function MediaService(_a) {
@@ -3283,7 +3442,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 106 */
+/* 108 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3326,7 +3485,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 107 */
+/* 109 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3349,23 +3508,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 108 */
-/***/ function(module, exports) {
-
-	"use strict";
-	var Media = (function () {
-	    function Media(_a) {
-	        var uri = _a.uri;
-	        this.uri = uri;
-	    }
-	    return Media;
-	}());
-	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.default = Media;
-
-
-/***/ },
-/* 109 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3375,8 +3518,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_business_1 = __webpack_require__(85);
-	var directory_service_1 = __webpack_require__(110);
-	var const_1 = __webpack_require__(103);
+	var directory_service_1 = __webpack_require__(111);
+	var const_1 = __webpack_require__(105);
 	var DirectoryBusiness = (function (_super) {
 	    __extends(DirectoryBusiness, _super);
 	    function DirectoryBusiness(_a) {
@@ -3428,7 +3571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 110 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3438,7 +3581,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var abstract_service_1 = __webpack_require__(87);
-	var directory_base_service_1 = __webpack_require__(111);
+	var directory_base_service_1 = __webpack_require__(112);
 	var DirectoryService = (function (_super) {
 	    __extends(DirectoryService, _super);
 	    function DirectoryService() {
@@ -3475,7 +3618,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 111 */
+/* 112 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3541,7 +3684,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 112 */
+/* 113 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -3618,7 +3761,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 113 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3627,9 +3770,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var http_client_1 = __webpack_require__(114);
-	var http_response_1 = __webpack_require__(115);
-	var AureliaHttpClient = __webpack_require__(116).HttpClient;
+	var http_client_1 = __webpack_require__(115);
+	var http_response_1 = __webpack_require__(116);
+	var AureliaHttpClient = __webpack_require__(117).HttpClient;
 	var BrowserHttpClient = (function (_super) {
 	    __extends(BrowserHttpClient, _super);
 	    function BrowserHttpClient(_a) {
@@ -3695,7 +3838,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 114 */
+/* 115 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3823,7 +3966,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 115 */
+/* 116 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3841,7 +3984,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 116 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3850,7 +3993,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _httpClient = __webpack_require__(117);
+	var _httpClient = __webpack_require__(118);
 	
 	Object.defineProperty(exports, 'HttpClient', {
 	  enumerable: true,
@@ -3859,7 +4002,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _httpRequestMessage = __webpack_require__(121);
+	var _httpRequestMessage = __webpack_require__(122);
 	
 	Object.defineProperty(exports, 'HttpRequestMessage', {
 	  enumerable: true,
@@ -3868,7 +4011,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _httpResponseMessage = __webpack_require__(123);
+	var _httpResponseMessage = __webpack_require__(124);
 	
 	Object.defineProperty(exports, 'HttpResponseMessage', {
 	  enumerable: true,
@@ -3877,7 +4020,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _jsonpRequestMessage = __webpack_require__(125);
+	var _jsonpRequestMessage = __webpack_require__(126);
 	
 	Object.defineProperty(exports, 'JSONPRequestMessage', {
 	  enumerable: true,
@@ -3886,7 +4029,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _headers = __webpack_require__(118);
+	var _headers = __webpack_require__(119);
 	
 	Object.defineProperty(exports, 'Headers', {
 	  enumerable: true,
@@ -3895,7 +4038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _requestBuilder = __webpack_require__(119);
+	var _requestBuilder = __webpack_require__(120);
 	
 	Object.defineProperty(exports, 'RequestBuilder', {
 	  enumerable: true,
@@ -3905,7 +4048,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 117 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3917,13 +4060,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _headers = __webpack_require__(118);
+	var _headers = __webpack_require__(119);
 	
-	var _requestBuilder = __webpack_require__(119);
+	var _requestBuilder = __webpack_require__(120);
 	
-	var _httpRequestMessage = __webpack_require__(121);
+	var _httpRequestMessage = __webpack_require__(122);
 	
-	var _jsonpRequestMessage = __webpack_require__(125);
+	var _jsonpRequestMessage = __webpack_require__(126);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4173,7 +4316,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 118 */
+/* 119 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4257,7 +4400,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4269,11 +4412,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _aureliaPath = __webpack_require__(120);
+	var _aureliaPath = __webpack_require__(121);
 	
-	var _httpRequestMessage = __webpack_require__(121);
+	var _httpRequestMessage = __webpack_require__(122);
 	
-	var _jsonpRequestMessage = __webpack_require__(125);
+	var _jsonpRequestMessage = __webpack_require__(126);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4451,7 +4594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4611,7 +4754,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4622,11 +4765,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.HttpRequestMessage = undefined;
 	exports.createHttpRequestMessageProcessor = createHttpRequestMessageProcessor;
 	
-	var _headers = __webpack_require__(118);
+	var _headers = __webpack_require__(119);
 	
-	var _requestMessageProcessor = __webpack_require__(122);
+	var _requestMessageProcessor = __webpack_require__(123);
 	
-	var _transformers = __webpack_require__(124);
+	var _transformers = __webpack_require__(125);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4645,7 +4788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 122 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4657,9 +4800,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _httpResponseMessage = __webpack_require__(123);
+	var _httpResponseMessage = __webpack_require__(124);
 	
-	var _aureliaPath = __webpack_require__(120);
+	var _aureliaPath = __webpack_require__(121);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4751,7 +4894,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 123 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4763,7 +4906,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _headers = __webpack_require__(118);
+	var _headers = __webpack_require__(119);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4821,7 +4964,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 124 */
+/* 125 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -4903,7 +5046,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 125 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4917,11 +5060,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.createJSONPRequestMessageProcessor = createJSONPRequestMessageProcessor;
 	
-	var _headers = __webpack_require__(118);
+	var _headers = __webpack_require__(119);
 	
-	var _requestMessageProcessor = __webpack_require__(122);
+	var _requestMessageProcessor = __webpack_require__(123);
 	
-	var _transformers = __webpack_require__(124);
+	var _transformers = __webpack_require__(125);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	

@@ -1,0 +1,14 @@
+{
+  "requestUrl": "/rest/$directory/currentUserBelongsTo",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "result": false
+  },
+  "headers": {
+    "set-cookie": [
+      "WASID=6B9A643C3AE746529EBC268EEB724216; Path=/; Max-Age=31536000; Expires=Sat, 16-Sep-2017 10:10:54 GMT; HttpOnly; Version=1"
+    ],
+    "wasid": "6B9A643C3AE746529EBC268EEB724216"
+  }
+}
