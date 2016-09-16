@@ -28,7 +28,7 @@ declare class DataClassBusiness extends AbstractBusiness {
     find(id: string | number, options?: QueryOption): Promise<Entity>;
     query(options?: QueryOption): Promise<Collection>;
     create(pojo?: any): Entity;
-    private _createEntity({key, deferred});
+    private _createEntity({key, deferred, dbo});
     private _createCollection({uri, deferred, pageSize, initialSelect});
     _createMedia({uri, isImage, attributeName, entity}: {
         uri: string;
@@ -36,6 +36,7 @@ declare class DataClassBusiness extends AbstractBusiness {
         attributeName: string;
         entity: Entity;
     }): Media;
+    private _populateEntityDataFromDbo({dbo, entity});
     _presentationEntityFromDbo({dbo}: {
         dbo: IEntityDBO;
     }): Entity;

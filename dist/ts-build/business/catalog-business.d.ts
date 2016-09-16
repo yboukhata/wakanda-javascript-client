@@ -8,6 +8,7 @@ export interface IDataClassDBO {
         type: string;
         kind: string;
         readOnly: boolean;
+        simpleDate: boolean;
     }[];
     methods: {
         name: string;
