@@ -119,6 +119,20 @@ describe('Entity API', function () {
           expect(employee.employer).to.be.null;
         });
     });
+    it('should update only changed attributes', function() {
+      return ds.Employee.query({ pageSize: 1, start: 12 })
+        .then(function (employees) {
+          return employees.entities[0];
+        })
+        .then(function (employee) {
+          var oldStamp = employee._stamp;
+          return employee.save()
+            .then(function () {
+              expect(employee._stamp).to.be.equal(oldStamp);
+            });
+        });
+    });
+
   });
 
   describe('delete method', function () {
@@ -242,7 +256,7 @@ describe('Entity API', function () {
         expect(function () {
           employee.employer.fetch({start: 0});
         }).to.throw(Error);
-      })
+      });
     });
   });
 
