@@ -237,7 +237,7 @@ class EntityBusiness extends AbstractBusiness {
     let expand = '';
     for (let attr of this.dataClass.attributes) {
       if (attr instanceof AttributeRelated || attr instanceof AttributeCollection) {
-        if (this.entity[attr.name] instanceof Entity) {
+        if (this.entity[attr.name] instanceof Entity && !this.entity[attr.name]._deferred) {
           expand += attr.name + ',';
         }
       }
