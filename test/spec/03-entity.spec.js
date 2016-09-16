@@ -119,6 +119,36 @@ describe('Entity API', function () {
           expect(employee.employer).to.be.null;
         });
     });
+    it('should not expand "not expanded" related entity attributes on update', function() {
+      return ds.Employee.query({ pageSize: 1, start: 10 })
+        .then(function (employees) {
+          return employees.entities[0];
+        })
+        .then(function (employee) {
+          employee.firstName = 'Arnaud';
+          return employee.save()
+            .then(function () {
+              expect(employee.employer._deferred).to.be.true;
+              expect(employee.employer.name).to.be.undefined;
+            });
+        });
+    });
+
+    it('should expand "expanded" related entity attributes on update', function() {
+      return ds.Employee.query({ pageSize: 1, start: 10, select: 'employer' })
+        .then(function (employees) {
+          return employees.entities[0];
+        })
+        .then(function (employee) {
+          employee.firstName = 'Arnaud';
+          return employee.save()
+            .then(function () {
+              expect(employee.employer._deferred).to.be.false;
+              expect(employee.employer.name).to.be.equal('Earth Sable Andloging');
+            });
+        });
+    });
+
     it('should update only changed attributes', function() {
       return ds.Employee.query({ pageSize: 1, start: 12 })
         .then(function (employees) {
