@@ -1,5 +1,12 @@
 # Wakanda Javascript Client
 
+## v0.4.0 - Beta
+
+- [Feature] Handling `date` and `simple date` attributes
+- [Bugfix] Fix upload/remove files
+- [Bugfix] Update only changed attributes of an entity
+- [Bugfix] Fix on expanding implicitly related entity after an update
+
 ## v0.3.6 - Beta
 
 - [Bugfix] Fix bug getting related entities DataClass name
