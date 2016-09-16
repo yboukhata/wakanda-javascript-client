@@ -3,28 +3,30 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/9233AD5400A445638E547A75D30A309A",
+    "__ENTITYSET": "/rest/Employee/$entityset/690815EF40844BC2BA883648CCC54806",
     "__entityModel": "Employee",
     "__COUNT": 1001,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "7009",
-        "__STAMP": 14,
-        "ID": 7009,
+        "__KEY": "152150",
+        "__STAMP": 358,
+        "ID": 152150,
         "lastName": "Smith",
         "firstName": "John",
         "salary": 80000,
         "employer": {
           "__deferred": {
-            "uri": "/rest/Company(434)",
-            "__KEY": "434"
+            "uri": "/rest/Company(9424)",
+            "__KEY": "9424"
           }
         },
         "salaryProcessed": "2588410.3924677256 baht",
         "employerName": "Bag While Engineering",
-        "photo": null
+        "photo": null,
+        "birthDate": null,
+        "hiringDate": null
       }
     ]
   },

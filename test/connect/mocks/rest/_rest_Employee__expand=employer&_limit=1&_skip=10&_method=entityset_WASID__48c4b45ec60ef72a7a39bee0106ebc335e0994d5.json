@@ -1,0 +1,39 @@
+{
+  "requestUrl": "/rest/Employee?$expand=employer&$limit=1&$skip=10&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Employee/$entityset/3B77C86E6CC941569F31994CA62D9489",
+    "__entityModel": "Employee",
+    "__COUNT": 1001,
+    "__SENT": 1,
+    "__FIRST": 10,
+    "__ENTITIES": [
+      {
+        "__KEY": "152140",
+        "__STAMP": 378,
+        "ID": 152140,
+        "lastName": "TROPETHO",
+        "firstName": "Arnaud",
+        "salary": 82507,
+        "employer": {
+          "__KEY": "9422",
+          "__STAMP": 303,
+          "ID": 9422,
+          "name": "Earth Sable Andloging",
+          "staff": {
+            "__deferred": {
+              "uri": "/rest/Company(9422)/staff?$expand=staff"
+            }
+          }
+        },
+        "salaryProcessed": "2669524.7031416832 baht",
+        "employerName": "Earth Sable Andloging",
+        "photo": null,
+        "birthDate": "1939-08-28T18:02:27.469Z",
+        "hiringDate": "21!5!2012"
+      }
+    ]
+  },
+  "headers": {}
+}

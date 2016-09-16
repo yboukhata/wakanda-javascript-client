@@ -1,0 +1,29 @@
+{
+  "requestUrl": "/rest/Employee?$filter=%22hiringDate%20=%20null%22&$limit=1&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Employee/$entityset/C3AD03F6B6C946DFB601B0619F44DEBD",
+    "__entityModel": "Employee",
+    "__COUNT": 1,
+    "__SENT": 1,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "152150",
+        "__STAMP": 359,
+        "ID": 152150,
+        "lastName": "Smith",
+        "firstName": "John",
+        "salary": 80000,
+        "employer": null,
+        "salaryProcessed": "2588410.3924677256 baht",
+        "employerName": null,
+        "photo": null,
+        "birthDate": null,
+        "hiringDate": null
+      }
+    ]
+  },
+  "headers": {}
+}

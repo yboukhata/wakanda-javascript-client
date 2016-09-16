@@ -1,0 +1,34 @@
+{
+  "requestUrl": "/rest/Employee?$filter=%22birthDate%20!=%20null%22&$limit=1&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Employee/$entityset/F38481E18F944F28A4D3C48AF969145B",
+    "__entityModel": "Employee",
+    "__COUNT": 1000,
+    "__SENT": 1,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "152149",
+        "__STAMP": 323,
+        "ID": 152149,
+        "lastName": "LUHEJI",
+        "firstName": "HARRY",
+        "salary": 132765,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(9424)",
+            "__KEY": "9424"
+          }
+        },
+        "salaryProcessed": "4295628.82194972 baht",
+        "employerName": "Bag While Engineering",
+        "photo": null,
+        "birthDate": "1913-02-21T01:23:07.290Z",
+        "hiringDate": "4!8!1991"
+      }
+    ]
+  },
+  "headers": {}
+}
