@@ -13,12 +13,12 @@ class CollectionService extends AbstractService {
   private collectionUri: string;
   private isEntitySet: boolean;
 
-  constructor({wakJSC, collection, dataClass, collectionUri}:
-    {wakJSC: WakandaClient, collection: Collection, dataClass: DataClass, collectionUri: string}) {
+  constructor({wakJSC, collection, dataClassBusiness, collectionUri}:
+    {wakJSC: WakandaClient, collection: Collection, dataClassBusiness: DataClassBusiness, collectionUri: string}) {
     super({wakJSC});
 
     this.collection = collection;
-    this.dataClass = dataClass;
+    this.dataClassBusiness = dataClassBusiness;
     this.collectionUri = collectionUri;
     this.isEntitySet = isEntitySetUri(collectionUri);
   }
