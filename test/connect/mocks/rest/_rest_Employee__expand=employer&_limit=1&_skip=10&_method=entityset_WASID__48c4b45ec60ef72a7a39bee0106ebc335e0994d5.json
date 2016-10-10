@@ -3,27 +3,27 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/3B77C86E6CC941569F31994CA62D9489",
+    "__ENTITYSET": "/rest/Employee/$entityset/28A822EF3BB246799A93AD1D59C52367",
     "__entityModel": "Employee",
     "__COUNT": 1001,
     "__SENT": 1,
     "__FIRST": 10,
     "__ENTITIES": [
       {
-        "__KEY": "152140",
-        "__STAMP": 378,
-        "ID": 152140,
+        "__KEY": "98124",
+        "__STAMP": 209,
+        "ID": 98124,
         "lastName": "TROPETHO",
         "firstName": "Arnaud",
         "salary": 82507,
         "employer": {
-          "__KEY": "9422",
-          "__STAMP": 303,
-          "ID": 9422,
+          "__KEY": "6074",
+          "__STAMP": 195,
+          "ID": 6074,
           "name": "Earth Sable Andloging",
           "staff": {
             "__deferred": {
-              "uri": "/rest/Company(9422)/staff?$expand=staff"
+              "uri": "/rest/Company(6074)/staff?$expand=staff"
             }
           }
         },
@@ -31,7 +31,7 @@
         "employerName": "Earth Sable Andloging",
         "photo": null,
         "birthDate": "1939-08-28T18:02:27.469Z",
-        "hiringDate": "21!5!2012"
+        "hiringDate": null
       }
     ]
   },

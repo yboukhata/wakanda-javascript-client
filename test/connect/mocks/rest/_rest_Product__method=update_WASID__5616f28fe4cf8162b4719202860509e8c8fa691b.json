@@ -3,10 +3,10 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__KEY": "4454",
-    "__STAMP": 350,
-    "uri": "/rest/Product(4454)",
-    "ID": 4454,
+    "__KEY": "2474",
+    "__STAMP": 119,
+    "uri": "/rest/Product(2474)",
+    "ID": 2474,
     "name": "FooProduct",
     "myBoolean": true,
     "spec": {

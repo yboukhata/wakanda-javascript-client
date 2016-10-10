@@ -1,0 +1,696 @@
+{
+  "requestUrl": "/rest/Employee/$entityset/CD348F8706E546A5B44FC27223CBFC0E/someCompanies",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__entityModel": "Company",
+    "__COUNT": 62,
+    "__SENT": 62,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "6076",
+        "__STAMP": 195,
+        "ID": 6076,
+        "name": "Bag While Engineering",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6076)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6075",
+        "__STAMP": 195,
+        "ID": 6075,
+        "name": "Kilo Data Ireland",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6075)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6074",
+        "__STAMP": 195,
+        "ID": 6074,
+        "name": "Earth Sable Andloging",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6074)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6073",
+        "__STAMP": 195,
+        "ID": 6073,
+        "name": "Mexican Worldwide Fusion",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6073)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6072",
+        "__STAMP": 195,
+        "ID": 6072,
+        "name": "Calendar Sable Diffusing Ring",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6072)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6071",
+        "__STAMP": 195,
+        "ID": 6071,
+        "name": "Yankee Maxime Oval",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6071)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6070",
+        "__STAMP": 195,
+        "ID": 6070,
+        "name": "Alpha Montain Training",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6070)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6069",
+        "__STAMP": 195,
+        "ID": 6069,
+        "name": "Video Peter Graphics",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6069)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6068",
+        "__STAMP": 195,
+        "ID": 6068,
+        "name": "Bravo Rect Stone",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6068)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6067",
+        "__STAMP": 195,
+        "ID": 6067,
+        "name": "Flying Engine Left",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6067)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6066",
+        "__STAMP": 195,
+        "ID": 6066,
+        "name": "Curtain Coin Loran",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6066)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6065",
+        "__STAMP": 195,
+        "ID": 6065,
+        "name": "Romeo Preview General",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6065)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6064",
+        "__STAMP": 195,
+        "ID": 6064,
+        "name": "Oscar Week Tree",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6064)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6063",
+        "__STAMP": 195,
+        "ID": 6063,
+        "name": "Fake Address Room",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6063)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6062",
+        "__STAMP": 195,
+        "ID": 6062,
+        "name": "Television Year Platinium",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6062)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6061",
+        "__STAMP": 195,
+        "ID": 6061,
+        "name": "Mega Output Ice",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6061)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6060",
+        "__STAMP": 195,
+        "ID": 6060,
+        "name": "Sun Address Repeat",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6060)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6059",
+        "__STAMP": 195,
+        "ID": 6059,
+        "name": "FourD Best Parent",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6059)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6058",
+        "__STAMP": 195,
+        "ID": 6058,
+        "name": "Network Rocket See",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6058)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6057",
+        "__STAMP": 195,
+        "ID": 6057,
+        "name": "Oscar Best Spike",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6057)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6056",
+        "__STAMP": 195,
+        "ID": 6056,
+        "name": "Lima Astral Box",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6056)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6055",
+        "__STAMP": 195,
+        "ID": 6055,
+        "name": "Hand Year Papers",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6055)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6054",
+        "__STAMP": 195,
+        "ID": 6054,
+        "name": "Mopyfare Corridor Engineering",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6054)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6053",
+        "__STAMP": 195,
+        "ID": 6053,
+        "name": "Calendar House Drawer",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6053)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6052",
+        "__STAMP": 195,
+        "ID": 6052,
+        "name": "America Bart Software",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6052)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6051",
+        "__STAMP": 195,
+        "ID": 6051,
+        "name": "Uniform Power S.A.",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6051)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6050",
+        "__STAMP": 195,
+        "ID": 6050,
+        "name": "Carlyo Data Computed",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6050)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6049",
+        "__STAMP": 195,
+        "ID": 6049,
+        "name": "Cup Texas White",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6049)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6048",
+        "__STAMP": 195,
+        "ID": 6048,
+        "name": "Very Washington Tree",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6048)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6047",
+        "__STAMP": 195,
+        "ID": 6047,
+        "name": "Movie Rent Secretary",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6047)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6046",
+        "__STAMP": 195,
+        "ID": 6046,
+        "name": "India Junior Bytes",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6046)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6045",
+        "__STAMP": 195,
+        "ID": 6045,
+        "name": "Circle Audio Diffusing Ring",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6045)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6044",
+        "__STAMP": 195,
+        "ID": 6044,
+        "name": "X-Ray Date See",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6044)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6043",
+        "__STAMP": 195,
+        "ID": 6043,
+        "name": "Delta Apple Papers",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6043)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6042",
+        "__STAMP": 195,
+        "ID": 6042,
+        "name": "Month Sea Production",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6042)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6041",
+        "__STAMP": 195,
+        "ID": 6041,
+        "name": "Firestone Tea Fusion",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6041)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6040",
+        "__STAMP": 195,
+        "ID": 6040,
+        "name": "Listbox Laser Andloging",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6040)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6039",
+        "__STAMP": 195,
+        "ID": 6039,
+        "name": "Parking New York Repeat",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6039)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6038",
+        "__STAMP": 195,
+        "ID": 6038,
+        "name": "November Capture Engineering",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6038)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6037",
+        "__STAMP": 195,
+        "ID": 6037,
+        "name": "Restaurant Maxime Engineering",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6037)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6036",
+        "__STAMP": 195,
+        "ID": 6036,
+        "name": "Video Gold Creations Cool",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6036)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6035",
+        "__STAMP": 195,
+        "ID": 6035,
+        "name": "Seconds Coolupe General",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6035)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6034",
+        "__STAMP": 195,
+        "ID": 6034,
+        "name": "Forest Peter Happy",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6034)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6033",
+        "__STAMP": 195,
+        "ID": 6033,
+        "name": "Paper Driver See",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6033)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6032",
+        "__STAMP": 195,
+        "ID": 6032,
+        "name": "Very Coin Engineering",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6032)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6031",
+        "__STAMP": 195,
+        "ID": 6031,
+        "name": "Flying Terra Loran",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6031)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6030",
+        "__STAMP": 195,
+        "ID": 6030,
+        "name": "Key Rect Andloging",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6030)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6029",
+        "__STAMP": 195,
+        "ID": 6029,
+        "name": "Paper Theater Blue",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6029)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6028",
+        "__STAMP": 195,
+        "ID": 6028,
+        "name": "Blobarray Core Library",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6028)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6027",
+        "__STAMP": 195,
+        "ID": 6027,
+        "name": "Month Business Plane",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6027)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6026",
+        "__STAMP": 195,
+        "ID": 6026,
+        "name": "Moon Developing Tree",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6026)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6025",
+        "__STAMP": 195,
+        "ID": 6025,
+        "name": "X-Ray Corridor Plane",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6025)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6024",
+        "__STAMP": 195,
+        "ID": 6024,
+        "name": "Desert North Partner",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6024)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6023",
+        "__STAMP": 195,
+        "ID": 6023,
+        "name": "Thai Kimono Twist",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6023)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6022",
+        "__STAMP": 195,
+        "ID": 6022,
+        "name": "Desert Junior Ireland",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6022)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6021",
+        "__STAMP": 195,
+        "ID": 6021,
+        "name": "Path House Construction",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6021)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6020",
+        "__STAMP": 195,
+        "ID": 6020,
+        "name": "Light Sable Computing",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6020)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6019",
+        "__STAMP": 195,
+        "ID": 6019,
+        "name": "Hotel Apple Feet",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6019)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6018",
+        "__STAMP": 195,
+        "ID": 6018,
+        "name": "Parking Power Sand",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6018)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6017",
+        "__STAMP": 195,
+        "ID": 6017,
+        "name": "Path Best Fabric",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6017)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6016",
+        "__STAMP": 195,
+        "ID": 6016,
+        "name": "Blobarray Coolupe Orange",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6016)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6015",
+        "__STAMP": 195,
+        "ID": 6015,
+        "name": "Listbox Dolphin Eye",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6015)/staff?$expand=staff"
+          }
+        }
+      }
+    ]
+  },
+  "headers": {}
+}

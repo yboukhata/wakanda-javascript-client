@@ -3,30 +3,30 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Employee/$entityset/487E82BDDAF44FC09A711B2D942FB427",
+    "__ENTITYSET": "/rest/Employee/$entityset/C60D454A6719473CB2646802D5955726",
     "__entityModel": "Employee",
     "__COUNT": 1,
     "__SENT": 1,
     "__FIRST": 0,
     "__ENTITIES": [
       {
-        "__KEY": "152142",
-        "__STAMP": 305,
-        "ID": 152142,
+        "__KEY": "98126",
+        "__STAMP": 195,
+        "ID": 98126,
         "lastName": "GIBAMOWO",
         "firstName": "ARON",
         "salary": 60631,
         "employer": {
           "__deferred": {
-            "uri": "/rest/Company(9423)",
-            "__KEY": "9423"
+            "uri": "/rest/Company(6075)",
+            "__KEY": "6075"
           }
         },
         "salaryProcessed": "1961723.8813213834 baht",
         "employerName": "Kilo Data Ireland",
         "photo": null,
         "birthDate": "1957-05-26T04:39:51.382Z",
-        "hiringDate": "4!11!1990"
+        "hiringDate": null
       }
     ]
   },

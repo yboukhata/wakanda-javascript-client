@@ -1,0 +1,230 @@
+{
+  "requestUrl": "/rest/Product?$limit=10&$method=entityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Product/$entityset/45BE0A869C1A4831BF72A94F916F8B51",
+    "__entityModel": "Product",
+    "__COUNT": 27,
+    "__SENT": 10,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "2473",
+        "__STAMP": 87,
+        "ID": 2473,
+        "name": null,
+        "myBoolean": false,
+        "born": null,
+        "spec": null,
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2474",
+        "__STAMP": 119,
+        "ID": 2474,
+        "name": "FooProduct",
+        "myBoolean": true,
+        "born": null,
+        "spec": {
+          "foo": "bar",
+          "number": 1234,
+          "subObject": {
+            "baz": "taz"
+          }
+        },
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2472",
+        "__STAMP": 72,
+        "ID": 2472,
+        "name": null,
+        "myBoolean": true,
+        "born": null,
+        "spec": null,
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2471",
+        "__STAMP": 262,
+        "ID": 2471,
+        "name": "watermelon true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "name": "watermelon true",
+          "myObject": {
+            "myArray": [
+              {
+                "foo": "bar"
+              },
+              "tata"
+            ]
+          },
+          "myArray": [
+            {
+              "foo": "bar"
+            },
+            "tata"
+          ]
+        },
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2470",
+        "__STAMP": 195,
+        "ID": 2470,
+        "name": "strawberry true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "name": "strawberry true",
+          "myObject": {
+            "myArray": [
+              {
+                "foo": "bar"
+              },
+              "tata"
+            ]
+          },
+          "myArray": [
+            {
+              "foo": "bar"
+            },
+            "tata"
+          ]
+        },
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2469",
+        "__STAMP": 251,
+        "ID": 2469,
+        "name": "rasberry true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "foo": "bar",
+          "baz": 1136
+        },
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2468",
+        "__STAMP": 195,
+        "ID": 2468,
+        "name": "pineapple true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "name": "pineapple true",
+          "myObject": {
+            "myArray": [
+              {
+                "foo": "bar"
+              },
+              "tata"
+            ]
+          },
+          "myArray": [
+            {
+              "foo": "bar"
+            },
+            "tata"
+          ]
+        },
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2467",
+        "__STAMP": 195,
+        "ID": 2467,
+        "name": "pear true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "name": "pear true",
+          "myObject": {
+            "myArray": [
+              {
+                "foo": "bar"
+              },
+              "tata"
+            ]
+          },
+          "myArray": [
+            {
+              "foo": "bar"
+            },
+            "tata"
+          ]
+        },
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2466",
+        "__STAMP": 195,
+        "ID": 2466,
+        "name": "pepper true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "name": "pepper true",
+          "myObject": {
+            "myArray": [
+              {
+                "foo": "bar"
+              },
+              "tata"
+            ]
+          },
+          "myArray": [
+            {
+              "foo": "bar"
+            },
+            "tata"
+          ]
+        },
+        "photo": null,
+        "myNumber": null
+      },
+      {
+        "__KEY": "2465",
+        "__STAMP": 197,
+        "ID": 2465,
+        "name": "peach true",
+        "myBoolean": null,
+        "born": null,
+        "spec": {
+          "name": "peach true",
+          "myObject": {
+            "myArray": [
+              {
+                "foo": "bar"
+              },
+              "tata"
+            ]
+          },
+          "myArray": [
+            {
+              "foo": "bar"
+            },
+            "tata"
+          ]
+        },
+        "photo": null,
+        "myNumber": null
+      }
+    ]
+  },
+  "headers": {}
+}
