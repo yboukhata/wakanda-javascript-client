@@ -9,10 +9,13 @@ if (!isBrowser()) {
   var serverInfo = require('./server.' + testEnv + '.json');
 
   var WakandaClient = require('../dist/wakanda-client.node.js');
-  wakClient = new WakandaClient.WakandaClient(serverInfo.host + ':' + serverInfo.port);
+  wakClient = new WakandaClient.WakandaClient({ host: serverInfo.host + ':' + serverInfo.port });
+
+  wakClientPublication = new WakandaClient.WakandaClient({ host: serverInfo.host + ':' + serverInfo.port, catalog: 'publication' });
 }
 else {
   wakClient = new WakandaClient.WakandaClient();
+  wakClientPublication = new WakandaClient.WakandaClient({ catalog: 'publication' });
 }
 
 beforeEach(function () {
@@ -23,5 +26,6 @@ beforeEach(function () {
   }
   else {
     wakClient._httpClient._clearCookie();
+    wakClientPublication._httpClient._clearCookie();
   }
 });
