@@ -9,8 +9,8 @@
 					"isOpen": "true",
 					"pathVisible": true,
 					"position": {
-						"X": 51,
-						"Y": 331
+						"X": 31,
+						"Y": 52
 					}
 				}
 			},
@@ -20,8 +20,8 @@
 					"isOpen": "true",
 					"pathVisible": true,
 					"position": {
-						"X": 387,
-						"Y": 55
+						"X": 519,
+						"Y": 93
 					}
 				}
 			},
@@ -40,7 +40,7 @@
 		"model": {
 			"scriptMode": "manual",
 			"workspaceLeft": 0,
-			"workspaceTop": 100,
+			"workspaceTop": 16,
 			"lastScriptLocation": {
 				"Product": {
 					"method": "Product/Product-methods.js",
@@ -203,16 +203,17 @@
 				},
 				{
 					"name": "birthDate",
+					"kind": "storage",
+					"matchColumn": "born",
 					"scope": "public",
 					"type": "date",
-					"kind": "storage",
-					"matchColumn": "born"
+					"simpleDate": false
 				},
 				{
 					"name": "hiringDate",
+					"kind": "storage",
 					"scope": "public",
 					"type": "date",
-					"kind": "storage",
 					"simpleDate": true
 				}
 			],
@@ -372,6 +373,5 @@
 				}
 			]
 		}
-	],
-	"type": []
+	]
 }
