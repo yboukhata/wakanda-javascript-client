@@ -16,11 +16,13 @@ declare class DataClassBusiness extends AbstractBusiness {
     dataClass: DataClass;
     methods: IMethodsArray;
     _dataClassBusinessMap: Map<string, DataClassBusiness>;
+    dataURI: string;
     private service;
-    constructor({wakJSC, dataClass, methods}: {
+    constructor({wakJSC, dataClass, methods, dataURI}: {
         wakJSC: WakandaClient;
         dataClass: DataClass;
         methods: IMethodsArray;
+        dataURI: string;
     });
     _decorateDataClass(): void;
     private _addUserDefinedMethods();

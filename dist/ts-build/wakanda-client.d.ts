@@ -17,7 +17,11 @@ declare class WakandaClient {
     _httpClient: HttpClient;
     directory: IDirectory;
     helper: IHelper;
-    constructor(host?: string);
+    catalog: string;
+    constructor(params: {
+        host?: string;
+        catalog?: string;
+    } | any);
     getCatalog(dataClasses?: string[]): Promise<Catalog>;
     version(): string;
 }
