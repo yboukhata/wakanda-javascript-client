@@ -31,19 +31,21 @@ class DataClassBusiness extends AbstractBusiness {
   public dataClass: DataClass;
   public methods: IMethodsArray;
   public _dataClassBusinessMap: Map<string, DataClassBusiness>;
+  public dataURI: string;
 
   private service: DataClassService;
 
-  constructor({wakJSC, dataClass, methods}:
-  {wakJSC: WakandaClient, dataClass: DataClass, methods: IMethodsArray}) {
+  constructor({wakJSC, dataClass, methods, dataURI}:
+  {wakJSC: WakandaClient, dataClass: DataClass, methods: IMethodsArray, dataURI: string}) {
     super({wakJSC});
 
     this.dataClass = dataClass;
     this.methods = methods;
     this.service = new DataClassService({
       wakJSC: this.wakJSC,
-      dataClass
+      dataClassBusiness: this
     });
+    this.dataURI = dataURI;
 
     _dataClassBusinessMap.set(dataClass.name, this);
     this._dataClassBusinessMap = _dataClassBusinessMap;

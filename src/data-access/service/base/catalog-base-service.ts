@@ -51,7 +51,8 @@ export class CatalogBaseService {
               name: d.name,
               collectionName: d.collectionName,
               attributes,
-              methods
+              methods,
+              dataURI: d.dataURI
             });
           }
         }

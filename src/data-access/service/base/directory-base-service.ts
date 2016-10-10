@@ -19,7 +19,7 @@ export class DirectoryBaseService {
   {httpClient: HttpClient, username: string, password: string, duration?: number}): Promise<boolean> {
 
     return httpClient.post({
-      uri: '/$directory/login',
+      uri: '/rest/$directory/login',
       data: [username, password, duration]
     }).then(() => {
         return true;
@@ -28,7 +28,7 @@ export class DirectoryBaseService {
 
   public static logout({httpClient}: {httpClient: HttpClient}): Promise<boolean> {
     return httpClient.get({
-      uri: '/$directory/logout'
+      uri: '/rest/$directory/logout'
     }).then(res => {
       let obj = JSON.parse(res.body);
       if (obj.result && obj.result === true) {
@@ -42,7 +42,7 @@ export class DirectoryBaseService {
 
   public static currentUser({httpClient}: {httpClient: HttpClient}): Promise<ICurrentUserDBO> {
     return httpClient.get({
-      uri: '/$directory/currentUser'
+      uri: '/rest/$directory/currentUser'
     })
       .then(res => {
         let obj = JSON.parse(res.body);
@@ -58,7 +58,7 @@ export class DirectoryBaseService {
 
   public static currentUserBelongsTo({httpClient, group}: ICurrentUserBelongsToParams): Promise<boolean> {
     return httpClient.post({
-      uri: '/$directory/currentUserBelongsTo',
+      uri: '/rest/$directory/currentUserBelongsTo',
       data: [group]
     }).then(res => {
       let obj = JSON.parse(res.body);

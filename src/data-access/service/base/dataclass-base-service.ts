@@ -8,25 +8,25 @@ export interface IFindParams {
   httpClient: HttpClient;
   key: number|string;
   options: QueryOption;
-  dataClassName: string;
+  dataURI: string;
 }
 
 export interface IQueryParams {
   httpClient: HttpClient;
   options: QueryOption;
-  dataClassName: string;
+  dataURI: string;
 }
 
 export interface ICallMethodParams {
   httpClient: HttpClient;
   methodName: string;
   parameters: any[];
-  dataClassName: string;
+  dataURI: string;
 }
 
 export class DataClassBaseService {
 
-  public static find({httpClient, key, options, dataClassName}: IFindParams) {
+  public static find({httpClient, key, options, dataURI}: IFindParams) {
 
     if (typeof key !== 'string' && typeof key !== 'number') {
       throw new Error('DataClass.find: Invalid id type');
@@ -35,7 +35,7 @@ export class DataClassBaseService {
     let optString = Util.handleOptions(options);
 
     return httpClient.get({
-      uri: '/' + dataClassName + '(' + key + ')' + optString
+      uri: dataURI + '(' + key + ')' + optString
     })
       .then(res => {
         let entity = JSON.parse(res.body);
@@ -47,7 +47,7 @@ export class DataClassBaseService {
       });
   }
 
-  public static query({httpClient, options, dataClassName}: IQueryParams) {
+  public static query({httpClient, options, dataURI}: IQueryParams) {
 
     options.method = 'entityset';
 
@@ -58,7 +58,7 @@ export class DataClassBaseService {
     let optString = Util.handleOptions(options);
 
     return httpClient.get({
-      uri: '/' + dataClassName + optString
+      uri: dataURI + optString
     }).then(res => {
       let collection = JSON.parse(res.body);
       delete collection.__entityModel;
@@ -71,10 +71,10 @@ export class DataClassBaseService {
     });
   }
 
-  public static callMethod({httpClient, methodName, parameters, dataClassName}: ICallMethodParams) {
+  public static callMethod({httpClient, methodName, parameters, dataURI}: ICallMethodParams) {
 
     return httpClient.post({
-      uri: '/' + dataClassName + '/' + methodName,
+      uri: dataURI + '/' + methodName,
       data: parameters
     }).then(res => {
       let obj = JSON.parse(res.body);

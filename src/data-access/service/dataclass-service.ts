@@ -1,6 +1,6 @@
 import AbstractService from './abstract-service';
 import {QueryOption} from '../../presentation/query-option';
-import {DataClass} from '../../presentation/dataclass';
+import DataClassBusiness from '../../business/dataclass-business';
 import {IEntityDBO} from '../../business/entity-business';
 import {ICollectionDBO} from '../../business/collection-business';
 import {DataClassBaseService} from './base/dataclass-base-service';
@@ -8,12 +8,12 @@ import WakandaClient from '../../wakanda-client';
 
 class DataClassService extends AbstractService {
 
-  private dataClass: DataClass;
+  private dataClassBusiness: DataClassBusiness;
 
-  constructor({wakJSC, dataClass}: {wakJSC: WakandaClient, dataClass: DataClass}) {
+  constructor({wakJSC, dataClassBusiness}: {wakJSC: WakandaClient, dataClassBusiness: DataClassBusiness}) {
     super({wakJSC});
 
-    this.dataClass = dataClass;
+    this.dataClassBusiness = dataClassBusiness;
   }
 
   public find(id: string|number, options: QueryOption): Promise<IEntityDBO> {
@@ -21,7 +21,7 @@ class DataClassService extends AbstractService {
       httpClient: this.httpClient,
       key: id,
       options,
-      dataClassName: this.dataClass.name
+      dataURI: this.dataClassBusiness.dataURI
     });
   }
 
@@ -29,14 +29,14 @@ class DataClassService extends AbstractService {
     return DataClassBaseService.query({
       httpClient: this.httpClient,
       options,
-      dataClassName: this.dataClass.name
+      dataURI: this.dataClassBusiness.dataURI
     });
   }
 
   public callMethod(methodName: string, parameters: any[]): Promise<any> {
     return DataClassBaseService.callMethod({
       httpClient: this.httpClient,
-      dataClassName: this.dataClass.name,
+      dataURI: this.dataClassBusiness.dataURI,
       methodName,
       parameters
     });

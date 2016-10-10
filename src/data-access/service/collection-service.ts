@@ -1,6 +1,6 @@
 import AbstractService from './abstract-service';
 import Collection from '../../presentation/collection';
-import {DataClass} from '../../presentation/dataclass';
+import DataClassBusiness from '../../business/dataclass-business';
 import {QueryOption} from '../../presentation/query-option';
 import {ICollectionDBO} from '../../business/collection-business';
 import {CollectionBaseService, isEntitySetUri} from './base/collection-base-service';
@@ -9,7 +9,7 @@ import WakandaClient from '../../wakanda-client';
 class CollectionService extends AbstractService {
 
   private collection: Collection;
-  private dataClass: DataClass;
+  private dataClassBusiness: DataClassBusiness;
   private collectionUri: string;
   private isEntitySet: boolean;
 
