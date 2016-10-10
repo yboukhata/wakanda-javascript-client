@@ -7,7 +7,7 @@ class Util {
       return null;
     }
 
-    var arr = stringDate.split('!');
+    let arr = stringDate.split('!');
     if(arr.length !== 3) {
       // return null or throw an error, simple date format is ko
       return null;
