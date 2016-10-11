@@ -1,1 +1,0 @@
-{"type":"mysql","connection":{"user":"root","password":"qa","hostname":"192.168.7.43","database":"win_database","port":3306,"ssl":false}}
