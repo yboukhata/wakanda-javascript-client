@@ -1,0 +1,69 @@
+{
+  "requestUrl": "/rest/Company/$entityset/D7730D6C153D4CA196A8598E19D7656F?$limit=5&$skip=5&$method=subentityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__entityModel": "Company",
+    "__COUNT": 62,
+    "__SENT": 5,
+    "__FIRST": 5,
+    "__ENTITIES": [
+      {
+        "__KEY": "6443",
+        "__STAMP": 207,
+        "ID": 6443,
+        "name": "Yankee Maxime Oval",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6443)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6442",
+        "__STAMP": 207,
+        "ID": 6442,
+        "name": "Alpha Montain Training",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6442)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6441",
+        "__STAMP": 207,
+        "ID": 6441,
+        "name": "Video Peter Graphics",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6441)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6440",
+        "__STAMP": 207,
+        "ID": 6440,
+        "name": "Bravo Rect Stone",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6440)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6439",
+        "__STAMP": 207,
+        "ID": 6439,
+        "name": "Flying Engine Left",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6439)/staff?$expand=staff"
+          }
+        }
+      }
+    ]
+  },
+  "headers": {}
+}

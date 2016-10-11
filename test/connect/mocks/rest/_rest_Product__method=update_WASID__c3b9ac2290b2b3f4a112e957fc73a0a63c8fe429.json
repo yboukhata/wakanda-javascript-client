@@ -1,0 +1,17 @@
+{
+  "requestUrl": "/rest/Product?$method=update",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__KEY": "2621",
+    "__STAMP": 267,
+    "uri": "/rest/Product(2621)",
+    "ID": 2621,
+    "name": "rasberry true",
+    "spec": {
+      "foo": "bar",
+      "baz": 1136
+    }
+  },
+  "headers": {}
+}

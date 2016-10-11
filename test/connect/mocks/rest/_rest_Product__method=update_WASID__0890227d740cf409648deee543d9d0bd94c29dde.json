@@ -3,10 +3,10 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__KEY": "2527",
-    "__STAMP": 201,
-    "uri": "/rest/Product(2527)",
-    "ID": 2527,
+    "__KEY": "2627",
+    "__STAMP": 211,
+    "uri": "/rest/Product(2627)",
+    "ID": 2627,
     "name": "Exotic value",
     "myBoolean": false,
     "myNumber": 0

@@ -1,0 +1,18 @@
+{
+  "requestUrl": "/rest/Product(2627)",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__entityModel": "Product",
+    "__KEY": "2627",
+    "__STAMP": 211,
+    "ID": 2627,
+    "name": "Exotic value",
+    "myBoolean": false,
+    "born": null,
+    "spec": null,
+    "photo": null,
+    "myNumber": 0
+  },
+  "headers": {}
+}

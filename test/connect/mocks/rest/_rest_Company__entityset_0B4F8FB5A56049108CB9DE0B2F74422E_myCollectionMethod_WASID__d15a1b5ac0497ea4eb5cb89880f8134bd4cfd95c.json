@@ -1,9 +1,0 @@
-{
-  "requestUrl": "/rest/Company/$entityset/0B4F8FB5A56049108CB9DE0B2F74422E/myCollectionMethod",
-  "contentType": "application/json; charset=UTF-8",
-  "statusCode": 200,
-  "data": {
-    "result": "This is a call to my collection method (Company)"
-  },
-  "headers": {}
-}
