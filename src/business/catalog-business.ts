@@ -7,6 +7,7 @@ import DataClassBusiness from './dataclass-business';
 export interface IDataClassDBO {
   name: string;
   collectionName: string;
+  dataURI: string;
   attributes: {
     name: string,
     type: string,
@@ -132,7 +133,8 @@ class CatalogBusiness extends AbstractBusiness {
         let dataClassBusiness = new DataClassBusiness({
           wakJSC: this.wakJSC,
           dataClass,
-          methods
+          methods,
+          dataURI: dcDBO.dataURI
         });
         dataClassBusiness._decorateDataClass();
 

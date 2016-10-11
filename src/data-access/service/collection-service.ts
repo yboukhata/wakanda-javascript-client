@@ -1,6 +1,6 @@
 import AbstractService from './abstract-service';
 import Collection from '../../presentation/collection';
-import {DataClass} from '../../presentation/dataclass';
+import DataClassBusiness from '../../business/dataclass-business';
 import {QueryOption} from '../../presentation/query-option';
 import {ICollectionDBO} from '../../business/collection-business';
 import {CollectionBaseService, isEntitySetUri} from './base/collection-base-service';
@@ -9,16 +9,16 @@ import WakandaClient from '../../wakanda-client';
 class CollectionService extends AbstractService {
 
   private collection: Collection;
-  private dataClass: DataClass;
+  private dataClassBusiness: DataClassBusiness;
   private collectionUri: string;
   private isEntitySet: boolean;
 
-  constructor({wakJSC, collection, dataClass, collectionUri}:
-    {wakJSC: WakandaClient, collection: Collection, dataClass: DataClass, collectionUri: string}) {
+  constructor({wakJSC, collection, dataClassBusiness, collectionUri}:
+    {wakJSC: WakandaClient, collection: Collection, dataClassBusiness: DataClassBusiness, collectionUri: string}) {
     super({wakJSC});
 
     this.collection = collection;
-    this.dataClass = dataClass;
+    this.dataClassBusiness = dataClassBusiness;
     this.collectionUri = collectionUri;
     this.isEntitySet = isEntitySetUri(collectionUri);
   }

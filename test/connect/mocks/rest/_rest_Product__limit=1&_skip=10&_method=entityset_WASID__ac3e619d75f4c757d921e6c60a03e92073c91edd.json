@@ -3,21 +3,21 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/Product/$entityset/ABB1580AB2E140CCA455D5B9D43E45BA",
+    "__ENTITYSET": "/rest/Product/$entityset/EBF8BF897EAE406CA5D1B0B0E7F85C78",
     "__entityModel": "Product",
-    "__COUNT": 26,
+    "__COUNT": 25,
     "__SENT": 1,
     "__FIRST": 10,
     "__ENTITIES": [
       {
-        "__KEY": "4443",
-        "__STAMP": 303,
-        "ID": 4443,
-        "name": "orange true",
+        "__KEY": "2642",
+        "__STAMP": 209,
+        "ID": 2642,
+        "name": "olive true",
         "myBoolean": null,
         "born": null,
         "spec": {
-          "name": "orange true",
+          "name": "olive true",
           "myObject": {
             "myArray": [
               {

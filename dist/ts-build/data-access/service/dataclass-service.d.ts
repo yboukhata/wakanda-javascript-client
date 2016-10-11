@@ -1,14 +1,14 @@
 import AbstractService from './abstract-service';
 import { QueryOption } from '../../presentation/query-option';
-import { DataClass } from '../../presentation/dataclass';
+import DataClassBusiness from '../../business/dataclass-business';
 import { IEntityDBO } from '../../business/entity-business';
 import { ICollectionDBO } from '../../business/collection-business';
 import WakandaClient from '../../wakanda-client';
 declare class DataClassService extends AbstractService {
-    private dataClass;
-    constructor({wakJSC, dataClass}: {
+    private dataClassBusiness;
+    constructor({wakJSC, dataClassBusiness}: {
         wakJSC: WakandaClient;
-        dataClass: DataClass;
+        dataClassBusiness: DataClassBusiness;
     });
     find(id: string | number, options: QueryOption): Promise<IEntityDBO>;
     query(options: QueryOption): Promise<ICollectionDBO>;

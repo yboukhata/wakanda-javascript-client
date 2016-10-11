@@ -1,18 +1,18 @@
 import AbstractService from './abstract-service';
 import Collection from '../../presentation/collection';
-import { DataClass } from '../../presentation/dataclass';
+import DataClassBusiness from '../../business/dataclass-business';
 import { QueryOption } from '../../presentation/query-option';
 import { ICollectionDBO } from '../../business/collection-business';
 import WakandaClient from '../../wakanda-client';
 declare class CollectionService extends AbstractService {
     private collection;
-    private dataClass;
+    private dataClassBusiness;
     private collectionUri;
     private isEntitySet;
-    constructor({wakJSC, collection, dataClass, collectionUri}: {
+    constructor({wakJSC, collection, dataClassBusiness, collectionUri}: {
         wakJSC: WakandaClient;
         collection: Collection;
-        dataClass: DataClass;
+        dataClassBusiness: DataClassBusiness;
         collectionUri: string;
     });
     fetch(options: QueryOption): Promise<ICollectionDBO>;

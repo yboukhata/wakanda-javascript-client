@@ -91,10 +91,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var collection_1 = __webpack_require__(28);
 	var packageOptions = __webpack_require__(32);
 	var WakandaClient = (function () {
-	    function WakandaClient(host) {
+	    function WakandaClient(params) {
+	        var host = typeof (params) === 'object' ? params.host : undefined;
+	        var catalog = typeof (params) === 'object' ? params.catalog : undefined;
 	        this._httpClient = new WakandaClient.HttpClient({
-	            apiPrefix: (host || '') + '/rest'
+	            apiPrefix: (host || '')
 	        });
+	        this.catalog = catalog;
 	        var directoryBusiness = new directory_business_1.default({
 	            wakJSC: this
 	        });
@@ -251,7 +254,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var dataClassBusiness = new dataclass_business_1.default({
 	                    wakJSC: _this.wakJSC,
 	                    dataClass: dataClass,
-	                    methods: methods
+	                    methods: methods,
+	                    dataURI: dcDBO.dataURI
 	                });
 	                dataClassBusiness._decorateDataClass();
 	                dcArray.push(dataClass);
@@ -311,7 +315,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    CatalogService.prototype.get = function (dataClasses) {
 	        return catalog_base_service_1.CatalogBaseService.get({
 	            httpClient: this.httpClient,
-	            dataClasses: dataClasses
+	            dataClasses: dataClasses,
+	            catalog: this.wakJSC.catalog
 	        });
 	    };
 	    return CatalogService;
@@ -346,7 +351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function CatalogBaseService() {
 	    }
 	    CatalogBaseService.get = function (_a) {
-	        var httpClient = _a.httpClient, dataClasses = _a.dataClasses;
+	        var httpClient = _a.httpClient, dataClasses = _a.dataClasses, catalog = _a.catalog;
 	        var strDataclasses = '/';
 	        if (Array.isArray(dataClasses)) {
 	            strDataclasses += dataClasses.join();
@@ -357,7 +362,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        else {
 	            throw new Error('Catalog.get: first parameter should be an array');
 	        }
-	        return httpClient.get({ uri: '/$catalog' + strDataclasses })
+	        var strCatalog = catalog ? '/' + catalog : '';
+	        return httpClient.get({ uri: '/rest/$catalog' + strCatalog + strDataclasses })
 	            .then(function (res) {
 	            var catalog = [];
 	            var rawObj = JSON.parse(res.body);
@@ -391,7 +397,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        name: d.name,
 	                        collectionName: d.collectionName,
 	                        attributes: attributes,
-	                        methods: methods
+	                        methods: methods,
+	                        dataURI: d.dataURI
 	                    });
 	                }
 	            }
@@ -502,14 +509,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DataClassBusiness = (function (_super) {
 	    __extends(DataClassBusiness, _super);
 	    function DataClassBusiness(_a) {
-	        var wakJSC = _a.wakJSC, dataClass = _a.dataClass, methods = _a.methods;
+	        var wakJSC = _a.wakJSC, dataClass = _a.dataClass, methods = _a.methods, dataURI = _a.dataURI;
 	        _super.call(this, { wakJSC: wakJSC });
 	        this.dataClass = dataClass;
 	        this.methods = methods;
 	        this.service = new dataclass_service_1.default({
 	            wakJSC: this.wakJSC,
-	            dataClass: dataClass
+	            dataClassBusiness: this
 	        });
+	        this.dataURI = dataURI;
 	        _dataClassBusinessMap.set(dataClass.name, this);
 	        this._dataClassBusinessMap = _dataClassBusinessMap;
 	    }
@@ -796,7 +804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.service = new entity_service_1.default({
 	            wakJSC: wakJSC,
 	            entity: entity,
-	            dataClass: dataClass
+	            dataClassBusiness: dataClassBusiness
 	        });
 	    }
 	    EntityBusiness.prototype._decorateEntity = function () {
@@ -1025,15 +1033,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var EntityService = (function (_super) {
 	    __extends(EntityService, _super);
 	    function EntityService(_a) {
-	        var wakJSC = _a.wakJSC, entity = _a.entity, dataClass = _a.dataClass;
+	        var wakJSC = _a.wakJSC, entity = _a.entity, dataClassBusiness = _a.dataClassBusiness;
 	        _super.call(this, { wakJSC: wakJSC });
 	        this.entity = entity;
-	        this.dataClass = dataClass;
+	        this.dataClassBusiness = dataClassBusiness;
 	    }
 	    EntityService.prototype.save = function (data, expand) {
 	        return entity_base_service_1.EntityBaseService.save({
 	            httpClient: this.httpClient,
-	            dataClassName: this.dataClass.name,
+	            dataURI: this.dataClassBusiness.dataURI,
 	            expand: expand,
 	            data: data
 	        });
@@ -1041,14 +1049,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    EntityService.prototype.recompute = function (data) {
 	        return entity_base_service_1.EntityBaseService.recompute({
 	            httpClient: this.httpClient,
-	            dataClassName: this.dataClass.name,
+	            dataURI: this.dataClassBusiness.dataURI,
 	            data: data
 	        });
 	    };
 	    EntityService.prototype.callMethod = function (methodName, parameters) {
 	        return entity_base_service_1.EntityBaseService.callMethod({
 	            httpClient: this.httpClient,
-	            dataClassName: this.dataClass.name,
+	            dataURI: this.dataClassBusiness.dataURI,
 	            methodName: methodName,
 	            parameters: parameters,
 	            entityKey: this.entity._key
@@ -1057,7 +1065,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    EntityService.prototype.delete = function () {
 	        return entity_base_service_1.EntityBaseService.delete({
 	            httpClient: this.httpClient,
-	            dataClassName: this.dataClass.name,
+	            dataURI: this.dataClassBusiness.dataURI,
 	            entityKey: this.entity._key
 	        });
 	    };
@@ -1077,13 +1085,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function EntityBaseService() {
 	    }
 	    EntityBaseService.save = function (_a) {
-	        var httpClient = _a.httpClient, data = _a.data, expand = _a.expand, dataClassName = _a.dataClassName;
+	        var httpClient = _a.httpClient, data = _a.data, expand = _a.expand, dataURI = _a.dataURI;
 	        var expandStr = '';
 	        if (expand) {
 	            expandStr = '&$expand=' + expand;
 	        }
 	        return httpClient.post({
-	            uri: '/' + dataClassName + '?$method=update' + expandStr,
+	            uri: dataURI + '?$method=update' + expandStr,
 	            data: data
 	        }).then(function (res) {
 	            var entity = JSON.parse(res.body);
@@ -1093,9 +1101,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    EntityBaseService.recompute = function (_a) {
-	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, data = _a.data;
+	        var httpClient = _a.httpClient, dataURI = _a.dataURI, data = _a.data;
 	        return httpClient.post({
-	            uri: '/' + dataClassName + '?$method=update&$refresh=true',
+	            uri: dataURI + '?$method=update&$refresh=true',
 	            data: data
 	        }).then(function (res) {
 	            var dbo = JSON.parse(res.body);
@@ -1105,9 +1113,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    EntityBaseService.callMethod = function (_a) {
-	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, methodName = _a.methodName, parameters = _a.parameters, entityKey = _a.entityKey;
+	        var httpClient = _a.httpClient, dataURI = _a.dataURI, methodName = _a.methodName, parameters = _a.parameters, entityKey = _a.entityKey;
 	        return httpClient.post({
-	            uri: '/' + dataClassName + '(' + entityKey + ')/' + methodName,
+	            uri: dataURI + '(' + entityKey + ')/' + methodName,
 	            data: parameters
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
@@ -1115,9 +1123,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    EntityBaseService.delete = function (_a) {
-	        var httpClient = _a.httpClient, dataClassName = _a.dataClassName, entityKey = _a.entityKey;
+	        var httpClient = _a.httpClient, dataURI = _a.dataURI, entityKey = _a.entityKey;
 	        return httpClient.post({
-	            uri: '/' + dataClassName + '(' + entityKey + ')?$method=delete'
+	            uri: dataURI + '(' + entityKey + ')?$method=delete'
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
 	            if (!(obj && obj.ok === true)) {
@@ -1343,29 +1351,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DataClassService = (function (_super) {
 	    __extends(DataClassService, _super);
 	    function DataClassService(_a) {
-	        var wakJSC = _a.wakJSC, dataClass = _a.dataClass;
+	        var wakJSC = _a.wakJSC, dataClassBusiness = _a.dataClassBusiness;
 	        _super.call(this, { wakJSC: wakJSC });
-	        this.dataClass = dataClass;
+	        this.dataClassBusiness = dataClassBusiness;
 	    }
 	    DataClassService.prototype.find = function (id, options) {
 	        return dataclass_base_service_1.DataClassBaseService.find({
 	            httpClient: this.httpClient,
 	            key: id,
 	            options: options,
-	            dataClassName: this.dataClass.name
+	            dataURI: this.dataClassBusiness.dataURI
 	        });
 	    };
 	    DataClassService.prototype.query = function (options) {
 	        return dataclass_base_service_1.DataClassBaseService.query({
 	            httpClient: this.httpClient,
 	            options: options,
-	            dataClassName: this.dataClass.name
+	            dataURI: this.dataClassBusiness.dataURI
 	        });
 	    };
 	    DataClassService.prototype.callMethod = function (methodName, parameters) {
 	        return dataclass_base_service_1.DataClassBaseService.callMethod({
 	            httpClient: this.httpClient,
-	            dataClassName: this.dataClass.name,
+	            dataURI: this.dataClassBusiness.dataURI,
 	            methodName: methodName,
 	            parameters: parameters
 	        });
@@ -1386,13 +1394,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function DataClassBaseService() {
 	    }
 	    DataClassBaseService.find = function (_a) {
-	        var httpClient = _a.httpClient, key = _a.key, options = _a.options, dataClassName = _a.dataClassName;
+	        var httpClient = _a.httpClient, key = _a.key, options = _a.options, dataURI = _a.dataURI;
 	        if (typeof key !== 'string' && typeof key !== 'number') {
 	            throw new Error('DataClass.find: Invalid id type');
 	        }
 	        var optString = util_1.default.handleOptions(options);
 	        return httpClient.get({
-	            uri: '/' + dataClassName + '(' + key + ')' + optString
+	            uri: dataURI + '(' + key + ')' + optString
 	        })
 	            .then(function (res) {
 	            var entity = JSON.parse(res.body);
@@ -1402,14 +1410,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    DataClassBaseService.query = function (_a) {
-	        var httpClient = _a.httpClient, options = _a.options, dataClassName = _a.dataClassName;
+	        var httpClient = _a.httpClient, options = _a.options, dataURI = _a.dataURI;
 	        options.method = 'entityset';
 	        if (Array.isArray(options.params)) {
 	            options.params = this._sanitizeOptionParams(options.params);
 	        }
 	        var optString = util_1.default.handleOptions(options);
 	        return httpClient.get({
-	            uri: '/' + dataClassName + optString
+	            uri: dataURI + optString
 	        }).then(function (res) {
 	            var collection = JSON.parse(res.body);
 	            delete collection.__entityModel;
@@ -1421,9 +1429,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	    };
 	    DataClassBaseService.callMethod = function (_a) {
-	        var httpClient = _a.httpClient, methodName = _a.methodName, parameters = _a.parameters, dataClassName = _a.dataClassName;
+	        var httpClient = _a.httpClient, methodName = _a.methodName, parameters = _a.parameters, dataURI = _a.dataURI;
 	        return httpClient.post({
-	            uri: '/' + dataClassName + '/' + methodName,
+	            uri: dataURI + '/' + methodName,
 	            data: parameters
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
@@ -1470,7 +1478,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.service = new collection_service_1.default({
 	            wakJSC: wakJSC,
 	            collection: collection,
-	            dataClass: dataClass,
+	            dataClassBusiness: dataClassBusiness,
 	            collectionUri: collectionUri
 	        });
 	        this.pageSize = pageSize;
@@ -1607,10 +1615,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var CollectionService = (function (_super) {
 	    __extends(CollectionService, _super);
 	    function CollectionService(_a) {
-	        var wakJSC = _a.wakJSC, collection = _a.collection, dataClass = _a.dataClass, collectionUri = _a.collectionUri;
+	        var wakJSC = _a.wakJSC, collection = _a.collection, dataClassBusiness = _a.dataClassBusiness, collectionUri = _a.collectionUri;
 	        _super.call(this, { wakJSC: wakJSC });
 	        this.collection = collection;
-	        this.dataClass = dataClass;
+	        this.dataClassBusiness = dataClassBusiness;
 	        this.collectionUri = collectionUri;
 	        this.isEntitySet = collection_base_service_1.isEntitySetUri(collectionUri);
 	    }
@@ -1668,9 +1676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!isEntitySet) {
 	            optString = '&' + optString.slice(1);
 	        }
-	        //Remove the /rest/ part of the URI as our service will add it on its own
-	        // let uri = this.collectionUri.slice(5);
-	        var uri = this._removeRestFromUri(collectionUri);
+	        var uri = collectionUri;
 	        return httpClient.get({
 	            uri: uri + optString
 	        }).then(function (res) {
@@ -1685,9 +1691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    CollectionBaseService.callMethod = function (_a) {
 	        var httpClient = _a.httpClient, collectionUri = _a.collectionUri, isEntitySet = _a.isEntitySet, methodName = _a.methodName, parameters = _a.parameters;
-	        //Two cases. If it's an entity set, just call the method
-	        //If not, call it with emMethod and subentityset parameters
-	        var uri = this._removeRestFromUri(collectionUri);
+	        var uri = collectionUri;
 	        if (isEntitySet) {
 	            uri += '/' + methodName;
 	        }
@@ -1705,9 +1709,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var obj = JSON.parse(res.body);
 	            return obj.result || obj || null;
 	        });
-	    };
-	    CollectionBaseService._removeRestFromUri = function (uri) {
-	        return uri.slice(5);
 	    };
 	    return CollectionBaseService;
 	}());
@@ -2026,7 +2027,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    DirectoryBaseService.login = function (_a) {
 	        var httpClient = _a.httpClient, username = _a.username, password = _a.password, duration = _a.duration;
 	        return httpClient.post({
-	            uri: '/$directory/login',
+	            uri: '/rest/$directory/login',
 	            data: [username, password, duration]
 	        }).then(function () {
 	            return true;
@@ -2035,7 +2036,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    DirectoryBaseService.logout = function (_a) {
 	        var httpClient = _a.httpClient;
 	        return httpClient.get({
-	            uri: '/$directory/logout'
+	            uri: '/rest/$directory/logout'
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);
 	            if (obj.result && obj.result === true) {
@@ -2049,7 +2050,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    DirectoryBaseService.currentUser = function (_a) {
 	        var httpClient = _a.httpClient;
 	        return httpClient.get({
-	            uri: '/$directory/currentUser'
+	            uri: '/rest/$directory/currentUser'
 	        })
 	            .then(function (res) {
 	            var obj = JSON.parse(res.body);
@@ -2064,7 +2065,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    DirectoryBaseService.currentUserBelongsTo = function (_a) {
 	        var httpClient = _a.httpClient, group = _a.group;
 	        return httpClient.post({
-	            uri: '/$directory/currentUserBelongsTo',
+	            uri: '/rest/$directory/currentUserBelongsTo',
 	            data: [group]
 	        }).then(function (res) {
 	            var obj = JSON.parse(res.body);

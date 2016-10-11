@@ -16,6 +16,5 @@ export interface ICallMethodParams extends IBaseParams {
 export declare class CollectionBaseService {
     static fetch({httpClient, collectionUri, isEntitySet, options}: IFetchParams): Promise<ICollectionDBO>;
     static callMethod({httpClient, collectionUri, isEntitySet, methodName, parameters}: ICallMethodParams): Promise<any>;
-    private static _removeRestFromUri(uri);
 }
 export declare function isEntitySetUri(uri: string): boolean;
