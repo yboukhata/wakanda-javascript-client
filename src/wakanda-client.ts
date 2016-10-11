@@ -28,11 +28,17 @@ class WakandaClient {
   public _httpClient: HttpClient;
   public directory: IDirectory;
   public helper: IHelper;
+  public catalog: string;
+ 
+  constructor(params: {host?: string, catalog?: string}|any) {
+    let host = typeof(params) === 'object' ? params.host : undefined;
+    let catalog = typeof(params) === 'object' ? params.catalog : undefined;
 
-  constructor(host?: string) {
     this._httpClient = new WakandaClient.HttpClient({
-      apiPrefix: (host || '') + '/rest'
+      apiPrefix: (host || '')
     });
+
+    this.catalog = catalog;
 
     let directoryBusiness = new DirectoryBusiness({
       wakJSC: this

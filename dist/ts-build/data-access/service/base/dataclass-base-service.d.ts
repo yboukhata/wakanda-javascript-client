@@ -6,22 +6,22 @@ export interface IFindParams {
     httpClient: HttpClient;
     key: number | string;
     options: QueryOption;
-    dataClassName: string;
+    dataURI: string;
 }
 export interface IQueryParams {
     httpClient: HttpClient;
     options: QueryOption;
-    dataClassName: string;
+    dataURI: string;
 }
 export interface ICallMethodParams {
     httpClient: HttpClient;
     methodName: string;
     parameters: any[];
-    dataClassName: string;
+    dataURI: string;
 }
 export declare class DataClassBaseService {
-    static find({httpClient, key, options, dataClassName}: IFindParams): Promise<IEntityDBO>;
-    static query({httpClient, options, dataClassName}: IQueryParams): Promise<ICollectionDBO>;
-    static callMethod({httpClient, methodName, parameters, dataClassName}: ICallMethodParams): Promise<any>;
+    static find({httpClient, key, options, dataURI}: IFindParams): Promise<IEntityDBO>;
+    static query({httpClient, options, dataURI}: IQueryParams): Promise<ICollectionDBO>;
+    static callMethod({httpClient, methodName, parameters, dataURI}: ICallMethodParams): Promise<any>;
     private static _sanitizeOptionParams(params);
 }

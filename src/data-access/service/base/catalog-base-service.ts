@@ -3,7 +3,7 @@ import {IDataClassDBO} from '../../../business/catalog-business';
 
 export class CatalogBaseService {
 
-  public static get({httpClient, dataClasses}: {httpClient: HttpClient, dataClasses?: string|string[]}) {
+  public static get({httpClient, dataClasses, catalog}: {httpClient: HttpClient, dataClasses?: string|string[], catalog: string}) {
     let strDataclasses = '/';
 
     if (Array.isArray(dataClasses)) {
@@ -16,7 +16,9 @@ export class CatalogBaseService {
       throw new Error('Catalog.get: first parameter should be an array');
     }
 
-    return httpClient.get({uri: '/$catalog' + strDataclasses})
+    let strCatalog = catalog ? '/' + catalog : '';
+
+    return httpClient.get({uri: '/rest/$catalog' + strCatalog + strDataclasses})
       .then(res => {
         let catalog: IDataClassDBO[] = [];
         let rawObj = JSON.parse(res.body);
@@ -51,7 +53,8 @@ export class CatalogBaseService {
               name: d.name,
               collectionName: d.collectionName,
               attributes,
-              methods
+              methods,
+              dataURI: d.dataURI
             });
           }
         }

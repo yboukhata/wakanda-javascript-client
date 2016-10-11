@@ -7,7 +7,8 @@ class CatalogService extends AbstractService {
   public get(dataClasses?: string| string[]): Promise<IDataClassDBO[]> {
     return CatalogBaseService.get({
       httpClient: this.httpClient,
-      dataClasses
+      dataClasses,
+      catalog: this.wakJSC.catalog
     });
   }
 }

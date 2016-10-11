@@ -38,9 +38,7 @@ export class CollectionBaseService {
       optString = '&' + optString.slice(1);
     }
 
-    //Remove the /rest/ part of the URI as our service will add it on its own
-    // let uri = this.collectionUri.slice(5);
-    let uri = this._removeRestFromUri(collectionUri);
+    let uri = collectionUri;
 
     return httpClient.get({
       uri: uri + optString
@@ -58,9 +56,7 @@ export class CollectionBaseService {
   }
 
   public static callMethod({httpClient, collectionUri, isEntitySet, methodName, parameters}: ICallMethodParams) {
-    //Two cases. If it's an entity set, just call the method
-    //If not, call it with emMethod and subentityset parameters
-    let uri = this._removeRestFromUri(collectionUri);
+    let uri = collectionUri;
 
     if (isEntitySet) {
       uri += '/' + methodName;
@@ -81,10 +77,6 @@ export class CollectionBaseService {
         let obj = JSON.parse(res.body);
         return obj.result || obj || null;
       });
-  }
-
-  private static _removeRestFromUri(uri: string) {
-    return uri.slice(5);
   }
 }
 

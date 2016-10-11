@@ -200,22 +200,23 @@ describe('Entity API', function () {
         });
     });
 
-    it('should return a promise', function () {
-      return ds.Product.query({pageSize: 1})
+    it('should return a promise', function (done) {
+      ds.Product.query({pageSize: 1})
         .then(function (collection) {
           expect(collection.entities[0].delete()).to.be.a('promise');
+          done();
         });
     });
 
-    it('should delete the entity', function () {
-      return ds.Product.query({pageSize: 1})
+    it('should delete the entity', function (done) {
+      ds.Product.query({pageSize: 10})
         .then(function (collection) {
-          var product = collection.entities[0];
+          var product = collection.entities[9];
           var productId = product._key;
-
-          return product.delete().then(function () {
-            return ds.Product.find(productId).catch(function (e) {
+          product.delete().then(function () {
+            ds.Product.find(productId).catch(function (e) {
               expect(e).to.be.defined;
+              done();
             });
           });
         });

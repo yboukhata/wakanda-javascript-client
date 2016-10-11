@@ -6,18 +6,18 @@ export interface ISaveParams {
   httpClient: HttpClient;
   data: IEntityDBO;
   expand: string;
-  dataClassName: string;
+  dataURI: string;
 }
 
 export interface IRecomputeParams {
   httpClient: HttpClient;
   data: IEntityDBO;
-  dataClassName: string;
+  dataURI: string;
 }
 
 export interface ICallMethodParams {
   httpClient: HttpClient;
-  dataClassName: string;
+  dataURI: string;
   methodName: string;
   parameters: any[];
   entityKey: string;
@@ -25,13 +25,13 @@ export interface ICallMethodParams {
 
 export interface IDeleteParams {
   httpClient: HttpClient;
-  dataClassName: string;
   entityKey: string;
+  dataURI: string;
 }
 
 export class EntityBaseService {
 
-  public static save({httpClient, data, expand, dataClassName}: ISaveParams) {
+  public static save({httpClient, data, expand, dataURI}: ISaveParams) {
 
     let expandStr = '';
     if (expand) {
@@ -39,7 +39,7 @@ export class EntityBaseService {
     }
 
     return httpClient.post({
-      uri: '/' + dataClassName + '?$method=update' + expandStr,
+      uri: dataURI + '?$method=update' + expandStr,
       data
     }).then(res => {
       let entity = JSON.parse(res.body);
@@ -50,10 +50,10 @@ export class EntityBaseService {
     });
   }
 
-  public static recompute({httpClient, dataClassName, data}: IRecomputeParams) {
+  public static recompute({httpClient, dataURI, data}: IRecomputeParams) {
 
     return httpClient.post({
-      uri: '/' + dataClassName + '?$method=update&$refresh=true',
+      uri: dataURI + '?$method=update&$refresh=true',
       data
     }).then(res => {
       let dbo = JSON.parse(res.body);
@@ -64,10 +64,10 @@ export class EntityBaseService {
     });
   }
 
-  public static callMethod({httpClient, dataClassName, methodName, parameters, entityKey}: ICallMethodParams) {
+  public static callMethod({httpClient, dataURI, methodName, parameters, entityKey}: ICallMethodParams) {
 
     return httpClient.post({
-      uri: '/' + dataClassName + '(' + entityKey + ')/' + methodName,
+      uri: dataURI + '(' + entityKey + ')/' + methodName,
       data: parameters
     }).then(res => {
       let obj = JSON.parse(res.body);
@@ -75,10 +75,10 @@ export class EntityBaseService {
     });
   }
 
-  public static delete({httpClient, dataClassName, entityKey}: IDeleteParams): Promise<boolean> {
+  public static delete({httpClient, dataURI, entityKey}: IDeleteParams): Promise<boolean> {
 
     return httpClient.post({
-      uri: '/' + dataClassName + '(' + entityKey + ')?$method=delete'
+      uri: dataURI + '(' + entityKey + ')?$method=delete'
     }).then(res => {
       let obj = JSON.parse(res.body);
 

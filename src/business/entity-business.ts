@@ -37,7 +37,7 @@ class EntityBusiness extends AbstractBusiness {
     this.service = new EntityService({
       wakJSC,
       entity,
-      dataClass
+      dataClassBusiness
     });
   }
 

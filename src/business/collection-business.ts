@@ -48,7 +48,7 @@ class CollectionBusiness extends AbstractBusiness {
     this.service = new CollectionService({
       wakJSC,
       collection,
-      dataClass,
+      dataClassBusiness,
       collectionUri
     });
     this.pageSize = pageSize;
