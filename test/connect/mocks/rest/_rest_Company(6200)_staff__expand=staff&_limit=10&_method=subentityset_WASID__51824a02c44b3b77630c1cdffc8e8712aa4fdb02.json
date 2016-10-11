@@ -1,0 +1,34 @@
+{
+  "requestUrl": "/rest/Company(6200)/staff?$expand=staff&$limit=10&$method=subentityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__ENTITYSET": "/rest/Employee/$entityset/74F663AA66BC442F9454EB0196445D4E",
+    "__entityModel": "Employee",
+    "__COUNT": 1,
+    "__SENT": 1,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "100134",
+        "__STAMP": 209,
+        "ID": 100134,
+        "lastName": "LUHEJI",
+        "firstName": "HARRY",
+        "salary": 132765,
+        "employer": {
+          "__deferred": {
+            "uri": "/rest/Company(6200)",
+            "__KEY": "6200"
+          }
+        },
+        "salaryProcessed": "4295628.82194972 baht",
+        "employerName": "Bag While Engineering",
+        "photo": null,
+        "birthDate": "1913-02-21T01:23:07.290Z",
+        "hiringDate": "4!8!1991"
+      }
+    ]
+  },
+  "headers": {}
+}

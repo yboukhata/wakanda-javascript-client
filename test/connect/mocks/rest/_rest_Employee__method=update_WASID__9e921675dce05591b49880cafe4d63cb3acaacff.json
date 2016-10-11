@@ -1,0 +1,24 @@
+{
+  "requestUrl": "/rest/Employee?$method=update",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__KEY": "100133",
+    "__STAMP": 224,
+    "uri": "/rest/Employee(100133)",
+    "ID": 100133,
+    "lastName": "VEGGGAR",
+    "firstName": "REFUGIO",
+    "salary": 86982,
+    "salaryProcessed": "2814313.9094703463 baht",
+    "employerName": "Kilo Data Ireland",
+    "birthDate": "1985-09-16T07:04:11.192Z",
+    "employer": {
+      "__deferred": {
+        "uri": "/rest/Company(6199)",
+        "__KEY": "6199"
+      }
+    }
+  },
+  "headers": {}
+}

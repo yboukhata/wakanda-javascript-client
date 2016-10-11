@@ -3,7 +3,7 @@
   "contentType": "application/json; charset=UTF-8",
   "statusCode": 200,
   "data": {
-    "__ENTITYSET": "/rest/publication/Book/$entityset/8657C0680C124741BF47BFA9E106A065",
+    "__ENTITYSET": "/rest/publication/Book/$entityset/D98C8BCE79964024AA3CE4F928D149ED",
     "__entityModel": "Book",
     "__COUNT": 16,
     "__SENT": 16,

@@ -1,0 +1,69 @@
+{
+  "requestUrl": "/rest/Company/$entityset/0B4F8FB5A56049108CB9DE0B2F74422E?$limit=5&$method=subentityset",
+  "contentType": "application/json; charset=UTF-8",
+  "statusCode": 200,
+  "data": {
+    "__entityModel": "Company",
+    "__COUNT": 62,
+    "__SENT": 5,
+    "__FIRST": 0,
+    "__ENTITIES": [
+      {
+        "__KEY": "6200",
+        "__STAMP": 199,
+        "ID": 6200,
+        "name": "Bag While Engineering",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6200)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6199",
+        "__STAMP": 199,
+        "ID": 6199,
+        "name": "Kilo Data Ireland",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6199)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6198",
+        "__STAMP": 199,
+        "ID": 6198,
+        "name": "Earth Sable Andloging",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6198)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6197",
+        "__STAMP": 199,
+        "ID": 6197,
+        "name": "Mexican Worldwide Fusion",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6197)/staff?$expand=staff"
+          }
+        }
+      },
+      {
+        "__KEY": "6196",
+        "__STAMP": 199,
+        "ID": 6196,
+        "name": "Calendar Sable Diffusing Ring",
+        "staff": {
+          "__deferred": {
+            "uri": "/rest/Company(6196)/staff?$expand=staff"
+          }
+        }
+      }
+    ]
+  },
+  "headers": {}
+}
