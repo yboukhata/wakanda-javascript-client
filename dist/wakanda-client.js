@@ -4172,7 +4172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = {
 		"name": "wakanda-client",
 		"main": "dist/wakanda-client.node.js",
-		"version": "0.4.0",
+		"version": "0.5.0",
 		"description": "Wakanda Client allows you to easily interact with Wakanda Server on a JavaScript (browser or node) environment",
 		"typings": "dist/wakanda-client.d.ts",
 		"browser": "dist/wakanda-client.min.js",
@@ -4220,15 +4220,15 @@ return /******/ (function(modules) { // webpackBootstrap
 			"isparta": "^4.0.0",
 			"isparta-loader": "^2.0.0",
 			"json-loader": "^0.5.4",
-			"karma": "^0.13.15",
+			"karma": "^1.3.0",
 			"karma-chai": "^0.1.0",
 			"karma-coverage": "^0.5.3",
-			"karma-mocha": "^0.2.1",
-			"karma-phantomjs-launcher": "^0.2.1",
+			"karma-mocha": "^1.2.0",
+			"karma-phantomjs-launcher": "^1.0.2",
 			"karma-verbose-reporter": "0.0.3",
-			"mocha": "^2.3.4",
+			"mocha": "^3.1.2",
 			"path": "^0.12.7",
-			"phantomjs": "^1.9.19",
+			"phantomjs": "^2.1.7",
 			"serve-static": "^1.10.2",
 			"ts-loader": "0.8.1",
 			"tslint": "^3.9.0",
@@ -4729,7 +4729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'jsonp',
 	    value: function jsonp(uri) {
-	      var callbackParameterName = arguments.length <= 1 || arguments[1] === undefined ? 'jsoncallback' : arguments[1];
+	      var callbackParameterName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'jsoncallback';
 	
 	      return this.createRequest(uri).asJsonp(callbackParameterName).send();
 	    }
@@ -4813,7 +4813,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Headers = exports.Headers = function () {
 	  function Headers() {
-	    var headers = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var headers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	
 	    _classCallCheck(this, Headers);
 	
@@ -5085,7 +5085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
 	exports.relativeToFile = relativeToFile;
 	exports.join = join;

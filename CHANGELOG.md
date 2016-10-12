@@ -1,5 +1,13 @@
 # Wakanda Javascript Client
 
+## v0.5.0 - Beta
+
+- [Feature] Support of the multimodel and handle a specific given catalog
+- [Bugfix] Use dataClass dataURI instead of the name of the dataClass in REST requests
+- [Bugfix] Use collection dataURI to fetch a collection
+- [Test] Update the test solution *wakanda-solution* to the *new scaffolding*
+- [Test] Add a *new virtual model* to wakanda-solution test
+ 
 ## v0.4.0 - Beta
 
 - [Feature] Handling `date` and `simple date` attributes
