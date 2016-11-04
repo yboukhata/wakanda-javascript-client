@@ -12,7 +12,7 @@ class Util {
       // return null or throw an error, simple date format is ko
       return null;
     }
-    let date: Date = new Date(Date.UTC(parseInt(arr[2]), parseInt(arr[1]) - 1, parseInt(arr[0])));
+    let date: Date = new Date(Date.UTC(parseInt(arr[2], 10), parseInt(arr[1], 10) - 1, parseInt(arr[0], 10)));
     return date;
   }
 
